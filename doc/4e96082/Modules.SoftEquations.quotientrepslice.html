@@ -1,0 +1,488 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>Modules.SoftEquations.quotientrepslice</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Modules.SoftEquations.quotientrepslice</h1>
+
+<div class="code">
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab25"></a><h1 class="section">Quotient a model by a given set of its slice arrows</h1>
+
+
+<div class="paragraph"> </div>
+
+Let Σ be an epi 1-signature.
+Let R be a 1-model of Σ and (α<i>i : R → S_i)<i>i be a (possibly large) family of
+1-model morphisms. Then we can construct the quotient monad R' (see
+Prelims.quotientmonadslice) which is defined as R'(X) = R(X) / ~
+and x ~ y iff for all i, α<i>i(x) = α<i>i(y)
+
+<div class="paragraph"> </div>
+
+This file show that this quotient monad can be given an action so that it induces
+a 1-model.
+
+<div class="paragraph"> </div>
+
+Note:
+It is probably possible to generalize in order to factorize this file with the quotient model
+built in Signatures/quotienrep.v (note, besides, that they do not use the same category of models: here we
+have defined the category of 1-models of a signature, where as there it is retrieved as a fiber category
+of the displayed category of 1-models  over 1-signatures). However, I fear that such generalization would
+complicate its use.
+
+<div class="paragraph"> </div>
+
+ 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.PartD</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monads.Monads</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monads.LModules</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.SetValuedFunctors</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.HorizontalComposition</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.functor_categories</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.categories.HSET.All</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Categories</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.Sets</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Epis</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.EpiFacts</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.lib.html#"><span class="id" title="library">Modules.Prelims.lib</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.quotientmonad.html#"><span class="id" title="library">Modules.Prelims.quotientmonad</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#"><span class="id" title="library">Modules.Prelims.quotientmonadslice</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.Signature.html#"><span class="id" title="library">Modules.Signatures.Signature</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.PreservesEpi.html#"><span class="id" title="library">Modules.Signatures.PreservesEpi</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#"><span class="id" title="library">Modules.Prelims.EpiComplements</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.ModelCat.html#"><span class="id" title="library">Modules.Signatures.ModelCat</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.modules.html#"><span class="id" title="library">Modules.Prelims.modules</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">cat</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+TODO : move this section in Prelims/..
+and use thees results to shorten quotienrep (or don't do that because we don't care about
+this old presentable stuff 
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Section</span> <a name="univ_mod"><span class="id" title="section">univ_mod</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> {<span class="id" title="var">C</span>  : <span class="id" title="definition">category</span>}{<span class="id" title="var">R</span> : <span class="id" title="definition">Monad</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#C"><span class="id" title="variable">C</span></a>}.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="MOD"><span class="id" title="abbreviation">MOD</span></a> := (<span class="id" title="definition">category_LModule</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_mod.R"><span class="id" title="variable">R</span></a> <span class="id" title="notation">SET</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> {<span class="id" title="var">M</span> <span class="id" title="var">N</span> <span class="id" title="var">O</span> : <span class="id" title="definition">LModule</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_mod.R"><span class="id" title="variable">R</span></a> <span class="id" title="notation">SET</span>} (<span class="id" title="var">p</span> : <span class="id" title="definition">LModule_Mor</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#M"><span class="id" title="variable">M</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#N"><span class="id" title="variable">N</span></a>) (<span class="id" title="var">f</span> : <span class="id" title="definition">LModule_Mor</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#M"><span class="id" title="variable">M</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#O"><span class="id" title="variable">O</span></a>).<br/>
+</div>
+
+<div class="doc">
+completion of the diagram with an arrow from N to O
+<pre>
+         p
+   M --------</pre>
+ N
+   |
+   |
+ f |
+   |
+   V
+   O
+&gt;&gt;
+
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> (<span class="id" title="var">compat</span> : (<span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">X</span> : <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_mod.C"><span class="id" title="variable">C</span></a>) (<span class="id" title="var">x</span> <span class="id" title="var">y</span> : (<a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_mod.M"><span class="id" title="variable">M</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#X"><span class="id" title="variable">X</span></a> : <span class="id" title="definition">hSet</span><span class="id" title="notation">)),</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_mod.p"><span class="id" title="variable">p</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#X"><span class="id" title="variable">X</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#x"><span class="id" title="variable">x</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_mod.p"><span class="id" title="variable">p</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#X"><span class="id" title="variable">X</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#y"><span class="id" title="variable">y</span></a> <span class="id" title="notation">→</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_mod.f"><span class="id" title="variable">f</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#X"><span class="id" title="variable">X</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#x"><span class="id" title="variable">x</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_mod.f"><span class="id" title="variable">f</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#X"><span class="id" title="variable">X</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#y"><span class="id" title="variable">y</span></a>)).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="univ_surj_lmod_laws"><span class="id" title="lemma">univ_surj_lmod_laws</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">epip</span> : <span class="id" title="definition">isEpi</span> (<span class="id" title="var">C</span> := <span class="id" title="notation">[</span><a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_mod.C"><span class="id" title="variable">C</span></a><span class="id" title="notation">,</span> <span class="id" title="notation">SET</span><span class="id" title="notation">]</span>) (<a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_mod.p"><span class="id" title="variable">p</span></a> : <span class="id" title="definition">nat_trans</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_mod.M"><span class="id" title="variable">M</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_mod.N"><span class="id" title="variable">N</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">LModule_Mor_laws</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_mod.R"><span class="id" title="variable">R</span></a> (<span class="id" title="definition">univ_surj_nt</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_mod.p"><span class="id" title="variable">p</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_mod.f"><span class="id" title="variable">f</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_mod.compat"><span class="id" title="variable">compat</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#epip"><span class="id" title="variable">epip</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">c</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">assert</span> (<span class="id" title="var">epip'</span> := <span class="id" title="var">epip</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#epi_nt_SET_pw"><span class="id" title="lemma">epi_nt_SET_pw</span></a> <span class="id" title="tactic">in</span> <span class="id" title="var">epip'</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> <span class="id" title="var">epip'</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="lemma">univ_surj_nt_ax_pw</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="definition">LModule_Mor_</span><span class="id" title="definition">σ</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> (<span class="id" title="definition">LModule_Mor_</span><span class="id" title="definition">σ</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_mod.R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_mod.p"><span class="id" title="variable">p</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> &lt;- <span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_precomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">univ_surj_nt_ax_pw</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Note that a module morphism is epimorphic iff it is as a natural transformation
+     (and thus pointwise)
+   
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="univ_surj_lmod_nt_epi"><span class="id" title="definition">univ_surj_lmod_nt_epi</span></a> <span class="id" title="var">epip</span> : <span class="id" title="definition">LModule_Mor</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_mod.R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_mod.N"><span class="id" title="variable">N</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_mod.O"><span class="id" title="variable">O</span></a> := <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_surj_lmod_laws"><span class="id" title="lemma">univ_surj_lmod_laws</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#epip"><span class="id" title="variable">epip</span></a>.<br/>
+
+<br/>
+
+<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_mod"><span class="id" title="section">univ_mod</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Now we do the same when N and O are modules over another monad S
+and there is a morphism of monads m : R -&gt; S such that  M (m X) is epimorphic
+for any set X.
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Section</span> <a name="univ_pb_mod"><span class="id" title="section">univ_pb_mod</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> {<span class="id" title="var">C</span>  : <span class="id" title="definition">category</span>}{<span class="id" title="var">R</span> <span class="id" title="var">S</span> : <span class="id" title="definition">Monad</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#C"><span class="id" title="variable">C</span></a>}.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="MOD"><span class="id" title="abbreviation">MOD</span></a> <span class="id" title="var">Mon</span> := (<span class="id" title="definition">category_LModule</span> <span class="id" title="var">Mon</span> <span class="id" title="notation">SET</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> {<span class="id" title="var">M</span> : <span class="id" title="definition">LModule</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_pb_mod.R"><span class="id" title="variable">R</span></a> <span class="id" title="notation">SET</span>}.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> {<span class="id" title="var">N</span> <span class="id" title="var">O</span> : <span class="id" title="definition">LModule</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_pb_mod.S"><span class="id" title="variable">S</span></a> <span class="id" title="notation">SET</span>}.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> (<span class="id" title="var">m</span> : <span class="id" title="definition">Monad_Mor</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_pb_mod.R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_pb_mod.S"><span class="id" title="variable">S</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">epim_pw</span> : <span class="id" title="notation">∏</span> <span class="id" title="var">c</span><span class="id" title="notation">,</span> <span class="id" title="definition">isEpi</span> (<span class="id" title="notation">#</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_pb_mod.N"><span class="id" title="variable">N</span></a> (<a class="idref" href="Modules.SoftEquations.quotientrepslice.html#m"><span class="id" title="variable">m</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#c"><span class="id" title="variable">c</span></a>))).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> (<span class="id" title="var">p</span> : <span class="id" title="definition">LModule_Mor</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_pb_mod.R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_pb_mod.M"><span class="id" title="variable">M</span></a> (<span class="id" title="definition">pb_LModule</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_pb_mod.m"><span class="id" title="variable">m</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_pb_mod.N"><span class="id" title="variable">N</span></a>)) (<span class="id" title="var">f</span> : <span class="id" title="definition">LModule_Mor</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_pb_mod.M"><span class="id" title="variable">M</span></a> (<span class="id" title="definition">pb_LModule</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_pb_mod.m"><span class="id" title="variable">m</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_pb_mod.O"><span class="id" title="variable">O</span></a>)).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> (<span class="id" title="var">compat</span> : (<span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">X</span> : <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_pb_mod.C"><span class="id" title="variable">C</span></a>) (<span class="id" title="var">x</span> <span class="id" title="var">y</span> : (<a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_pb_mod.M"><span class="id" title="variable">M</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#X"><span class="id" title="variable">X</span></a> : <span class="id" title="definition">hSet</span><span class="id" title="notation">)),</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_pb_mod.p"><span class="id" title="variable">p</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#X"><span class="id" title="variable">X</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#x"><span class="id" title="variable">x</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_pb_mod.p"><span class="id" title="variable">p</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#X"><span class="id" title="variable">X</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#y"><span class="id" title="variable">y</span></a> <span class="id" title="notation">→</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_pb_mod.f"><span class="id" title="variable">f</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#X"><span class="id" title="variable">X</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#x"><span class="id" title="variable">x</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_pb_mod.f"><span class="id" title="variable">f</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#X"><span class="id" title="variable">X</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#y"><span class="id" title="variable">y</span></a>)).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+By the previous section, we get a R-module morphism from N to O.
+But here, we want a S-module morphism. Hence, we need an additional hypothesis, namely that N m is epi
+         p
+   M -------->> m*N
+   |
+   |
+ f |
+   |
+   V
+   m*O
+
+</div>
+<div class="code">
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="univ_surj_pb_lmod_laws"><span class="id" title="lemma">univ_surj_pb_lmod_laws</span></a> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">epip</span> : <span class="id" title="definition">isEpi</span> (<span class="id" title="var">C</span> := <span class="id" title="notation">[</span><a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_pb_mod.C"><span class="id" title="variable">C</span></a><span class="id" title="notation">,</span> <span class="id" title="notation">SET</span><span class="id" title="notation">]</span>) (<a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_pb_mod.p"><span class="id" title="variable">p</span></a> : <span class="id" title="definition">nat_trans</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_pb_mod.M"><span class="id" title="variable">M</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_pb_mod.N"><span class="id" title="variable">N</span></a>)) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">LModule_Mor_laws</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_pb_mod.S"><span class="id" title="variable">S</span></a> (<span class="id" title="definition">univ_surj_nt</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_pb_mod.p"><span class="id" title="variable">p</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_pb_mod.f"><span class="id" title="variable">f</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_pb_mod.compat"><span class="id" title="variable">compat</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#epip"><span class="id" title="variable">epip</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">c</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_pb_mod.epim_pw"><span class="id" title="variable">epim_pw</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>; [ | <span class="id" title="tactic">apply</span> (<a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_surj_lmod_laws"><span class="id" title="lemma">univ_surj_lmod_laws</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_pb_mod.p"><span class="id" title="variable">p</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_pb_mod.f"><span class="id" title="variable">f</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_pb_mod.compat"><span class="id" title="variable">compat</span></a> <span class="id" title="var">epip</span>)].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="definition">assoc</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_postcomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">nat_trans_ax</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Note that a module morphism is epimorphic iff it is as a natural transformation
+     (and thus pointwise)
+   
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="univ_surj_pb_lmod_nt_epi"><span class="id" title="definition">univ_surj_pb_lmod_nt_epi</span></a> <span class="id" title="var">epip</span> : <span class="id" title="definition">LModule_Mor</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_pb_mod.S"><span class="id" title="variable">S</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_pb_mod.N"><span class="id" title="variable">N</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_pb_mod.O"><span class="id" title="variable">O</span></a> := <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_surj_pb_lmod_laws"><span class="id" title="lemma">univ_surj_pb_lmod_laws</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#epip"><span class="id" title="variable">epip</span></a>.<br/>
+
+<br/>
+
+<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_pb_mod"><span class="id" title="section">univ_pb_mod</span></a>.<br/>
+
+<br/>
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span>  "R →→ S" := (<a class="idref" href="Modules.Signatures.ModelCat.html#rep_fiber_mor"><span class="id" title="definition">rep_fiber_mor</span></a> <span class="id" title="var">R</span> <span class="id" title="var">S</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 6).<br/>
+
+<br/>
+<span class="id" title="keyword">Section</span> <a name="QuotientRep"><span class="id" title="section">QuotientRep</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="MOD"><span class="id" title="abbreviation">MOD</span></a> <span class="id" title="var">Mon</span> := (<span class="id" title="definition">category_LModule</span> <span class="id" title="var">Mon</span> <span class="id" title="notation">SET</span>).<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="MONAD"><span class="id" title="abbreviation">MONAD</span></a> := (<span class="id" title="definition">Monad</span> <span class="id" title="notation">SET</span>).<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="SIG"><span class="id" title="abbreviation">SIG</span></a> := (<a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <span class="id" title="notation">SET</span>).<br/>
+
+<br/>
+<span class="id" title="keyword">Context</span> (<span class="id" title="var">Sig</span> : <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#SIG"><span class="id" title="abbreviation">SIG</span></a>).<br/>
+</div>
+
+<div class="doc">
+The 1-signature must preserves epimorphicity of natural transformations 
+</div>
+<div class="code">
+<span class="id" title="keyword">Context</span> (<span class="id" title="var">epiSig</span> : <a class="idref" href="Modules.Signatures.PreservesEpi.html#sig_preservesNatEpiMonad"><span class="id" title="definition">sig_preservesNatEpiMonad</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.Sig"><span class="id" title="variable">Sig</span></a>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+implied by the axiom of choice 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="REP"><span class="id" title="abbreviation">REP</span></a> := (<a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.Sig"><span class="id" title="variable">Sig</span></a>).<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="REP_CAT"><span class="id" title="abbreviation">REP_CAT</span></a> := (<a class="idref" href="Modules.Signatures.ModelCat.html#rep_fiber_category"><span class="id" title="definition">rep_fiber_category</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.Sig"><span class="id" title="variable">Sig</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Context</span> {<span class="id" title="var">R</span> : <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#REP"><span class="id" title="abbreviation">REP</span></a>}.<br/>
+<span class="id" title="keyword">Context</span> (<span class="id" title="var">R_epi</span> : <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.R"><span class="id" title="variable">R</span></a>).<br/>
+<span class="id" title="keyword">Context</span> (<span class="id" title="var">epiSigR</span> : <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.Sig"><span class="id" title="variable">Sig</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.R"><span class="id" title="variable">R</span></a>)).<br/>
+<span class="id" title="keyword">Context</span> {<span class="id" title="var">J</span> : <span class="id" title="definition">UU</span>} (<span class="id" title="var">d</span> : <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#J"><span class="id" title="variable">J</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#REP"><span class="id" title="abbreviation">REP</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">ff</span> : <span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">j</span> : <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#J"><span class="id" title="variable">J</span></a><span class="id" title="notation">),</span>  <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#c228d814fee0e23edc2fd9ef384bec29"><span class="id" title="notation">→→</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#c228d814fee0e23edc2fd9ef384bec29"><span class="id" title="notation">(</span></a><a class="idref" href="Modules.SoftEquations.quotientrepslice.html#d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#j"><span class="id" title="variable">j</span></a><a class="idref" href="Modules.SoftEquations.quotientrepslice.html#c228d814fee0e23edc2fd9ef384bec29"><span class="id" title="notation">)</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Let</span> <a name="QuotientRep.R'"><span class="id" title="variable">R'</span></a> : <span class="id" title="definition">Monad</span> <span class="id" title="notation">SET</span> := <a class="idref" href="Modules.Prelims.quotientmonadslice.html#R'_monad"><span class="id" title="definition">R'_monad</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.R_epi"><span class="id" title="variable">R_epi</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.ff"><span class="id" title="variable">ff</span></a>.<br/>
+<span class="id" title="keyword">Let</span> <a name="QuotientRep.projR"><span class="id" title="variable">projR</span></a> : <span class="id" title="definition">Monad_Mor</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.R'"><span class="id" title="variable">R'</span></a> := <a class="idref" href="Modules.Prelims.quotientmonadslice.html#projR_monad"><span class="id" title="definition">projR_monad</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.R_epi"><span class="id" title="variable">R_epi</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.ff"><span class="id" title="variable">ff</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="epiSigR'"><span class="id" title="lemma">epiSigR'</span></a> : <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.Sig"><span class="id" title="variable">Sig</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.R'"><span class="id" title="variable">R'</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">a</span> <span class="id" title="var">b</span> <span class="id" title="var">f</span> <span class="id" title="var">epif</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> (<span class="id" title="definition">isEpi_precomp</span> <span class="id" title="notation">SET</span> (<a class="idref" href="Modules.Signatures.Signature.html#291389361d487de917b722c0b1fff482"><span class="id" title="notation">#</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.Sig"><span class="id" title="variable">Sig</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.projR"><span class="id" title="variable">projR</span></a> <span class="id" title="var">_</span>)%<span class="id" title="var">ar</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> &lt;- (<span class="id" title="definition">nat_trans_ax</span> (<a class="idref" href="Modules.Signatures.Signature.html#291389361d487de917b722c0b1fff482"><span class="id" title="notation">#</span></a><a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.Sig"><span class="id" title="variable">Sig</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.projR"><span class="id" title="variable">projR</span></a>)%<span class="id" title="var">ar</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">isEpi_comp</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.epiSigR"><span class="id" title="variable">epiSigR</span></a>; <span class="id" title="tactic">exact</span> <span class="id" title="var">epif</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#epi_nt_SET_pw"><span class="id" title="lemma">epi_nt_SET_pw</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.epiSig"><span class="id" title="variable">epiSig</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.quotientmonad.html#isEpi_projR"><span class="id" title="lemma">isEpi_projR</span></a>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="31bf0b12546409e15021243132fc7574"><span class="id" title="abbreviation">π</span></a> := <span class="id" title="var">projR</span>.<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="6e339d25b4e8063149b40e48a727392c"><span class="id" title="abbreviation">Θ</span></a> := <span class="id" title="definition">tautological_LModule</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="R'_action_compat"><span class="id" title="lemma">R'_action_compat</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">X</span> : <span class="id" title="notation">SET</span>) (<span class="id" title="var">x</span> <span class="id" title="var">y</span> : (<a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.Sig"><span class="id" title="variable">Sig</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.R"><span class="id" title="variable">R</span></a>) <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#X"><span class="id" title="variable">X</span></a> : <span class="id" title="definition">hSet</span><span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;(<a class="idref" href="Modules.Signatures.Signature.html#291389361d487de917b722c0b1fff482"><span class="id" title="notation">#</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.Sig"><span class="id" title="variable">Sig</span></a>)%<span class="id" title="var">ar</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.projR"><span class="id" title="variable">projR</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#X"><span class="id" title="variable">X</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#x"><span class="id" title="variable">x</span></a> <span class="id" title="notation">=</span> (<a class="idref" href="Modules.Signatures.Signature.html#291389361d487de917b722c0b1fff482"><span class="id" title="notation">#</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.Sig"><span class="id" title="variable">Sig</span></a>)%<span class="id" title="var">ar</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.projR"><span class="id" title="variable">projR</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#X"><span class="id" title="variable">X</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#y"><span class="id" title="variable">y</span></a><br/>
+&nbsp;&nbsp;<span class="id" title="notation">→</span> (<span class="id" title="notation">(</span><a class="idref" href="Modules.Signatures.Signature.html#dba1169ac97714e744ed64a14239df75"><span class="id" title="definition">model_</span></a><a class="idref" href="Modules.Signatures.Signature.html#dba1169ac97714e744ed64a14239df75"><span class="id" title="definition">τ</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.R"><span class="id" title="variable">R</span></a> : <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#MOD"><span class="id" title="abbreviation">MOD</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.R"><span class="id" title="variable">R</span></a> <span class="id" title="notation">⟦</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.Sig"><span class="id" title="variable">Sig</span></a> (<span class="id" title="projection">pr1</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.R"><span class="id" title="variable">R</span></a>)<span class="id" title="notation">,</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#6e339d25b4e8063149b40e48a727392c"><span class="id" title="abbreviation">Θ</span></a> (<span class="id" title="projection">pr1</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.R"><span class="id" title="variable">R</span></a>) <span class="id" title="notation">⟧</span><span class="id" title="notation">)</span> <span class="id" title="notation">·</span> <a class="idref" href="Modules.Prelims.modules.html#monad_mor_to_lmodule"><span class="id" title="definition">monad_mor_to_lmodule</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.projR"><span class="id" title="variable">projR</span></a> : <span class="id" title="definition">LModule_Mor</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#X"><span class="id" title="variable">X</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#x"><span class="id" title="variable">x</span></a> <span class="id" title="notation">=</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="notation">(</span><a class="idref" href="Modules.Signatures.Signature.html#dba1169ac97714e744ed64a14239df75"><span class="id" title="definition">model_</span></a><a class="idref" href="Modules.Signatures.Signature.html#dba1169ac97714e744ed64a14239df75"><span class="id" title="definition">τ</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.R"><span class="id" title="variable">R</span></a> : <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#MOD"><span class="id" title="abbreviation">MOD</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.R"><span class="id" title="variable">R</span></a> <span class="id" title="notation">⟦</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.Sig"><span class="id" title="variable">Sig</span></a> (<span class="id" title="projection">pr1</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.R"><span class="id" title="variable">R</span></a>)<span class="id" title="notation">,</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#6e339d25b4e8063149b40e48a727392c"><span class="id" title="abbreviation">Θ</span></a> (<span class="id" title="projection">pr1</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.R"><span class="id" title="variable">R</span></a>) <span class="id" title="notation">⟧</span><span class="id" title="notation">)</span> <span class="id" title="notation">·</span> <a class="idref" href="Modules.Prelims.modules.html#monad_mor_to_lmodule"><span class="id" title="definition">monad_mor_to_lmodule</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.projR"><span class="id" title="variable">projR</span></a> : <span class="id" title="definition">LModule_Mor</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#X"><span class="id" title="variable">X</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#y"><span class="id" title="variable">y</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">X</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> <span class="id" title="var">eq</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.quotientmonad.html#rel_eq_projR"><span class="id" title="lemma">rel_eq_projR</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">j</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Modules.Prelims.lib.html#comp_cat_comp"><span class="id" title="lemma">comp_cat_comp</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Modules.Prelims.lib.html#comp_cat_comp"><span class="id" title="lemma">comp_cat_comp</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> <a class="idref" href="Modules.Prelims.lib.html#changef_path"><span class="id" title="lemma">changef_path</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="var">etrans</span>;[|<span class="id" title="tactic">apply</span> (<span class="id" title="notation">!(</span><a class="idref" href="Modules.Signatures.ModelCat.html#rep_fiber_mor_ax"><span class="id" title="definition">rep_fiber_mor_ax</span></a> (<a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.ff"><span class="id" title="variable">ff</span></a> <span class="id" title="var">j</span>) <span class="id" title="var">_</span><span class="id" title="notation">)</span>)].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> (<a class="idref" href="Modules.Prelims.quotientmonadslice.html#u_monad_def"><span class="id" title="lemma">quotientmonadslice.u_monad_def</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.R_epi"><span class="id" title="variable">R_epi</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.ff"><span class="id" title="variable">ff</span></a> <span class="id" title="var">j</span> ).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Modules.Signatures.Signature.html#signature_comp"><span class="id" title="definition">signature_comp</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">maponpaths</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">maponpaths</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">eq</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+R' can be given an action such that the following diagram commutes
+
+<div class="paragraph"> </div>
+
+<pre>
+            Sig_π
+   Sig_R ---------&gt; Sig_R'
+     |                 |
+     |                 |
+  τ_R|                 |
+     |                 |
+     V                 V
+     R -----------&gt;    R'
+           π
+          
+</pre>
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="R'_action"><span class="id" title="definition">R'_action</span></a> : <span class="id" title="definition">LModule_Mor</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.R'"><span class="id" title="variable">R'</span></a> (<a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.Sig"><span class="id" title="variable">Sig</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.R'"><span class="id" title="variable">R'</span></a>) (<a class="idref" href="Modules.SoftEquations.quotientrepslice.html#6e339d25b4e8063149b40e48a727392c"><span class="id" title="abbreviation">Θ</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.R'"><span class="id" title="variable">R'</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> (<a class="idref" href="Modules.SoftEquations.quotientrepslice.html#univ_surj_pb_lmod_nt_epi"><span class="id" title="definition">univ_surj_pb_lmod_nt_epi</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.projR"><span class="id" title="variable">projR</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">_</span> (<a class="idref" href="Modules.Signatures.Signature.html#291389361d487de917b722c0b1fff482"><span class="id" title="notation">#</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.Sig"><span class="id" title="variable">Sig</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.projR"><span class="id" title="variable">projR</span></a>)%<span class="id" title="var">ar</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="notation">(</span><a class="idref" href="Modules.Signatures.Signature.html#dba1169ac97714e744ed64a14239df75"><span class="id" title="definition">model_</span></a><a class="idref" href="Modules.Signatures.Signature.html#dba1169ac97714e744ed64a14239df75"><span class="id" title="definition">τ</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.R"><span class="id" title="variable">R</span></a> : <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#MOD"><span class="id" title="abbreviation">MOD</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.R"><span class="id" title="variable">R</span></a> <span class="id" title="notation">⟦</span><span class="id" title="var">_</span><span class="id" title="notation">,</span><span class="id" title="var">_</span><span class="id" title="notation">⟧</span> <span class="id" title="notation">)</span> <span class="id" title="notation">·</span> <span class="id" title="notation">(</span><a class="idref" href="Modules.Prelims.modules.html#monad_mor_to_lmodule"><span class="id" title="definition">monad_mor_to_lmodule</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.projR"><span class="id" title="variable">projR</span></a> <span class="id" title="notation">)</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;); <span class="id" title="var">revgoals</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.epiSig"><span class="id" title="variable">epiSig</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.quotientmonad.html#isEpi_projR"><span class="id" title="lemma">isEpi_projR</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#R'_action_compat"><span class="id" title="lemma">R'_action_compat</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">c</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#epiSigR'"><span class="id" title="lemma">epiSigR'</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.quotientmonad.html#isEpi_projR_pw"><span class="id" title="lemma">isEpi_projR_pw</span></a>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="R'_model"><span class="id" title="definition">R'_model</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.Sig"><span class="id" title="variable">Sig</span></a> := <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.R'"><span class="id" title="variable">R'</span></a> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#R'_action"><span class="id" title="definition">R'_action</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+π is a morphism of model 
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="d20074ba03add5234c1e7594e7b4d8e3"><span class="id" title="lemma">π</span></a><a name="d20074ba03add5234c1e7594e7b4d8e3"><span class="id" title="lemma">_rep_laws</span></a> : <a class="idref" href="Modules.Signatures.ModelCat.html#rep_fiber_mor_law"><span class="id" title="definition">rep_fiber_mor_law</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#R'_model"><span class="id" title="definition">R'_model</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.projR"><span class="id" title="variable">projR</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">cbn</span> -[<span class="id" title="var">compose</span>].<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">univ_surj_nt_ax_pw</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="projR_rep"><span class="id" title="definition">projR_rep</span></a> : <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#c228d814fee0e23edc2fd9ef384bec29"><span class="id" title="notation">→→</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#R'_model"><span class="id" title="definition">R'_model</span></a> := <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.projR"><span class="id" title="variable">projR</span></a> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#d20074ba03add5234c1e7594e7b4d8e3"><span class="id" title="lemma">π</span></a><a class="idref" href="Modules.SoftEquations.quotientrepslice.html#d20074ba03add5234c1e7594e7b4d8e3"><span class="id" title="lemma">_rep_laws</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="isEpi_projR_rep"><span class="id" title="lemma">isEpi_projR_rep</span></a> : <span class="id" title="definition">isEpi</span> (<span class="id" title="var">C</span> := <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#REP_CAT"><span class="id" title="abbreviation">REP_CAT</span></a>) <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#projR_rep"><span class="id" title="definition">projR_rep</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">f</span> <span class="id" title="var">g</span> <span class="id" title="var">h</span> <span class="id" title="var">e</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.ModelCat.html#rep_fiber_mor_eq_nt"><span class="id" title="lemma">rep_fiber_mor_eq_nt</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.quotientmonad.html#isEpi_projR"><span class="id" title="lemma">isEpi_projR</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="definition">maponpaths</span> (<span class="id" title="keyword">fun</span> (<span class="id" title="var">x</span> : <span class="id" title="var">_</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#c228d814fee0e23edc2fd9ef384bec29"><span class="id" title="notation">→→</span></a> <span class="id" title="var">_</span>) =&gt; (<a class="idref" href="Modules.SoftEquations.quotientrepslice.html#x"><span class="id" title="variable">x</span></a> : <span class="id" title="definition">nat_trans</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>)) <span class="id" title="var">e</span>).<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Let S a monad, m : R -&gt; S a monad morphism compatible with the equivalence relation
+This induces a monad morphism u : R' -&gt; S that makes the following diagram commute
+(Cf quotientmonad)
+
+<div class="paragraph"> </div>
+
+<pre>&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+     m
+  R --&gt; S
+  |     ^
+  |    /
+π |   / u
+  |  /
+  V /
+  R'
+
+</pre>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+
+<div class="paragraph"> </div>
+
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Let</span> <a name="QuotientRep.u"><span class="id" title="variable">u</span></a> := <a class="idref" href="Modules.Prelims.quotientmonadslice.html#u_monad"><span class="id" title="definition">u_monad</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.R_epi"><span class="id" title="variable">R_epi</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.ff"><span class="id" title="variable">ff</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+u is a morphism of 1-model 
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="u_rep_laws"><span class="id" title="lemma">u_rep_laws</span></a> <span class="id" title="var">j</span> : <a class="idref" href="Modules.Signatures.ModelCat.html#rep_fiber_mor_law"><span class="id" title="definition">rep_fiber_mor_law</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#R'_model"><span class="id" title="definition">R'_model</span></a> (<a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#j"><span class="id" title="variable">j</span></a>) (<a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.u"><span class="id" title="variable">u</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#j"><span class="id" title="variable">j</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">c</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">do</span> 2 <span class="id" title="tactic">rewrite</span> <a class="idref" href="Modules.Prelims.lib.html#nat_trans_comp_pointwise'"><span class="id" title="definition">nat_trans_comp_pointwise'</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">nat_trans_eq_pointwise</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.epiSig"><span class="id" title="variable">epiSig</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.projR"><span class="id" title="variable">projR</span></a> ).<br/>
+&nbsp;&nbsp;{ <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.quotientmonad.html#isEpi_projR"><span class="id" title="lemma">isEpi_projR</span></a>. }<br/>
+&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">nat_trans_eq</span>; [<span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>|].<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">X</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[ <span class="id" title="tactic">apply</span> <span class="id" title="definition">assoc</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_postcomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="notation">!</span> <span class="id" title="notation">(</span><a class="idref" href="Modules.Signatures.ModelCat.html#rep_fiber_mor_ax"><span class="id" title="definition">rep_fiber_mor_ax</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#projR_rep"><span class="id" title="definition">projR_rep</span></a> <span class="id" title="var">_</span><span class="id" title="notation">)</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> &lt;- <span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_precomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<a class="idref" href="Modules.Prelims.quotientmonadslice.html#u_def"><span class="id" title="lemma">u_def</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.ff"><span class="id" title="variable">ff</span></a> <span class="id" title="var">j</span>).<br/>
+&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;<span class="id" title="var">etrans</span>; [<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.ModelCat.html#rep_fiber_mor_ax"><span class="id" title="definition">rep_fiber_mor_ax</span></a>|].<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_postcomposition</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> (<a class="idref" href="Modules.Prelims.quotientmonadslice.html#u_monad_def"><span class="id" title="lemma">u_monad_def</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.R_epi"><span class="id" title="variable">R_epi</span></a>  <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.ff"><span class="id" title="variable">ff</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Modules.Signatures.Signature.html#signature_comp"><span class="id" title="definition">signature_comp</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Any morphism from <span class="inlinecode"><a class="idref" href="Modules.Prelims.LModuleCoproducts.html#R"><span class="id" title="variable">R</span></a></span> to d_j factors through the canonical projection R -&gt; R' 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="u_rep"><span class="id" title="definition">u_rep</span></a> <span class="id" title="var">j</span> :  <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#R'_model"><span class="id" title="definition">R'_model</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#c228d814fee0e23edc2fd9ef384bec29"><span class="id" title="notation">→→</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#c228d814fee0e23edc2fd9ef384bec29"><span class="id" title="notation">(</span></a><a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#j"><span class="id" title="variable">j</span></a><a class="idref" href="Modules.SoftEquations.quotientrepslice.html#c228d814fee0e23edc2fd9ef384bec29"><span class="id" title="notation">)</span></a> := <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.u"><span class="id" title="variable">u</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#j"><span class="id" title="variable">j</span></a> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#u_rep_laws"><span class="id" title="lemma">u_rep_laws</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#j"><span class="id" title="variable">j</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="u_rep_def"><span class="id" title="lemma">u_rep_def</span></a> (<span class="id" title="var">j</span> : <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.J"><span class="id" title="variable">J</span></a>)  : <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep.ff"><span class="id" title="variable">ff</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#j"><span class="id" title="variable">j</span></a> <span class="id" title="notation">=</span> <span class="id" title="notation">(</span><a class="idref" href="Modules.SoftEquations.quotientrepslice.html#projR_rep"><span class="id" title="definition">projR_rep</span></a> : <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#REP_CAT"><span class="id" title="abbreviation">REP_CAT</span></a> <span class="id" title="notation">⟦</span><span class="id" title="var">_</span><span class="id" title="notation">,</span><span class="id" title="var">_</span><span class="id" title="notation">⟧</span><span class="id" title="notation">)</span> <span class="id" title="notation">·</span> <span class="id" title="notation">(</span><a class="idref" href="Modules.SoftEquations.quotientrepslice.html#u_rep"><span class="id" title="definition">u_rep</span></a> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#j"><span class="id" title="variable">j</span></a><span class="id" title="notation">)</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.ModelCat.html#rep_fiber_mor_eq_nt"><span class="id" title="lemma">rep_fiber_mor_eq_nt</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<a class="idref" href="Modules.Prelims.quotientmonad.html#u_def_nt"><span class="id" title="lemma">quotientmonad.u_def_nt</span></a>).<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#QuotientRep"><span class="id" title="section">QuotientRep</span></a>.<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

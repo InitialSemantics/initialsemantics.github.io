@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>Modules.Prelims.LModuleCoproducts</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Modules.Prelims.LModuleCoproducts</h1>
+
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.Propositions</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.Sets</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.MoreFoundations.Tactics</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Categories</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.functor_categories</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.whiskering</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.coproducts</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monads.Monads</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monads.LModules</span>.<br/>
+<span class="id" title="keyword">Local Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">cat</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Section</span> <a name="ColimsModule"><span class="id" title="section">ColimsModule</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">C</span> : <span class="id" title="definition">precategory</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">O</span> : <span class="id" title="definition">UU</span>} (<span class="id" title="var">cpC</span> : <span class="id" title="definition">Coproducts</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#O"><span class="id" title="variable">O</span></a> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#C"><span class="id" title="variable">C</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">B</span>:<span class="id" title="definition">precategory</span>} {<span class="id" title="var">R</span>:<span class="id" title="definition">Monad</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#B"><span class="id" title="variable">B</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">hsC</span> : <span class="id" title="definition">has_homsets</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#C"><span class="id" title="variable">C</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="cpFunc"><span class="id" title="abbreviation">cpFunc</span></a> := (<span class="id" title="definition">Coproducts_functor_precat</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#ColimsModule.B"><span class="id" title="variable">B</span></a> <span class="id" title="var">_</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#ColimsModule.cpC"><span class="id" title="variable">cpC</span></a> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#ColimsModule.hsC"><span class="id" title="variable">hsC</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="MOD"><span class="id" title="abbreviation">MOD</span></a> := (<span class="id" title="definition">precategory_LModule</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#ColimsModule.R"><span class="id" title="variable">R</span></a> (<a class="idref" href="Modules.Prelims.LModuleCoproducts.html#ColimsModule.C"><span class="id" title="variable">C</span></a> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#ColimsModule.hsC"><span class="id" title="variable">hsC</span></a>)).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Variable</span> (<a name="ColimsModule.d"><span class="id" title="variable">d</span></a> : <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#ColimsModule.O"><span class="id" title="variable">O</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#MOD"><span class="id" title="abbreviation">MOD</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="d'"><span class="id" title="abbreviation">d'</span></a>  := ( <span class="id" title="keyword">fun</span> <span class="id" title="var">x</span> =&gt; (<a class="idref" href="Modules.Prelims.LModuleCoproducts.html#ColimsModule.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#x"><span class="id" title="variable">x</span></a> : <span class="id" title="definition">LModule</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) : <span class="id" title="definition">functor</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="F"><span class="id" title="abbreviation">F</span></a> := (<span class="id" title="definition">CoproductObject</span>  <span class="id" title="var">_</span> <span class="id" title="var">_</span> (<a class="idref" href="Modules.Prelims.LModuleCoproducts.html#cpFunc"><span class="id" title="abbreviation">cpFunc</span></a> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#d'"><span class="id" title="abbreviation">d'</span></a>) : <span class="id" title="definition">functor</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="LModule_coproduct_mult_data"><span class="id" title="definition">LModule_coproduct_mult_data</span></a> (<span class="id" title="var">x</span> : <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#ColimsModule.B"><span class="id" title="variable">B</span></a>) : <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#ColimsModule.C"><span class="id" title="variable">C</span></a> <span class="id" title="notation">⟦</span> (<a class="idref" href="Modules.Prelims.LModuleCoproducts.html#ColimsModule.R"><span class="id" title="variable">R</span></a> <span class="id" title="notation">∙</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#F"><span class="id" title="abbreviation">F</span></a>) <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#x"><span class="id" title="variable">x</span></a><span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#F"><span class="id" title="abbreviation">F</span></a> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#x"><span class="id" title="variable">x</span></a> <span class="id" title="notation">⟧</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">CoproductOfArrows</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">v</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">lm_mult</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="LModule_coproduct_mult_is_nat_trans"><span class="id" title="lemma">LModule_coproduct_mult_is_nat_trans</span></a> : <span class="id" title="definition">is_nat_trans</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>  <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#LModule_coproduct_mult_data"><span class="id" title="definition">LModule_coproduct_mult_data</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> <span class="id" title="var">f</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#LModule_coproduct_mult_data"><span class="id" title="definition">LModule_coproduct_mult_data</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>; [<span class="id" title="var">use</span> <span class="id" title="definition">CoproductOfArrows_comp</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>; [<span class="id" title="var">use</span> <span class="id" title="definition">CoproductOfArrows_comp</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">CoproductOfArrows_eq</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">funextsec</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">i</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="definition">nat_trans_ax</span> (<span class="id" title="definition">lm_mult</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#ColimsModule.R"><span class="id" title="variable">R</span></a> <span class="id" title="var">_</span>)).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="LModule_coproduct_mult"><span class="id" title="definition">LModule_coproduct_mult</span></a> : <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#ColimsModule.R"><span class="id" title="variable">R</span></a> <span class="id" title="notation">∙</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#F"><span class="id" title="abbreviation">F</span></a> <span class="id" title="notation">⟹</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#F"><span class="id" title="abbreviation">F</span></a> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#LModule_coproduct_mult_is_nat_trans"><span class="id" title="lemma">LModule_coproduct_mult_is_nat_trans</span></a>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="LModule_coproduct_data"><span class="id" title="definition">LModule_coproduct_data</span></a> : <span class="id" title="definition">LModule_data</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#ColimsModule.R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#ColimsModule.C"><span class="id" title="variable">C</span></a> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.Prelims.LModuleCoproducts.html#F"><span class="id" title="abbreviation">F</span></a> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#LModule_coproduct_mult"><span class="id" title="definition">LModule_coproduct_mult</span></a>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="LModule_coproduct_laws"><span class="id" title="lemma">LModule_coproduct_laws</span></a> : <span class="id" title="definition">LModule_laws</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#LModule_coproduct_data"><span class="id" title="definition">LModule_coproduct_data</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>; [<span class="id" title="var">use</span> <span class="id" title="definition">CoproductOfArrows_comp</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>            .<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">CoproductArrowUnique</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">u</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="definition">id_right</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[|<span class="id" title="tactic">apply</span> <span class="id" title="definition">id_left</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_postcomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">LModule_law1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>; [<span class="id" title="var">use</span> <span class="id" title="definition">CoproductOfArrows_comp</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>; [<span class="id" title="var">use</span> <span class="id" title="definition">CoproductOfArrows_comp</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">CoproductOfArrows_eq</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">funextsec</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">i</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">LModule_law2</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="LModule_coproduct"><span class="id" title="definition">LModule_coproduct</span></a> : <span class="id" title="definition">LModule</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#ColimsModule.R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#ColimsModule.C"><span class="id" title="variable">C</span></a> := (<span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#LModule_coproduct_laws"><span class="id" title="lemma">LModule_coproduct_laws</span></a>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="LModule_coproductIn_laws"><span class="id" title="lemma">LModule_coproductIn_laws</span></a> <span class="id" title="var">v</span> : <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">LModule_Mor_laws</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#ColimsModule.R"><span class="id" title="variable">R</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">T</span> := (<a class="idref" href="Modules.Prelims.LModuleCoproducts.html#ColimsModule.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#v"><span class="id" title="variable">v</span></a> : <span class="id" title="definition">LModule</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>)) (<span class="id" title="var">T'</span> := <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#LModule_coproduct"><span class="id" title="definition">LModule_coproduct</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((<span class="id" title="definition">CoproductIn</span>  <span class="id" title="var">_</span> <span class="id" title="var">_</span> ( (<a class="idref" href="Modules.Prelims.LModuleCoproducts.html#cpFunc"><span class="id" title="abbreviation">cpFunc</span></a> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#d'"><span class="id" title="abbreviation">d'</span></a>)) <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#v"><span class="id" title="variable">v</span></a> : <span class="id" title="definition">nat_trans</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) ).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">c</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#LModule_coproduct_mult_data"><span class="id" title="definition">LModule_coproduct_mult_data</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">CC1</span> := <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#ColimsModule.cpC"><span class="id" title="variable">cpC</span></a> <span class="id" title="var">_</span> ).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">CC2</span> := <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#ColimsModule.cpC"><span class="id" title="variable">cpC</span></a> <span class="id" title="var">_</span> ).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> (<span class="id" title="lemma">CoproductOfArrowsIn</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">CC1</span> <span class="id" title="var">CC2</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="LModule_coproductIn"><span class="id" title="definition">LModule_coproductIn</span></a> <span class="id" title="var">v</span> : <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#MOD"><span class="id" title="abbreviation">MOD</span></a> <span class="id" title="notation">⟦</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#ColimsModule.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#v"><span class="id" title="variable">v</span></a><span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#LModule_coproduct"><span class="id" title="definition">LModule_coproduct</span></a> <span class="id" title="notation">⟧</span> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#LModule_coproductIn_laws"><span class="id" title="lemma">LModule_coproductIn_laws</span></a> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#v"><span class="id" title="variable">v</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="LModule_coproductArrow_laws"><span class="id" title="definition">LModule_coproductArrow_laws</span></a> {<span class="id" title="var">M</span> : <span class="id" title="definition">LModule</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#ColimsModule.R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#ColimsModule.C"><span class="id" title="variable">C</span></a>} (<span class="id" title="var">cc</span> : <span class="id" title="notation">∏</span> <span class="id" title="var">o</span><span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#MOD"><span class="id" title="abbreviation">MOD</span></a> <span class="id" title="notation">⟦</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#ColimsModule.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#o"><span class="id" title="variable">o</span></a><span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#M"><span class="id" title="variable">M</span></a> <span class="id" title="notation">⟧</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">LModule_Mor_laws</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">_</span> (<span class="id" title="var">T</span> := <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#LModule_coproduct"><span class="id" title="definition">LModule_coproduct</span></a>) (<span class="id" title="var">T'</span> := <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#M"><span class="id" title="variable">M</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="definition">CoproductArrow</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> (<a class="idref" href="Modules.Prelims.LModuleCoproducts.html#cpFunc"><span class="id" title="abbreviation">cpFunc</span></a> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#d'"><span class="id" title="abbreviation">d'</span></a>) (<span class="id" title="var">c</span> := <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#M"><span class="id" title="variable">M</span></a> : <span class="id" title="definition">functor</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) (<span class="id" title="keyword">fun</span> <span class="id" title="var">o</span> =&gt; ((<a class="idref" href="Modules.Prelims.LModuleCoproducts.html#cc"><span class="id" title="variable">cc</span></a> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#o"><span class="id" title="variable">o</span></a> : <span class="id" title="definition">LModule_Mor</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">nat_trans</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>))).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">c</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#LModule_coproduct_mult_data"><span class="id" title="definition">LModule_coproduct_mult_data</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <span class="id" title="definition">coproduct_nat_trans_data</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="lemma">precompWithCoproductArrow</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">postcompWithCoproductArrow</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">maponpaths</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">funextsec</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">i</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">LModule_Mor_</span><span class="id" title="definition">σ</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="LModule_coproductArrow"><span class="id" title="definition">LModule_coproductArrow</span></a> {<span class="id" title="var">M</span> : <span class="id" title="definition">LModule</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#ColimsModule.R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#ColimsModule.C"><span class="id" title="variable">C</span></a>} (<span class="id" title="var">cc</span> : <span class="id" title="notation">∏</span> <span class="id" title="var">o</span><span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#MOD"><span class="id" title="abbreviation">MOD</span></a> <span class="id" title="notation">⟦</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#ColimsModule.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#o"><span class="id" title="variable">o</span></a><span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#M"><span class="id" title="variable">M</span></a> <span class="id" title="notation">⟧</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">LModule_Mor</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#LModule_coproduct"><span class="id" title="definition">LModule_coproduct</span></a> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#M"><span class="id" title="variable">M</span></a> := <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#LModule_coproductArrow_laws"><span class="id" title="definition">LModule_coproductArrow_laws</span></a>  <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#cc"><span class="id" title="variable">cc</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="LModule_isCoproduct"><span class="id" title="lemma">LModule_isCoproduct</span></a> : <span class="id" title="definition">isCoproduct</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>  <span class="id" title="var">_</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#LModule_coproductIn"><span class="id" title="definition">LModule_coproductIn</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">M</span> <span class="id" title="var">cc</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">unique_exists</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Modules.Prelims.LModuleCoproducts.html#LModule_coproductArrow"><span class="id" title="definition">LModule_coproductArrow</span></a> <span class="id" title="var">cc</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">v</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">LModule_Mor_equiv</span>;[<span class="id" title="tactic">exact</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#ColimsModule.hsC"><span class="id" title="variable">hsC</span></a>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">CoproductInCommutes</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> (<a class="idref" href="Modules.Prelims.LModuleCoproducts.html#cpFunc"><span class="id" title="abbreviation">cpFunc</span></a> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#d'"><span class="id" title="abbreviation">d'</span></a>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">y</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span> -[<span class="id" title="var">isaprop</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span>  <span class="id" title="lemma">impred_isaprop</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">u</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">has_homsets_LModule</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">y</span> <span class="id" title="var">h</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">LModule_Mor_equiv</span>;[<span class="id" title="tactic">exact</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#ColimsModule.hsC"><span class="id" title="variable">hsC</span></a>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">CoproductArrowUnique</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> (<a class="idref" href="Modules.Prelims.LModuleCoproducts.html#cpFunc"><span class="id" title="abbreviation">cpFunc</span></a> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#d'"><span class="id" title="abbreviation">d'</span></a>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">u</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (  <span class="id" title="definition">maponpaths</span> <span class="id" title="projection">pr1</span> (<span class="id" title="var">h</span> <span class="id" title="var">u</span>)).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="LModule_Coproduct"><span class="id" title="definition">LModule_Coproduct</span></a> : <span class="id" title="definition">Coproduct</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#ColimsModule.d"><span class="id" title="variable">d</span></a> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">mk_Coproduct</span>  <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#LModule_isCoproduct"><span class="id" title="lemma">LModule_isCoproduct</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#ColimsModule"><span class="id" title="section">ColimsModule</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="LModule_Coproducts"><span class="id" title="definition">LModule_Coproducts</span></a> (<span class="id" title="var">C</span> : <span class="id" title="definition">category</span>) {<span class="id" title="var">B</span> : <span class="id" title="definition">precategory</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">O</span> : <span class="id" title="definition">UU</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">R</span> : <span class="id" title="definition">Monad</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#B"><span class="id" title="variable">B</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">cpC</span> : <span class="id" title="definition">Coproducts</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#O"><span class="id" title="variable">O</span></a> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#C"><span class="id" title="variable">C</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id" title="definition">Coproducts</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#O"><span class="id" title="variable">O</span></a> (<span class="id" title="definition">precategory_LModule</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#C"><span class="id" title="variable">C</span></a>) :=<br/>
+&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Prelims.LModuleCoproducts.html#LModule_Coproduct"><span class="id" title="definition">LModule_Coproduct</span></a>  <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#cpC"><span class="id" title="variable">cpC</span></a> (<span class="id" title="definition">homset_property</span> <a class="idref" href="Modules.Prelims.LModuleCoproducts.html#C"><span class="id" title="variable">C</span></a>).<br/>
+
+<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>
