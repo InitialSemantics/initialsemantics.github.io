@@ -1,0 +1,933 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>Modules.Signatures.EpiSigRepresentability</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Modules.Signatures.EpiSigRepresentability</h1>
+
+<div class="code">
+</div>
+
+<div class="doc">
+
+<div class="paragraph"> </div>
+
+In this file :
+
+<div class="paragraph"> </div>
+
+<ul class="doclist">
+<li> Proof that HSET has effective epis
+
+<div class="paragraph"> </div>
+
+
+</li>
+<li> Proof that given a category D with pushouts, if a natural transformation 
+
+</li>
+</ul>
+between two functors of codomain D is an epi, then it is pointwise an epi 
+(Colims_pw_epi).
+
+<div class="paragraph"> </div>
+
+<ul class="doclist">
+<li> Proof that a natural transformation which is an epi when the codomain of
+
+</li>
+</ul>
+considered functors is the hSet category has a lifting property similar
+to the previously mentionned for surjections.
+
+<div class="paragraph"> </div>
+
+<ul class="doclist">
+<li> Proof that if a natural transformation is pointwise epi, then
+ any pre-whiskering of it is also an epi.
+
+<div class="paragraph"> </div>
+
+
+</li>
+<li> Proof that pointwise epimorphisms of signature preserve representability
+ if the domain is an epi-signature
+
+</li>
+</ul>
+
+<div class="paragraph"> </div>
+
+Section leftadjoint : 
+Preuve d'André à traduire.
+
+<div class="paragraph"> </div>
+
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.PartD</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.Propositions</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.Sets</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Categories</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.functor_categories</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.whiskering</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Adjunctions</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Epis</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.EpiFacts</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#"><span class="id" title="library">Modules.Prelims.EpiComplements</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.initial</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monads.Monads</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monads.LModules</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Auxiliary</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Core</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Constructions</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Fibrations</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.HorizontalComposition</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.categories.HSET.All</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.SetValuedFunctors</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.Signature.html#"><span class="id" title="library">Modules.Signatures.Signature</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.lib.html#"><span class="id" title="library">Modules.Prelims.lib</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.quotientmonad.html#"><span class="id" title="library">Modules.Prelims.quotientmonad</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#"><span class="id" title="library">Modules.Prelims.quotientmonadslice</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.quotientrep.html#"><span class="id" title="library">Modules.Signatures.quotientrep</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.EpiArePointwise.html#"><span class="id" title="library">Modules.Signatures.EpiArePointwise</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.PreservesEpi.html#"><span class="id" title="library">Modules.Signatures.PreservesEpi</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Set</span> <span class="id" title="var">Automatic</span> <span class="id" title="var">Introduction</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Section</span> <a name="all_purpose"><span class="id" title="section">all_purpose</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+First a general-purpose lemma: 
+    equal monad morphisms are mapped to 
+    equal module morphisms by any
+    signature
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="cancel_ar_on"><span class="id" title="lemma">cancel_ar_on</span></a> {<span class="id" title="var">sig</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <span class="id" title="notation">SET</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">T</span> : <span class="id" title="definition">Monad</span> <span class="id" title="notation">SET</span>} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">S'</span> : <span class="id" title="definition">Monad</span> <span class="id" title="notation">SET</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">m</span> <span class="id" title="var">m'</span> : <span class="id" title="definition">Monad_Mor</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#T"><span class="id" title="variable">T</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#S'"><span class="id" title="variable">S'</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">X</span> : <span class="id" title="notation">SET</span>) <br/>
+&nbsp;&nbsp;: <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#m"><span class="id" title="variable">m</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#m'"><span class="id" title="variable">m'</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a>  (<a class="idref" href="Modules.Signatures.Signature.html#291389361d487de917b722c0b1fff482"><span class="id" title="notation">#</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#sig"><span class="id" title="variable">sig</span></a>)%<span class="id" title="var">ar</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#m"><span class="id" title="variable">m</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#X"><span class="id" title="variable">X</span></a> <span class="id" title="notation">=</span> (<a class="idref" href="Modules.Signatures.Signature.html#291389361d487de917b722c0b1fff482"><span class="id" title="notation">#</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#sig"><span class="id" title="variable">sig</span></a>)%<span class="id" title="var">ar</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#m'"><span class="id" title="variable">m'</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#X"><span class="id" title="variable">X</span></a> .<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">e</span>; <span class="id" title="tactic">induction</span> <span class="id" title="var">e</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+For the explicit subsitution signature example 
+</div>
+<div class="code">
+<span class="id" title="keyword">Example</span> <a name="EpiSignatureThetaTheta"><span class="id" title="definition">EpiSignatureThetaTheta</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">choice</span> : <span class="id" title="definition">AxiomOfChoice.AxiomOfChoice_surj</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">M</span> <span class="id" title="var">N</span> : <span class="id" title="definition">category_Monad</span> <span class="id" title="notation">SET</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">f</span> : <span class="id" title="definition">category_Monad</span> <span class="id" title="notation">SET</span> <span class="id" title="notation">⟦</span><a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#M"><span class="id" title="variable">M</span></a><span class="id" title="notation">,</span><a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#N"><span class="id" title="variable">N</span></a><span class="id" title="notation">⟧</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">isEpi</span> (<span class="id" title="var">C</span> := <span class="id" title="definition">functor_category</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) (<span class="id" title="projection">pr1</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#f"><span class="id" title="variable">f</span></a>) <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <span class="id" title="definition">isEpi</span> (<span class="id" title="var">C</span>:= <span class="id" title="definition">functor_category</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="definition">horcomp</span> (<span class="id" title="projection">pr1</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#f"><span class="id" title="variable">f</span></a> )(<span class="id" title="projection">pr1</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#f"><span class="id" title="variable">f</span></a> )).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">hepi</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">is_nat_trans_epi_from_pointwise_epis</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">assert</span> (<span class="id" title="var">hf</span> : <span class="id" title="notation">∏</span> <span class="id" title="var">x</span><span class="id" title="notation">,</span> <span class="id" title="definition">isEpi</span> (<span class="id" title="projection">pr1</span> <span class="id" title="var">f</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#x"><span class="id" title="variable">x</span></a>)).<br/>
+&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#epi_nt_SET_pw"><span class="id" title="lemma">epi_nt_SET_pw</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">hepi</span>.<br/>
+&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">isEpi_comp</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <span class="id" title="var">hf</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_to_HSET_isEpi"><span class="id" title="lemma">preserves_to_HSET_isEpi</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <span class="id" title="var">choice</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <span class="id" title="var">hf</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#all_purpose"><span class="id" title="section">all_purpose</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+A morphism of signature F : a -&gt; b induces a functor between model Rep(b) -&gt; Rep(a)
+
+<div class="paragraph"> </div>
+
+In this section we construct the left adjoint of this functor (which is defined whenever
+F is an epimorphism)
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Section</span> <a name="leftadjoint"><span class="id" title="section">leftadjoint</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> "'SET'" := <span class="id" title="definition">hset_category</span>.<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="CAT_SIGNATURE"><span class="id" title="abbreviation">CAT_SIGNATURE</span></a> := (@<a class="idref" href="Modules.Signatures.Signature.html#signature_category"><span class="id" title="definition">signature_category</span></a> <span class="id" title="notation">SET</span>).<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="REP"><span class="id" title="abbreviation">REP</span></a> := (<a class="idref" href="Modules.Signatures.Signature.html#rep_disp"><span class="id" title="definition">rep_disp</span></a> <span class="id" title="notation">SET</span>).<br/>
+
+<br/>
+<span class="id" title="keyword">Context</span> {<span class="id" title="var">a</span> <span class="id" title="var">b</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <span class="id" title="notation">SET</span>}.<br/>
+
+<br/>
+<span class="id" title="keyword">Context</span>  (<span class="id" title="var">F</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature_Mor"><span class="id" title="definition">signature_Mor</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.a"><span class="id" title="variable">a</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.b"><span class="id" title="variable">b</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Section</span> <a name="leftadjoint.fix_rep_of_a"><span class="id" title="section">fix_rep_of_a</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Context</span> (<span class="id" title="var">R</span> : <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#REP"><span class="id" title="abbreviation">REP</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.a"><span class="id" title="variable">a</span></a>).<br/>
+<span class="id" title="keyword">Context</span> (<span class="id" title="var">R_epi</span> : <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.R"><span class="id" title="variable">R</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a>  <span class="id" title="var">_</span>)).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Either <span class="inlinecode"><a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#DAr.a"><span class="id" title="variable">a</span></a></span> <span class="inlinecode"><a class="idref" href="Modules.Prelims.LModulesComplements.html#R"><span class="id" title="variable">R</span></a></span> preserves epis, or for any monad S (actually only the quotient monad case
+  is used), <span class="inlinecode"><a class="idref" href="Modules.Signatures.PresentableSignatureBinProdR.html#CoprodAr.b"><span class="id" title="variable">b</span></a></span> <span class="inlinecode"><a class="idref" href="Modules.Prelims.quotientmonad.html#QuotientMonad.S"><span class="id" title="variable">S</span></a></span> preserves epis 
+</div>
+<div class="code">
+<span class="id" title="keyword">Context</span> (<span class="id" title="var">ab_epi</span> : <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.a"><span class="id" title="variable">a</span></a> ( <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.R"><span class="id" title="variable">R</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <span class="id" title="var">_</span>)) <span class="id" title="notation">⨿</span> <span class="id" title="notation">(</span><span class="id" title="notation">∏</span> <span class="id" title="var">S</span><span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.b"><span class="id" title="variable">b</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#S"><span class="id" title="variable">S</span></a>)<span class="id" title="notation">)</span>).<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> "## F" := (<span class="id" title="projection">pr1</span> (<span class="id" title="projection">pr1</span> <span class="id" title="var">F</span>))(<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 3).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+On any set X we define the following equivalence relation on R X : 
+   x ~ y
+iff for any model morphism f : R -&gt; F*(S) (where S is a b-model)
+  f x = f y.
+
+<div class="paragraph"> </div>
+
+We will show that this relation satisfies the conditions necessary to 
+define the quotient of a monad, and of a module over a monad.
+
+<div class="paragraph"> </div>
+
+
+<div class="paragraph"> </div>
+
+ Define two elements in R to be related if they are mapped
+    to the same element by any morphism f of models 
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Let</span> <a name="leftadjoint.fix_rep_of_a.J"><span class="id" title="variable">J</span></a> := <span class="id" title="notation">∑</span> <span class="id" title="notation">(</span><span class="id" title="var">S</span> : <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#REP"><span class="id" title="abbreviation">REP</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.b"><span class="id" title="variable">b</span></a><span class="id" title="notation">),</span> <span class="id" title="notation">(</span><a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.R"><span class="id" title="variable">R</span></a> <span class="id" title="notation">--&gt;[</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.F"><span class="id" title="variable">F</span></a><span class="id" title="notation">]</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#S"><span class="id" title="variable">S</span></a><span class="id" title="notation">)</span>.<br/>
+<span class="id" title="keyword">Let</span> <a name="leftadjoint.fix_rep_of_a.dd"><span class="id" title="variable">dd</span></a> (<span class="id" title="var">j</span> : <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.J"><span class="id" title="variable">J</span></a>) : <span class="id" title="definition">Monad</span> <span class="id" title="var">_</span> := (<span class="id" title="projection">pr1</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#j"><span class="id" title="variable">j</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <span class="id" title="var">_</span> ).<br/>
+<span class="id" title="keyword">Let</span> <a name="leftadjoint.fix_rep_of_a.ff"><span class="id" title="variable">ff</span></a> (<span class="id" title="var">j</span> : <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.J"><span class="id" title="variable">J</span></a>) : <span class="id" title="definition">Monad_Mor</span>  (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.R"><span class="id" title="variable">R</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <span class="id" title="var">_</span>) (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.dd"><span class="id" title="variable">dd</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#j"><span class="id" title="variable">j</span></a>) := (<span class="id" title="projection">pr2</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#j"><span class="id" title="variable">j</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#model_mor_mor"><span class="id" title="definition">model_mor_mor</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> ).<br/>
+
+<br/>
+<span class="id" title="var">Arguments</span> <a class="idref" href="Modules.Prelims.quotientmonad.html#R'"><span class="id" title="definition">R'</span></a> : <span class="id" title="tactic">simpl</span> <span class="id" title="var">never</span>.<br/>
+<span class="id" title="var">Arguments</span> <a class="idref" href="Modules.Prelims.quotientmonad.html#projR"><span class="id" title="definition">projR</span></a> : <span class="id" title="tactic">simpl</span> <span class="id" title="var">never</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Section</span> <a name="leftadjoint.fix_rep_of_a.Instantiating_Quotient_Constructions"><span class="id" title="section">Instantiating_Quotient_Constructions</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+We define short identifiers for the quotient constructions for 
+    functors, monads, and modules (defined in previous files),
+    for the equivalence relation induced by a morphism of models <span class="inlinecode"><a class="idref" href="Modules.Prelims.quotientmonad.html#QuotientMonad.m"><span class="id" title="variable">m</span></a></span>
+    over a morphism of arities <span class="inlinecode"><a class="idref" href="Modules.Signatures.HssToSignature.html#F"><span class="id" title="abbreviation">F</span></a></span>.
+
+<div class="paragraph"> </div>
+
+ R' est un pseudo objet initial au sens suivant :
+     Quel que soit        g : R ---&gt; S morphisme dans la catégorie des représentations de a
+     il existe un unique  u : R'---&gt; S tel que g = u o projR
+C'est un pseudo objet car il reste à montrer que R' est bien dans la catégorie des représentations
+de a et que u est un morphisme de modules.
+
+<div class="paragraph"> </div>
+
+ Short notations for the quotient monad and the projection as a monad morphism 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="R'"><span class="id" title="definition">R'</span></a> : <span class="id" title="definition">Monad</span> <span class="id" title="notation">SET</span> := <a class="idref" href="Modules.Prelims.quotientmonadslice.html#R'_monad"><span class="id" title="definition">R'_monad</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.R_epi"><span class="id" title="variable">R_epi</span></a>  <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.dd"><span class="id" title="variable">dd</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.ff"><span class="id" title="variable">ff</span></a> .<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="ab_epi2"><span class="id" title="lemma">ab_epi2</span></a> : <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.a"><span class="id" title="variable">a</span></a> (<span class="id" title="projection">pr1</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.R"><span class="id" title="variable">R</span></a>)) <span class="id" title="notation">⨿</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.b"><span class="id" title="variable">b</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R'"><span class="id" title="definition">R'</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> (<span class="id" title="definition">coprodf2</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.ab_epi"><span class="id" title="variable">ab_epi</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="keyword">fun</span> <span class="id" title="var">f</span>  =&gt; <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#f"><span class="id" title="variable">f</span></a> <span class="id" title="var">_</span>).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="projR"><span class="id" title="definition">projR</span></a><br/>
+&nbsp;&nbsp;: <span class="id" title="definition">Monad_Mor</span> (<span class="id" title="projection">pr1</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.R"><span class="id" title="variable">R</span></a>) <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R'"><span class="id" title="definition">R'</span></a><br/>
+&nbsp;&nbsp;:= <a class="idref" href="Modules.Prelims.quotientmonadslice.html#projR_monad"><span class="id" title="definition">projR_monad</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.R_epi"><span class="id" title="variable">R_epi</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.dd"><span class="id" title="variable">dd</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.ff"><span class="id" title="variable">ff</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Short name for the monad morphism out of the quotient 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="u"><span class="id" title="definition">u</span></a> {<span class="id" title="var">S</span> : <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#REP"><span class="id" title="abbreviation">REP</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.b"><span class="id" title="variable">b</span></a>} (<span class="id" title="var">m</span> : <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.R"><span class="id" title="variable">R</span></a> <span class="id" title="notation">--&gt;[</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.F"><span class="id" title="variable">F</span></a><span class="id" title="notation">]</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#S"><span class="id" title="variable">S</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">Monad_Mor</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R'"><span class="id" title="definition">R'</span></a> (<span class="id" title="projection">pr1</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#S"><span class="id" title="variable">S</span></a>)<br/>
+&nbsp;&nbsp;:= <a class="idref" href="Modules.Prelims.quotientmonadslice.html#u_monad"><span class="id" title="definition">u_monad</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.R_epi"><span class="id" title="variable">R_epi</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.dd"><span class="id" title="variable">dd</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.ff"><span class="id" title="variable">ff</span></a> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#S"><span class="id" title="variable">S</span></a> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#m"><span class="id" title="variable">m</span></a>) .<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The induced natural transformation makes a triangle commute 
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="u_def"><span class="id" title="lemma">u_def</span></a> {<span class="id" title="var">S</span> : <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#REP"><span class="id" title="abbreviation">REP</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.b"><span class="id" title="variable">b</span></a>} (<span class="id" title="var">m</span> : <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.R"><span class="id" title="variable">R</span></a> <span class="id" title="notation">--&gt;[</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.F"><span class="id" title="variable">F</span></a><span class="id" title="notation">]</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#S"><span class="id" title="variable">S</span></a>) : <span class="id" title="notation">∏</span> <span class="id" title="var">x</span><span class="id" title="notation">,</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#08e76ffac7a7aaa3b816ca323cb021ef"><span class="id" title="notation">##</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#m"><span class="id" title="variable">m</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#x"><span class="id" title="variable">x</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#projR"><span class="id" title="definition">projR</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#x"><span class="id" title="variable">x</span></a> <span class="id" title="notation">·</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#u"><span class="id" title="definition">u</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#m"><span class="id" title="variable">m</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#x"><span class="id" title="variable">x</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<a class="idref" href="Modules.Prelims.quotientmonadslice.html#u_def"><span class="id" title="lemma">u_def</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.dd"><span class="id" title="variable">dd</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.ff"><span class="id" title="variable">ff</span></a> (<span class="id" title="var">S</span> <span class="id" title="notation">,,</span> <span class="id" title="var">m</span>)).<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.Instantiating_Quotient_Constructions"><span class="id" title="section">Instantiating_Quotient_Constructions</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab19"></a><h1 class="section">FIN DE LA TROISIEME ETAPE</h1>
+
+<div class="paragraph"> </div>
+
+ Some helper lemmas 
+<div class="paragraph"> </div>
+
+ Any morphism of representations factors, 
+    as a monad morphism, via the monad projection 
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="Rep_mor_is_composition"><span class="id" title="lemma">Rep_mor_is_composition</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">S</span> : <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#REP"><span class="id" title="abbreviation">REP</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.b"><span class="id" title="variable">b</span></a>} (<span class="id" title="var">m</span> : <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.R"><span class="id" title="variable">R</span></a> <span class="id" title="notation">--&gt;[</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.F"><span class="id" title="variable">F</span></a><span class="id" title="notation">]</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#S"><span class="id" title="variable">S</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="projection">pr1</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#m"><span class="id" title="variable">m</span></a> <span class="id" title="notation">=</span> <span class="id" title="definition">compose</span> (<span class="id" title="var">C</span>:=<span class="id" title="definition">category_Monad</span> <span class="id" title="var">_</span>) <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#projR"><span class="id" title="definition">projR</span></a> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#u"><span class="id" title="definition">u</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#m"><span class="id" title="variable">m</span></a>) .<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> (<span class="id" title="definition">invmap</span> (<span class="id" title="definition">Monad_Mor_equiv</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>)).<br/>
+&nbsp;&nbsp;{ <span class="id" title="tactic">apply</span> (<span class="id" title="definition">homset_property</span> <span class="id" title="notation">SET</span>). }<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">nat_trans_eq</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> (<span class="id" title="definition">homset_property</span> <span class="id" title="notation">SET</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">X'</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#u_def"><span class="id" title="lemma">u_def</span></a> <span class="id" title="var">m</span>).<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+
+<div class="paragraph"> </div>
+
+<pre>
+                 model_τ R
+            a R  -----&gt;  R
+             |           |
+     a projR |           | m
+             v           |
+            a R'         |
+             |           |
+        F R' |           |
+             v           v
+            b R'-&gt;b(S)-&gt; S
+     b(\overline{m}) · model_τ S
+</pre>
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="eq_mr"><span class="id" title="lemma">eq_mr</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">S</span> : <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#REP"><span class="id" title="abbreviation">REP</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.b"><span class="id" title="variable">b</span></a>} (<span class="id" title="var">m</span> : <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.R"><span class="id" title="variable">R</span></a> <span class="id" title="notation">--&gt;[</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.F"><span class="id" title="variable">F</span></a><span class="id" title="notation">]</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#S"><span class="id" title="variable">S</span></a>) (<span class="id" title="var">X</span> : <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#7113409955ce88c452fdb77ad47b118d"><span class="id" title="notation">SET</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Modules.Signatures.Signature.html#dba1169ac97714e744ed64a14239df75"><span class="id" title="definition">model_</span></a><a class="idref" href="Modules.Signatures.Signature.html#dba1169ac97714e744ed64a14239df75"><span class="id" title="definition">τ</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#X"><span class="id" title="variable">X</span></a> <span class="id" title="notation">·</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#08e76ffac7a7aaa3b816ca323cb021ef"><span class="id" title="notation">##</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#m"><span class="id" title="variable">m</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#X"><span class="id" title="variable">X</span></a> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">=</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="projection">pr1</span> (<a class="idref" href="Modules.Signatures.Signature.html#291389361d487de917b722c0b1fff482"><span class="id" title="notation">#</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.a"><span class="id" title="variable">a</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#projR"><span class="id" title="definition">projR</span></a>)%<span class="id" title="var">ar</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#X"><span class="id" title="variable">X</span></a> <span class="id" title="notation">·</span> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.F"><span class="id" title="variable">F</span></a> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R'"><span class="id" title="definition">R'</span></a> ))%<span class="id" title="var">ar</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#X"><span class="id" title="variable">X</span></a> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">·</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="projection">pr1</span> (<a class="idref" href="Modules.Signatures.Signature.html#291389361d487de917b722c0b1fff482"><span class="id" title="notation">#</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.b"><span class="id" title="variable">b</span></a> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#u"><span class="id" title="definition">u</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#m"><span class="id" title="variable">m</span></a>))%<span class="id" title="var">ar</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#X"><span class="id" title="variable">X</span></a> <span class="id" title="notation">·</span> <a class="idref" href="Modules.Signatures.Signature.html#dba1169ac97714e744ed64a14239df75"><span class="id" title="definition">model_</span></a><a class="idref" href="Modules.Signatures.Signature.html#dba1169ac97714e744ed64a14239df75"><span class="id" title="definition">τ</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#S"><span class="id" title="variable">S</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#X"><span class="id" title="variable">X</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">etrans</span>. { <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.Signature.html#model_mor_ax"><span class="id" title="definition">model_mor_ax</span></a>. }<br/>
+&nbsp;&nbsp;<span class="id" title="var">cpost</span> <span class="id" title="var">_</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;{ <span class="id" title="var">cpost</span> <span class="id" title="var">_</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{ <span class="id" title="tactic">apply</span> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#cancel_ar_on"><span class="id" title="lemma">cancel_ar_on</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#Rep_mor_is_composition"><span class="id" title="lemma">Rep_mor_is_composition</span></a> <span class="id" title="var">m</span>)). }<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> <span class="id" title="definition">nat_trans_eq_pointwise</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">maponpaths</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.Signature.html#signature_comp"><span class="id" title="definition">signature_comp</span></a>.<br/>
+&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[|<span class="id" title="tactic">apply</span> (<span class="id" title="definition">assoc</span> (<span class="id" title="var">C</span>:=<span class="id" title="notation">SET</span>))].<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[|<span class="id" title="tactic">apply</span> (<span class="id" title="definition">assoc</span> (<span class="id" title="var">C</span>:=<span class="id" title="notation">SET</span>))].<br/>
+&nbsp;&nbsp;<span class="id" title="var">cpre</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#7113409955ce88c452fdb77ad47b118d"><span class="id" title="notation">SET</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<a class="idref" href="Modules.Signatures.Signature.html#signature_Mor_ax_pw"><span class="id" title="lemma">signature_Mor_ax_pw</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.F"><span class="id" title="variable">F</span></a> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#u"><span class="id" title="definition">u</span></a> <span class="id" title="var">m</span>)).<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Section</span> <a name="leftadjoint.fix_rep_of_a.R'Model"><span class="id" title="section">R'Model</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Goal: define a model of <span class="inlinecode"><a class="idref" href="Modules.Signatures.PresentableSignatureBinProdR.html#CoprodAr.b"><span class="id" title="variable">b</span></a></span>
+    with underlying monad the quotient monad defined in the previous step
+
+<div class="paragraph"> </div>
+
+ R'_modelτ is defined by the following diagram :
+<pre>
+                  model_τ R
+            a R  -----&gt;  R
+             |           |
+         F R |           | projR
+             v           |
+            b R          |
+             |           |
+     b projR |           |
+             v           v
+           b R' -------&gt; R'
+                R'_model_τ
+
+</pre>
+or rather the following diagram.
+<pre>
+                 model_τ R
+            a R  -----&gt;  R
+             |           |
+     a projR |           | projR
+             v           |
+            a R'         |
+             |           |
+        F R' |           |
+             v           v
+            b R' ------&gt; R'
+                R'_model_τ
+</pre>
+
+<div class="paragraph"> </div>
+
+We need to show that for all x,y such that
+F R' o a projR (x) = F R' o a projR (y), we have
+  projR o modelτ R (x) = projR o modelτ R (y)
+
+<div class="paragraph"> </div>
+
+This is lemma <span class="inlinecode"><span class="id" title="var">compat_model_</span>τ<span class="id" title="var">_projR</span></span>
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">signature_scope</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Definition of <span class="inlinecode"><a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#hab"><span class="id" title="definition">hab</span></a></span>:
+The diagonal of the following square, which commutes by naturality of F:
+
+<div class="paragraph"> </div>
+
+<pre>
+               F(R)
+       a(R) ---------&gt; b(R)
+        |               |
+    a(π)|               |b(π)
+        |               |
+        v               v
+       a(R') --------&gt; b(R')
+               F(R')
+</pre>
+
+<div class="paragraph"> </div>
+
+where π := projR
+
+<div class="paragraph"> </div>
+
+The R-module morphism 
+    a R · Pullback (π)(F R') : a(R) ---> π^*(b R')
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="hab"><span class="id" title="definition">hab</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" title="definition">LModule_Mor</span> (<span class="id" title="projection">pr1</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.R"><span class="id" title="variable">R</span></a>) (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.a"><span class="id" title="variable">a</span></a> (<span class="id" title="projection">pr1</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.R"><span class="id" title="variable">R</span></a>)) (<span class="id" title="definition">pb_LModule</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#projR"><span class="id" title="definition">projR</span></a> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.b"><span class="id" title="variable">b</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R'"><span class="id" title="definition">R'</span></a>))<br/>
+&nbsp;&nbsp;:= <span class="id" title="definition">compose</span> (<span class="id" title="var">C</span>:= <span class="id" title="definition">category_LModule</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> )<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.Signatures.Signature.html#291389361d487de917b722c0b1fff482"><span class="id" title="notation">#</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.a"><span class="id" title="variable">a</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#projR"><span class="id" title="definition">projR</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="definition">pb_LModule_Mor</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#projR"><span class="id" title="definition">projR</span></a> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.F"><span class="id" title="variable">F</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R'"><span class="id" title="definition">R'</span></a>)).<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="hab_alt"><span class="id" title="lemma">hab_alt</span></a><br/>
+&nbsp;&nbsp;: <span class="id" title="projection">pr1</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#hab"><span class="id" title="definition">hab</span></a> <span class="id" title="notation">=</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">(</span>(<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.F"><span class="id" title="variable">F</span></a> (<span class="id" title="projection">pr1</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.R"><span class="id" title="variable">R</span></a>) : <span class="id" title="definition">nat_trans</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) : <span class="id" title="definition">functor_category</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span><span class="id" title="notation">⟦</span><span class="id" title="var">_</span><span class="id" title="notation">,</span> <span class="id" title="var">_</span><span class="id" title="notation">⟧</span><span class="id" title="notation">)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">·</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">(</span>(<a class="idref" href="Modules.Signatures.Signature.html#291389361d487de917b722c0b1fff482"><span class="id" title="notation">#</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.b"><span class="id" title="variable">b</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#projR"><span class="id" title="definition">projR</span></a>) : <span class="id" title="definition">nat_trans</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span><span class="id" title="notation">)</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.Signature.html#signature_Mor_ax"><span class="id" title="definition">signature_Mor_ax</span></a>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+This is the compatibility relation that is needed to construct
+
+<div class="paragraph"> </div>
+
+    R'_modelτ : b R' -&gt; R'
+
+<div class="paragraph"> </div>
+
+<pre>
+               τ
+    a(R) -----------------&gt; R
+     |                      |
+hab  |                      | π 
+     |                      |
+     v                      v
+   π^*(b R')                R'
+
+</pre>
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="a756f248e007f088626a65207b37f084"><span class="id" title="lemma">compat_model_</span></a><a name="a756f248e007f088626a65207b37f084"><span class="id" title="lemma">τ</span></a><a name="a756f248e007f088626a65207b37f084"><span class="id" title="lemma">_projR</span></a> <br/>
+&nbsp;&nbsp;: <span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">X</span> : <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#7113409955ce88c452fdb77ad47b118d"><span class="id" title="notation">SET</span></a>) <span class="id" title="var">x</span> <span class="id" title="var">y</span><span class="id" title="notation">,</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="projection">pr1</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#hab"><span class="id" title="definition">hab</span></a>) <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#X"><span class="id" title="variable">X</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#x"><span class="id" title="variable">x</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">=</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="projection">pr1</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#hab"><span class="id" title="definition">hab</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#X"><span class="id" title="variable">X</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#y"><span class="id" title="variable">y</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.Signatures.Signature.html#dba1169ac97714e744ed64a14239df75"><span class="id" title="definition">model_</span></a><a class="idref" href="Modules.Signatures.Signature.html#dba1169ac97714e744ed64a14239df75"><span class="id" title="definition">τ</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#X"><span class="id" title="variable">X</span></a> <span class="id" title="notation">·</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#projR"><span class="id" title="definition">projR</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#X"><span class="id" title="variable">X</span></a>) <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#x"><span class="id" title="variable">x</span></a> <span class="id" title="notation">=</span> (<a class="idref" href="Modules.Signatures.Signature.html#dba1169ac97714e744ed64a14239df75"><span class="id" title="definition">model_</span></a><a class="idref" href="Modules.Signatures.Signature.html#dba1169ac97714e744ed64a14239df75"><span class="id" title="definition">τ</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#X"><span class="id" title="variable">X</span></a> <span class="id" title="notation">·</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#projR"><span class="id" title="definition">projR</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#X"><span class="id" title="variable">X</span></a>) <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#y"><span class="id" title="variable">y</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">X</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> <span class="id" title="var">comp</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.quotientmonad.html#rel_eq_projR"><span class="id" title="lemma">rel_eq_projR</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> [<span class="id" title="var">S</span> <span class="id" title="var">m</span>].<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">assert</span> (<span class="id" title="var">h</span> := <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#eq_mr"><span class="id" title="lemma">eq_mr</span></a> <span class="id" title="var">m</span> <span class="id" title="var">X</span>); <span class="id" title="tactic">apply</span> <span class="id" title="definition">toforallpaths</span> <span class="id" title="tactic">in</span> <span class="id" title="var">h</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">etrans</span>; [ <span class="id" title="tactic">apply</span> <span class="id" title="var">h</span> |].<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">etrans</span>; [ <span class="id" title="tactic">apply</span> <span class="id" title="var">h</span> |].<br/>
+&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">do</span> 2 <span class="id" title="tactic">apply</span> <span class="id" title="definition">maponpaths</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="notation">!</span><span class="id" title="var">comp</span>).<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Conditions that we require to prove that <span class="inlinecode"><a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#hab"><span class="id" title="definition">hab</span></a></span> is epimorphic :
+either <span class="inlinecode"><a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#DAr.a"><span class="id" title="variable">a</span></a></span> is an epi signature and <span class="inlinecode"><a class="idref" href="Modules.Signatures.HssToSignature.html#F"><span class="id" title="abbreviation">F</span></a></span> <span class="inlinecode"><a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.R'"><span class="id" title="variable">R'</span></a></span> is an epi, either <span class="inlinecode"><a class="idref" href="Modules.Signatures.PresentableSignatureBinProdR.html#CoprodAr.b"><span class="id" title="variable">b</span></a></span> is an epi-signature
+and <span class="inlinecode"><a class="idref" href="Modules.Signatures.HssToSignature.html#F"><span class="id" title="abbreviation">F</span></a></span> <span class="inlinecode"><a class="idref" href="Modules.Prelims.LModulesComplements.html#R"><span class="id" title="variable">R</span></a></span> is an epi
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="cond_isEpi_hab"><span class="id" title="definition">cond_isEpi_hab</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" title="notation">(</span><span class="id" title="definition">isEpi</span> (<span class="id" title="var">C</span> := <span class="id" title="notation">[</span><span class="id" title="var">_</span><span class="id" title="notation">,</span> <span class="id" title="var">_</span><span class="id" title="notation">]</span>) (<span class="id" title="projection">pr1</span> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.F"><span class="id" title="variable">F</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R'"><span class="id" title="definition">R'</span></a>)) <span class="id" title="notation">×</span> <a class="idref" href="Modules.Signatures.PreservesEpi.html#sig_preservesNatEpiMonad"><span class="id" title="definition">sig_preservesNatEpiMonad</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.a"><span class="id" title="variable">a</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">⨿</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">(</span><span class="id" title="definition">isEpi</span> (<span class="id" title="var">C</span> := <span class="id" title="notation">[</span><span class="id" title="var">_</span><span class="id" title="notation">,</span> <span class="id" title="var">_</span><span class="id" title="notation">]</span>) (<span class="id" title="projection">pr1</span> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.F"><span class="id" title="variable">F</span></a> (<span class="id" title="projection">pr1</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.R"><span class="id" title="variable">R</span></a>))) <span class="id" title="notation">×</span> <a class="idref" href="Modules.Signatures.PreservesEpi.html#sig_preservesNatEpiMonad"><span class="id" title="definition">sig_preservesNatEpiMonad</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.b"><span class="id" title="variable">b</span></a><span class="id" title="notation">)</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Context</span> (<span class="id" title="var">cond_hab</span> : <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#cond_isEpi_hab"><span class="id" title="definition">cond_isEpi_hab</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="73b0c809682b0ef842e69709cccb7dcb"><span class="id" title="lemma">isEpi_def_R'_model_</span></a><a name="73b0c809682b0ef842e69709cccb7dcb"><span class="id" title="lemma">τ</span></a> : <span class="id" title="definition">isEpi</span> (<span class="id" title="var">C</span>:= <span class="id" title="notation">[</span><a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#7113409955ce88c452fdb77ad47b118d"><span class="id" title="notation">SET</span></a><span class="id" title="notation">,</span><a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#7113409955ce88c452fdb77ad47b118d"><span class="id" title="notation">SET</span></a><span class="id" title="notation">]</span>) (<span class="id" title="projection">pr1</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#hab"><span class="id" title="definition">hab</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">case</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.R'Model.cond_hab"><span class="id" title="variable">cond_hab</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> [<span class="id" title="var">epiFR'</span> <span class="id" title="var">epia</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="definition">isEpi_comp</span> (<span class="id" title="definition">functor_category</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <span class="id" title="var">epia</span>. <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.quotientmonad.html#isEpi_projR"><span class="id" title="lemma">isEpi_projR</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">epiFR'</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> [<span class="id" title="var">epiFR</span> <span class="id" title="var">epib</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#hab_alt"><span class="id" title="lemma">hab_alt</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="definition">isEpi_comp</span> (<span class="id" title="definition">functor_category</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">epiFR</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <span class="id" title="var">epib</span>. <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.quotientmonad.html#isEpi_projR"><span class="id" title="lemma">isEpi_projR</span></a>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="61aca31367691c3edc4432c38acc84a0"><span class="id" title="definition">R'_model_</span></a><a name="61aca31367691c3edc4432c38acc84a0"><span class="id" title="definition">τ</span></a><a name="61aca31367691c3edc4432c38acc84a0"><span class="id" title="definition">_module</span></a> <br/>
+&nbsp;&nbsp;: <span class="id" title="definition">LModule_Mor</span> <span class="id" title="var">_</span> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.b"><span class="id" title="variable">b</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R'"><span class="id" title="definition">R'</span></a>) (<span class="id" title="definition">tautological_LModule</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R'"><span class="id" title="definition">R'</span></a>) .<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Modules.Signatures.quotientrep.html#61aca31367691c3edc4432c38acc84a0"><span class="id" title="definition">quotientrep.R'_model_</span></a><a class="idref" href="Modules.Signatures.quotientrep.html#61aca31367691c3edc4432c38acc84a0"><span class="id" title="definition">τ</span></a><a class="idref" href="Modules.Signatures.quotientrep.html#61aca31367691c3edc4432c38acc84a0"><span class="id" title="definition">_module</span></a>; <span class="id" title="var">revgoals</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#73b0c809682b0ef842e69709cccb7dcb"><span class="id" title="lemma">isEpi_def_R'_model_</span></a><a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#73b0c809682b0ef842e69709cccb7dcb"><span class="id" title="lemma">τ</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#a756f248e007f088626a65207b37f084"><span class="id" title="lemma">compat_model_</span></a><a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#a756f248e007f088626a65207b37f084"><span class="id" title="lemma">τ</span></a><a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#a756f248e007f088626a65207b37f084"><span class="id" title="lemma">_projR</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#ab_epi2"><span class="id" title="lemma">ab_epi2</span></a>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+
+<div class="paragraph"> </div>
+
+<pre>
+           a(π)
+    a(R)-------&gt; a(R')
+     |            |
+     |            | F(R')
+     |            v
+   τ |           b(R')
+     |            |
+     |            | τ 
+     v            v
+     R ---------&gt; R'
+          π 
+</pre>
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="2f62a0726e454d52757daf42834ac691"><span class="id" title="definition">R'_model_</span></a><a name="2f62a0726e454d52757daf42834ac691"><span class="id" title="definition">τ</span></a><a name="2f62a0726e454d52757daf42834ac691"><span class="id" title="definition">_def</span></a> <br/>
+&nbsp;&nbsp;: <span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">X</span> : <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#7113409955ce88c452fdb77ad47b118d"><span class="id" title="notation">SET</span></a><span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.Signatures.Signature.html#291389361d487de917b722c0b1fff482"><span class="id" title="notation">#</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.a"><span class="id" title="variable">a</span></a> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#projR"><span class="id" title="definition">projR</span></a>)%<span class="id" title="var">ar</span>) <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#X"><span class="id" title="variable">X</span></a> <span class="id" title="notation">·</span> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.F"><span class="id" title="variable">F</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R'"><span class="id" title="definition">R'</span></a>) <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#X"><span class="id" title="variable">X</span></a> <span class="id" title="notation">·</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#61aca31367691c3edc4432c38acc84a0"><span class="id" title="definition">R'_model_</span></a><a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#61aca31367691c3edc4432c38acc84a0"><span class="id" title="definition">τ</span></a><a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#61aca31367691c3edc4432c38acc84a0"><span class="id" title="definition">_module</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#X"><span class="id" title="variable">X</span></a>  <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">=</span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.Signature.html#dba1169ac97714e744ed64a14239df75"><span class="id" title="definition">model_</span></a><a class="idref" href="Modules.Signatures.Signature.html#dba1169ac97714e744ed64a14239df75"><span class="id" title="definition">τ</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#X"><span class="id" title="variable">X</span></a> <span class="id" title="notation">·</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#projR"><span class="id" title="definition">projR</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#X"><span class="id" title="variable">X</span></a> .<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">X</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Modules.Signatures.quotientrep.html#2f62a0726e454d52757daf42834ac691"><span class="id" title="definition">quotientrep.R'_model_</span></a><a class="idref" href="Modules.Signatures.quotientrep.html#2f62a0726e454d52757daf42834ac691"><span class="id" title="definition">τ</span></a><a class="idref" href="Modules.Signatures.quotientrep.html#2f62a0726e454d52757daf42834ac691"><span class="id" title="definition">_def</span></a>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="rep_of_b_in_R'"><span class="id" title="definition">rep_of_b_in_R'</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#rep_disp"><span class="id" title="definition">rep_disp</span></a> <span class="id" title="var">_</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.b"><span class="id" title="variable">b</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="constructor">tpair</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R'"><span class="id" title="definition">R'</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#61aca31367691c3edc4432c38acc84a0"><span class="id" title="definition">R'_model_</span></a><a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#61aca31367691c3edc4432c38acc84a0"><span class="id" title="definition">τ</span></a><a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#61aca31367691c3edc4432c38acc84a0"><span class="id" title="definition">_module</span></a>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+
+<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="projR_rep_laws"><span class="id" title="lemma">projR_rep_laws</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#model_mor_law"><span class="id" title="definition">model_mor_law</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#rep_of_b_in_R'"><span class="id" title="definition">rep_of_b_in_R'</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.F"><span class="id" title="variable">F</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#projR"><span class="id" title="definition">projR</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">X</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">symmetry</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#2f62a0726e454d52757daf42834ac691"><span class="id" title="definition">R'_model_</span></a><a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#2f62a0726e454d52757daf42834ac691"><span class="id" title="definition">τ</span></a><a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#2f62a0726e454d52757daf42834ac691"><span class="id" title="definition">_def</span></a> <span class="id" title="var">X</span>).<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="projR_rep"><span class="id" title="definition">projR_rep</span></a> : <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.R"><span class="id" title="variable">R</span></a> <span class="id" title="notation">--&gt;[</span><a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.F"><span class="id" title="variable">F</span></a><span class="id" title="notation">]</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#rep_of_b_in_R'"><span class="id" title="definition">rep_of_b_in_R'</span></a> := (<span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#projR_rep_laws"><span class="id" title="lemma">projR_rep_laws</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.R'Model"><span class="id" title="section">R'Model</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+u morphism of models 
+</div>
+<div class="code">
+<span class="id" title="keyword">Section</span> <a name="leftadjoint.fix_rep_of_a.uModel"><span class="id" title="section">uModel</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Context</span> {<span class="id" title="var">S</span> : <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#REP"><span class="id" title="abbreviation">REP</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.b"><span class="id" title="variable">b</span></a>} (<span class="id" title="var">m</span> : <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.R"><span class="id" title="variable">R</span></a> <span class="id" title="notation">--&gt;[</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.F"><span class="id" title="variable">F</span></a><span class="id" title="notation">]</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#S"><span class="id" title="variable">S</span></a>).<br/>
+<span class="id" title="keyword">Context</span> (<span class="id" title="var">cond_F</span> : <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#cond_isEpi_hab"><span class="id" title="definition">cond_isEpi_hab</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">signature_scope</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="u_rep_laws"><span class="id" title="lemma">u_rep_laws</span></a><br/>
+&nbsp;&nbsp;: <a class="idref" href="Modules.Signatures.Signature.html#model_mor_law"><span class="id" title="definition">model_mor_law</span></a> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#rep_of_b_in_R'"><span class="id" title="definition">rep_of_b_in_R'</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.uModel.cond_F"><span class="id" title="variable">cond_F</span></a>) <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.uModel.S"><span class="id" title="variable">S</span></a> (<span class="id" title="definition">identity</span> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.b"><span class="id" title="variable">b</span></a> : <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#CAT_SIGNATURE"><span class="id" title="abbreviation">CAT_SIGNATURE</span></a>)) (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#u"><span class="id" title="definition">u</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.uModel.m"><span class="id" title="variable">m</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">X</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.quotientrep.html#u_rep_laws"><span class="id" title="lemma">quotientrep.u_rep_laws</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">X'</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">etrans</span>; [<span class="id" title="tactic">apply</span> (<a class="idref" href="Modules.Signatures.Signature.html#model_mor_ax"><span class="id" title="definition">model_mor_ax</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.uModel.m"><span class="id" title="variable">m</span></a> )|].<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_postcomposition</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_postcomposition</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#cancel_ar_on"><span class="id" title="lemma">cancel_ar_on</span></a> <span class="id" title="var">_</span> (<span class="id" title="definition">compose</span> (<span class="id" title="var">C</span>:=<span class="id" title="definition">category_Monad</span> <span class="id" title="var">_</span>) <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#projR"><span class="id" title="definition">projR</span></a> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#u"><span class="id" title="definition">u</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.uModel.m"><span class="id" title="variable">m</span></a>))).<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> (<span class="id" title="definition">invmap</span> (<span class="id" title="definition">Monad_Mor_equiv</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>)).<br/>
+&nbsp;&nbsp;{ <span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>. }<br/>
+&nbsp;&nbsp;{ <span class="id" title="tactic">apply</span> <span class="id" title="lemma">nat_trans_eq</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#u_def"><span class="id" title="lemma">u_def</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.uModel.m"><span class="id" title="variable">m</span></a>).<br/>
+&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">assert</span> (<span class="id" title="var">h</span>:=<a class="idref" href="Modules.Signatures.Signature.html#signature_comp"><span class="id" title="definition">signature_comp</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.a"><span class="id" title="variable">a</span></a> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#projR"><span class="id" title="definition">projR</span></a>)  (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#u"><span class="id" title="definition">u</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.uModel.m"><span class="id" title="variable">m</span></a>)).<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">LModule_Mor_equiv</span> <span class="id" title="tactic">in</span> <span class="id" title="var">h</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> <span class="id" title="definition">nat_trans_eq_pointwise</span> <span class="id" title="tactic">in</span> <span class="id" title="var">h</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">h</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">etrans</span>;<span class="id" title="var">revgoals</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[|<span class="id" title="tactic">apply</span> <span class="id" title="definition">assoc</span>].<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_precomposition</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.Signature.html#signature_Mor_ax_pw"><span class="id" title="lemma">signature_Mor_ax_pw</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="u_rep"><span class="id" title="definition">u_rep</span></a> : <span class="id" title="notation">(</span><a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#rep_of_b_in_R'"><span class="id" title="definition">rep_of_b_in_R'</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.uModel.cond_F"><span class="id" title="variable">cond_F</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">--&gt;[</span><span class="id" title="definition">identity</span> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.b"><span class="id" title="variable">b</span></a>: <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#CAT_SIGNATURE"><span class="id" title="abbreviation">CAT_SIGNATURE</span></a>)<span class="id" title="notation">]</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.uModel.S"><span class="id" title="variable">S</span></a> <br/>
+&nbsp;&nbsp;:= <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#u_rep_laws"><span class="id" title="lemma">u_rep_laws</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="u_rep_unique"><span class="id" title="lemma">u_rep_unique</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">u'_rep</span> : <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#rep_of_b_in_R'"><span class="id" title="definition">rep_of_b_in_R'</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.uModel.cond_F"><span class="id" title="variable">cond_F</span></a> <span class="id" title="notation">--&gt;[</span><span class="id" title="definition">identity</span> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.b"><span class="id" title="variable">b</span></a>:<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#CAT_SIGNATURE"><span class="id" title="abbreviation">CAT_SIGNATURE</span></a>)<span class="id" title="notation">]</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.uModel.S"><span class="id" title="variable">S</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">hu'</span> : <span class="id" title="notation">∏</span> <span class="id" title="var">x</span><span class="id" title="notation">,</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">(</span>(<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#projR_rep"><span class="id" title="definition">projR_rep</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.uModel.cond_F"><span class="id" title="variable">cond_F</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#model_mor_mor"><span class="id" title="definition">model_mor_mor</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#x"><span class="id" title="variable">x</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">·</span> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#u'_rep"><span class="id" title="variable">u'_rep</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#model_mor_mor"><span class="id" title="definition">model_mor_mor</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#x"><span class="id" title="variable">x</span></a><span class="id" title="notation">)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">=</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.uModel.m"><span class="id" title="variable">m</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#model_mor_mor"><span class="id" title="definition">model_mor_mor</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#x"><span class="id" title="variable">x</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#u'_rep"><span class="id" title="variable">u'_rep</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#u_rep"><span class="id" title="definition">u_rep</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.Signature.html#model_mor_mor_equiv"><span class="id" title="lemma">model_mor_mor_equiv</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">univ_surj_nt_unique</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#08e76ffac7a7aaa3b816ca323cb021ef"><span class="id" title="notation">##</span></a><span class="id" title="var">u'_rep</span>)).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <span class="id" title="lemma">nat_trans_eq</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <span class="id" title="lemma">has_homsets_HSET</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">intro</span> <span class="id" title="var">X</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">hu'</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a.uModel"><span class="id" title="section">uModel</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.fix_rep_of_a"><span class="id" title="section">fix_rep_of_a</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Let</span> <a name="leftadjoint.Rep_a"><span class="id" title="variable">Rep_a</span></a> : <span class="id" title="definition">category</span> := <span class="id" title="definition">fiber_category</span> (<a class="idref" href="Modules.Signatures.Signature.html#rep_disp"><span class="id" title="definition">rep_disp</span></a> <span class="id" title="notation">SET</span>) <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.a"><span class="id" title="variable">a</span></a>.<br/>
+<span class="id" title="keyword">Let</span> <a name="leftadjoint.Rep_b"><span class="id" title="variable">Rep_b</span></a> : <span class="id" title="definition">category</span> := <span class="id" title="definition">fiber_category</span> (<a class="idref" href="Modules.Signatures.Signature.html#rep_disp"><span class="id" title="definition">rep_disp</span></a> <span class="id" title="notation">SET</span>) <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.b"><span class="id" title="variable">b</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Let</span> <a name="leftadjoint.FF"><span class="id" title="variable">FF</span></a> : <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.Rep_b"><span class="id" title="variable">Rep_b</span></a> <span class="id" title="notation">⟶</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.Rep_a"><span class="id" title="variable">Rep_a</span></a> := <span class="id" title="definition">fiber_functor_from_cleaving</span> <span class="id" title="var">_</span> (<a class="idref" href="Modules.Signatures.Signature.html#rep_cleaving"><span class="id" title="lemma">rep_cleaving</span></a> <span class="id" title="notation">SET</span>) <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.F"><span class="id" title="variable">F</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="helper"><span class="id" title="lemma">helper</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">R</span> : <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.Rep_a"><span class="id" title="variable">Rep_a</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">R_epi</span> : <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> ( <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R"><span class="id" title="variable">R</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <span class="id" title="var">_</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">epiab</span> :  <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.a"><span class="id" title="variable">a</span></a> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R"><span class="id" title="variable">R</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <span class="id" title="var">_</span>)) <span class="id" title="notation">⨿</span> <span class="id" title="notation">(</span><span class="id" title="notation">∏</span> <span class="id" title="var">S</span> : <span class="id" title="definition">Monad</span> <span class="id" title="notation">SET</span><span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.b"><span class="id" title="variable">b</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#S"><span class="id" title="variable">S</span></a>)<span class="id" title="notation">)</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">cond_F</span> : <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#cond_isEpi_hab"><span class="id" title="definition">cond_isEpi_hab</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R_epi"><span class="id" title="variable">R_epi</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">S</span> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.b"><span class="id" title="variable">b</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">u'</span> : <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.Rep_b"><span class="id" title="variable">Rep_b</span></a> <span class="id" title="notation">⟦</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#rep_of_b_in_R'"><span class="id" title="definition">rep_of_b_in_R'</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R_epi"><span class="id" title="variable">R_epi</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#epiab"><span class="id" title="variable">epiab</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#cond_F"><span class="id" title="variable">cond_F</span></a><span class="id" title="notation">,</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#S"><span class="id" title="variable">S</span></a> <span class="id" title="notation">⟧</span>) <span class="id" title="var">x</span><span class="id" title="notation">,</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#projR"><span class="id" title="definition">projR</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R_epi"><span class="id" title="variable">R_epi</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#x"><span class="id" title="variable">x</span></a> <span class="id" title="notation">·</span> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#u'"><span class="id" title="variable">u'</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#model_mor_mor"><span class="id" title="definition">model_mor_mor</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#x"><span class="id" title="variable">x</span></a> <span class="id" title="notation">=</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="projection">pr1</span> (<span class="id" title="projection">pr1</span> (<span class="id" title="definition">compose</span> (<span class="id" title="var">C</span>:=<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.Rep_a"><span class="id" title="variable">Rep_a</span></a>) (<span class="id" title="var">b</span>:=<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.FF"><span class="id" title="variable">FF</span></a> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#rep_of_b_in_R'"><span class="id" title="definition">rep_of_b_in_R'</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R_epi"><span class="id" title="variable">R_epi</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#epiab"><span class="id" title="variable">epiab</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#cond_F"><span class="id" title="variable">cond_F</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#projR_rep"><span class="id" title="definition">projR_rep</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R_epi"><span class="id" title="variable">R_epi</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#epiab"><span class="id" title="variable">epiab</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#cond_F"><span class="id" title="variable">cond_F</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#model_mor_mor"><span class="id" title="definition">model_mor_mor</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="notation">#</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.FF"><span class="id" title="variable">FF</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#u'"><span class="id" title="variable">u'</span></a>))) <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#x"><span class="id" title="variable">x</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">u'</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">etrans</span> ; [<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (@<a class="idref" href="Modules.Signatures.Signature.html#transport_signature_mor"><span class="id" title="lemma">transport_signature_mor</span></a> <span class="id" title="notation">SET</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.a"><span class="id" title="variable">a</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.a"><span class="id" title="variable">a</span></a> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="definition">identity</span> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.a"><span class="id" title="variable">a</span></a>:<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#CAT_SIGNATURE"><span class="id" title="abbreviation">CAT_SIGNATURE</span></a>) <span class="id" title="notation">·</span> <span class="id" title="definition">identity</span> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.a"><span class="id" title="variable">a</span></a>:<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#CAT_SIGNATURE"><span class="id" title="abbreviation">CAT_SIGNATURE</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="definition">identity</span> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.a"><span class="id" title="variable">a</span></a>:<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#CAT_SIGNATURE"><span class="id" title="abbreviation">CAT_SIGNATURE</span></a>)) (<span class="id" title="definition">id_right</span> (<span class="id" title="definition">identity</span> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.a"><span class="id" title="variable">a</span></a>:<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#CAT_SIGNATURE"><span class="id" title="abbreviation">CAT_SIGNATURE</span></a>))) <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">R</span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.FF"><span class="id" title="variable">FF</span></a> <span class="id" title="var">S</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">_</span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) |].<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">cancel_precomposition</span> <span class="id" title="notation">HSET</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> ((<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#projR"><span class="id" title="definition">projR</span></a> <span class="id" title="var">R</span> <span class="id" title="var">_</span> <span class="id" title="var">x</span>))).<br/>
+&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">e</span> := <span class="id" title="var">_</span> <span class="id" title="notation">@</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">e</span>; <span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="u_rep_universal"><span class="id" title="lemma">u_rep_universal</span></a> (<span class="id" title="var">R</span> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <span class="id" title="var">_</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">Repi</span> : <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R"><span class="id" title="variable">R</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.a"><span class="id" title="variable">a</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">epiab</span> :  <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.a"><span class="id" title="variable">a</span></a> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R"><span class="id" title="variable">R</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <span class="id" title="var">_</span>)) <span class="id" title="notation">⨿</span> <span class="id" title="notation">(</span><span class="id" title="notation">∏</span> <span class="id" title="var">S</span> : <span class="id" title="definition">Monad</span> <span class="id" title="notation">SET</span><span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.b"><span class="id" title="variable">b</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#S"><span class="id" title="variable">S</span></a>)<span class="id" title="notation">)</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">cond_R</span> : <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">(</span><span class="id" title="definition">isEpi</span> (<span class="id" title="var">C</span> := <span class="id" title="notation">[</span><span class="id" title="var">_</span><span class="id" title="notation">,</span> <span class="id" title="var">_</span><span class="id" title="notation">]</span>) (<span class="id" title="projection">pr1</span> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.F"><span class="id" title="variable">F</span></a> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R'"><span class="id" title="definition">R'</span></a> <span class="id" title="var">_</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#Repi"><span class="id" title="variable">Repi</span></a>) )) <span class="id" title="notation">×</span> <a class="idref" href="Modules.Signatures.PreservesEpi.html#sig_preservesNatEpiMonad"><span class="id" title="definition">sig_preservesNatEpiMonad</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.a"><span class="id" title="variable">a</span></a><span class="id" title="notation">)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">⨿</span> <span class="id" title="notation">(</span><span class="id" title="definition">isEpi</span> (<span class="id" title="var">C</span> := <span class="id" title="notation">[</span><span class="id" title="var">_</span><span class="id" title="notation">,</span> <span class="id" title="var">_</span><span class="id" title="notation">]</span>) (<span class="id" title="projection">pr1</span> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.F"><span class="id" title="variable">F</span></a> (<span class="id" title="projection">pr1</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R"><span class="id" title="variable">R</span></a>))) <span class="id" title="notation">×</span> <a class="idref" href="Modules.Signatures.PreservesEpi.html#sig_preservesNatEpiMonad"><span class="id" title="definition">sig_preservesNatEpiMonad</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.b"><span class="id" title="variable">b</span></a><span class="id" title="notation">)</span>)<br/>
+&nbsp;&nbsp;:<br/>
+<br/>
+&nbsp;&nbsp;<span class="id" title="definition">is_universal_arrow_to</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.FF"><span class="id" title="variable">FF</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R"><span class="id" title="variable">R</span></a> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#rep_of_b_in_R'"><span class="id" title="definition">rep_of_b_in_R'</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#Repi"><span class="id" title="variable">Repi</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#epiab"><span class="id" title="variable">epiab</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#cond_R"><span class="id" title="variable">cond_R</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#projR_rep"><span class="id" title="definition">projR_rep</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#Repi"><span class="id" title="variable">Repi</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#epiab"><span class="id" title="variable">epiab</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#cond_R"><span class="id" title="variable">cond_R</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">S</span> <span class="id" title="var">m</span>. <span class="id" title="var">cbn</span> <span class="id" title="tactic">in</span> <span class="id" title="var">S</span>, <span class="id" title="var">m</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">unique_exists</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="var">unshelve</span> <span class="id" title="var">use</span> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#u_rep"><span class="id" title="definition">u_rep</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">m</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.Signature.html#model_mor_mor_equiv"><span class="id" title="lemma">model_mor_mor_equiv</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>. { <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#u_def"><span class="id" title="lemma">u_def</span></a>. }<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#helper"><span class="id" title="lemma">helper</span></a> <span class="id" title="var">_</span> <span class="id" title="var">Repi</span> <span class="id" title="var">epiab</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#u_rep"><span class="id" title="definition">u_rep</span></a> <span class="id" title="var">R</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">m</span> <span class="id" title="var">cond_R</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">intro</span> <span class="id" title="var">y</span>; <span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">intros</span> <span class="id" title="var">u'</span> <span class="id" title="var">hu'</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">hnf</span> <span class="id" title="tactic">in</span> <span class="id" title="var">hu'</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#u_rep_unique"><span class="id" title="lemma">u_rep_unique</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> &lt;- <span class="id" title="var">hu'</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#helper"><span class="id" title="lemma">helper</span></a>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <a name="push_initiality_weaker"><span class="id" title="lemma">push_initiality_weaker</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">R</span> : <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.Rep_a"><span class="id" title="variable">Rep_a</span></a>) <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">R_epi</span> : <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> ( <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R"><span class="id" title="variable">R</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <span class="id" title="var">_</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">epiab</span> :  <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.a"><span class="id" title="variable">a</span></a> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R"><span class="id" title="variable">R</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <span class="id" title="var">_</span>)) <span class="id" title="notation">⨿</span> <span class="id" title="notation">(</span><span class="id" title="notation">∏</span> <span class="id" title="var">S</span> : <span class="id" title="definition">Monad</span> <span class="id" title="notation">SET</span><span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.b"><span class="id" title="variable">b</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#S"><span class="id" title="variable">S</span></a>)<span class="id" title="notation">)</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">cond_R</span> : <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">(</span><span class="id" title="definition">isEpi</span> (<span class="id" title="var">C</span> := <span class="id" title="notation">[</span><span class="id" title="var">_</span><span class="id" title="notation">,</span> <span class="id" title="var">_</span><span class="id" title="notation">]</span>) (<span class="id" title="projection">pr1</span> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.F"><span class="id" title="variable">F</span></a> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R'"><span class="id" title="definition">R'</span></a> <span class="id" title="var">_</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R_epi"><span class="id" title="variable">R_epi</span></a>) )) <span class="id" title="notation">×</span> <a class="idref" href="Modules.Signatures.PreservesEpi.html#sig_preservesNatEpiMonad"><span class="id" title="definition">sig_preservesNatEpiMonad</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.a"><span class="id" title="variable">a</span></a><span class="id" title="notation">)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">⨿</span> <span class="id" title="notation">(</span><span class="id" title="definition">isEpi</span> (<span class="id" title="var">C</span> := <span class="id" title="notation">[</span><span class="id" title="var">_</span><span class="id" title="notation">,</span> <span class="id" title="var">_</span><span class="id" title="notation">]</span>) (<span class="id" title="projection">pr1</span> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.F"><span class="id" title="variable">F</span></a> (<span class="id" title="projection">pr1</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R"><span class="id" title="variable">R</span></a>))) <span class="id" title="notation">×</span> <a class="idref" href="Modules.Signatures.PreservesEpi.html#sig_preservesNatEpiMonad"><span class="id" title="definition">sig_preservesNatEpiMonad</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.b"><span class="id" title="variable">b</span></a><span class="id" title="notation">)</span>)<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">isInitial</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <span class="id" title="definition">Initial</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.Rep_b"><span class="id" title="variable">Rep_b</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">iniR</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> <span class="id" title="constructor">tpair</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> (<a class="idref" href="Modules.Prelims.lib.html#initial_universal_to_lift_initial"><span class="id" title="lemma">initial_universal_to_lift_initial</span></a> <span class="id" title="var">_</span> (<span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <span class="id" title="var">iniR</span>)).<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> ( <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#u_rep_universal"><span class="id" title="lemma">u_rep_universal</span></a> <span class="id" title="var">R</span> <span class="id" title="var">R_epi</span> <span class="id" title="var">epiab</span> <span class="id" title="var">cond_R</span> ).<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <a name="push_initiality"><span class="id" title="lemma">push_initiality</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+R is a model of a 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">R</span> : <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.Rep_a"><span class="id" title="variable">Rep_a</span></a>) <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">R_epi</span> : <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> ( <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R"><span class="id" title="variable">R</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <span class="id" title="var">_</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">epiaR</span> :  <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.a"><span class="id" title="variable">a</span></a> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R"><span class="id" title="variable">R</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <span class="id" title="var">_</span>)))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+a is an epi-signature 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">epia</span> : <a class="idref" href="Modules.Signatures.PreservesEpi.html#sig_preservesNatEpiMonad"><span class="id" title="definition">sig_preservesNatEpiMonad</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.a"><span class="id" title="variable">a</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">Fepi</span> : <span class="id" title="definition">isEpi</span> (<span class="id" title="var">C</span> := <a class="idref" href="Modules.Signatures.Signature.html#signature_category"><span class="id" title="definition">signature_category</span></a>) <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.F"><span class="id" title="variable">F</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">isInitial</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <span class="id" title="definition">Initial</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.Rep_b"><span class="id" title="variable">Rep_b</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#push_initiality_weaker"><span class="id" title="lemma">push_initiality_weaker</span></a>; <span class="id" title="tactic">try</span> <span class="id" title="tactic">assumption</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">left</span>; <span class="id" title="tactic">assumption</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">left</span>; <span class="id" title="tactic">split</span>;[| <span class="id" title="tactic">assumption</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.EpiArePointwise.html#epiSig_is_pwEpi"><span class="id" title="lemma">epiSig_is_pwEpi</span></a> .<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id" title="tactic">apply</span> <span class="id" title="lemma">ColimsHSET_of_shape</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id" title="tactic">apply</span> <span class="id" title="var">Fepi</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <a name="push_initiality_weaker_choice"><span class="id" title="lemma">push_initiality_weaker_choice</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">R</span> : <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.Rep_a"><span class="id" title="variable">Rep_a</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">choice</span> : <span class="id" title="definition">AxiomOfChoice.AxiomOfChoice_surj</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">epi_F</span> : <span class="id" title="definition">isEpi</span> (<span class="id" title="var">C</span> := <a class="idref" href="Modules.Signatures.Signature.html#signature_category"><span class="id" title="definition">signature_category</span></a> ) <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.F"><span class="id" title="variable">F</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">epia</span> : <a class="idref" href="Modules.Signatures.PreservesEpi.html#sig_preservesNatEpiMonad"><span class="id" title="definition">sig_preservesNatEpiMonad</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.a"><span class="id" title="variable">a</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">isInitial</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <span class="id" title="definition">Initial</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.Rep_b"><span class="id" title="variable">Rep_b</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">unshelve</span> <span class="id" title="tactic">eapply</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#push_initiality_weaker"><span class="id" title="lemma">push_initiality_weaker</span></a>; (<span class="id" title="tactic">try</span> <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_to_HSET_isEpi"><span class="id" title="lemma">preserves_to_HSET_isEpi</span></a>); <span class="id" title="tactic">try</span> <span class="id" title="tactic">assumption</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <span class="id" title="constructor">ii1</span>; <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_to_HSET_isEpi"><span class="id" title="lemma">preserves_to_HSET_isEpi</span></a>; <span class="id" title="tactic">assumption</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <span class="id" title="constructor">ii1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">dirprodpair</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.EpiArePointwise.html#epiSig_is_pwEpi"><span class="id" title="lemma">epiSig_is_pwEpi</span></a> .<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id" title="tactic">apply</span> <span class="id" title="lemma">ColimsHSET_of_shape</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id" title="tactic">apply</span> <span class="id" title="var">epi_F</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">exact</span> <span class="id" title="var">epia</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="is_right_adjoint_functor_of_reps"><span class="id" title="definition">is_right_adjoint_functor_of_reps</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">aepi</span> : <a class="idref" href="Modules.Signatures.PreservesEpi.html#sig_preservesNatEpiMonad"><span class="id" title="definition">sig_preservesNatEpiMonad</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.a"><span class="id" title="variable">a</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+this is the case if the axiom of choice is assumed 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">epiall</span> : <span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">R</span> : <span class="id" title="definition">functor</span> <span class="id" title="notation">SET</span> <span class="id" title="notation">SET</span><span class="id" title="notation">),</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R"><span class="id" title="variable">R</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">Fepi</span> : <span class="id" title="notation">∏</span> <span class="id" title="var">R</span> <span class="id" title="var">R_epi</span><span class="id" title="notation">,</span> <span class="id" title="definition">isEpi</span> (<span class="id" title="var">C</span> := <span class="id" title="notation">[</span><span class="id" title="var">_</span><span class="id" title="notation">,</span> <span class="id" title="var">_</span><span class="id" title="notation">]</span>) (<span class="id" title="projection">pr1</span> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.F"><span class="id" title="variable">F</span></a> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R'"><span class="id" title="definition">R'</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R_epi"><span class="id" title="variable">R_epi</span></a>))) )<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">is_right_adjoint</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.FF"><span class="id" title="variable">FF</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">cond_F</span> := <span class="id" title="keyword">fun</span> <span class="id" title="var">R</span> <span class="id" title="var">R_epi</span> =&gt; <span class="id" title="abbreviation">inl</span> (<span class="id" title="notation">(</span><span class="id" title="var">Fepi</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R_epi"><span class="id" title="variable">R_epi</span></a><span class="id" title="notation">),,</span> <span class="id" title="var">aepi</span>) : <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#cond_isEpi_hab"><span class="id" title="definition">cond_isEpi_hab</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R_epi"><span class="id" title="variable">R_epi</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">right_adjoint_left_from_partial</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">R</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#rep_of_b_in_R'"><span class="id" title="definition">rep_of_b_in_R'</span></a> <span class="id" title="var">R</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> (<span class="id" title="var">cond_F</span> <span class="id" title="var">R</span> <span class="id" title="var">_</span> )).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <span class="id" title="var">epiall</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <span class="id" title="constructor">ii1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">epiall</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">R</span>. <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#projR_rep"><span class="id" title="definition">projR_rep</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">R</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#u_rep_universal"><span class="id" title="lemma">u_rep_universal</span></a>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Corollary</span> <a name="is_right_adjoint_functor_of_reps_from_pw_epi"><span class="id" title="lemma">is_right_adjoint_functor_of_reps_from_pw_epi</span></a> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">aepi</span> : <a class="idref" href="Modules.Signatures.PreservesEpi.html#sig_preservesNatEpiMonad"><span class="id" title="definition">sig_preservesNatEpiMonad</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.a"><span class="id" title="variable">a</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">epiall</span> : <span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">R</span> : <span class="id" title="definition">functor</span> <span class="id" title="notation">SET</span> <span class="id" title="notation">SET</span><span class="id" title="notation">),</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R"><span class="id" title="variable">R</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">Fepi</span> : <span class="id" title="keyword">forall</span> <span class="id" title="var">R</span> : <span class="id" title="definition">Monad</span> <span class="id" title="notation">SET</span>, <span class="id" title="definition">isEpi</span> (<span class="id" title="var">C</span>:=<span class="id" title="definition">functor_precategory</span> <span class="id" title="notation">HSET</span> <span class="id" title="notation">HSET</span> <span class="id" title="lemma">has_homsets_HSET</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="projection">pr1</span> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.F"><span class="id" title="variable">F</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R"><span class="id" title="variable">R</span></a>)))<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">is_right_adjoint</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.FF"><span class="id" title="variable">FF</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#is_right_adjoint_functor_of_reps"><span class="id" title="definition">is_right_adjoint_functor_of_reps</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <span class="id" title="var">aepi</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">R</span>; <span class="id" title="tactic">apply</span> <span class="id" title="var">epiall</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intros</span>; <span class="id" title="tactic">apply</span> <span class="id" title="var">Fepi</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Corollary</span> <a name="is_right_adjoint_functor_of_reps_from_pw_epi_choice"><span class="id" title="lemma">is_right_adjoint_functor_of_reps_from_pw_epi_choice</span></a> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">choice</span> : <span class="id" title="definition">AxiomOfChoice.AxiomOfChoice_surj</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">aepi</span> : <a class="idref" href="Modules.Signatures.PreservesEpi.html#sig_preservesNatEpiMonad"><span class="id" title="definition">sig_preservesNatEpiMonad</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.a"><span class="id" title="variable">a</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">Fepi</span> : <span class="id" title="keyword">forall</span> <span class="id" title="var">R</span> : <span class="id" title="definition">Monad</span> <span class="id" title="notation">SET</span>, <span class="id" title="definition">isEpi</span> (<span class="id" title="var">C</span>:=<span class="id" title="definition">functor_precategory</span> <span class="id" title="notation">HSET</span> <span class="id" title="notation">HSET</span> <span class="id" title="lemma">has_homsets_HSET</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="projection">pr1</span> (<a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.F"><span class="id" title="variable">F</span></a> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#R"><span class="id" title="variable">R</span></a>)))<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">is_right_adjoint</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint.FF"><span class="id" title="variable">FF</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#is_right_adjoint_functor_of_reps_from_pw_epi"><span class="id" title="lemma">is_right_adjoint_functor_of_reps_from_pw_epi</span></a>; (<span class="id" title="tactic">try</span> <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_to_HSET_isEpi"><span class="id" title="lemma">preserves_to_HSET_isEpi</span></a>); <span class="id" title="tactic">try</span> <span class="id" title="tactic">assumption</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Modules.Signatures.EpiSigRepresentability.html#leftadjoint"><span class="id" title="section">leftadjoint</span></a>.<br/>
+
+<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>
