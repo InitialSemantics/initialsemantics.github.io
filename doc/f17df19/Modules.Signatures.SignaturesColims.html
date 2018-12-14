@@ -1,0 +1,452 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>Modules.Signatures.SignaturesColims</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Modules.Signatures.SignaturesColims</h1>
+
+<div class="code">
+
+<br/>
+</div>
+
+<div class="doc">
+It is the product of modules
+Then it induces a morphism
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.Propositions</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.Sets</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.MoreFoundations.Tactics</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Categories</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.functor_categories</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.whiskering</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.graphs.limits</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.graphs.colimits</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monads.Monads</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monads.LModules</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.Signature.html#"><span class="id" title="library">Modules.Signatures.Signature</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#"><span class="id" title="library">Modules.Prelims.LModulesColims</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.CoproductsComplements.html#"><span class="id" title="library">Modules.Prelims.CoproductsComplements</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">cat</span>.<br/>
+
+<br/>
+
+<br/>
+
+<br/>
+<span class="id" title="keyword">Section</span> <a name="ColimsSig"><span class="id" title="section">ColimsSig</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">C</span> : <span class="id" title="definition">category</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">g</span> : <span class="id" title="definition">graph</span>} (<span class="id" title="var">colims_g</span> : <span class="id" title="definition">Colims_of_shape</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#g"><span class="id" title="variable">g</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#C"><span class="id" title="variable">C</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">lims_g</span> : <span class="id" title="definition">Lims_of_shape</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#g"><span class="id" title="variable">g</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#C"><span class="id" title="variable">C</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a name="ColimsSig.hsC"><span class="id" title="variable">hsC</span></a> := (<span class="id" title="definition">homset_property</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.C"><span class="id" title="variable">C</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a name="ColimsSig.coMod"><span class="id" title="variable">coMod</span></a> <span class="id" title="var">R</span> := (<a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_Colims_of_shape"><span class="id" title="definition">LModule_Colims_of_shape</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.C"><span class="id" title="variable">C</span></a> (<span class="id" title="var">B</span> := <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.C"><span class="id" title="variable">C</span></a>) <a class="idref" href="Modules.Signatures.SignaturesColims.html#R"><span class="id" title="variable">R</span></a> <span class="id" title="var">_</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.colims_g"><span class="id" title="variable">colims_g</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a name="ColimsSig.limMod"><span class="id" title="variable">limMod</span></a> <span class="id" title="var">R</span> := (<a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_Lims_of_shape"><span class="id" title="definition">LModule_Lims_of_shape</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.C"><span class="id" title="variable">C</span></a> (<span class="id" title="var">B</span> := <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.C"><span class="id" title="variable">C</span></a>) <a class="idref" href="Modules.Signatures.SignaturesColims.html#R"><span class="id" title="variable">R</span></a> <span class="id" title="var">_</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.lims_g"><span class="id" title="variable">lims_g</span></a>).<br/>
+
+<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="MOD"><span class="id" title="abbreviation">MOD</span></a> <span class="id" title="var">R</span> := (<span class="id" title="definition">precategory_LModule</span> <span class="id" title="var">R</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.C"><span class="id" title="variable">C</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="HAR"><span class="id" title="abbreviation">HAR</span></a> := (<a class="idref" href="Modules.Signatures.Signature.html#signature_precategory"><span class="id" title="definition">signature_precategory</span></a> (<span class="id" title="var">C</span>:=<a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.C"><span class="id" title="variable">C</span></a>)).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Variable</span> (<a name="ColimsSig.d"><span class="id" title="variable">d</span></a> : <span class="id" title="definition">diagram</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.g"><span class="id" title="variable">g</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#HAR"><span class="id" title="abbreviation">HAR</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a name="ColimsSig.FORGET"><span class="id" title="variable">FORGET</span></a> <span class="id" title="var">R</span> := (<a class="idref" href="Modules.Signatures.Signature.html#forget_Sig"><span class="id" title="definition">forget_Sig</span></a> (<span class="id" title="var">C</span>:=<a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.C"><span class="id" title="variable">C</span></a>) <a class="idref" href="Modules.Signatures.SignaturesColims.html#R"><span class="id" title="variable">R</span></a> ).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a name="ColimsSig.d'"><span class="id" title="variable">d'</span></a> <span class="id" title="var">R</span> := (  <span class="id" title="definition">mapdiagram</span> (<a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.FORGET"><span class="id" title="variable">FORGET</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#R"><span class="id" title="variable">R</span></a>) <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.d"><span class="id" title="variable">d</span></a> : <span class="id" title="definition">diagram</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.g"><span class="id" title="variable">g</span></a> (<a class="idref" href="Modules.Signatures.SignaturesColims.html#MOD"><span class="id" title="abbreviation">MOD</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#R"><span class="id" title="variable">R</span></a>) ).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span>  <a name="ColimsSig.F"><span class="id" title="variable">F</span></a> <span class="id" title="var">R</span> := (<span class="id" title="definition">colim</span> (<a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.coMod"><span class="id" title="variable">coMod</span></a> <span class="id" title="var">_</span> (<a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.d'"><span class="id" title="variable">d'</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#R"><span class="id" title="variable">R</span></a>)) : <span class="id" title="definition">LModule</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span>  <a name="ColimsSig.F'"><span class="id" title="variable">F'</span></a> <span class="id" title="var">R</span> := (<span class="id" title="definition">lim</span> (<a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.limMod"><span class="id" title="variable">limMod</span></a> <span class="id" title="var">_</span> (<a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.d'"><span class="id" title="variable">d'</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#R"><span class="id" title="variable">R</span></a>)) : <span class="id" title="definition">LModule</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="Sig_colim_on_mor"><span class="id" title="definition">Sig_colim_on_mor</span></a> (<span class="id" title="var">R</span> <span class="id" title="var">S</span> : <span class="id" title="definition">Monad</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.C"><span class="id" title="variable">C</span></a>) (<span class="id" title="var">f</span> : <span class="id" title="definition">Monad_Mor</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#S"><span class="id" title="variable">S</span></a>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">LModule_Mor</span> <span class="id" title="var">_</span> (<a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.F"><span class="id" title="variable">F</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#R"><span class="id" title="variable">R</span></a>) (<span class="id" title="definition">pb_LModule</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#f"><span class="id" title="variable">f</span></a> (<a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.F"><span class="id" title="variable">F</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#S"><span class="id" title="variable">S</span></a>)).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> (<span class="id" title="definition">compose</span> (<span class="id" title="var">C</span>:= <a class="idref" href="Modules.Signatures.SignaturesColims.html#MOD"><span class="id" title="abbreviation">MOD</span></a> <span class="id" title="var">_</span>)); [| <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#pb_LModule_colim_iso"><span class="id" title="definition">pb_LModule_colim_iso</span></a>].<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span>  <span class="id" title="definition">colimOfArrows</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">u</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> ((<a class="idref" href="Modules.Signatures.Signature.html#291389361d487de917b722c0b1fff482"><span class="id" title="notation">#(</span></a><span class="id" title="definition">dob</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.d"><span class="id" title="variable">d</span></a> <span class="id" title="var">u</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <span class="id" title="var">_</span><a class="idref" href="Modules.Signatures.Signature.html#291389361d487de917b722c0b1fff482"><span class="id" title="notation">)</span></a>)%<span class="id" title="var">ar</span> <span class="id" title="var">f</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">abstract</span> (<span class="id" title="tactic">intros</span> <span class="id" title="var">u</span> <span class="id" title="var">v</span> <span class="id" title="var">e</span>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">LModule_Mor_equiv</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>|];<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.Signature.html#signature_Mor_ax"><span class="id" title="definition">signature_Mor_ax</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="Sig_lim_on_mor"><span class="id" title="definition">Sig_lim_on_mor</span></a> (<span class="id" title="var">R</span> <span class="id" title="var">S</span> : <span class="id" title="definition">Monad</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.C"><span class="id" title="variable">C</span></a>) (<span class="id" title="var">f</span> : <span class="id" title="definition">Monad_Mor</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#S"><span class="id" title="variable">S</span></a>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">LModule_Mor</span> <span class="id" title="var">_</span> (<a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.F'"><span class="id" title="variable">F'</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#R"><span class="id" title="variable">R</span></a>) (<span class="id" title="definition">pb_LModule</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#f"><span class="id" title="variable">f</span></a> (<a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.F'"><span class="id" title="variable">F'</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#S"><span class="id" title="variable">S</span></a>)).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> (<span class="id" title="definition">compose</span> (<span class="id" title="var">C</span>:= <a class="idref" href="Modules.Signatures.SignaturesColims.html#MOD"><span class="id" title="abbreviation">MOD</span></a> <span class="id" title="var">_</span>)); [| <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#pb_LModule_lim_iso"><span class="id" title="definition">pb_LModule_lim_iso</span></a>].<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span>  <span class="id" title="definition">limOfArrows</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">u</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> ((<a class="idref" href="Modules.Signatures.Signature.html#291389361d487de917b722c0b1fff482"><span class="id" title="notation">#(</span></a><span class="id" title="definition">dob</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.d"><span class="id" title="variable">d</span></a> <span class="id" title="var">u</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <span class="id" title="var">_</span><a class="idref" href="Modules.Signatures.Signature.html#291389361d487de917b722c0b1fff482"><span class="id" title="notation">)</span></a>)%<span class="id" title="var">ar</span> <span class="id" title="var">f</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">abstract</span>(<span class="id" title="tactic">intros</span> <span class="id" title="var">u</span> <span class="id" title="var">v</span> <span class="id" title="var">e</span>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">LModule_Mor_equiv</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>|];<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.Signature.html#signature_Mor_ax"><span class="id" title="definition">signature_Mor_ax</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="Sig_colim_signature_data"><span class="id" title="definition">Sig_colim_signature_data</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#signature_data"><span class="id" title="definition">signature_data</span></a> := <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#Sig_colim_on_mor"><span class="id" title="definition">Sig_colim_on_mor</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="Sig_lim_signature_data"><span class="id" title="definition">Sig_lim_signature_data</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#signature_data"><span class="id" title="definition">signature_data</span></a> := <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#Sig_lim_on_mor"><span class="id" title="definition">Sig_lim_on_mor</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="Sig_colim_is_signature"><span class="id" title="lemma">Sig_colim_is_signature</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#is_signature"><span class="id" title="definition">is_signature</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#Sig_colim_signature_data"><span class="id" title="definition">Sig_colim_signature_data</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">R</span> <span class="id" title="var">c</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">colim_endo_is_identity</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">u</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="definition">id_right</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">cc</span> := <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.colims_g"><span class="id" title="variable">colims_g</span></a> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">colimArrowCommutes</span>  <span class="id" title="var">cc</span>)|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[|<span class="id" title="tactic">apply</span> <span class="id" title="definition">id_left</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_postcomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.Signature.html#signature_id"><span class="id" title="definition">signature_id</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">U</span> <span class="id" title="var">V</span> <span class="id" title="var">W</span> <span class="id" title="var">m</span> <span class="id" title="var">n</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">LModule_Mor_equiv</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">nat_trans_eq</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">c</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> <span class="id" title="tactic">rewrite</span> <span class="id" title="definition">id_right</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">colimArrowUnique</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">u</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="definition">assoc</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_postcomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">cc</span> := <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.colims_g"><span class="id" title="variable">colims_g</span></a> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">colimArrowCommutes</span> <span class="id" title="var">cc</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> &lt;- <span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_precomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">cc</span> := <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.colims_g"><span class="id" title="variable">colims_g</span></a> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">colimArrowCommutes</span> <span class="id" title="var">cc</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_postcomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">assert</span> (<span class="id" title="var">h</span> := <a class="idref" href="Modules.Signatures.Signature.html#signature_comp"><span class="id" title="definition">signature_comp</span></a> (<span class="id" title="definition">dob</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.d"><span class="id" title="variable">d</span></a> <span class="id" title="var">u</span>) <span class="id" title="var">m</span> <span class="id" title="var">n</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> <span class="id" title="definition">LModule_Mor_equiv</span> <span class="id" title="tactic">in</span> <span class="id" title="var">h</span>; <span class="id" title="tactic">try</span> <span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> <span class="id" title="definition">nat_trans_eq_pointwise</span> <span class="id" title="tactic">in</span> <span class="id" title="var">h</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">h</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">now</span> <span class="id" title="tactic">rewrite</span> <span class="id" title="definition">id_right</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="Sig_lim_is_signature"><span class="id" title="lemma">Sig_lim_is_signature</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#is_signature"><span class="id" title="definition">is_signature</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#Sig_lim_signature_data"><span class="id" title="definition">Sig_lim_signature_data</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">R</span> <span class="id" title="var">c</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">lim_endo_is_identity</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">u</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="definition">id_right</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">cc</span> := <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.lims_g"><span class="id" title="variable">lims_g</span></a> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">limArrowCommutes</span>  <span class="id" title="var">cc</span>)|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[|<span class="id" title="tactic">apply</span> <span class="id" title="definition">id_right</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_precomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.Signature.html#signature_id"><span class="id" title="definition">signature_id</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">U</span> <span class="id" title="var">V</span> <span class="id" title="var">W</span> <span class="id" title="var">m</span> <span class="id" title="var">n</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">LModule_Mor_equiv</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">nat_trans_eq</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">c</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> <span class="id" title="tactic">rewrite</span> <span class="id" title="definition">id_right</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">limArrowUnique</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">u</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> &lt;- <span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_precomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">cc</span> := <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.lims_g"><span class="id" title="variable">lims_g</span></a> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">limArrowCommutes</span> <span class="id" title="var">cc</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_postcomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">cc</span> := <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.lims_g"><span class="id" title="variable">lims_g</span></a> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">limArrowCommutes</span> <span class="id" title="var">cc</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> &lt;- <span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_precomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">assert</span> (<span class="id" title="var">h</span> := <a class="idref" href="Modules.Signatures.Signature.html#signature_comp"><span class="id" title="definition">signature_comp</span></a> (<span class="id" title="definition">dob</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.d"><span class="id" title="variable">d</span></a> <span class="id" title="var">u</span>) <span class="id" title="var">m</span> <span class="id" title="var">n</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> <span class="id" title="definition">LModule_Mor_equiv</span> <span class="id" title="tactic">in</span> <span class="id" title="var">h</span>; <span class="id" title="tactic">try</span> <span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> <span class="id" title="definition">nat_trans_eq_pointwise</span> <span class="id" title="tactic">in</span> <span class="id" title="var">h</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">h</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">now</span> <span class="id" title="tactic">rewrite</span> <span class="id" title="definition">id_right</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="Sig_colim"><span class="id" title="definition">Sig_colim</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <span class="id" title="var">_</span> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#Sig_colim_is_signature"><span class="id" title="lemma">Sig_colim_is_signature</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="Sig_lim"><span class="id" title="definition">Sig_lim</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <span class="id" title="var">_</span> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#Sig_lim_is_signature"><span class="id" title="lemma">Sig_lim_is_signature</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="Sig_coconeIn_laws"><span class="id" title="lemma">Sig_coconeIn_laws</span></a> <span class="id" title="var">v</span> : <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.Signature.html#is_signature_Mor"><span class="id" title="definition">is_signature_Mor</span></a> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="definition">dob</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#v"><span class="id" title="variable">v</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a>  <span class="id" title="var">_</span>)  <a class="idref" href="Modules.Signatures.SignaturesColims.html#Sig_colim"><span class="id" title="definition">Sig_colim</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">fun</span> <span class="id" title="var">R</span> =&gt; (<span class="id" title="definition">coconeIn</span> (<span class="id" title="definition">colimCocone</span> (<a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.coMod"><span class="id" title="variable">coMod</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#R"><span class="id" title="variable">R</span></a> (<a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.d'"><span class="id" title="variable">d'</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#R"><span class="id" title="variable">R</span></a>))) <a class="idref" href="Modules.Signatures.SignaturesColims.html#v"><span class="id" title="variable">v</span></a>   )).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">X</span> <span class="id" title="var">Y</span> <span class="id" title="var">f</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">nat_trans_eq</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="definition">id_right</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">cc1</span> := <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.colims_g"><span class="id" title="variable">colims_g</span></a> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">cc2</span> := <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.colims_g"><span class="id" title="variable">colims_g</span></a> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">colimArrowCommutes</span> <span class="id" title="var">cc2</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="Sig_coneOut_laws"><span class="id" title="lemma">Sig_coneOut_laws</span></a> <span class="id" title="var">v</span> : <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.Signature.html#is_signature_Mor"><span class="id" title="definition">is_signature_Mor</span></a> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.SignaturesColims.html#Sig_lim"><span class="id" title="definition">Sig_lim</span></a>    (<span class="id" title="definition">dob</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#v"><span class="id" title="variable">v</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a>  <span class="id" title="var">_</span>)  <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">fun</span> <span class="id" title="var">R</span> =&gt; (<span class="id" title="definition">coneOut</span> (<span class="id" title="definition">limCone</span> (<a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.limMod"><span class="id" title="variable">limMod</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#R"><span class="id" title="variable">R</span></a> (<a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.d'"><span class="id" title="variable">d'</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#R"><span class="id" title="variable">R</span></a>))) <a class="idref" href="Modules.Signatures.SignaturesColims.html#v"><span class="id" title="variable">v</span></a>   )).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">X</span> <span class="id" title="var">Y</span> <span class="id" title="var">f</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">nat_trans_eq</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="definition">id_right</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">cc1</span> := <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.lims_g"><span class="id" title="variable">lims_g</span></a> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">cc2</span> := <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.lims_g"><span class="id" title="variable">lims_g</span></a> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">limArrowCommutes</span> <span class="id" title="var">cc1</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="Sig_coconeIn"><span class="id" title="definition">Sig_coconeIn</span></a> <span class="id" title="var">v</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature_precategory"><span class="id" title="definition">signature_precategory</span></a> <span class="id" title="notation">⟦</span> <span class="id" title="definition">dob</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#v"><span class="id" title="variable">v</span></a><span class="id" title="notation">,</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#Sig_colim"><span class="id" title="definition">Sig_colim</span></a> <span class="id" title="notation">⟧</span> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#Sig_coconeIn_laws"><span class="id" title="lemma">Sig_coconeIn_laws</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#v"><span class="id" title="variable">v</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="Sig_coneOut"><span class="id" title="definition">Sig_coneOut</span></a> <span class="id" title="var">v</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature_precategory"><span class="id" title="definition">signature_precategory</span></a> <span class="id" title="notation">⟦</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#Sig_lim"><span class="id" title="definition">Sig_lim</span></a><span class="id" title="notation">,</span> <span class="id" title="definition">dob</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#v"><span class="id" title="variable">v</span></a> <span class="id" title="notation">⟧</span> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#Sig_coneOut_laws"><span class="id" title="lemma">Sig_coneOut_laws</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#v"><span class="id" title="variable">v</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="Sig_coconeIn_commutes"><span class="id" title="lemma">Sig_coconeIn_commutes</span></a> (<span class="id" title="var">u</span> <span class="id" title="var">v</span> : <span class="id" title="definition">vertex</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.g"><span class="id" title="variable">g</span></a>) (<span class="id" title="var">e</span> : <span class="id" title="definition">edge</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#u"><span class="id" title="variable">u</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#v"><span class="id" title="variable">v</span></a>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">dmor</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#e"><span class="id" title="variable">e</span></a> <span class="id" title="notation">·</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#Sig_coconeIn"><span class="id" title="definition">Sig_coconeIn</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#v"><span class="id" title="variable">v</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#Sig_coconeIn"><span class="id" title="definition">Sig_coconeIn</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#u"><span class="id" title="variable">u</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.Signature.html#signature_Mor_eq"><span class="id" title="lemma">signature_Mor_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">R</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">coconeInCommutes</span> (<span class="id" title="definition">colimCocone</span> (<a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.coMod"><span class="id" title="variable">coMod</span></a> <span class="id" title="var">R</span> (<a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.d'"><span class="id" title="variable">d'</span></a> <span class="id" title="var">R</span>)))).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="Sig_coneOut_commutes"><span class="id" title="lemma">Sig_coneOut_commutes</span></a> (<span class="id" title="var">u</span> <span class="id" title="var">v</span> : <span class="id" title="definition">vertex</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.g"><span class="id" title="variable">g</span></a>) (<span class="id" title="var">e</span> : <span class="id" title="definition">edge</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#u"><span class="id" title="variable">u</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#v"><span class="id" title="variable">v</span></a>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.SignaturesColims.html#Sig_coneOut"><span class="id" title="definition">Sig_coneOut</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#u"><span class="id" title="variable">u</span></a> <span class="id" title="notation">·</span> <span class="id" title="definition">dmor</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#e"><span class="id" title="variable">e</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#Sig_coneOut"><span class="id" title="definition">Sig_coneOut</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#v"><span class="id" title="variable">v</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.Signature.html#signature_Mor_eq"><span class="id" title="lemma">signature_Mor_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">R</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">coneOutCommutes</span> (<span class="id" title="definition">limCone</span> (<a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.limMod"><span class="id" title="variable">limMod</span></a> <span class="id" title="var">_</span> (<a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.d'"><span class="id" title="variable">d'</span></a> <span class="id" title="var">R</span>)))).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="Sig_colim_cocone"><span class="id" title="definition">Sig_colim_cocone</span></a> : <span class="id" title="definition">cocone</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#Sig_colim"><span class="id" title="definition">Sig_colim</span></a> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">mk_cocone</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#Sig_coconeIn"><span class="id" title="definition">Sig_coconeIn</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#Sig_coconeIn_commutes"><span class="id" title="lemma">Sig_coconeIn_commutes</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="Sig_lim_cone"><span class="id" title="definition">Sig_lim_cone</span></a> : <span class="id" title="definition">cone</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#Sig_lim"><span class="id" title="definition">Sig_lim</span></a> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">mk_cone</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#Sig_coneOut"><span class="id" title="definition">Sig_coneOut</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#Sig_coneOut_commutes"><span class="id" title="lemma">Sig_coneOut_commutes</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="Sig_colimArrow_laws"><span class="id" title="lemma">Sig_colimArrow_laws</span></a> {<span class="id" title="var">M</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.C"><span class="id" title="variable">C</span></a>} (<span class="id" title="var">cc</span> : <span class="id" title="definition">cocone</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#M"><span class="id" title="variable">M</span></a>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.Signature.html#is_signature_Mor"><span class="id" title="definition">is_signature_Mor</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(  <a class="idref" href="Modules.Signatures.SignaturesColims.html#Sig_colim"><span class="id" title="definition">Sig_colim</span></a>) (<a class="idref" href="Modules.Signatures.SignaturesColims.html#M"><span class="id" title="variable">M</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">fun</span> <span class="id" title="var">R</span> =&gt; <span class="id" title="definition">colimArrow</span>  (<a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.coMod"><span class="id" title="variable">coMod</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#R"><span class="id" title="variable">R</span></a> (<a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.d'"><span class="id" title="variable">d'</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#R"><span class="id" title="variable">R</span></a>)) (<a class="idref" href="Modules.Signatures.SignaturesColims.html#M"><span class="id" title="variable">M</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#R"><span class="id" title="variable">R</span></a>) (<span class="id" title="definition">mapcocone</span> (<a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.FORGET"><span class="id" title="variable">FORGET</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#R"><span class="id" title="variable">R</span></a>) <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#cc"><span class="id" title="variable">cc</span></a>)  ).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">R</span> <span class="id" title="var">S</span> <span class="id" title="var">f</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">nat_trans_eq</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">c</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> <span class="id" title="tactic">rewrite</span> <span class="id" title="definition">id_right</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="lemma">postcompWithColimArrow</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">colimArrowUnique</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">u</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_postcomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">cc1</span> := <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.colims_g"><span class="id" title="variable">colims_g</span></a> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">colimArrowCommutes</span> <span class="id" title="var">cc1</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> &lt;- <span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_precomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">cc1</span> := <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.colims_g"><span class="id" title="variable">colims_g</span></a> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">colimArrowCommutes</span> <span class="id" title="var">cc1</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.Signature.html#signature_Mor_ax_pw"><span class="id" title="lemma">signature_Mor_ax_pw</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="Sig_limArrow_laws"><span class="id" title="lemma">Sig_limArrow_laws</span></a> {<span class="id" title="var">M</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.C"><span class="id" title="variable">C</span></a>} (<span class="id" title="var">cc</span> : <span class="id" title="definition">cone</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#M"><span class="id" title="variable">M</span></a>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.Signature.html#is_signature_Mor"><span class="id" title="definition">is_signature_Mor</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.SignaturesColims.html#M"><span class="id" title="variable">M</span></a>  (  <a class="idref" href="Modules.Signatures.SignaturesColims.html#Sig_lim"><span class="id" title="definition">Sig_lim</span></a>) <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">fun</span> <span class="id" title="var">R</span> =&gt; <span class="id" title="definition">limArrow</span>  (<a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.limMod"><span class="id" title="variable">limMod</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#R"><span class="id" title="variable">R</span></a> (<a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.d'"><span class="id" title="variable">d'</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#R"><span class="id" title="variable">R</span></a>)) (<a class="idref" href="Modules.Signatures.SignaturesColims.html#M"><span class="id" title="variable">M</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#R"><span class="id" title="variable">R</span></a>) (<span class="id" title="definition">mapcone</span> (<a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.FORGET"><span class="id" title="variable">FORGET</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#R"><span class="id" title="variable">R</span></a>) <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#cc"><span class="id" title="variable">cc</span></a>)  ).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">R</span> <span class="id" title="var">S</span> <span class="id" title="var">f</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">nat_trans_eq</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">c</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> <span class="id" title="tactic">rewrite</span> <span class="id" title="definition">id_right</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="lemma">postCompWithLimArrow</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">limArrowUnique</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">u</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> &lt;- <span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_precomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">cc1</span> := <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.lims_g"><span class="id" title="variable">lims_g</span></a> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">limArrowCommutes</span> <span class="id" title="var">cc1</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_postcomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">cc1</span> := <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.lims_g"><span class="id" title="variable">lims_g</span></a> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">limArrowCommutes</span> <span class="id" title="var">cc1</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.Signature.html#signature_Mor_ax_pw"><span class="id" title="lemma">signature_Mor_ax_pw</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="Sig_colimArrow"><span class="id" title="definition">Sig_colimArrow</span></a> {<span class="id" title="var">M</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <span class="id" title="var">_</span>} (<span class="id" title="var">cc</span> : <span class="id" title="definition">cocone</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#M"><span class="id" title="variable">M</span></a>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.Signature.html#signature_Mor"><span class="id" title="definition">signature_Mor</span></a>  <a class="idref" href="Modules.Signatures.SignaturesColims.html#Sig_colim"><span class="id" title="definition">Sig_colim</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#M"><span class="id" title="variable">M</span></a> := <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#Sig_colimArrow_laws"><span class="id" title="lemma">Sig_colimArrow_laws</span></a>  <a class="idref" href="Modules.Signatures.SignaturesColims.html#cc"><span class="id" title="variable">cc</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="Sig_limArrow"><span class="id" title="definition">Sig_limArrow</span></a> {<span class="id" title="var">M</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.C"><span class="id" title="variable">C</span></a>} (<span class="id" title="var">cc</span> : <span class="id" title="definition">cone</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#M"><span class="id" title="variable">M</span></a>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.Signature.html#signature_Mor"><span class="id" title="definition">signature_Mor</span></a>  <a class="idref" href="Modules.Signatures.SignaturesColims.html#M"><span class="id" title="variable">M</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#Sig_lim"><span class="id" title="definition">Sig_lim</span></a> := <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#Sig_limArrow_laws"><span class="id" title="lemma">Sig_limArrow_laws</span></a>  <a class="idref" href="Modules.Signatures.SignaturesColims.html#cc"><span class="id" title="variable">cc</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="Sig_isColimCocone"><span class="id" title="lemma">Sig_isColimCocone</span></a> : <span class="id" title="definition">isColimCocone</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#Sig_colim_cocone"><span class="id" title="definition">Sig_colim_cocone</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">M</span> <span class="id" title="var">cc</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">unique_exists</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Modules.Signatures.SignaturesColims.html#Sig_colimArrow"><span class="id" title="definition">Sig_colimArrow</span></a> <span class="id" title="var">cc</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">v</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.Signature.html#signature_Mor_eq"><span class="id" title="lemma">signature_Mor_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">R</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">colimArrowCommutes</span> (<a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.coMod"><span class="id" title="variable">coMod</span></a> <span class="id" title="var">_</span> (<a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.d'"><span class="id" title="variable">d'</span></a> <span class="id" title="var">R</span>))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">y</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span> -[<span class="id" title="var">isaprop</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span>  <span class="id" title="lemma">impred_isaprop</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">u</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Modules.Signatures.Signature.html#signature_category_has_homsets"><span class="id" title="lemma">signature_category_has_homsets</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">y</span> <span class="id" title="var">h</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.Signature.html#signature_Mor_eq"><span class="id" title="lemma">signature_Mor_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">R</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">colimArrowUnique</span> (<a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.coMod"><span class="id" title="variable">coMod</span></a> <span class="id" title="var">_</span> (<a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.d'"><span class="id" title="variable">d'</span></a> <span class="id" title="var">R</span>))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">u</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (  <span class="id" title="definition">maponpaths</span> (<span class="id" title="keyword">fun</span> <span class="id" title="var">z</span> =&gt; <span class="id" title="projection">pr1</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#z"><span class="id" title="variable">z</span></a> <span class="id" title="var">R</span>) (<span class="id" title="var">h</span> <span class="id" title="var">u</span>)).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="Sig_isLimCone"><span class="id" title="lemma">Sig_isLimCone</span></a> : <span class="id" title="definition">isLimCone</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#Sig_lim_cone"><span class="id" title="definition">Sig_lim_cone</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">M</span> <span class="id" title="var">cc</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">unique_exists</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Modules.Signatures.SignaturesColims.html#Sig_limArrow"><span class="id" title="definition">Sig_limArrow</span></a> <span class="id" title="var">cc</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">v</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.Signature.html#signature_Mor_eq"><span class="id" title="lemma">signature_Mor_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">R</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">limArrowCommutes</span> (<a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.limMod"><span class="id" title="variable">limMod</span></a> <span class="id" title="var">_</span> (<a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.d'"><span class="id" title="variable">d'</span></a> <span class="id" title="var">R</span>))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">y</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span> -[<span class="id" title="var">isaprop</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span>  <span class="id" title="lemma">impred_isaprop</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">u</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Modules.Signatures.Signature.html#signature_category_has_homsets"><span class="id" title="lemma">signature_category_has_homsets</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">y</span> <span class="id" title="var">h</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.Signature.html#signature_Mor_eq"><span class="id" title="lemma">signature_Mor_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">R</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">limArrowUnique</span> (<a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.limMod"><span class="id" title="variable">limMod</span></a> <span class="id" title="var">_</span> (<a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.d'"><span class="id" title="variable">d'</span></a> <span class="id" title="var">R</span>))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">u</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (  <span class="id" title="definition">maponpaths</span> (<span class="id" title="keyword">fun</span> <span class="id" title="var">z</span> =&gt; <span class="id" title="projection">pr1</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#z"><span class="id" title="variable">z</span></a> <span class="id" title="var">R</span>) (<span class="id" title="var">h</span> <span class="id" title="var">u</span>)).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="Sig_ColimCocone"><span class="id" title="definition">Sig_ColimCocone</span></a> : <span class="id" title="definition">ColimCocone</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.d"><span class="id" title="variable">d</span></a> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">mk_ColimCocone</span>  <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>  <a class="idref" href="Modules.Signatures.SignaturesColims.html#Sig_isColimCocone"><span class="id" title="lemma">Sig_isColimCocone</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="Sig_LimCone"><span class="id" title="definition">Sig_LimCone</span></a> : <span class="id" title="definition">LimCone</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig.d"><span class="id" title="variable">d</span></a> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">mk_LimCone</span>  <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>  <a class="idref" href="Modules.Signatures.SignaturesColims.html#Sig_isLimCone"><span class="id" title="lemma">Sig_isLimCone</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#ColimsSig"><span class="id" title="section">ColimsSig</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="Sig_Colims_of_shape"><span class="id" title="definition">Sig_Colims_of_shape</span></a> {<span class="id" title="var">C</span> : <span class="id" title="definition">category</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">g</span> : <span class="id" title="definition">graph</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">colims_g</span> : <span class="id" title="definition">Colims_of_shape</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#g"><span class="id" title="variable">g</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#C"><span class="id" title="variable">C</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id" title="definition">Colims_of_shape</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#g"><span class="id" title="variable">g</span></a> (<a class="idref" href="Modules.Signatures.Signature.html#signature_precategory"><span class="id" title="definition">signature_precategory</span></a>) :=<br/>
+&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.SignaturesColims.html#Sig_ColimCocone"><span class="id" title="definition">Sig_ColimCocone</span></a>  (<span class="id" title="var">C</span>:= <a class="idref" href="Modules.Signatures.SignaturesColims.html#C"><span class="id" title="variable">C</span></a>) (<span class="id" title="var">g</span> := <a class="idref" href="Modules.Signatures.SignaturesColims.html#g"><span class="id" title="variable">g</span></a>) <a class="idref" href="Modules.Signatures.SignaturesColims.html#colims_g"><span class="id" title="variable">colims_g</span></a>.<br/>
+<span class="id" title="keyword">Definition</span> <a name="Sig_Lims_of_shape"><span class="id" title="definition">Sig_Lims_of_shape</span></a> {<span class="id" title="var">C</span> : <span class="id" title="definition">category</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">g</span> : <span class="id" title="definition">graph</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">lims_g</span> : <span class="id" title="definition">Lims_of_shape</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#g"><span class="id" title="variable">g</span></a> <a class="idref" href="Modules.Signatures.SignaturesColims.html#C"><span class="id" title="variable">C</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id" title="definition">Lims_of_shape</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#g"><span class="id" title="variable">g</span></a> (<a class="idref" href="Modules.Signatures.Signature.html#signature_precategory"><span class="id" title="definition">signature_precategory</span></a>) :=<br/>
+&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.SignaturesColims.html#Sig_LimCone"><span class="id" title="definition">Sig_LimCone</span></a>  (<span class="id" title="var">C</span>:= <a class="idref" href="Modules.Signatures.SignaturesColims.html#C"><span class="id" title="variable">C</span></a>) (<span class="id" title="var">g</span> := <a class="idref" href="Modules.Signatures.SignaturesColims.html#g"><span class="id" title="variable">g</span></a>) <a class="idref" href="Modules.Signatures.SignaturesColims.html#lims_g"><span class="id" title="variable">lims_g</span></a>.<br/>
+
+<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

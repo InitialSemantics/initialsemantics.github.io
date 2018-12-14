@@ -1,0 +1,1008 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>Modules.SoftEquations.Summary</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Modules.SoftEquations.Summary</h1>
+
+<div class="code">
+</div>
+
+<div class="doc">
+Summary of the formalization (kernel)
+
+<div class="paragraph"> </div>
+
+Tip: The Coq command <span class="inlinecode"><span class="id" title="keyword">About</span></span> <span class="inlinecode"><span class="id" title="var">ident</span></span> prints where the ident was defined
+ 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.PartD</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monads.Monads</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monads.LModules</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monads.Derivative</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.SetValuedFunctors</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.HorizontalComposition</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.functor_categories</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.categories.HSET.All</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Categories</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.Sets</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Epis</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.EpiFacts</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#"><span class="id" title="library">Modules.Prelims.EpiComplements</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.lib.html#"><span class="id" title="library">Modules.Prelims.lib</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.quotientmonad.html#"><span class="id" title="library">Modules.Prelims.quotientmonad</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#"><span class="id" title="library">Modules.Prelims.quotientmonadslice</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.Signature.html#"><span class="id" title="library">Modules.Signatures.Signature</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.PreservesEpi.html#"><span class="id" title="library">Modules.Signatures.PreservesEpi</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.ModelCat.html#"><span class="id" title="library">Modules.Signatures.ModelCat</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#"><span class="id" title="library">Modules.SoftEquations.quotientrepslice</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.SoftEquations.SignatureOver.html#"><span class="id" title="library">Modules.SoftEquations.SignatureOver</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#"><span class="id" title="library">Modules.SoftEquations.SignatureOverDerivation</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.SoftEquations.Equation.html#"><span class="id" title="library">Modules.SoftEquations.Equation</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#"><span class="id" title="library">Modules.SoftEquations.quotientrepslice</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.SoftEquations.quotientequation.html#"><span class="id" title="library">Modules.SoftEquations.quotientequation</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.initial</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#"><span class="id" title="library">Modules.SoftEquations.AdjunctionEquationRep</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Auxiliary</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Core</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Constructions</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Fibrations</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Subcategory.Core</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Subcategory.Full</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.SubstitutionSystems.BindingSigToMonad</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.BindingSig.html#"><span class="id" title="library">Modules.Signatures.BindingSig</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.SoftEquations.BindingSig.html#"><span class="id" title="library">Modules.SoftEquations.BindingSig</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="MONAD"><span class="id" title="abbreviation">MONAD</span></a> := (<span class="id" title="definition">Monad</span> <span class="id" title="notation">SET</span>).<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="MODULE"><span class="id" title="abbreviation">MODULE</span></a> <span class="id" title="var">R</span> := (<span class="id" title="definition">LModule</span> <span class="id" title="var">R</span> <span class="id" title="notation">SET</span>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The command:
+
+<div class="paragraph"> </div>
+
+Check (x ::= y) 
+
+<div class="paragraph"> </div>
+
+succeeds if and only if <span class="inlinecode"><a class="idref" href="Modules.Prelims.lib.html#x"><span class="id" title="variable">x</span></a></span> is convertible to <span class="inlinecode"><a class="idref" href="Modules.Prelims.LModulesFibration.html#y"><span class="id" title="variable">y</span></a></span>
+
+<div class="paragraph"> </div>
+
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Notation</span>  <a name="e5f90bd3e877d9e98ec926ce1508c97d"><span class="id" title="notation">&quot;</span></a>x ::= y"  := (<span class="id" title="notation">(</span><span class="id" title="abbreviation">idpath</span> <span class="id" title="var">_</span> : <span class="id" title="var">x</span> <span class="id" title="notation">=</span> <span class="id" title="var">y</span><span class="id" title="notation">)</span> <span class="id" title="notation">=</span> <span class="id" title="abbreviation">idpath</span> <span class="id" title="var">_</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 70, <span class="id" title="keyword">no</span> <span class="id" title="keyword">associativity</span>).<br/>
+
+<br/>
+<span class="id" title="var">Fail</span> <span class="id" title="keyword">Check</span> (<span class="id" title="constructor">true</span> <a class="idref" href="Modules.SoftEquations.Summary.html#e5f90bd3e877d9e98ec926ce1508c97d"><span class="id" title="notation">::=</span></a> <span class="id" title="constructor">false</span>).<br/>
+<span class="id" title="keyword">Check</span> (<span class="id" title="constructor">true</span> <a class="idref" href="Modules.SoftEquations.Summary.html#e5f90bd3e877d9e98ec926ce1508c97d"><span class="id" title="notation">::=</span></a> <span class="id" title="constructor">true</span>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+*******************
+
+<div class="paragraph"> </div>
+
+ Definition of a signature
+
+<div class="paragraph"> </div>
+
+The more detailed definition can be found in Signature/Signature.v
+
+<div class="paragraph"> </div>
+
+ ****** 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Check</span> (<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.Signature.html#signature_data"><span class="id" title="definition">signature_data</span></a> (<span class="id" title="var">C</span> := <span class="id" title="notation">SET</span>) <a class="idref" href="Modules.SoftEquations.Summary.html#e5f90bd3e877d9e98ec926ce1508c97d"><span class="id" title="notation">::=</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+a signature assigns to each monad a module over it 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">∑</span> <span class="id" title="var">F</span> : (<span class="id" title="notation">∏</span> <span class="id" title="var">R</span> : <a class="idref" href="Modules.SoftEquations.Summary.html#MONAD"><span class="id" title="abbreviation">MONAD</span></a><span class="id" title="notation">,</span> <a class="idref" href="Modules.SoftEquations.Summary.html#MODULE"><span class="id" title="abbreviation">MODULE</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#R"><span class="id" title="variable">R</span></a><span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+a signature sends monad morphisms on module morphisms 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">R</span> <span class="id" title="var">S</span> : <a class="idref" href="Modules.SoftEquations.Summary.html#MONAD"><span class="id" title="abbreviation">MONAD</span></a>) (<span class="id" title="var">f</span> : <span class="id" title="definition">Monad_Mor</span> <a class="idref" href="Modules.SoftEquations.Summary.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a><span class="id" title="notation">),</span> <span class="id" title="definition">LModule_Mor</span> <span class="id" title="var">_</span> (<a class="idref" href="Modules.SoftEquations.Summary.html#F"><span class="id" title="variable">F</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#R"><span class="id" title="variable">R</span></a>) (<span class="id" title="definition">pb_LModule</span> <a class="idref" href="Modules.SoftEquations.Summary.html#f"><span class="id" title="variable">f</span></a> (<a class="idref" href="Modules.SoftEquations.Summary.html#F"><span class="id" title="variable">F</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a>))<br/>
+&nbsp;&nbsp;).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Functoriality for signatures:
+<ul class="doclist">
+<li> <span class="inlinecode"><a class="idref" href="Modules.Signatures.Signature.html#signature_idax"><span class="id" title="definition">signature_idax</span></a></span> means that  F id = id
+- [signature_compax] means that  F (f o g) =  F f o  F g
+ 
+</li>
+</ul>
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Check</span> (<span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">F</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature_data"><span class="id" title="definition">signature_data</span></a> (<span class="id" title="var">C</span>:= <span class="id" title="notation">SET</span>)<span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.Signature.html#is_signature"><span class="id" title="definition">is_signature</span></a>  <a class="idref" href="Modules.SoftEquations.Summary.html#F"><span class="id" title="variable">F</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#e5f90bd3e877d9e98ec926ce1508c97d"><span class="id" title="notation">::=</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.Summary.html#e5f90bd3e877d9e98ec926ce1508c97d"><span class="id" title="notation">(</span></a><a class="idref" href="Modules.Signatures.Signature.html#signature_idax"><span class="id" title="definition">signature_idax</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#F"><span class="id" title="variable">F</span></a> <span class="id" title="notation">×</span> <a class="idref" href="Modules.Signatures.Signature.html#signature_compax"><span class="id" title="definition">signature_compax</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#F"><span class="id" title="variable">F</span></a><a class="idref" href="Modules.SoftEquations.Summary.html#e5f90bd3e877d9e98ec926ce1508c97d"><span class="id" title="notation">)</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Check</span> (<a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <span class="id" title="notation">SET</span> <a class="idref" href="Modules.SoftEquations.Summary.html#e5f90bd3e877d9e98ec926ce1508c97d"><span class="id" title="notation">::=</span></a> <span class="id" title="notation">∑</span> <span class="id" title="var">F</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature_data"><span class="id" title="definition">signature_data</span></a><span class="id" title="notation">,</span> <a class="idref" href="Modules.Signatures.Signature.html#is_signature"><span class="id" title="definition">is_signature</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#F"><span class="id" title="variable">F</span></a>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+An epi-signature preserves epimorphicity of natural
+      transformations. Note that this is not implied by the axiom of choice
+      because the retract may not be a monad morphism.
+   
+</div>
+<div class="code">
+<span class="id" title="keyword">Check</span> (<span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">S</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <span class="id" title="notation">SET</span><span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.PreservesEpi.html#sig_preservesNatEpiMonad"><span class="id" title="definition">sig_preservesNatEpiMonad</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#e5f90bd3e877d9e98ec926ce1508c97d"><span class="id" title="notation">::=</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">∏</span> <span class="id" title="var">M</span> <span class="id" title="var">N</span> (<span class="id" title="var">f</span> : <span class="id" title="definition">category_Monad</span> <span class="id" title="var">_</span><span class="id" title="notation">⟦</span><a class="idref" href="Modules.SoftEquations.Summary.html#M"><span class="id" title="variable">M</span></a><span class="id" title="notation">,</span><a class="idref" href="Modules.SoftEquations.Summary.html#N"><span class="id" title="variable">N</span></a><span class="id" title="notation">⟧</span><span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">isEpi</span> (<span class="id" title="var">C</span> := <span class="id" title="definition">functor_category</span> <span class="id" title="notation">SET</span> <span class="id" title="notation">SET</span>) (<span class="id" title="projection">pr1</span> <a class="idref" href="Modules.SoftEquations.Summary.html#f"><span class="id" title="variable">f</span></a>) <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">isEpi</span> (<span class="id" title="var">C</span>:= <span class="id" title="definition">functor_category</span> <span class="id" title="notation">SET</span> <span class="id" title="notation">SET</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="projection">pr1</span> (<a class="idref" href="Modules.Signatures.Signature.html#291389361d487de917b722c0b1fff482"><span class="id" title="notation">#</span></a><a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#f"><span class="id" title="variable">f</span></a>)%<span class="id" title="var">ar</span>)).<br/>
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="SIGNATURE"><span class="id" title="abbreviation">SIGNATURE</span></a> := (<a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <span class="id" title="notation">SET</span>).<br/>
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="BC"><span class="id" title="abbreviation">BC</span></a> := <span class="id" title="lemma">BinCoproductsHSET</span>.<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="T"><span class="id" title="abbreviation">T</span></a> := <span class="id" title="lemma">TerminalHSET</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+*******************
+
+<div class="paragraph"> </div>
+
+ Definition of a model of a signature
+
+<div class="paragraph"> </div>
+
+The more detailed definitions of models can be found in Signatures/Signature.v
+The more detailed definitions of model morphisms can be found in SoftSignatures/ModelCat.v
+
+<div class="paragraph"> </div>
+
+ ****** 
+<div class="paragraph"> </div>
+
+ The tautological module R over the monad R  (defined in UniMath) 
+</div>
+<div class="code">
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="6e339d25b4e8063149b40e48a727392c"><span class="id" title="abbreviation">Θ</span></a> := <span class="id" title="definition">tautological_LModule</span>.<br/>
+<span class="id" title="keyword">Check</span> (<span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">R</span> : <a class="idref" href="Modules.SoftEquations.Summary.html#MONAD"><span class="id" title="abbreviation">MONAD</span></a><span class="id" title="notation">),</span> <a class="idref" href="Modules.SoftEquations.Summary.html#e5f90bd3e877d9e98ec926ce1508c97d"><span class="id" title="notation">(</span></a><a class="idref" href="Modules.SoftEquations.Summary.html#6e339d25b4e8063149b40e48a727392c"><span class="id" title="abbreviation">Θ</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#R"><span class="id" title="variable">R</span></a> : <span class="id" title="definition">functor</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span><a class="idref" href="Modules.SoftEquations.Summary.html#e5f90bd3e877d9e98ec926ce1508c97d"><span class="id" title="notation">)</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#e5f90bd3e877d9e98ec926ce1508c97d"><span class="id" title="notation">::=</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#R"><span class="id" title="variable">R</span></a>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The derivative of a module M over the monad R (defined in UniMath) 
+</div>
+<div class="code">
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> "M ′" := (<span class="id" title="definition">LModule_deriv</span> <span class="id" title="definition">unitHSET</span> <a class="idref" href="Modules.SoftEquations.Summary.html#BC"><span class="id" title="abbreviation">BC</span></a>  <span class="id" title="var">M</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 6).<br/>
+</div>
+
+<div class="doc">
+M′ (X) = M′ (1 ⨿ X) where 1 = unit is the terminal object and ⨿ is the
+    disjoint union 
+</div>
+<div class="code">
+<span class="id" title="keyword">Check</span> (<span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">R</span> : <a class="idref" href="Modules.SoftEquations.Summary.html#MONAD"><span class="id" title="abbreviation">MONAD</span></a>) (<span class="id" title="var">M</span> : <span class="id" title="definition">LModule</span> <a class="idref" href="Modules.SoftEquations.Summary.html#R"><span class="id" title="variable">R</span></a> <span class="id" title="notation">SET</span>) (<span class="id" title="var">X</span> : <span class="id" title="notation">SET</span><span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.Summary.html#e5f90bd3e877d9e98ec926ce1508c97d"><span class="id" title="notation">(</span></a><a class="idref" href="Modules.SoftEquations.Summary.html#M"><span class="id" title="variable">M</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#70dca909e60ee9c8af3eb6b6531d4b9d"><span class="id" title="notation">′</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#X"><span class="id" title="variable">X</span></a><a class="idref" href="Modules.SoftEquations.Summary.html#e5f90bd3e877d9e98ec926ce1508c97d"><span class="id" title="notation">)</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#e5f90bd3e877d9e98ec926ce1508c97d"><span class="id" title="notation">::=</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#M"><span class="id" title="variable">M</span></a> (<span class="id" title="definition">setcoprod</span> <span class="id" title="definition">unitHSET</span> (<a class="idref" href="Modules.SoftEquations.Summary.html#X"><span class="id" title="variable">X</span></a> : <span class="id" title="definition">hSet</span>))) .<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+A model of a signature S is a monad R with a module morphism from S R to R, called an action.
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Check</span> (<span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">S</span> : <a class="idref" href="Modules.SoftEquations.Summary.html#SIGNATURE"><span class="id" title="abbreviation">SIGNATURE</span></a><span class="id" title="notation">),</span> <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#e5f90bd3e877d9e98ec926ce1508c97d"><span class="id" title="notation">::=</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">∑</span> <span class="id" title="var">R</span> : <a class="idref" href="Modules.SoftEquations.Summary.html#MONAD"><span class="id" title="abbreviation">MONAD</span></a><span class="id" title="notation">,</span> <span class="id" title="definition">LModule_Mor</span> <a class="idref" href="Modules.SoftEquations.Summary.html#R"><span class="id" title="variable">R</span></a> (<a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#R"><span class="id" title="variable">R</span></a>) (<a class="idref" href="Modules.SoftEquations.Summary.html#6e339d25b4e8063149b40e48a727392c"><span class="id" title="abbreviation">Θ</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#R"><span class="id" title="variable">R</span></a>)).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+the action of a model 
+</div>
+<div class="code">
+<span class="id" title="keyword">Check</span> (<span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">S</span> : <a class="idref" href="Modules.SoftEquations.Summary.html#SIGNATURE"><span class="id" title="abbreviation">SIGNATURE</span></a>) (<span class="id" title="var">M</span> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a><span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.Signature.html#dba1169ac97714e744ed64a14239df75"><span class="id" title="definition">model_</span></a><a class="idref" href="Modules.Signatures.Signature.html#dba1169ac97714e744ed64a14239df75"><span class="id" title="definition">τ</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#M"><span class="id" title="variable">M</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#e5f90bd3e877d9e98ec926ce1508c97d"><span class="id" title="notation">::=</span></a> <span class="id" title="projection">pr2</span> <a class="idref" href="Modules.SoftEquations.Summary.html#M"><span class="id" title="variable">M</span></a>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Given a signature S, a model morphism is a monad morphism commuting with the action
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Check</span> (<span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">S</span> : <a class="idref" href="Modules.SoftEquations.Summary.html#SIGNATURE"><span class="id" title="abbreviation">SIGNATURE</span></a>) (<span class="id" title="var">M</span> <span class="id" title="var">N</span> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a><span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.ModelCat.html#rep_fiber_mor"><span class="id" title="definition">rep_fiber_mor</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#M"><span class="id" title="variable">M</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#N"><span class="id" title="variable">N</span></a>  <a class="idref" href="Modules.SoftEquations.Summary.html#e5f90bd3e877d9e98ec926ce1508c97d"><span class="id" title="notation">::=</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">∑</span> <span class="id" title="var">g</span>:<span class="id" title="definition">Monad_Mor</span> <a class="idref" href="Modules.SoftEquations.Summary.html#M"><span class="id" title="variable">M</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#N"><span class="id" title="variable">N</span></a><span class="id" title="notation">,</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">∏</span> <span class="id" title="var">c</span> : <span class="id" title="notation">SET</span><span class="id" title="notation">,</span> <a class="idref" href="Modules.Signatures.Signature.html#dba1169ac97714e744ed64a14239df75"><span class="id" title="definition">model_</span></a><a class="idref" href="Modules.Signatures.Signature.html#dba1169ac97714e744ed64a14239df75"><span class="id" title="definition">τ</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#M"><span class="id" title="variable">M</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#c"><span class="id" title="variable">c</span></a> <span class="id" title="notation">·</span> <a class="idref" href="Modules.SoftEquations.Summary.html#g"><span class="id" title="variable">g</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#c"><span class="id" title="variable">c</span></a> <span class="id" title="notation">=</span> ((<a class="idref" href="Modules.Signatures.Signature.html#291389361d487de917b722c0b1fff482"><span class="id" title="notation">#</span></a><a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#g"><span class="id" title="variable">g</span></a>)%<span class="id" title="var">ar</span>:<span class="id" title="definition">nat_trans</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) <a class="idref" href="Modules.SoftEquations.Summary.html#c"><span class="id" title="variable">c</span></a> <span class="id" title="notation">·</span>  <a class="idref" href="Modules.Signatures.Signature.html#dba1169ac97714e744ed64a14239df75"><span class="id" title="definition">model_</span></a><a class="idref" href="Modules.Signatures.Signature.html#dba1169ac97714e744ed64a14239df75"><span class="id" title="definition">τ</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#N"><span class="id" title="variable">N</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#c"><span class="id" title="variable">c</span></a> ).<br/>
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span>  "R →→ S" := (<a class="idref" href="Modules.Signatures.ModelCat.html#rep_fiber_mor"><span class="id" title="definition">rep_fiber_mor</span></a>  <span class="id" title="var">R</span> <span class="id" title="var">S</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 6).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The category of 1-models 
+</div>
+<div class="code">
+<span class="id" title="keyword">Check</span> (<span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">S</span> : <a class="idref" href="Modules.SoftEquations.Summary.html#SIGNATURE"><span class="id" title="abbreviation">SIGNATURE</span></a><span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.ModelCat.html#rep_fiber_precategory"><span class="id" title="definition">rep_fiber_precategory</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#e5f90bd3e877d9e98ec926ce1508c97d"><span class="id" title="notation">::=</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.Summary.html#e5f90bd3e877d9e98ec926ce1508c97d"><span class="id" title="notation">(</span></a><span class="id" title="definition">precategory_data_pair</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+the object and morphisms of the category 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="definition">precategory_ob_mor_pair</span> (<a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a>) <a class="idref" href="Modules.Signatures.ModelCat.html#rep_fiber_mor"><span class="id" title="definition">rep_fiber_mor</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+the identity morphism 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="notation">λ</span> <span class="id" title="var">R</span><span class="id" title="notation">,</span> <a class="idref" href="Modules.Signatures.ModelCat.html#rep_fiber_id"><span class="id" title="definition">rep_fiber_id</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#R"><span class="id" title="variable">R</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+Composition 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="notation">λ</span> <span class="id" title="var">M</span> <span class="id" title="var">N</span> <span class="id" title="var">O</span> <span class="id" title="notation">,</span> <a class="idref" href="Modules.Signatures.ModelCat.html#rep_fiber_comp"><span class="id" title="definition">rep_fiber_comp</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">,,</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+This second component is a proof that the axioms of categories are satisfied 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.ModelCat.html#is_precategory_rep_fiber_precategory_data"><span class="id" title="lemma">is_precategory_rep_fiber_precategory_data</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a><a class="idref" href="Modules.SoftEquations.Summary.html#e5f90bd3e877d9e98ec926ce1508c97d"><span class="id" title="notation">)</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+*******************
+
+<div class="paragraph"> </div>
+
+ Definition of an S-signature, or that of a signature over a 1-signature S
+
+<div class="paragraph"> </div>
+
+The more detailed definitions can be found in SoftSignatures/SignatureOver.v
+
+<div class="paragraph"> </div>
+
+ ****** 
+<div class="paragraph"> </div>
+
+
+<div class="paragraph"> </div>
+
+a signature over a 1-sig S assigns functorially to any model of S a module over the underlying monad.
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Check</span> (<span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">S</span> : <a class="idref" href="Modules.SoftEquations.Summary.html#SIGNATURE"><span class="id" title="abbreviation">SIGNATURE</span></a><span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over"><span class="id" title="definition">signature_over</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#e5f90bd3e877d9e98ec926ce1508c97d"><span class="id" title="notation">::=</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">∑</span> <span class="id" title="var">F</span> :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+model -&gt; module over the monad 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="notation">∑</span> <span class="id" title="var">F</span> : (<span class="id" title="notation">∏</span> <span class="id" title="var">R</span> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a><span class="id" title="notation">,</span> <a class="idref" href="Modules.SoftEquations.Summary.html#MODULE"><span class="id" title="abbreviation">MODULE</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#R"><span class="id" title="variable">R</span></a><span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+model morphism -&gt; module morphism 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">R</span> <span class="id" title="var">S</span> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a>) (<span class="id" title="var">f</span> : <a class="idref" href="Modules.SoftEquations.Summary.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#c228d814fee0e23edc2fd9ef384bec29"><span class="id" title="notation">→→</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a><span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">LModule_Mor</span> <span class="id" title="var">_</span> (<a class="idref" href="Modules.SoftEquations.Summary.html#F"><span class="id" title="variable">F</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#R"><span class="id" title="variable">R</span></a>) (<span class="id" title="definition">pb_LModule</span> <a class="idref" href="Modules.SoftEquations.Summary.html#f"><span class="id" title="variable">f</span></a> (<a class="idref" href="Modules.SoftEquations.Summary.html#F"><span class="id" title="variable">F</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a>))<span class="id" title="notation">),</span><br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+functoriality conditions (see SignatureOver.v) 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.SignatureOver.html#is_signature_over"><span class="id" title="definition">is_signature_over</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#F"><span class="id" title="variable">F</span></a>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Some examples of 1-signature 
+<div class="paragraph"> </div>
+
+ The tautological signature maps a monad to itself 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="35f93e32719fc70d63b17e085bbae26e"><span class="id" title="abbreviation">ΣΘ</span></a> := (<a class="idref" href="Modules.SoftEquations.SignatureOver.html#tautological_signature_over"><span class="id" title="definition">tautological_signature_over</span></a> <span class="id" title="var">_</span>).<br/>
+</div>
+
+<div class="doc">
+The n-th derivative of an over signature M 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> "M ^( n )" := (<a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#signature_over_deriv_n"><span class="id" title="definition">signature_over_deriv_n</span></a> (<span class="id" title="var">C</span> := <span class="id" title="notation">SET</span>) <span class="id" title="var">_</span> <a class="idref" href="Modules.SoftEquations.Summary.html#BC"><span class="id" title="abbreviation">BC</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#T"><span class="id" title="abbreviation">T</span></a> <span class="id" title="var">M</span> <span class="id" title="var">n</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 6).<br/>
+</div>
+
+<div class="doc">
+The n+1-th derivative is the derivative of the n-th derivative 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Check</span> (<span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">S</span> : <a class="idref" href="Modules.SoftEquations.Summary.html#SIGNATURE"><span class="id" title="abbreviation">SIGNATURE</span></a>) (<span class="id" title="var">F</span> : <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over"><span class="id" title="definition">signature_over</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a>)(<span class="id" title="var">n</span> : <span class="id" title="inductive">nat</span>) (<span class="id" title="var">R</span> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a>) (<span class="id" title="var">X</span> : <span class="id" title="definition">hSet</span><span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.Summary.html#F"><span class="id" title="variable">F</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#939db8f1761785b182476be1d0f557c1"><span class="id" title="notation">^(</span></a>1<span class="id" title="notation">+</span><a class="idref" href="Modules.SoftEquations.Summary.html#n"><span class="id" title="variable">n</span></a><a class="idref" href="Modules.SoftEquations.Summary.html#939db8f1761785b182476be1d0f557c1"><span class="id" title="notation">)</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#R"><span class="id" title="variable">R</span></a>  <a class="idref" href="Modules.SoftEquations.Summary.html#e5f90bd3e877d9e98ec926ce1508c97d"><span class="id" title="notation">::=</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#70dca909e60ee9c8af3eb6b6531d4b9d"><span class="id" title="notation">(</span></a><a class="idref" href="Modules.SoftEquations.Summary.html#F"><span class="id" title="variable">F</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#939db8f1761785b182476be1d0f557c1"><span class="id" title="notation">^(</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#n"><span class="id" title="variable">n</span></a><a class="idref" href="Modules.SoftEquations.Summary.html#939db8f1761785b182476be1d0f557c1"><span class="id" title="notation">)</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#R"><span class="id" title="variable">R</span></a><a class="idref" href="Modules.SoftEquations.Summary.html#70dca909e60ee9c8af3eb6b6531d4b9d"><span class="id" title="notation">)</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#70dca909e60ee9c8af3eb6b6531d4b9d"><span class="id" title="notation">′</span></a>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The 0th derivative does not do anything 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Check</span> (<span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">S</span> : <a class="idref" href="Modules.SoftEquations.Summary.html#SIGNATURE"><span class="id" title="abbreviation">SIGNATURE</span></a>) (<span class="id" title="var">F</span> : <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over"><span class="id" title="definition">signature_over</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a>)(<span class="id" title="var">n</span> : <span class="id" title="inductive">nat</span>) (<span class="id" title="var">R</span> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a>) (<span class="id" title="var">X</span> : <span class="id" title="definition">hSet</span><span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.Summary.html#F"><span class="id" title="variable">F</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#939db8f1761785b182476be1d0f557c1"><span class="id" title="notation">^(</span></a>0<a class="idref" href="Modules.SoftEquations.Summary.html#939db8f1761785b182476be1d0f557c1"><span class="id" title="notation">)</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#R"><span class="id" title="variable">R</span></a>  <a class="idref" href="Modules.SoftEquations.Summary.html#e5f90bd3e877d9e98ec926ce1508c97d"><span class="id" title="notation">::=</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#F"><span class="id" title="variable">F</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#R"><span class="id" title="variable">R</span></a>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+a morphism of oversignature is a natural transformation
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Check</span> (<span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">S</span> : <a class="idref" href="Modules.SoftEquations.Summary.html#SIGNATURE"><span class="id" title="abbreviation">SIGNATURE</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">F</span> <span class="id" title="var">F'</span> : <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over"><span class="id" title="definition">signature_over</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a><span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_Mor"><span class="id" title="definition">signature_over_Mor</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#F"><span class="id" title="variable">F</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#F'"><span class="id" title="variable">F'</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#e5f90bd3e877d9e98ec926ce1508c97d"><span class="id" title="notation">::=</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+a family of module morphism from F R to F' R for any model R 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">∑</span> <span class="id" title="notation">(</span><span class="id" title="var">f</span> : (<span class="id" title="notation">∏</span> <span class="id" title="var">R</span> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a><span class="id" title="notation">,</span> <span class="id" title="definition">LModule_Mor</span> <a class="idref" href="Modules.SoftEquations.Summary.html#R"><span class="id" title="variable">R</span></a> (<a class="idref" href="Modules.SoftEquations.Summary.html#F"><span class="id" title="variable">F</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#R"><span class="id" title="variable">R</span></a>) (<a class="idref" href="Modules.SoftEquations.Summary.html#F'"><span class="id" title="variable">F'</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#R"><span class="id" title="variable">R</span></a>)<span class="id" title="notation">)),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+subject to naturality conditions (see SignatureOver.v for the full definition) 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.SignatureOver.html#is_signature_over_Mor"><span class="id" title="definition">is_signature_over_Mor</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#F"><span class="id" title="variable">F</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#F'"><span class="id" title="variable">F'</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#f"><span class="id" title="variable">f</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;).<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> "F ⟹ G" := (<a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_Mor"><span class="id" title="definition">signature_over_Mor</span></a> <span class="id" title="var">_</span> <span class="id" title="var">F</span> <span class="id" title="var">G</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 39).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Definition of an oversignature which preserve epimorphisms in the category of natural transformations
+(Cf SoftEquations/quotientequation.v).
+This definition is analogous to <span class="inlinecode"><a class="idref" href="Modules.Signatures.PreservesEpi.html#sig_preservesNatEpiMonad"><span class="id" title="definition">sig_preservesNatEpiMonad</span></a></span>, but for oversignature
+rathen than 1-signatures.
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Check</span> (<span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">S</span> : <a class="idref" href="Modules.SoftEquations.Summary.html#SIGNATURE"><span class="id" title="abbreviation">SIGNATURE</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">F</span> : <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over"><span class="id" title="definition">signature_over</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a><span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.quotientequation.html#isEpi_overSig"><span class="id" title="definition">isEpi_overSig</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#F"><span class="id" title="variable">F</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#e5f90bd3e877d9e98ec926ce1508c97d"><span class="id" title="notation">::=</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">∏</span> <span class="id" title="var">R</span> <span class="id" title="var">S</span> (<span class="id" title="var">f</span> : <a class="idref" href="Modules.SoftEquations.Summary.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#c228d814fee0e23edc2fd9ef384bec29"><span class="id" title="notation">→→</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a><span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">isEpi</span> (<span class="id" title="var">C</span> := <span class="id" title="notation">[</span><span class="id" title="notation">SET</span><span class="id" title="notation">,</span> <span class="id" title="notation">SET</span><span class="id" title="notation">]</span>) (<a class="idref" href="Modules.SoftEquations.Summary.html#f"><span class="id" title="variable">f</span></a> : <span class="id" title="definition">nat_trans</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">isEpi</span> (<span class="id" title="var">C</span> := <span class="id" title="notation">[</span><span class="id" title="notation">SET</span><span class="id" title="notation">,</span> <span class="id" title="notation">SET</span><span class="id" title="notation">]</span>) (<a class="idref" href="Modules.SoftEquations.SignatureOver.html#8c55e4994f81b9d47037c4fc427b9108"><span class="id" title="notation">#</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#F"><span class="id" title="variable">F</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#f"><span class="id" title="variable">f</span></a> : <span class="id" title="definition">nat_trans</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>)%<span class="id" title="var">sigo</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Definition of a soft-over signature (SoftEquations/quotientequation.v) 
+
+<div class="paragraph"> </div>
+
+It is a signature Σ such that for any model R, and any family of model morphisms 
+(f_j : R --&gt; d_j), the following diagram can be completed in the category
+of natural transformations:
+
+<div class="paragraph"> </div>
+
+<pre>&lt;
+           Σ(f_j)
+    Σ(R) -----------&gt;  Σ(d_j)
+     |
+     |
+     |
+ Σ(π)|
+     |
+     V
+    Σ(S)
+
+</pre>
+&gt;
+
+<div class="paragraph"> </div>
+
+where π : R -&gt; S is the canonical projection (S is R quotiented by the family (f_j)<i>j
+
+<div class="paragraph"> </div>
+
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Check</span> (<span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">S</span> : <a class="idref" href="Modules.SoftEquations.Summary.html#SIGNATURE"><span class="id" title="abbreviation">SIGNATURE</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+S is an epi-signature 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">isEpi_sig</span> : <a class="idref" href="Modules.Signatures.PreservesEpi.html#sig_preservesNatEpiMonad"><span class="id" title="definition">sig_preservesNatEpiMonad</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">F</span> : <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over"><span class="id" title="definition">signature_over</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a><span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.quotientequation.html#isSoft"><span class="id" title="definition">isSoft</span></a>  <a class="idref" href="Modules.SoftEquations.Summary.html#isEpi_sig"><span class="id" title="variable">isEpi_sig</span></a>  <a class="idref" href="Modules.SoftEquations.Summary.html#F"><span class="id" title="variable">F</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.Summary.html#e5f90bd3e877d9e98ec926ce1508c97d"><span class="id" title="notation">::=</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.Summary.html#e5f90bd3e877d9e98ec926ce1508c97d"><span class="id" title="notation">(</span></a><span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">R</span> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+implied by the axiom of choice 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">R_epi</span> : <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#R"><span class="id" title="variable">R</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">SR_epi</span> : <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#R"><span class="id" title="variable">R</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">J</span> : <span class="id" title="definition">UU</span>)(<span class="id" title="var">d</span> : <a class="idref" href="Modules.SoftEquations.Summary.html#J"><span class="id" title="variable">J</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">(</span></a><a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">)</span></a>)(<span class="id" title="var">f</span> : <span class="id" title="notation">∏</span> <span class="id" title="var">j</span><span class="id" title="notation">,</span> <a class="idref" href="Modules.SoftEquations.Summary.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#c228d814fee0e23edc2fd9ef384bec29"><span class="id" title="notation">→→</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#c228d814fee0e23edc2fd9ef384bec29"><span class="id" title="notation">(</span></a><a class="idref" href="Modules.SoftEquations.Summary.html#d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#j"><span class="id" title="variable">j</span></a><a class="idref" href="Modules.SoftEquations.Summary.html#c228d814fee0e23edc2fd9ef384bec29"><span class="id" title="notation">)</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">X</span> (<span class="id" title="var">x</span> <span class="id" title="var">y</span> : (<a class="idref" href="Modules.SoftEquations.Summary.html#F"><span class="id" title="variable">F</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#X"><span class="id" title="variable">X</span></a> : <span class="id" title="definition">hSet</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">pi</span> := <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#projR_rep"><span class="id" title="definition">projR_rep</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#isEpi_sig"><span class="id" title="variable">isEpi_sig</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#R_epi"><span class="id" title="variable">R_epi</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#SR_epi"><span class="id" title="variable">SR_epi</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#f"><span class="id" title="variable">f</span></a><span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">(</span></a><span class="id" title="notation">∏</span> <span class="id" title="var">j</span><span class="id" title="notation">,</span> (<a class="idref" href="Modules.SoftEquations.SignatureOver.html#8c55e4994f81b9d47037c4fc427b9108"><span class="id" title="notation">#</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#F"><span class="id" title="variable">F</span></a> (<a class="idref" href="Modules.SoftEquations.Summary.html#f"><span class="id" title="variable">f</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#j"><span class="id" title="variable">j</span></a>))%<span class="id" title="var">sigo</span> <a class="idref" href="Modules.SoftEquations.Summary.html#X"><span class="id" title="variable">X</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#x"><span class="id" title="variable">x</span></a>  <span class="id" title="notation">=</span> (<a class="idref" href="Modules.SoftEquations.SignatureOver.html#8c55e4994f81b9d47037c4fc427b9108"><span class="id" title="notation">#</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#F"><span class="id" title="variable">F</span></a> (<a class="idref" href="Modules.SoftEquations.Summary.html#f"><span class="id" title="variable">f</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#j"><span class="id" title="variable">j</span></a>))%<span class="id" title="var">sigo</span> <a class="idref" href="Modules.SoftEquations.Summary.html#X"><span class="id" title="variable">X</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#y"><span class="id" title="variable">y</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">)</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> (<a class="idref" href="Modules.SoftEquations.SignatureOver.html#8c55e4994f81b9d47037c4fc427b9108"><span class="id" title="notation">#</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#F"><span class="id" title="variable">F</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#pi"><span class="id" title="variable">pi</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#X"><span class="id" title="variable">X</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#x"><span class="id" title="variable">x</span></a>)%<span class="id" title="var">sigo</span> <span class="id" title="notation">=</span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.SoftEquations.SignatureOver.html#8c55e4994f81b9d47037c4fc427b9108"><span class="id" title="notation">#</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#F"><span class="id" title="variable">F</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#pi"><span class="id" title="variable">pi</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#X"><span class="id" title="variable">X</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#y"><span class="id" title="variable">y</span></a>)%<span class="id" title="var">sigo</span>  <a class="idref" href="Modules.SoftEquations.Summary.html#e5f90bd3e877d9e98ec926ce1508c97d"><span class="id" title="notation">)</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+  Example of soft S-module: a finite derivative of the tautological signature
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Check</span> (@<a class="idref" href="Modules.SoftEquations.quotientequation.html#isSoft_finite_deriv_tauto"><span class="id" title="lemma">isSoft_finite_deriv_tauto</span></a>:<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">Sig</span> : <a class="idref" href="Modules.SoftEquations.Summary.html#SIGNATURE"><span class="id" title="abbreviation">SIGNATURE</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">epiSig</span> : <a class="idref" href="Modules.Signatures.PreservesEpi.html#sig_preservesNatEpiMonad"><span class="id" title="definition">sig_preservesNatEpiMonad</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#Sig"><span class="id" title="variable">Sig</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">n</span> : <span class="id" title="inductive">nat</span><span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.quotientequation.html#isSoft"><span class="id" title="definition">isSoft</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#epiSig"><span class="id" title="variable">epiSig</span></a>  (<a class="idref" href="Modules.SoftEquations.Summary.html#35f93e32719fc70d63b17e085bbae26e"><span class="id" title="abbreviation">ΣΘ</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#939db8f1761785b182476be1d0f557c1"><span class="id" title="notation">^(</span></a><a class="idref" href="Modules.SoftEquations.Summary.html#n"><span class="id" title="variable">n</span></a><a class="idref" href="Modules.SoftEquations.Summary.html#939db8f1761785b182476be1d0f557c1"><span class="id" title="notation">)</span></a>)).<br/>
+
+<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+An equation over a signature S is a pair of two signatures over S, and a signature over morphism between them 
+</div>
+<div class="code">
+<span class="id" title="keyword">Check</span> (<span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">S</span> : <a class="idref" href="Modules.SoftEquations.Summary.html#SIGNATURE"><span class="id" title="abbreviation">SIGNATURE</span></a><span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.Equation.html#equation"><span class="id" title="definition">equation</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#e5f90bd3e877d9e98ec926ce1508c97d"><span class="id" title="notation">::=</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">∑</span> <span class="id" title="notation">(</span><span class="id" title="var">S1</span> <span class="id" title="var">S2</span> : <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over"><span class="id" title="definition">signature_over</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a><span class="id" title="notation">),</span> <a class="idref" href="Modules.SoftEquations.Summary.html#S1"><span class="id" title="variable">S1</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#83b24ed4142c635b1a95baba6b422bf8"><span class="id" title="notation">⟹</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S2"><span class="id" title="variable">S2</span></a> <span class="id" title="notation">×</span> <a class="idref" href="Modules.SoftEquations.Summary.html#S1"><span class="id" title="variable">S1</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#83b24ed4142c635b1a95baba6b422bf8"><span class="id" title="notation">⟹</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S2"><span class="id" title="variable">S2</span></a>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Soft equation: the domain must be an epi over-signature, and the target
+    must be soft (SoftEquations/quotientequation)
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Check</span> (<span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">S</span> : <a class="idref" href="Modules.SoftEquations.Summary.html#SIGNATURE"><span class="id" title="abbreviation">SIGNATURE</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+S is an epi-signature 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">isEpi_sig</span> : <a class="idref" href="Modules.Signatures.PreservesEpi.html#sig_preservesNatEpiMonad"><span class="id" title="definition">sig_preservesNatEpiMonad</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a><span class="id" title="notation">),</span><br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.quotientequation.html#soft_equation"><span class="id" title="definition">soft_equation</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#isEpi_sig"><span class="id" title="variable">isEpi_sig</span></a>  <a class="idref" href="Modules.SoftEquations.Summary.html#e5f90bd3e877d9e98ec926ce1508c97d"><span class="id" title="notation">::=</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">∑</span> <span class="id" title="notation">(</span><span class="id" title="var">e</span> : <a class="idref" href="Modules.SoftEquations.Equation.html#equation"><span class="id" title="definition">equation</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a><span class="id" title="notation">),</span> <a class="idref" href="Modules.SoftEquations.quotientequation.html#isSoft"><span class="id" title="definition">isSoft</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#isEpi_sig"><span class="id" title="variable">isEpi_sig</span></a>  (<span class="id" title="projection">pr1</span> (<span class="id" title="projection">pr2</span> <a class="idref" href="Modules.SoftEquations.Summary.html#e"><span class="id" title="variable">e</span></a>)) <span class="id" title="notation">×</span> <a class="idref" href="Modules.SoftEquations.quotientequation.html#isEpi_overSig"><span class="id" title="definition">isEpi_overSig</span></a> (<span class="id" title="projection">pr1</span> <a class="idref" href="Modules.SoftEquations.Summary.html#e"><span class="id" title="variable">e</span></a>)).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Elementary equations: the domain is an epi over-signature, and the target
+    is a finite derivative of the tautological signature mapping a model to itself
+    (SoftEquations/quotientequation.v).
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Check</span> (<span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">S</span> : <a class="idref" href="Modules.SoftEquations.Summary.html#SIGNATURE"><span class="id" title="abbreviation">SIGNATURE</span></a><span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.quotientequation.html#elementary_equation"><span class="id" title="definition">elementary_equation</span></a> (<span class="id" title="var">Sig</span> := <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a>) <a class="idref" href="Modules.SoftEquations.Summary.html#e5f90bd3e877d9e98ec926ce1508c97d"><span class="id" title="notation">::=</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">∑</span> <span class="id" title="notation">(</span><span class="id" title="var">S1</span> : <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over"><span class="id" title="definition">signature_over</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a>)(<span class="id" title="var">n</span> : <span class="id" title="inductive">nat</span><span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.quotientequation.html#isEpi_overSig"><span class="id" title="definition">isEpi_overSig</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S1"><span class="id" title="variable">S1</span></a> <span class="id" title="notation">×</span> <a class="idref" href="Modules.SoftEquations.Equation.html#half_equation"><span class="id" title="definition">half_equation</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S1"><span class="id" title="variable">S1</span></a> (<a class="idref" href="Modules.SoftEquations.Summary.html#35f93e32719fc70d63b17e085bbae26e"><span class="id" title="abbreviation">ΣΘ</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#939db8f1761785b182476be1d0f557c1"><span class="id" title="notation">^(</span></a><a class="idref" href="Modules.SoftEquations.Summary.html#n"><span class="id" title="variable">n</span></a><a class="idref" href="Modules.SoftEquations.Summary.html#939db8f1761785b182476be1d0f557c1"><span class="id" title="notation">)</span></a>) <span class="id" title="notation">×</span> <a class="idref" href="Modules.SoftEquations.Equation.html#half_equation"><span class="id" title="definition">half_equation</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S1"><span class="id" title="variable">S1</span></a> (<a class="idref" href="Modules.SoftEquations.Summary.html#35f93e32719fc70d63b17e085bbae26e"><span class="id" title="abbreviation">ΣΘ</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#939db8f1761785b182476be1d0f557c1"><span class="id" title="notation">^(</span></a><a class="idref" href="Modules.SoftEquations.Summary.html#n"><span class="id" title="variable">n</span></a><a class="idref" href="Modules.SoftEquations.Summary.html#939db8f1761785b182476be1d0f557c1"><span class="id" title="notation">)</span></a>)).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Elementary equations yield soft equations
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Check</span> (<span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">S</span> : <a class="idref" href="Modules.SoftEquations.Summary.html#SIGNATURE"><span class="id" title="abbreviation">SIGNATURE</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+but not that 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">epiSig</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">e</span> : <a class="idref" href="Modules.SoftEquations.quotientequation.html#elementary_equation"><span class="id" title="definition">elementary_equation</span></a><span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.Summary.html#e5f90bd3e877d9e98ec926ce1508c97d"><span class="id" title="notation">(</span></a><a class="idref" href="Modules.SoftEquations.quotientequation.html#soft_equation_from_elementary_equation"><span class="id" title="definition">soft_equation_from_elementary_equation</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#epiSig"><span class="id" title="variable">epiSig</span></a>  <a class="idref" href="Modules.SoftEquations.Summary.html#e"><span class="id" title="variable">e</span></a>  : <a class="idref" href="Modules.SoftEquations.quotientequation.html#soft_equation"><span class="id" title="definition">soft_equation</span></a> <span class="id" title="var">_</span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.Summary.html#e5f90bd3e877d9e98ec926ce1508c97d"><span class="id" title="notation">)</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#e5f90bd3e877d9e98ec926ce1508c97d"><span class="id" title="notation">::=</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.quotientequation.html#mk_soft_equation"><span class="id" title="definition">mk_soft_equation</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#epiSig"><span class="id" title="variable">epiSig</span></a> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.SoftEquations.quotientequation.html#half_elem_eqs"><span class="id" title="definition">half_elem_eqs</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#e"><span class="id" title="variable">e</span></a>)  (<a class="idref" href="Modules.SoftEquations.quotientequation.html#source_elem_epiSig"><span class="id" title="definition">source_elem_epiSig</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#e"><span class="id" title="variable">e</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.SoftEquations.quotientequation.html#isSoft_finite_deriv_tauto"><span class="id" title="lemma">isSoft_finite_deriv_tauto</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#epiSig"><span class="id" title="variable">epiSig</span></a>  (<a class="idref" href="Modules.SoftEquations.quotientequation.html#target_elem_eq"><span class="id" title="definition">target_elem_eq</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#e"><span class="id" title="variable">e</span></a>))).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+
+<div class="paragraph"> </div>
+
+Definition of the category of 2-models of a 1-signature with a family of equation.
+
+<div class="paragraph"> </div>
+
+It is the full subcategory of 1-models satisfying all the equations
+
+<div class="paragraph"> </div>
+
+See SoftEquations/Equation.v for details
+
+<div class="paragraph"> </div>
+
+
+<div class="paragraph"> </div>
+
+ a model R satifies the equations if the R-component of the two over-signature morphisms are equal for any
+    equation of the family 
+</div>
+<div class="code">
+<span class="id" title="keyword">Check</span> (<span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">S</span> : <a class="idref" href="Modules.SoftEquations.Summary.html#SIGNATURE"><span class="id" title="abbreviation">SIGNATURE</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+a family of equations indexed by O 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">O</span> (<span class="id" title="var">e</span> : <a class="idref" href="Modules.SoftEquations.Summary.html#O"><span class="id" title="variable">O</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#equation"><span class="id" title="definition">equation</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">R</span> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a><span class="id" title="notation">)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">,</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.Equation.html#satisfies_all_equations_hp"><span class="id" title="definition">satisfies_all_equations_hp</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#e"><span class="id" title="variable">e</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#e5f90bd3e877d9e98ec926ce1508c97d"><span class="id" title="notation">::=</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.Summary.html#e5f90bd3e877d9e98ec926ce1508c97d"><span class="id" title="notation">(</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">(</span><span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">o</span> : <a class="idref" href="Modules.SoftEquations.Summary.html#O"><span class="id" title="variable">O</span></a><span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+the first half-equation of the equation <span class="inlinecode"><a class="idref" href="Modules.Prelims.EpiComplements.html#e"><span class="id" title="variable">e</span></a></span> <span class="inlinecode"><a class="idref" href="Modules.Prelims.LModulesCoproducts.html#o"><span class="id" title="variable">o</span></a></span> 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="projection">pr1</span> (<span class="id" title="projection">pr2</span> (<span class="id" title="projection">pr2</span> (<a class="idref" href="Modules.SoftEquations.Summary.html#e"><span class="id" title="variable">e</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#o"><span class="id" title="variable">o</span></a>))) <a class="idref" href="Modules.SoftEquations.Summary.html#R"><span class="id" title="variable">R</span></a> <span class="id" title="notation">=</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+the second half-equation of the equation <span class="inlinecode"><a class="idref" href="Modules.Prelims.EpiComplements.html#e"><span class="id" title="variable">e</span></a></span> <span class="inlinecode"><a class="idref" href="Modules.Prelims.LModulesCoproducts.html#o"><span class="id" title="variable">o</span></a></span> 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="projection">pr2</span> (<span class="id" title="projection">pr2</span> (<span class="id" title="projection">pr2</span> (<a class="idref" href="Modules.SoftEquations.Summary.html#e"><span class="id" title="variable">e</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#o"><span class="id" title="variable">o</span></a>))) <a class="idref" href="Modules.SoftEquations.Summary.html#R"><span class="id" title="variable">R</span></a><span class="id" title="notation">)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">,,</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+this second component is a proof that this predicate is hProp 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">_</span><a class="idref" href="Modules.SoftEquations.Summary.html#e5f90bd3e877d9e98ec926ce1508c97d"><span class="id" title="notation">)</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The category of 2-models  is the full subcategory of the category <span class="inlinecode"><a class="idref" href="Modules.Signatures.ModelCat.html#rep_fiber_category"><span class="id" title="definition">rep_fiber_category</span></a></span> <span class="inlinecode"><a class="idref" href="Modules.Prelims.quotientmonad.html#QuotientMonad.S"><span class="id" title="variable">S</span></a></span>
+  satisfying all the equations 
+</div>
+<div class="code">
+<span class="id" title="keyword">Check</span> (<span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">S</span> : <a class="idref" href="Modules.SoftEquations.Summary.html#SIGNATURE"><span class="id" title="abbreviation">SIGNATURE</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+a family of equations indexed by O 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">O</span> (<span class="id" title="var">e</span> : <a class="idref" href="Modules.SoftEquations.Summary.html#O"><span class="id" title="variable">O</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#equation"><span class="id" title="definition">equation</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a><span class="id" title="notation">),</span><br/>
+<br/>
+&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.Equation.html#precategory_model_equations"><span class="id" title="definition">precategory_model_equations</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#e"><span class="id" title="variable">e</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#e5f90bd3e877d9e98ec926ce1508c97d"><span class="id" title="notation">::=</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">full_sub_precategory</span> (<span class="id" title="var">C</span> := <a class="idref" href="Modules.Signatures.ModelCat.html#rep_fiber_precategory"><span class="id" title="definition">rep_fiber_precategory</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.SoftEquations.Equation.html#satisfies_all_equations_hp"><span class="id" title="definition">satisfies_all_equations_hp</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#e"><span class="id" title="variable">e</span></a>)).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+*********************** 
+
+<div class="paragraph"> </div>
+
+Our main result : if a 1-signature Σ generates a syntax, then the 2-signature over Σ
+consisting of any family of soft equations over Σ also generates a syntax
+(SoftEquations/InitialEquationRep.v)
+
+<div class="paragraph"> </div>
+
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Check</span> (@<a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#soft_equations_preserve_initiality"><span class="id" title="lemma">soft_equations_preserve_initiality</span></a> :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">∏</span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">(</span><span class="id" title="var">Sig</span> : <a class="idref" href="Modules.SoftEquations.Summary.html#SIGNATURE"><span class="id" title="abbreviation">SIGNATURE</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+S is an epi-signature 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">epiSig</span> : <a class="idref" href="Modules.Signatures.PreservesEpi.html#sig_preservesNatEpiMonad"><span class="id" title="definition">sig_preservesNatEpiMonad</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#Sig"><span class="id" title="variable">Sig</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+A family of equations 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">O</span> : <span class="id" title="definition">UU</span>) (<span class="id" title="var">eq</span> : <a class="idref" href="Modules.SoftEquations.Summary.html#O"><span class="id" title="variable">O</span></a> <span class="id" title="notation">→</span> <a class="idref" href="Modules.SoftEquations.quotientequation.html#soft_equation"><span class="id" title="definition">soft_equation</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#epiSig"><span class="id" title="variable">epiSig</span></a><span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+If the category of 1-models has an initial object, .. 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">R</span> : <span class="id" title="definition">Initial</span> (<a class="idref" href="Modules.Signatures.ModelCat.html#rep_fiber_category"><span class="id" title="definition">rep_fiber_category</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#Sig"><span class="id" title="variable">Sig</span></a>)<span class="id" title="notation">)</span> <span class="id" title="notation">,</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+this is implied by the axiom of choice 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<span class="id" title="definition">InitialObject</span> <a class="idref" href="Modules.SoftEquations.Summary.html#R"><span class="id" title="variable">R</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#Sig"><span class="id" title="variable">Sig</span></a>) <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<a class="idref" href="Modules.SoftEquations.Summary.html#Sig"><span class="id" title="variable">Sig</span></a> (<span class="id" title="definition">InitialObject</span> <a class="idref" href="Modules.SoftEquations.Summary.html#R"><span class="id" title="variable">R</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#Sig"><span class="id" title="variable">Sig</span></a>)) <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+.. then the category of 2-models has an initial object 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">Initial</span> (<a class="idref" href="Modules.SoftEquations.Equation.html#precategory_model_equations"><span class="id" title="definition">precategory_model_equations</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#eq"><span class="id" title="variable">eq</span></a>)).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+As a corrolary, the case of a family of elementary equations 
+</div>
+<div class="code">
+<span class="id" title="keyword">Check</span> (@<a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#elementary_equations_preserve_initiality"><span class="id" title="lemma">elementary_equations_preserve_initiality</span></a> :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">∏</span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">(</span><span class="id" title="var">Sig</span> : <a class="idref" href="Modules.SoftEquations.Summary.html#SIGNATURE"><span class="id" title="abbreviation">SIGNATURE</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+(1) The 1-signature must be an epi-signature
+            
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">epiSig</span> : <a class="idref" href="Modules.Signatures.PreservesEpi.html#sig_preservesNatEpiMonad"><span class="id" title="definition">sig_preservesNatEpiMonad</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#Sig"><span class="id" title="variable">Sig</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+A family of equations 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">O</span> : <span class="id" title="definition">UU</span>) (<span class="id" title="var">eq</span> : <a class="idref" href="Modules.SoftEquations.Summary.html#O"><span class="id" title="variable">O</span></a> <span class="id" title="notation">→</span> <a class="idref" href="Modules.SoftEquations.quotientequation.html#elementary_equation"><span class="id" title="definition">elementary_equation</span></a> (<span class="id" title="var">Sig</span> := <a class="idref" href="Modules.SoftEquations.Summary.html#Sig"><span class="id" title="variable">Sig</span></a>)<span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+If the category of 1-models has an initial object, .. 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">R</span> : <span class="id" title="definition">Initial</span> (<a class="idref" href="Modules.Signatures.ModelCat.html#rep_fiber_category"><span class="id" title="definition">rep_fiber_category</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#Sig"><span class="id" title="variable">Sig</span></a>)<span class="id" title="notation">)</span> <span class="id" title="notation">,</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+(3) preserving epis (implied by the axiom of choice)
+          
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<span class="id" title="definition">InitialObject</span> <a class="idref" href="Modules.SoftEquations.Summary.html#R"><span class="id" title="variable">R</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#Sig"><span class="id" title="variable">Sig</span></a>) <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<a class="idref" href="Modules.SoftEquations.Summary.html#Sig"><span class="id" title="variable">Sig</span></a> (<span class="id" title="definition">InitialObject</span> <a class="idref" href="Modules.SoftEquations.Summary.html#R"><span class="id" title="variable">R</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#Sig"><span class="id" title="variable">Sig</span></a>)) <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+.. then the category of 2-models has an initial object 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">Initial</span> (<a class="idref" href="Modules.SoftEquations.Equation.html#precategory_model_equations"><span class="id" title="definition">precategory_model_equations</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">fun</span> <span class="id" title="var">o</span> =&gt; <a class="idref" href="Modules.SoftEquations.quotientequation.html#soft_equation_from_elementary_equation"><span class="id" title="definition">soft_equation_from_elementary_equation</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#epiSig"><span class="id" title="variable">epiSig</span></a> (<a class="idref" href="Modules.SoftEquations.Summary.html#eq"><span class="id" title="variable">eq</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#o"><span class="id" title="variable">o</span></a>)))).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+As a corrolary, the case of an algebraic signature with elementary equations
+No preservation of epis is needed anymore
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Check</span> (@<a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#elementary_equations_on_alg_preserve_initiality"><span class="id" title="definition">elementary_equations_on_alg_preserve_initiality</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id" title="notation">∏</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">(</span><span class="id" title="var">S</span> : <span class="id" title="definition">BindingSig</span>) (<span class="id" title="var">Sig</span> := <a class="idref" href="Modules.Signatures.BindingSig.html#binding_to_one_sigHSET"><span class="id" title="definition">binding_to_one_sigHSET</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">O</span> : <span class="id" title="definition">UU</span>) (<span class="id" title="var">eq</span> : <a class="idref" href="Modules.SoftEquations.Summary.html#O"><span class="id" title="variable">O</span></a> <span class="id" title="notation">→</span> <a class="idref" href="Modules.SoftEquations.quotientequation.html#elementary_equation"><span class="id" title="definition">elementary_equation</span></a> (<span class="id" title="var">Sig</span> := <a class="idref" href="Modules.SoftEquations.Summary.html#Sig"><span class="id" title="variable">Sig</span></a>)<span class="id" title="notation">)</span> <span class="id" title="notation">,</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+.. then the category of 2-models has an initial object 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">Initial</span> (<a class="idref" href="Modules.SoftEquations.Equation.html#precategory_model_equations"><span class="id" title="definition">precategory_model_equations</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( <span class="id" title="keyword">fun</span> <span class="id" title="var">o</span> =&gt; <a class="idref" href="Modules.SoftEquations.quotientequation.html#soft_equation_from_elementary_equation"><span class="id" title="definition">soft_equation_from_elementary_equation</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.Signatures.PreservesEpi.html#algSig_NatEpi"><span class="id" title="lemma">algSig_NatEpi</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#S"><span class="id" title="variable">S</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.SoftEquations.Summary.html#eq"><span class="id" title="variable">eq</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#o"><span class="id" title="variable">o</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+With the stronger assumption (implied by the axiom of choice) that
+any model preserves epis, , we can prove that
+the forgetful functor from 2-models to 1-models has a left adjoint 
+</div>
+<div class="code">
+<span class="id" title="keyword">Check</span> (@<a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#forget_2model_is_right_adjoint"><span class="id" title="definition">forget_2model_is_right_adjoint</span></a> :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">∏</span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">(</span><span class="id" title="var">Sig</span> : <a class="idref" href="Modules.SoftEquations.Summary.html#SIGNATURE"><span class="id" title="abbreviation">SIGNATURE</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+S is an epi-signature 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">epiSig</span> : <a class="idref" href="Modules.Signatures.PreservesEpi.html#sig_preservesNatEpiMonad"><span class="id" title="definition">sig_preservesNatEpiMonad</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#Sig"><span class="id" title="variable">Sig</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+A family of equations 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">O</span> : <span class="id" title="definition">UU</span>) (<span class="id" title="var">eq</span> : <a class="idref" href="Modules.SoftEquations.Summary.html#O"><span class="id" title="variable">O</span></a> <span class="id" title="notation">→</span> <a class="idref" href="Modules.SoftEquations.quotientequation.html#soft_equation"><span class="id" title="definition">soft_equation</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#epiSig"><span class="id" title="variable">epiSig</span></a> <span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+The stronger assumption is that any 1-model of Sig preserve epis (implied by the axiom of choice) 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">(</span></a><span class="id" title="notation">∏</span> <span class="id" title="var">R</span> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#Sig"><span class="id" title="variable">Sig</span></a><span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#R"><span class="id" title="variable">R</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">)</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">(</span></a><span class="id" title="notation">∏</span> <span class="id" title="var">R</span> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#Sig"><span class="id" title="variable">Sig</span></a><span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<a class="idref" href="Modules.SoftEquations.Summary.html#Sig"><span class="id" title="variable">Sig</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#R"><span class="id" title="variable">R</span></a>)<a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">)</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">Adjunctions.is_right_adjoint</span> (<a class="idref" href="Modules.SoftEquations.Equation.html#forget_2model"><span class="id" title="definition">forget_2model</span></a> <a class="idref" href="Modules.SoftEquations.Summary.html#eq"><span class="id" title="variable">eq</span></a>)).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+
+<div class="paragraph"> </div>
+
+Note that an epimorphic monad morphism may not be epimorphic as a natural transformation.
+
+<div class="paragraph"> </div>
+
+A natural transformation is epimorphic if and only if it is pointwise epimorphic.
+Thus, Hypotheses (2) and (3) are implied by the axiom of choice (because 
+any epimorphism has a section). Hypothesis (1) does not seem (at least trivially) implied
+by the axiom of choice because one would need that the retract is a monad morphism (and even
+I don't know how to use the axiom of choice to yield a natural transformation retration).
+
+<div class="paragraph"> </div>
+
+Where are the hypotheses (1), (2), (3) used in the proof of the theorem above:
+
+<div class="paragraph"> </div>
+
+(3) is used:
+
+<div class="paragraph"> </div>
+
+<ul class="doclist">
+<li> to build the multiplication of the quotient monad. Indeed, it is defined as the
+
+</li>
+</ul>
+completion of the following diagram (so that the canonical projection π is a monad morphism):
+<pre>
+                  μ R
+            R R  -----&gt;   R
+             |           |
+         π π |           | π
+             v           v
+            R' R'        R'
+                  
+</pre>
+where R' is the quotient monad. This definition requires that π π = R' π ∘ π R = π R' ∘ R π
+is an epimorphism, and this is implied by R π being an epi. Hence the requirement that R preserves epis
+(since π is indeed an epi, as a canonical projection)
+
+<div class="paragraph"> </div>
+
+<ul class="doclist">
+<li> to show that Σ<i>R' preserves epi in when showing that 
+    the Σ-action of the quotient monad is a module morphism (see diagram (Act) below)
+
+</li>
+</ul>
+
+<div class="paragraph"> </div>
+
+
+<div class="paragraph"> </div>
+
+(1) is used:
+
+<div class="paragraph"> </div>
+
+<ul class="doclist">
+<li> to build the Σ-action for the quotient monad. Indeed, it is defined as the completion of the
+ following diagram (so that the canonical projection π is a model morphism)
+
+</li>
+</ul>
+
+<div class="paragraph"> </div>
+
+<pre>
+            Σ_π
+     Σ_R -----------&gt; Σ_R'
+     |                 
+     |                 
+  τ_R|                 
+     |                 
+     V                 
+     R -------------&gt;  R'
+           π
+</pre>
+where R' is the quotient monad. This definition requires that Σ π 
+is an epimorphism, hence the requirement that Σ sends epimorphic natural transformations
+to epimorphisms (π is indeed an epimorphic natural transformation, as a canonical projection)
+
+<div class="paragraph"> </div>
+
+(2) is used:
+
+<div class="paragraph"> </div>
+
+<ul class="doclist">
+<li> to show that the Σ-action is a module morphism. It is used for the specific
+  case of the monad R .
+  Indeed, I need to show that the following diagram commutes:
+<pre>
+                          
+     Σ_R' R' -----------&gt; Σ_R'
+        |                 |
+        |                 |
+        |                 |       (Act)
+        |                 |
+        |                 |
+        V                 V
+     R'  R' -----------&gt;  R'
+</pre>
+
+</li>
+</ul>
+The strategy is to precompose this diagram with Σ<i>R'(π) in order to use the
+fact that the Σ-action for R is a module morphism. This argument requires that
+Σ<i>R'(π) is epi, and this is the case because Σ<i>R'(π) ∘ Σ_π R = Σ_π R' ∘ Σ<i>R (π) is epi,
+as a composition of epis.
+
+<div class="paragraph"> </div>
+
+<ul class="doclist">
+<li> as a consequence, it is used in the definition of soft equations for any model R
+  (because the quotient model is always required  to exist).
+
+</li>
+</ul>
+
+<div class="paragraph"> </div>
+
+
+</div>
+<div class="code">
+
+<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

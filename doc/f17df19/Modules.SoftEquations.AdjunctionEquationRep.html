@@ -1,0 +1,459 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>Modules.SoftEquations.AdjunctionEquationRep</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Modules.SoftEquations.AdjunctionEquationRep</h1>
+
+<div class="code">
+</div>
+
+<div class="doc">
+<a name="lab29"></a><h1 class="section">Syntax for soft 2-signatures</h1>
+
+
+<div class="paragraph"> </div>
+
+Given an epi 1-signature Σ generating a syntax (i.e. whose category of models
+has an initial object), the 2-signature consisting of
+Σ and any family of soft equations also generates a syntax.
+
+<div class="paragraph"> </div>
+
+The initial 2-model is the quotient of the initial 1-model R by the
+following relation on R(X):
+   x ~ y iff their image are equalized by the initial arrow to any 1-model of Σ
+             satisfying the equations.
+
+<div class="paragraph"> </div>
+
+See <span class="inlinecode"><a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#push_initiality"><span class="id" title="definition">push_initiality</span></a></span>.
+
+<div class="paragraph"> </div>
+
+More generally, the forgetful functor from 2-models to 1-models has a left adjoint
+<span class="inlinecode"><a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#forget_2model_is_right_adjoint"><span class="id" title="definition">forget_2model_is_right_adjoint</span></a></span>
+
+<div class="paragraph"> </div>
+
+ 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.PartD</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monads.Monads</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monads.LModules</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.SetValuedFunctors</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.HorizontalComposition</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.functor_categories</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.categories.HSET.All</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Subcategory.Core</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Subcategory.Full</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.SubstitutionSystems.BindingSigToMonad</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Categories</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.Sets</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Epis</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.EpiFacts</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#"><span class="id" title="library">Modules.Prelims.EpiComplements</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.lib.html#"><span class="id" title="library">Modules.Prelims.lib</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.quotientmonad.html#"><span class="id" title="library">Modules.Prelims.quotientmonad</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#"><span class="id" title="library">Modules.Prelims.quotientmonadslice</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.Signature.html#"><span class="id" title="library">Modules.Signatures.Signature</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.PreservesEpi.html#"><span class="id" title="library">Modules.Signatures.PreservesEpi</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.ModelCat.html#"><span class="id" title="library">Modules.Signatures.ModelCat</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#"><span class="id" title="library">Modules.SoftEquations.quotientrepslice</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.SoftEquations.SignatureOver.html#"><span class="id" title="library">Modules.SoftEquations.SignatureOver</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.SoftEquations.Equation.html#"><span class="id" title="library">Modules.SoftEquations.Equation</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#"><span class="id" title="library">Modules.SoftEquations.quotientrepslice</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.SoftEquations.quotientequation.html#"><span class="id" title="library">Modules.SoftEquations.quotientequation</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#"><span class="id" title="library">Modules.SoftEquations.SignatureOverDerivation</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.BindingSig.html#"><span class="id" title="library">Modules.Signatures.BindingSig</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.SoftEquations.BindingSig.html#"><span class="id" title="library">Modules.SoftEquations.BindingSig</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Adjunctions</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.initial</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span>  "R →→ S" := (<a class="idref" href="Modules.Signatures.ModelCat.html#rep_fiber_mor"><span class="id" title="definition">rep_fiber_mor</span></a> <span class="id" title="var">R</span> <span class="id" title="var">S</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 6).<br/>
+
+<br/>
+<span class="id" title="keyword">Section</span> <a name="QuotientRep"><span class="id" title="section">QuotientRep</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="MOD"><span class="id" title="abbreviation">MOD</span></a> <span class="id" title="var">Mon</span> := (<span class="id" title="definition">category_LModule</span> <span class="id" title="var">Mon</span> <span class="id" title="notation">SET</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="MONAD"><span class="id" title="abbreviation">MONAD</span></a> := (<span class="id" title="definition">Monad</span> <span class="id" title="notation">SET</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="SIG"><span class="id" title="abbreviation">SIG</span></a> := (<a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <span class="id" title="notation">SET</span>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The axiom of choice allows to build quotients 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Variable</span> (<a name="QuotientRep.choice"><span class="id" title="variable">choice</span></a> : <span class="id" title="definition">AxiomOfChoice.AxiomOfChoice_surj</span>).<br/>
+</div>
+
+<div class="doc">
+We fix an epi 1-signature <span class="inlinecode"><a class="idref" href="Modules.Signatures.PresentableSignature.html#Sig"><span class="id" title="abbreviation">Sig</span></a></span> for the following 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> {<span class="id" title="var">Sig</span> : <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#SIG"><span class="id" title="abbreviation">SIG</span></a>}.<br/>
+</div>
+
+<div class="doc">
+Sig must be an epi-signature, i.e. preserves epimorphicity of natural
+      transformations. Note that this is not implied by the axiom of choice
+      because the retract may not be a monad morphism.
+      This is used to give the quotient monad an action.
+   
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> (<span class="id" title="var">epiSig</span> : <a class="idref" href="Modules.Signatures.PreservesEpi.html#sig_preservesNatEpiMonad"><span class="id" title="definition">sig_preservesNatEpiMonad</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.Sig"><span class="id" title="variable">Sig</span></a>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="REP"><span class="id" title="abbreviation">REP</span></a> := (<a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.Sig"><span class="id" title="variable">Sig</span></a>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="REP_CAT"><span class="id" title="abbreviation">REP_CAT</span></a> := (<a class="idref" href="Modules.Signatures.ModelCat.html#rep_fiber_category"><span class="id" title="definition">rep_fiber_category</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.Sig"><span class="id" title="variable">Sig</span></a>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+A family of soft equations indexed by O 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> {<span class="id" title="var">O</span> : <span class="id" title="definition">UU</span>} (<span class="id" title="var">eq</span> : <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#O"><span class="id" title="variable">O</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="Modules.SoftEquations.quotientequation.html#soft_equation"><span class="id" title="definition">soft_equation</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.epiSig"><span class="id" title="variable">epiSig</span></a> ) .<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="REP_EQ"><span class="id" title="abbreviation">REP_EQ</span></a> := (<a class="idref" href="Modules.SoftEquations.Equation.html#model_equations"><span class="id" title="definition">model_equations</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.eq"><span class="id" title="variable">eq</span></a> ).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="REP_EQ_PRECAT"><span class="id" title="abbreviation">REP_EQ_PRECAT</span></a> := (<a class="idref" href="Modules.SoftEquations.Equation.html#precategory_model_equations"><span class="id" title="definition">precategory_model_equations</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.eq"><span class="id" title="variable">eq</span></a>).<br/>
+
+<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+For the quotient, we consider the collections of morphisms
+      from <span class="inlinecode"><a class="idref" href="Modules.Prelims.LModulesComplements.html#R"><span class="id" title="variable">R</span></a></span> to any 1-model of <span class="inlinecode"><a class="idref" href="Modules.Signatures.PresentableSignature.html#Sig"><span class="id" title="abbreviation">Sig</span></a></span> satisfying the family of equations 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a name="QuotientRep.J"><span class="id" title="variable">J</span></a> <span class="id" title="var">R</span> := <span class="id" title="notation">∑</span> <span class="id" title="notation">(</span><span class="id" title="var">S</span> : <a class="idref" href="Modules.SoftEquations.Equation.html#model_equations"><span class="id" title="definition">model_equations</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.eq"><span class="id" title="variable">eq</span></a><span class="id" title="notation">),</span> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#c228d814fee0e23edc2fd9ef384bec29"><span class="id" title="notation">→→</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#S"><span class="id" title="variable">S</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a name="QuotientRep.d"><span class="id" title="variable">d</span></a> {<span class="id" title="var">R</span>} (<span class="id" title="var">j</span> : <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.J"><span class="id" title="variable">J</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R"><span class="id" title="variable">R</span></a>) : <a class="idref" href="Modules.SoftEquations.Equation.html#model_equations"><span class="id" title="definition">model_equations</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.eq"><span class="id" title="variable">eq</span></a> := <span class="id" title="projection">pr1</span> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#j"><span class="id" title="variable">j</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a name="QuotientRep.ff"><span class="id" title="variable">ff</span></a> {<span class="id" title="var">R</span>} (<span class="id" title="var">j</span> : <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.J"><span class="id" title="variable">J</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R"><span class="id" title="variable">R</span></a>) : <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#c228d814fee0e23edc2fd9ef384bec29"><span class="id" title="notation">→→</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#c228d814fee0e23edc2fd9ef384bec29"><span class="id" title="notation">(</span></a><a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#j"><span class="id" title="variable">j</span></a><a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#c228d814fee0e23edc2fd9ef384bec29"><span class="id" title="notation">)</span></a> := <span class="id" title="projection">pr2</span> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#j"><span class="id" title="variable">j</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The quotient model by this collection of arrows 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a name="QuotientRep.R'"><span class="id" title="variable">R'</span></a> {<span class="id" title="var">R</span> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.Sig"><span class="id" title="variable">Sig</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+implied by the axiom of choice 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">R_epi</span> : <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R"><span class="id" title="variable">R</span></a>) (<span class="id" title="var">SigR_epi</span> : <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.Sig"><span class="id" title="variable">Sig</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R"><span class="id" title="variable">R</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#REP_EQ"><span class="id" title="abbreviation">REP_EQ</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= <a class="idref" href="Modules.SoftEquations.quotientequation.html#R'_model_equations"><span class="id" title="definition">R'_model_equations</span></a>  <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.epiSig"><span class="id" title="variable">epiSig</span></a>  <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R_epi"><span class="id" title="variable">R_epi</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#SigR_epi"><span class="id" title="variable">SigR_epi</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.ff"><span class="id" title="variable">ff</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.eq"><span class="id" title="variable">eq</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">fun</span> <span class="id" title="var">j</span> =&gt; <a class="idref" href="Modules.SoftEquations.Equation.html#model_equations_eq"><span class="id" title="definition">model_equations_eq</span></a> (<a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#j"><span class="id" title="variable">j</span></a>)).<br/>
+</div>
+
+<div class="doc">
+Any morphism from R to a 1-model satisfying the equations factorize through
+      the canonical projection, followed by <span class="inlinecode"><a class="idref" href="Modules.SoftEquations.quotientrepslice.html#u_rep"><span class="id" title="definition">u_rep</span></a></span> 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="u_rep_arrow"><span class="id" title="definition">u_rep_arrow</span></a> {<span class="id" title="var">R</span> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.Sig"><span class="id" title="variable">Sig</span></a>}{<span class="id" title="var">S</span> : <a class="idref" href="Modules.SoftEquations.Equation.html#model_equations"><span class="id" title="definition">model_equations</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.eq"><span class="id" title="variable">eq</span></a>} <span class="id" title="var">R_epi</span> <span class="id" title="var">SigR_epi</span> (<span class="id" title="var">f</span> : <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#c228d814fee0e23edc2fd9ef384bec29"><span class="id" title="notation">→→</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#S"><span class="id" title="variable">S</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#u_rep"><span class="id" title="definition">u_rep</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.Sig"><span class="id" title="variable">Sig</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.epiSig"><span class="id" title="variable">epiSig</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R_epi"><span class="id" title="variable">R_epi</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#SigR_epi"><span class="id" title="variable">SigR_epi</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.ff"><span class="id" title="variable">ff</span></a> (<a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#S"><span class="id" title="variable">S</span></a> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#f"><span class="id" title="variable">f</span></a>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a name="QuotientRep.projR_rep"><span class="id" title="variable">projR_rep</span></a> (<span class="id" title="var">R</span> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.Sig"><span class="id" title="variable">Sig</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">R_epi</span> : <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R"><span class="id" title="variable">R</span></a>)(<span class="id" title="var">SigR_epi</span> : <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.Sig"><span class="id" title="variable">Sig</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R"><span class="id" title="variable">R</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#projR_rep"><span class="id" title="definition">projR_rep</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.Sig"><span class="id" title="variable">Sig</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.epiSig"><span class="id" title="variable">epiSig</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R_epi"><span class="id" title="variable">R_epi</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#SigR_epi"><span class="id" title="variable">SigR_epi</span></a>  <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.ff"><span class="id" title="variable">ff</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="u_rep_universal"><span class="id" title="lemma">u_rep_universal</span></a> (<span class="id" title="var">R</span> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <span class="id" title="var">_</span>) (<span class="id" title="var">R_epi</span>: <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R"><span class="id" title="variable">R</span></a>) (<span class="id" title="var">SigR_epi</span> : <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.Sig"><span class="id" title="variable">Sig</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R"><span class="id" title="variable">R</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id" title="definition">is_universal_arrow_to</span> (<a class="idref" href="Modules.SoftEquations.Equation.html#forget_2model"><span class="id" title="definition">forget_2model</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.eq"><span class="id" title="variable">eq</span></a>) <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R"><span class="id" title="variable">R</span></a> (<a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.R'"><span class="id" title="variable">R'</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R_epi"><span class="id" title="variable">R_epi</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#SigR_epi"><span class="id" title="variable">SigR_epi</span></a>) (<a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.projR_rep"><span class="id" title="variable">projR_rep</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R_epi"><span class="id" title="variable">R_epi</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#SigR_epi"><span class="id" title="variable">SigR_epi</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">S</span> <span class="id" title="var">f</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">j</span> := <span class="id" title="constructor">tpair</span> (<span class="id" title="keyword">fun</span> (<span class="id" title="var">x</span> : <a class="idref" href="Modules.SoftEquations.Equation.html#model_equations"><span class="id" title="definition">model_equations</span></a> <span class="id" title="var">_</span>) =&gt; <span class="id" title="var">R</span> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#c228d814fee0e23edc2fd9ef384bec29"><span class="id" title="notation">→→</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#x"><span class="id" title="variable">x</span></a>) (<span class="id" title="var">S</span> : <a class="idref" href="Modules.SoftEquations.Equation.html#model_equations"><span class="id" title="definition">model_equations</span></a> <span class="id" title="var">_</span>)  <span class="id" title="var">f</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">eassert</span> (<span class="id" title="var">def_u</span> :=(<a class="idref" href="Modules.SoftEquations.quotientrepslice.html#u_rep_def"><span class="id" title="lemma">u_rep_def</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>  <span class="id" title="var">_</span> (@<a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.d"><span class="id" title="variable">d</span></a> <span class="id" title="var">R</span>) (@<a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.ff"><span class="id" title="variable">ff</span></a> <span class="id" title="var">R</span>) <span class="id" title="var">j</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">unshelve</span> <span class="id" title="tactic">eapply</span> <span class="id" title="lemma">unique_exists</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#u_rep_arrow"><span class="id" title="definition">u_rep_arrow</span></a> <span class="id" title="var">R_epi</span> <span class="id" title="var">SigR_epi</span> <span class="id" title="var">f</span> <span class="id" title="notation">,,</span> <span class="id" title="constructor">tt</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<span class="id" title="notation">!</span> <span class="id" title="var">def_u</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intro</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">g</span> <span class="id" title="var">eq'</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">eq_in_sub_precategory</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> (<span class="id" title="var">_</span> : <span class="id" title="definition">isEpi</span> (<span class="id" title="var">C</span> := <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#REP_CAT"><span class="id" title="abbreviation">REP_CAT</span></a>) (<a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.projR_rep"><span class="id" title="variable">projR_rep</span></a> <span class="id" title="var">R</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>)); [<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.SoftEquations.quotientrepslice.html#isEpi_projR_rep"><span class="id" title="lemma">isEpi_projR_rep</span></a>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[<span class="id" title="tactic">exact</span> <span class="id" title="var">eq'</span>|<span class="id" title="tactic">exact</span> <span class="id" title="var">def_u</span>].<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+If all models preserve epis, and their image by the signature
+      preserve epis, then we have an adjunctions 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="forget_2model_is_right_adjoint"><span class="id" title="definition">forget_2model_is_right_adjoint</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">modepis</span> : <span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">R</span> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.Sig"><span class="id" title="variable">Sig</span></a><span class="id" title="notation">),</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R"><span class="id" title="variable">R</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">SigR_epis</span> : <span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">R</span> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.Sig"><span class="id" title="variable">Sig</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.Sig"><span class="id" title="variable">Sig</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R"><span class="id" title="variable">R</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id" title="definition">is_right_adjoint</span> (<a class="idref" href="Modules.SoftEquations.Equation.html#forget_2model"><span class="id" title="definition">forget_2model</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.eq"><span class="id" title="variable">eq</span></a>) :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">right_adjoint_left_from_partial</span> (<a class="idref" href="Modules.SoftEquations.Equation.html#forget_2model"><span class="id" title="definition">forget_2model</span></a> (<span class="id" title="notation">λ</span> <span class="id" title="var">x</span> : <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.O"><span class="id" title="variable">O</span></a><span class="id" title="notation">,</span> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.eq"><span class="id" title="variable">eq</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#x"><span class="id" title="variable">x</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">fun</span> <span class="id" title="var">R</span> =&gt; <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.R'"><span class="id" title="variable">R'</span></a> (<a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#modepis"><span class="id" title="variable">modepis</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R"><span class="id" title="variable">R</span></a>) (<a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#SigR_epis"><span class="id" title="variable">SigR_epis</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R"><span class="id" title="variable">R</span></a> ))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">fun</span> <span class="id" title="var">R</span> =&gt; <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.projR_rep"><span class="id" title="variable">projR_rep</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R"><span class="id" title="variable">R</span></a> (<a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#modepis"><span class="id" title="variable">modepis</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R"><span class="id" title="variable">R</span></a>)(<a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#SigR_epis"><span class="id" title="variable">SigR_epis</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R"><span class="id" title="variable">R</span></a> ))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">fun</span> <span class="id" title="var">R</span> =&gt; <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#u_rep_universal"><span class="id" title="lemma">u_rep_universal</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R"><span class="id" title="variable">R</span></a> (<a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#modepis"><span class="id" title="variable">modepis</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R"><span class="id" title="variable">R</span></a>)(<a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#SigR_epis"><span class="id" title="variable">SigR_epis</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R"><span class="id" title="variable">R</span></a> )).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+If the initial model and its image by the signature preserve epis,
+     then there is an initial model 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="push_initiality"><span class="id" title="definition">push_initiality</span></a> (<span class="id" title="var">R</span> : <span class="id" title="definition">Initial</span> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#REP_CAT"><span class="id" title="abbreviation">REP_CAT</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">R_epi</span> : <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<span class="id" title="definition">InitialObject</span> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R"><span class="id" title="variable">R</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <span class="id" title="var">_</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">SigR_epi</span> : <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.Sig"><span class="id" title="variable">Sig</span></a> (<span class="id" title="definition">InitialObject</span> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R"><span class="id" title="variable">R</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <span class="id" title="var">_</span>)))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id" title="definition">isInitial</span> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#REP_EQ_PRECAT"><span class="id" title="abbreviation">REP_EQ_PRECAT</span></a> (<a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.R'"><span class="id" title="variable">R'</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R_epi"><span class="id" title="variable">R_epi</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#SigR_epi"><span class="id" title="variable">SigR_epi</span></a>) :=<br/>
+&nbsp;&nbsp;<a class="idref" href="Modules.Prelims.lib.html#initial_universal_to_lift_initial"><span class="id" title="lemma">initial_universal_to_lift_initial</span></a> (<a class="idref" href="Modules.SoftEquations.Equation.html#forget_2model"><span class="id" title="definition">forget_2model</span></a> (<span class="id" title="notation">λ</span> <span class="id" title="var">x</span> : <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.O"><span class="id" title="variable">O</span></a><span class="id" title="notation">,</span> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep.eq"><span class="id" title="variable">eq</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#x"><span class="id" title="variable">x</span></a>)) <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R"><span class="id" title="variable">R</span></a> (<a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#u_rep_universal"><span class="id" title="lemma">u_rep_universal</span></a> <span class="id" title="var">_</span> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R_epi"><span class="id" title="variable">R_epi</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#SigR_epi"><span class="id" title="variable">SigR_epi</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRep"><span class="id" title="section">QuotientRep</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Mere reformulation which hides the initial object in the main statment (isInitial becomes Initial) 
+</div>
+<div class="code">
+<span class="id" title="keyword">Section</span> <a name="QuotientRepInit"><span class="id" title="section">QuotientRepInit</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="MOD"><span class="id" title="abbreviation">MOD</span></a> <span class="id" title="var">Mon</span> := (<span class="id" title="definition">category_LModule</span> <span class="id" title="var">Mon</span> <span class="id" title="notation">SET</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="MONAD"><span class="id" title="abbreviation">MONAD</span></a> := (<span class="id" title="definition">Monad</span> <span class="id" title="notation">SET</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="SIG"><span class="id" title="abbreviation">SIG</span></a> := (<a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <span class="id" title="notation">SET</span>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> {<span class="id" title="var">Sig</span> : <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#SIG"><span class="id" title="abbreviation">SIG</span></a>}.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> (<span class="id" title="var">epiSig</span> : <a class="idref" href="Modules.Signatures.PreservesEpi.html#sig_preservesNatEpiMonad"><span class="id" title="definition">sig_preservesNatEpiMonad</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRepInit.Sig"><span class="id" title="variable">Sig</span></a>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="soft_equations_preserve_initiality"><span class="id" title="lemma">soft_equations_preserve_initiality</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">O</span> : <span class="id" title="definition">UU</span>}(<span class="id" title="var">eq</span> : <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#O"><span class="id" title="variable">O</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="Modules.SoftEquations.quotientequation.html#soft_equation"><span class="id" title="definition">soft_equation</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRepInit.epiSig"><span class="id" title="variable">epiSig</span></a> )<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">R</span> : <span class="id" title="definition">Initial</span> (<a class="idref" href="Modules.Signatures.ModelCat.html#rep_fiber_category"><span class="id" title="definition">rep_fiber_category</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRepInit.Sig"><span class="id" title="variable">Sig</span></a>)<span class="id" title="notation">)</span> <span class="id" title="notation">,</span><br/>
+</div>
+
+<div class="doc">
+implied by the axiom of choice 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">(</span></a><a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<span class="id" title="definition">InitialObject</span>  <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R"><span class="id" title="variable">R</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <span class="id" title="var">_</span>)<a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">)</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">(</span></a><a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRepInit.Sig"><span class="id" title="variable">Sig</span></a> (<span class="id" title="definition">InitialObject</span>  <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R"><span class="id" title="variable">R</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <span class="id" title="var">_</span>))<a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">)</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">Initial</span> (<a class="idref" href="Modules.SoftEquations.Equation.html#precategory_model_equations"><span class="id" title="definition">precategory_model_equations</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#eq"><span class="id" title="variable">eq</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">init</span> <span class="id" title="var">R_epi</span> <span class="id" title="var">SigR_epi</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> <span class="id" title="definition">mk_Initial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#push_initiality"><span class="id" title="definition">push_initiality</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <span class="id" title="var">init</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">assumption</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">assumption</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Corollary</span> <a name="elementary_equations_preserve_initiality"><span class="id" title="lemma">elementary_equations_preserve_initiality</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">O</span> : <span class="id" title="definition">UU</span>}(<span class="id" title="var">eq</span> : <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#O"><span class="id" title="variable">O</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="Modules.SoftEquations.quotientequation.html#elementary_equation"><span class="id" title="definition">elementary_equation</span></a> (<span class="id" title="var">Sig</span> := <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRepInit.Sig"><span class="id" title="variable">Sig</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">eq'</span> := <span class="id" title="keyword">fun</span> <span class="id" title="var">o</span> =&gt; <a class="idref" href="Modules.SoftEquations.quotientequation.html#soft_equation_from_elementary_equation"><span class="id" title="definition">soft_equation_from_elementary_equation</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRepInit.epiSig"><span class="id" title="variable">epiSig</span></a>  (<a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#eq"><span class="id" title="variable">eq</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#o"><span class="id" title="variable">o</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">R</span> : <span class="id" title="definition">Initial</span> (<a class="idref" href="Modules.Signatures.ModelCat.html#rep_fiber_category"><span class="id" title="definition">rep_fiber_category</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRepInit.Sig"><span class="id" title="variable">Sig</span></a>)<span class="id" title="notation">)</span> <span class="id" title="notation">,</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">(</span></a><a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<span class="id" title="definition">InitialObject</span>  <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R"><span class="id" title="variable">R</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <span class="id" title="var">_</span>)<a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">)</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRepInit.Sig"><span class="id" title="variable">Sig</span></a> (<span class="id" title="definition">InitialObject</span> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R"><span class="id" title="variable">R</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <span class="id" title="var">_</span>)) <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">Initial</span> (<a class="idref" href="Modules.SoftEquations.Equation.html#precategory_model_equations"><span class="id" title="definition">precategory_model_equations</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#eq'"><span class="id" title="variable">eq'</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#soft_equations_preserve_initiality"><span class="id" title="lemma">soft_equations_preserve_initiality</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#QuotientRepInit"><span class="id" title="section">QuotientRepInit</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+As a corrolary, the case of an algebraic signature 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="elementary_equations_on_alg_preserve_initiality"><span class="id" title="definition">elementary_equations_on_alg_preserve_initiality</span></a> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">S</span> : <span class="id" title="definition">BindingSig</span>) (<span class="id" title="var">Sig</span> := <a class="idref" href="Modules.Signatures.BindingSig.html#binding_to_one_sigHSET"><span class="id" title="definition">binding_to_one_sigHSET</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#S"><span class="id" title="variable">S</span></a>)<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">O</span> : <span class="id" title="definition">UU</span>) (<span class="id" title="var">eq</span> : <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#O"><span class="id" title="variable">O</span></a> <span class="id" title="notation">→</span> <a class="idref" href="Modules.SoftEquations.quotientequation.html#elementary_equation"><span class="id" title="definition">elementary_equation</span></a> (<span class="id" title="var">Sig</span> := <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#Sig"><span class="id" title="variable">Sig</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">R</span> := <a class="idref" href="Modules.SoftEquations.BindingSig.html#bindingSigHSET_Initial"><span class="id" title="definition">bindingSigHSET_Initial</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#S"><span class="id" title="variable">S</span></a> : <span class="id" title="definition">Initial</span> (<a class="idref" href="Modules.Signatures.ModelCat.html#rep_fiber_category"><span class="id" title="definition">rep_fiber_category</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#Sig"><span class="id" title="variable">Sig</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">iniEpi</span> :=  <a class="idref" href="Modules.Signatures.BindingSig.html#algebraic_model_Epi"><span class="id" title="lemma">algebraic_model_Epi</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#S"><span class="id" title="variable">S</span></a> : <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<span class="id" title="definition">InitialObject</span> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R"><span class="id" title="variable">R</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#Sig"><span class="id" title="variable">Sig</span></a>)) <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">epiSig</span> := <a class="idref" href="Modules.Signatures.PreservesEpi.html#algSig_NatEpi"><span class="id" title="lemma">algSig_NatEpi</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#S"><span class="id" title="variable">S</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">SR_epi</span> := <a class="idref" href="Modules.Signatures.BindingSig.html#BindingSigAreEpiEpiSig"><span class="id" title="lemma">BindingSigAreEpiEpiSig</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#S"><span class="id" title="variable">S</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+A family of equations 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">eq'</span> := <span class="id" title="keyword">fun</span> <span class="id" title="var">o</span> =&gt; <a class="idref" href="Modules.SoftEquations.quotientequation.html#soft_equation_from_elementary_equation"><span class="id" title="definition">soft_equation_from_elementary_equation</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#epiSig"><span class="id" title="variable">epiSig</span></a>  (<a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#eq"><span class="id" title="variable">eq</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#o"><span class="id" title="variable">o</span></a>)) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+.. then the category of 2-models has an initial object 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="definition">Initial</span> (<a class="idref" href="Modules.SoftEquations.Equation.html#precategory_model_equations"><span class="id" title="definition">precategory_model_equations</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#eq'"><span class="id" title="variable">eq'</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:=<br/>
+&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#elementary_equations_preserve_initiality"><span class="id" title="lemma">elementary_equations_preserve_initiality</span></a>  <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#epiSig"><span class="id" title="variable">epiSig</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#eq"><span class="id" title="variable">eq</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#iniEpi"><span class="id" title="variable">iniEpi</span></a> (<a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#SR_epi"><span class="id" title="variable">SR_epi</span></a> <span class="id" title="var">_</span> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#iniEpi"><span class="id" title="variable">iniEpi</span></a>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+A version using the axiom of choice 
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="soft_equations_preserve_initiality_choice"><span class="id" title="lemma">soft_equations_preserve_initiality_choice</span></a> <br/>
+&nbsp;&nbsp;(<span class="id" title="var">ax_choice</span> : <span class="id" title="definition">AxiomOfChoice.AxiomOfChoice_surj</span>) :<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">∏</span> </div>
+
+<div class="doc">
+The 1-signature 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">(</span><span class="id" title="var">Sig</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <span class="id" title="notation">SET</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+The 1-signature must be an epi-signature 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">epiSig</span> : <a class="idref" href="Modules.Signatures.PreservesEpi.html#sig_preservesNatEpiMonad"><span class="id" title="definition">sig_preservesNatEpiMonad</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#Sig"><span class="id" title="variable">Sig</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+A family of equations 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">O</span> : <span class="id" title="definition">UU</span>) (<span class="id" title="var">eq</span> : <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#O"><span class="id" title="variable">O</span></a> <span class="id" title="notation">→</span> <a class="idref" href="Modules.SoftEquations.quotientequation.html#soft_equation_choice"><span class="id" title="definition">soft_equation_choice</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#ax_choice"><span class="id" title="variable">ax_choice</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#Sig"><span class="id" title="variable">Sig</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#epiSig"><span class="id" title="variable">epiSig</span></a> <span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+If the category of 1-models has an initial object, .. 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">Initial</span> (<a class="idref" href="Modules.Signatures.ModelCat.html#rep_fiber_category"><span class="id" title="definition">rep_fiber_category</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#Sig"><span class="id" title="variable">Sig</span></a>) <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+.. then the category of 2-models has an initial object 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">Initial</span> (<a class="idref" href="Modules.SoftEquations.Equation.html#precategory_model_equations"><span class="id" title="definition">precategory_model_equations</span></a> (<span class="id" title="notation">λ</span> <span class="id" title="var">x</span> : <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#O"><span class="id" title="variable">O</span></a><span class="id" title="notation">,</span> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#eq"><span class="id" title="variable">eq</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#x"><span class="id" title="variable">x</span></a>)).<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span>; <span class="id" title="var">use</span> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#soft_equations_preserve_initiality"><span class="id" title="lemma">soft_equations_preserve_initiality</span></a>; <span class="id" title="tactic">try</span> <span class="id" title="tactic">assumption</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_to_HSET_isEpi"><span class="id" title="lemma">preserves_to_HSET_isEpi</span></a>; <span class="id" title="tactic">assumption</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_to_HSET_isEpi"><span class="id" title="lemma">preserves_to_HSET_isEpi</span></a>; <span class="id" title="tactic">assumption</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+A version using the axiom of choice 
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="elementary_equations_preserve_initiality_choice"><span class="id" title="lemma">elementary_equations_preserve_initiality_choice</span></a> <br/>
+&nbsp;&nbsp;(<span class="id" title="var">ax_choice</span> : <span class="id" title="definition">AxiomOfChoice.AxiomOfChoice_surj</span>) :<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">∏</span> </div>
+
+<div class="doc">
+The 1-signature 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">(</span><span class="id" title="var">Sig</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <span class="id" title="notation">SET</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+The 1-signature must be an epi-signature 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">epiSig</span> : <span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">R</span> <span class="id" title="var">S</span> : <span class="id" title="definition">Monad</span> <span class="id" title="notation">SET</span>) (<span class="id" title="var">f</span> : <span class="id" title="definition">Monad_Mor</span> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#S"><span class="id" title="variable">S</span></a><span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">isEpi</span> (<span class="id" title="var">C</span> := <span class="id" title="notation">[</span><span class="id" title="notation">SET</span><span class="id" title="notation">,</span> <span class="id" title="notation">SET</span><span class="id" title="notation">]</span>) (<a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#f"><span class="id" title="variable">f</span></a> : <span class="id" title="definition">nat_trans</span> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#S"><span class="id" title="variable">S</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">→</span> <span class="id" title="definition">isEpi</span> (<span class="id" title="var">C</span> := <span class="id" title="notation">[</span><span class="id" title="notation">SET</span><span class="id" title="notation">,</span> <span class="id" title="notation">SET</span><span class="id" title="notation">]</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((<a class="idref" href="Modules.Signatures.Signature.html#291389361d487de917b722c0b1fff482"><span class="id" title="notation">#</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#Sig"><span class="id" title="variable">Sig</span></a>)%<span class="id" title="var">ar</span> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#f"><span class="id" title="variable">f</span></a> : <span class="id" title="definition">nat_trans</span> (<a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#Sig"><span class="id" title="variable">Sig</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#R"><span class="id" title="variable">R</span></a>)  (<span class="id" title="definition">pb_LModule</span> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#f"><span class="id" title="variable">f</span></a> (<a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#Sig"><span class="id" title="variable">Sig</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#S"><span class="id" title="variable">S</span></a>))))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+A family of equations 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">O</span> : <span class="id" title="definition">UU</span>) (<span class="id" title="var">eq</span> : <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#O"><span class="id" title="variable">O</span></a> <span class="id" title="notation">→</span> <a class="idref" href="Modules.SoftEquations.quotientequation.html#elementary_equation"><span class="id" title="definition">elementary_equation</span></a> (<span class="id" title="var">Sig</span> := <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#Sig"><span class="id" title="variable">Sig</span></a>)<span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+If the category of 1-models has an initial object, .. 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">Initial</span> (<a class="idref" href="Modules.Signatures.ModelCat.html#rep_fiber_category"><span class="id" title="definition">rep_fiber_category</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#Sig"><span class="id" title="variable">Sig</span></a>) <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+.. then the category of 2-models has an initial object 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">Initial</span> (<a class="idref" href="Modules.SoftEquations.Equation.html#precategory_model_equations"><span class="id" title="definition">precategory_model_equations</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">fun</span> <span class="id" title="var">o</span> =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.quotientequation.html#soft_equation_from_elementary_equation"><span class="id" title="definition">soft_equation_from_elementary_equation</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#epiSig"><span class="id" title="variable">epiSig</span></a> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#eq"><span class="id" title="variable">eq</span></a> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#o"><span class="id" title="variable">o</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;).<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span>; <span class="id" title="var">use</span> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#soft_equations_preserve_initiality_choice"><span class="id" title="lemma">soft_equations_preserve_initiality_choice</span></a>;  <span class="id" title="tactic">assumption</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

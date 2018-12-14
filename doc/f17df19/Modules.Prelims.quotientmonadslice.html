@@ -1,0 +1,352 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>Modules.Prelims.quotientmonadslice</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Modules.Prelims.quotientmonadslice</h1>
+
+<div class="code">
+</div>
+
+<div class="doc">
+<a name="lab5"></a><h2 class="section">Quotient of a monad by some elements of its coslice category</h2>
+
+</div>
+<div class="code">
+
+<br/>
+</div>
+
+<div class="doc">
+Description: This module construct the quotient of a monad (on Set) with respect to
+    some elements of its coslice category 
+    More precisely: let (f_j : R --&gt; d_j) for j in a (possibly large) set J be a collection of
+    morphisms of monads. We quotient R(X) by the following relation: x ~ y
+    if and only if for all j, f_j(x) = f_j(y) 
+
+<div class="paragraph"> </div>
+
+    Pairs of related elements can be characterized as the (possibly large) limit L of the
+    following diagram in the category of endofunctors: 
+<pre>&lt;
+  R ----&gt; d_j
+   \      ^
+    \     |
+     \    /
+      \  /
+        / .. 
+       / 
+      /  \
+     /    \
+    /     |
+   /      V
+  R ---&gt; d_j'
+</pre>
+&gt;
+
+<div class="paragraph"> </div>
+
+   The quotient can be characterized as the coequalizer of the pair projections
+   out of this limit.
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.PartD</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monads.Monads</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.SetValuedFunctors</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.HorizontalComposition</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.functor_categories</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.categories.HSET.All</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Categories</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.Sets</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Epis</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.EpiFacts</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.lib.html#"><span class="id" title="library">Modules.Prelims.lib</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#"><span class="id" title="library">Modules.Prelims.EpiComplements</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.quotientmonad.html#"><span class="id" title="library">Modules.Prelims.quotientmonad</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> "α ∙∙ β" := (<span class="id" title="definition">horcomp</span> <span class="id" title="var">β</span> <span class="id" title="var">α</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 20).<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> "'SET'" := <span class="id" title="definition">hset_category</span>.<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> "F ;;; G" := (<span class="id" title="definition">nat_trans_comp</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">F</span> <span class="id" title="var">G</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 35).<br/>
+
+<br/>
+<span class="id" title="keyword">Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">cat</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Section</span> <a name="QuotientMonad"><span class="id" title="section">QuotientMonad</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> {<span class="id" title="var">R</span> : <span class="id" title="definition">Monad</span> <span class="id" title="notation">SET</span>}.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+  R preserves epimorphisms.
+    This is needed to prove the the horizontal composition of the
+    canonical projection with itself is epimorphic.
+   This is always the case if one assumes the axiom of choice because then all
+  epimorphisms have a retract, and thus are absolute.
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Context</span> (<span class="id" title="var">R_epi</span> : <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#QuotientMonad.R"><span class="id" title="variable">R</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Context</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">J</span> : <span class="id" title="definition">UU</span>} (<span class="id" title="var">d</span> : <a class="idref" href="Modules.Prelims.quotientmonadslice.html#J"><span class="id" title="variable">J</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <span class="id" title="definition">Monad</span> <span class="id" title="notation">SET</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">ff</span> : <span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">j</span> : <a class="idref" href="Modules.Prelims.quotientmonadslice.html#J"><span class="id" title="variable">J</span></a><span class="id" title="notation">),</span> <span class="id" title="definition">Monad_Mor</span> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#QuotientMonad.R"><span class="id" title="variable">R</span></a> (<a class="idref" href="Modules.Prelims.quotientmonadslice.html#d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#j"><span class="id" title="variable">j</span></a>)).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Define two elements in R to be related if they are mapped
+    to the same element by any morphism f of our collection of the slice category
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="equivc"><span class="id" title="definition">equivc</span></a> {<span class="id" title="var">X</span> : <span class="id" title="notation">SET</span>} (<span class="id" title="var">x</span> <span class="id" title="var">y</span> : ( <a class="idref" href="Modules.Prelims.quotientmonadslice.html#QuotientMonad.R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#X"><span class="id" title="variable">X</span></a> : <span class="id" title="definition">hSet</span>)) : <span class="id" title="definition">UU</span><br/>
+&nbsp;&nbsp;:= <span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">j</span> : <a class="idref" href="Modules.Prelims.quotientmonadslice.html#QuotientMonad.J"><span class="id" title="variable">J</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">,</span> (<a class="idref" href="Modules.Prelims.quotientmonadslice.html#QuotientMonad.ff"><span class="id" title="variable">ff</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#j"><span class="id" title="variable">j</span></a>) <a class="idref" href="Modules.Prelims.quotientmonadslice.html#X"><span class="id" title="variable">X</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#x"><span class="id" title="variable">x</span></a> <span class="id" title="notation">=</span> (<a class="idref" href="Modules.Prelims.quotientmonadslice.html#QuotientMonad.ff"><span class="id" title="variable">ff</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#j"><span class="id" title="variable">j</span></a>) <a class="idref" href="Modules.Prelims.quotientmonadslice.html#X"><span class="id" title="variable">X</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#y"><span class="id" title="variable">y</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"><a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.equivc"><span class="id" title="variable">equivc</span></a></span> is a proposition
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="isaprop_equivc_xy"><span class="id" title="lemma">isaprop_equivc_xy</span></a> (<span class="id" title="var">c</span> : <span class="id" title="notation">SET</span>) <span class="id" title="var">x</span> <span class="id" title="var">y</span> : <span class="id" title="definition">isaprop</span> (<a class="idref" href="Modules.Prelims.quotientmonadslice.html#equivc"><span class="id" title="definition">equivc</span></a> (<span class="id" title="var">X</span>:=<a class="idref" href="Modules.Prelims.quotientmonadslice.html#c"><span class="id" title="variable">c</span></a>) <a class="idref" href="Modules.Prelims.quotientmonadslice.html#x"><span class="id" title="variable">x</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#y"><span class="id" title="variable">y</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">impred_isaprop</span>; <span class="id" title="tactic">intro</span> <span class="id" title="var">S</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">setproperty</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="equivc_xy_prop"><span class="id" title="definition">equivc_xy_prop</span></a> (<span class="id" title="var">X</span> : <span class="id" title="notation">SET</span>) <span class="id" title="var">x</span> <span class="id" title="var">y</span> : <span class="id" title="definition">hProp</span> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="Modules.Prelims.quotientmonadslice.html#equivc"><span class="id" title="definition">equivc</span></a> (<span class="id" title="var">X</span>:=<a class="idref" href="Modules.Prelims.quotientmonadslice.html#X"><span class="id" title="variable">X</span></a>) <a class="idref" href="Modules.Prelims.quotientmonadslice.html#x"><span class="id" title="variable">x</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#y"><span class="id" title="variable">y</span></a> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#isaprop_equivc_xy"><span class="id" title="lemma">isaprop_equivc_xy</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#X"><span class="id" title="variable">X</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#x"><span class="id" title="variable">x</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#y"><span class="id" title="variable">y</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="hrel_equivc"><span class="id" title="definition">hrel_equivc</span></a> (<span class="id" title="var">X</span> : <span class="id" title="notation">SET</span>) : <span class="id" title="definition">hrel</span> (<a class="idref" href="Modules.Prelims.quotientmonadslice.html#QuotientMonad.R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#X"><span class="id" title="variable">X</span></a> : <span class="id" title="definition">hSet</span>)<br/>
+&nbsp;&nbsp;:= <span class="id" title="keyword">fun</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> =&gt; <a class="idref" href="Modules.Prelims.quotientmonadslice.html#equivc_xy_prop"><span class="id" title="definition">equivc_xy_prop</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#X"><span class="id" title="variable">X</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#x"><span class="id" title="variable">x</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#y"><span class="id" title="variable">y</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"><a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.equivc"><span class="id" title="variable">equivc</span></a></span> is an equivalence relation 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="iseqrel_equivc"><span class="id" title="lemma">iseqrel_equivc</span></a> (<span class="id" title="var">X</span> : <span class="id" title="notation">SET</span>) : <span class="id" title="definition">iseqrel</span> (<a class="idref" href="Modules.Prelims.quotientmonadslice.html#hrel_equivc"><span class="id" title="definition">hrel_equivc</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#X"><span class="id" title="variable">X</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#hrel_equivc"><span class="id" title="definition">hrel_equivc</span></a>, <a class="idref" href="Modules.Prelims.quotientmonadslice.html#equivc_xy_prop"><span class="id" title="definition">equivc_xy_prop</span></a>, <a class="idref" href="Modules.Prelims.quotientmonadslice.html#equivc"><span class="id" title="definition">equivc</span></a>; <span class="id" title="tactic">simpl</span>;<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> <span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> <span class="id" title="var">z</span>. <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">h1</span> <span class="id" title="var">h2</span> <span class="id" title="var">S</span> .<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="var">h1</span>,<span class="id" title="var">h2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span>; <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">h</span> <span class="id" title="var">S</span> .<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">symmetry</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">h</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"><a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.equivc"><span class="id" title="variable">equivc</span></a></span> is an equivalence relation 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="eqrel_equivc"><span class="id" title="definition">eqrel_equivc</span></a> (<span class="id" title="var">X</span> : <span class="id" title="notation">SET</span>) : <span class="id" title="definition">eqrel</span> <span class="id" title="var">_</span> := <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#iseqrel_equivc"><span class="id" title="lemma">iseqrel_equivc</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#X"><span class="id" title="variable">X</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+For any f : X -&gt; Y, R f is compatible with previous equivalence relation 
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="congr_equivc"><span class="id" title="lemma">congr_equivc</span></a> (<span class="id" title="var">X</span> <span class="id" title="var">Y</span> : <span class="id" title="notation">SET</span>) (<span class="id" title="var">f</span> : <span class="id" title="notation">SET</span> <span class="id" title="notation">⟦</span><a class="idref" href="Modules.Prelims.quotientmonadslice.html#X"><span class="id" title="variable">X</span></a> <span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#Y"><span class="id" title="variable">Y</span></a><span class="id" title="notation">⟧</span>)<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">iscomprelrelfun</span> (<a class="idref" href="Modules.Prelims.quotientmonadslice.html#eqrel_equivc"><span class="id" title="definition">eqrel_equivc</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#X"><span class="id" title="variable">X</span></a>) (<a class="idref" href="Modules.Prelims.quotientmonadslice.html#eqrel_equivc"><span class="id" title="definition">eqrel_equivc</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#Y"><span class="id" title="variable">Y</span></a>) (<span class="id" title="notation">#</span> <span class="id" title="notation">(</span> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#QuotientMonad.R"><span class="id" title="variable">R</span></a><span class="id" title="notation">)</span> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#f"><span class="id" title="variable">f</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">z</span> <span class="id" title="var">z'</span> <span class="id" title="var">eqz</span> <span class="id" title="var">S</span> .<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">assert</span> (<span class="id" title="var">hg</span> := <span class="id" title="definition">nat_trans_ax</span> (<a class="idref" href="Modules.Prelims.quotientmonadslice.html#QuotientMonad.ff"><span class="id" title="variable">ff</span></a> <span class="id" title="var">S</span>) <span class="id" title="var">X</span> <span class="id" title="var">Y</span> <span class="id" title="var">f</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">toforallpaths</span> <span class="id" title="tactic">in</span> <span class="id" title="var">hg</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">etrans</span>; [<span class="id" title="tactic">apply</span> <span class="id" title="var">hg</span>|].<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="var">hg</span>|].<br/>
+&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">maponpaths</span>. &nbsp;&nbsp;<span class="id" title="var">cbn</span> <span class="id" title="tactic">in</span> <span class="id" title="var">eqz</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>, <span class="id" title="var">eqz</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Let</span> <a name="QuotientMonad.R'"><span class="id" title="variable">R'</span></a> := <a class="idref" href="Modules.Prelims.quotientmonad.html#R'"><span class="id" title="definition">R'</span></a>  <a class="idref" href="Modules.Prelims.quotientmonadslice.html#congr_equivc"><span class="id" title="lemma">congr_equivc</span></a>.<br/>
+<span class="id" title="keyword">Let</span> <a name="QuotientMonad.projR"><span class="id" title="variable">projR</span></a> := <a class="idref" href="Modules.Prelims.quotientmonad.html#projR"><span class="id" title="definition">projR</span></a>  <a class="idref" href="Modules.Prelims.quotientmonadslice.html#congr_equivc"><span class="id" title="lemma">congr_equivc</span></a>.<br/>
+</div>
+
+<div class="doc">
+Two elements that are equal in the quotient 
+    get mapped to equal elements by any morphism 
+    of actions
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="compat_slice"><span class="id" title="lemma">compat_slice</span></a> (<span class="id" title="var">j</span> : <a class="idref" href="Modules.Prelims.quotientmonadslice.html#QuotientMonad.J"><span class="id" title="variable">J</span></a>) ( <span class="id" title="var">m</span> := <a class="idref" href="Modules.Prelims.quotientmonadslice.html#QuotientMonad.ff"><span class="id" title="variable">ff</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#j"><span class="id" title="variable">j</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">X</span> : <span class="id" title="notation">SET</span>) (<span class="id" title="var">x</span> <span class="id" title="var">y</span> : (<span class="id" title="projection">pr1</span> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#QuotientMonad.R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#X"><span class="id" title="variable">X</span></a> : <span class="id" title="definition">hSet</span><span class="id" title="notation">)),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Prelims.quotientmonadslice.html#QuotientMonad.projR"><span class="id" title="variable">projR</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#X"><span class="id" title="variable">X</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#x"><span class="id" title="variable">x</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#QuotientMonad.projR"><span class="id" title="variable">projR</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#X"><span class="id" title="variable">X</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#y"><span class="id" title="variable">y</span></a> <span class="id" title="notation">→</span> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#m"><span class="id" title="variable">m</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#X"><span class="id" title="variable">X</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#x"><span class="id" title="variable">x</span></a> <span class="id" title="notation">=</span>  <a class="idref" href="Modules.Prelims.quotientmonadslice.html#m"><span class="id" title="variable">m</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#X"><span class="id" title="variable">X</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#y"><span class="id" title="variable">y</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">X</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> <span class="id" title="var">eqpr</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.quotientmonad.html#eq_projR_rel"><span class="id" title="lemma">eq_projR_rel</span></a> <span class="id" title="tactic">in</span> <span class="id" title="var">eqpr</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="var">eqpr</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Any natural transformation from <span class="inlinecode"><a class="idref" href="Modules.Prelims.LModulesComplements.html#R"><span class="id" title="variable">R</span></a></span> to ff_j factors through the canonical projection R -&gt; R' 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="u"><span class="id" title="definition">u</span></a> (<span class="id" title="var">j</span> : <a class="idref" href="Modules.Prelims.quotientmonadslice.html#QuotientMonad.J"><span class="id" title="variable">J</span></a>) (<span class="id" title="var">S</span> := <a class="idref" href="Modules.Prelims.quotientmonadslice.html#QuotientMonad.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#j"><span class="id" title="variable">j</span></a>) : <span class="id" title="definition">nat_trans</span> (<span class="id" title="projection">pr1</span> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#QuotientMonad.R'"><span class="id" title="variable">R'</span></a>) <a class="idref" href="Modules.Prelims.quotientmonadslice.html#S"><span class="id" title="variable">S</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<a class="idref" href="Modules.Prelims.quotientmonad.html#u"><span class="id" title="definition">quotientmonad.u</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#congr_equivc"><span class="id" title="lemma">congr_equivc</span></a> <span class="id" title="var">_</span> (<a class="idref" href="Modules.Prelims.quotientmonadslice.html#QuotientMonad.ff"><span class="id" title="variable">ff</span></a> <span class="id" title="var">j</span>)).<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#compat_slice"><span class="id" title="lemma">compat_slice</span></a>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="u_def"><span class="id" title="lemma">u_def</span></a> (<span class="id" title="var">j</span> : <a class="idref" href="Modules.Prelims.quotientmonadslice.html#QuotientMonad.J"><span class="id" title="variable">J</span></a>) (<span class="id" title="var">m</span> := <a class="idref" href="Modules.Prelims.quotientmonadslice.html#QuotientMonad.ff"><span class="id" title="variable">ff</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#j"><span class="id" title="variable">j</span></a>) : <span class="id" title="notation">∏</span> <span class="id" title="var">x</span><span class="id" title="notation">,</span>  <a class="idref" href="Modules.Prelims.quotientmonadslice.html#m"><span class="id" title="variable">m</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#x"><span class="id" title="variable">x</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#QuotientMonad.projR"><span class="id" title="variable">projR</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#x"><span class="id" title="variable">x</span></a> <span class="id" title="notation">·</span> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#u"><span class="id" title="definition">u</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#j"><span class="id" title="variable">j</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#x"><span class="id" title="variable">x</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<a class="idref" href="Modules.Prelims.quotientmonad.html#u_def"><span class="id" title="lemma">quotientmonad.u_def</span></a>).<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="u_def_nt"><span class="id" title="lemma">u_def_nt</span></a> (<span class="id" title="var">j</span> : <a class="idref" href="Modules.Prelims.quotientmonadslice.html#QuotientMonad.J"><span class="id" title="variable">J</span></a>) :  <span class="id" title="notation">(</span><a class="idref" href="Modules.Prelims.quotientmonadslice.html#QuotientMonad.ff"><span class="id" title="variable">ff</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#j"><span class="id" title="variable">j</span></a> : <span class="id" title="definition">nat_trans</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span><span class="id" title="notation">)</span> <span class="id" title="notation">=</span> <span class="id" title="notation">(</span><span class="id" title="definition">compose</span> (<span class="id" title="var">C</span> := <span class="id" title="notation">[</span><span class="id" title="notation">SET</span><span class="id" title="notation">,</span><span class="id" title="notation">SET</span><span class="id" title="notation">]</span>) (<a class="idref" href="Modules.Prelims.quotientmonadslice.html#QuotientMonad.projR"><span class="id" title="variable">projR</span></a> : <span class="id" title="definition">nat_trans</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>)  (<a class="idref" href="Modules.Prelims.quotientmonadslice.html#u"><span class="id" title="definition">u</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#j"><span class="id" title="variable">j</span></a>)<span class="id" title="notation">)</span>  .<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.quotientmonad.html#u_def_nt"><span class="id" title="lemma">quotientmonad.u_def_nt</span></a>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+We show that the relation induced by a morphism of models
+    satisfies the conditions necessary to induce a quotient monad 
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Corollary</span> <a name="7d66afacbeb2701186cc3b3474c2ae3a"><span class="id" title="lemma">compat_μ_slice</span></a> : <a class="idref" href="Modules.Prelims.quotientmonad.html#359101606e393eb96f2071864a3a1db1"><span class="id" title="definition">compat_μ_projR_def</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#congr_equivc"><span class="id" title="lemma">congr_equivc</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">X</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> <span class="id" title="var">hxy</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.quotientmonad.html#rel_eq_projR"><span class="id" title="lemma">rel_eq_projR</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">j</span> .<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Modules.Prelims.lib.html#comp_cat_comp"><span class="id" title="lemma">comp_cat_comp</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Modules.Prelims.lib.html#comp_cat_comp"><span class="id" title="lemma">comp_cat_comp</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> <a class="idref" href="Modules.Prelims.lib.html#changef_path"><span class="id" title="lemma">changef_path</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">symmetry</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>; [ <span class="id" title="tactic">apply</span> (<span class="id" title="definition">Monad_Mor_μ</span> (<a class="idref" href="Modules.Prelims.quotientmonadslice.html#QuotientMonad.ff"><span class="id" title="variable">ff</span></a> <span class="id" title="var">j</span>)) |].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{ <span class="id" title="tactic">apply</span> (<span class="id" title="lemma">cancel_postcomposition</span> (<span class="id" title="var">C</span>:=<span class="id" title="notation">SET</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ <span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_postcomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#u_def"><span class="id" title="lemma">u_def</span></a>. }<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_precomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">maponpaths</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#u_def"><span class="id" title="lemma">u_def</span></a> .<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{ <span class="id" title="tactic">apply</span> (<span class="id" title="lemma">cancel_postcomposition</span> (<span class="id" title="var">C</span>:=<span class="id" title="notation">SET</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ <span class="id" title="tactic">symmetry</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_precomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ <span class="id" title="tactic">symmetry</span>. <span class="id" title="tactic">apply</span> <span class="id" title="definition">nat_trans_ax</span>. }<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_postcomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">functor_comp</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> <span class="id" title="tactic">rewrite</span> <span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">do</span> 3 <span class="id" title="tactic">apply</span> <span class="id" title="definition">maponpaths</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="notation">!</span><span class="id" title="var">hxy</span>).<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Short notations for the quotient monad and the projection as a monad morphism 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="R'_monad"><span class="id" title="definition">R'_monad</span></a> : <span class="id" title="definition">Monad</span> <span class="id" title="notation">SET</span> := <a class="idref" href="Modules.Prelims.quotientmonad.html#R'_monad"><span class="id" title="definition">R'_monad</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#QuotientMonad.R_epi"><span class="id" title="variable">R_epi</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#congr_equivc"><span class="id" title="lemma">congr_equivc</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#7d66afacbeb2701186cc3b3474c2ae3a"><span class="id" title="lemma">compat_μ_slice</span></a>.<br/>
+<span class="id" title="keyword">Definition</span> <a name="projR_monad"><span class="id" title="definition">projR_monad</span></a><br/>
+&nbsp;&nbsp;: <span class="id" title="definition">Monad_Mor</span> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#QuotientMonad.R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#R'_monad"><span class="id" title="definition">R'_monad</span></a><br/>
+&nbsp;&nbsp;:= <a class="idref" href="Modules.Prelims.quotientmonad.html#projR_monad"><span class="id" title="definition">projR_monad</span></a>  <a class="idref" href="Modules.Prelims.quotientmonadslice.html#QuotientMonad.R_epi"><span class="id" title="variable">R_epi</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#congr_equivc"><span class="id" title="lemma">congr_equivc</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#7d66afacbeb2701186cc3b3474c2ae3a"><span class="id" title="lemma">compat_μ_slice</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Any monad morphism from <span class="inlinecode"><a class="idref" href="Modules.Prelims.LModulesComplements.html#R"><span class="id" title="variable">R</span></a></span> to ff_j factors through the canonical projection R -&gt; R' 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="u_monad"><span class="id" title="definition">u_monad</span></a> (<span class="id" title="var">j</span> : <a class="idref" href="Modules.Prelims.quotientmonadslice.html#QuotientMonad.J"><span class="id" title="variable">J</span></a>)  (<span class="id" title="var">m</span> := <a class="idref" href="Modules.Prelims.quotientmonadslice.html#QuotientMonad.ff"><span class="id" title="variable">ff</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#j"><span class="id" title="variable">j</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">Monad_Mor</span> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#R'_monad"><span class="id" title="definition">R'_monad</span></a> (<a class="idref" href="Modules.Prelims.quotientmonadslice.html#QuotientMonad.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#j"><span class="id" title="variable">j</span></a>)<br/>
+&nbsp;&nbsp;:= <a class="idref" href="Modules.Prelims.quotientmonad.html#u_monad"><span class="id" title="definition">quotientmonad.u_monad</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#QuotientMonad.R_epi"><span class="id" title="variable">R_epi</span></a>  <a class="idref" href="Modules.Prelims.quotientmonadslice.html#7d66afacbeb2701186cc3b3474c2ae3a"><span class="id" title="lemma">compat_μ_slice</span></a> (<span class="id" title="var">S</span>:= <a class="idref" href="Modules.Prelims.quotientmonadslice.html#QuotientMonad.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#j"><span class="id" title="variable">j</span></a>) <a class="idref" href="Modules.Prelims.quotientmonadslice.html#m"><span class="id" title="variable">m</span></a> (<a class="idref" href="Modules.Prelims.quotientmonadslice.html#compat_slice"><span class="id" title="lemma">compat_slice</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#j"><span class="id" title="variable">j</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="u_monad_def"><span class="id" title="lemma">u_monad_def</span></a> (<span class="id" title="var">j</span> : <a class="idref" href="Modules.Prelims.quotientmonadslice.html#QuotientMonad.J"><span class="id" title="variable">J</span></a>) (<span class="id" title="var">m</span> := <a class="idref" href="Modules.Prelims.quotientmonadslice.html#QuotientMonad.ff"><span class="id" title="variable">ff</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#j"><span class="id" title="variable">j</span></a>) : <a class="idref" href="Modules.Prelims.quotientmonadslice.html#m"><span class="id" title="variable">m</span></a> <span class="id" title="notation">=</span> <span class="id" title="notation">(</span><a class="idref" href="Modules.Prelims.quotientmonadslice.html#projR_monad"><span class="id" title="definition">projR_monad</span></a> : <span class="id" title="definition">category_Monad</span> <span class="id" title="notation">SET</span> <span class="id" title="notation">⟦</span><span class="id" title="var">_</span><span class="id" title="notation">,</span><span class="id" title="var">_</span><span class="id" title="notation">⟧</span><span class="id" title="notation">)</span> <span class="id" title="notation">·</span> <span class="id" title="notation">(</span><a class="idref" href="Modules.Prelims.quotientmonadslice.html#u_monad"><span class="id" title="definition">u_monad</span></a> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#j"><span class="id" title="variable">j</span></a><span class="id" title="notation">)</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<a class="idref" href="Modules.Prelims.quotientmonad.html#u_monad_def"><span class="id" title="lemma">quotientmonad.u_monad_def</span></a>).<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#QuotientMonad"><span class="id" title="section">QuotientMonad</span></a>.<br/>
+
+<br/>
+<span class="id" title="var">Arguments</span> <a class="idref" href="Modules.Prelims.quotientmonad.html#projR"><span class="id" title="definition">projR</span></a> : <span class="id" title="tactic">simpl</span> <span class="id" title="var">never</span>.<br/>
+<span class="id" title="var">Arguments</span> <a class="idref" href="Modules.Prelims.quotientmonad.html#R'"><span class="id" title="definition">R'</span></a> : <span class="id" title="tactic">simpl</span> <span class="id" title="var">never</span>.<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>Modules.SoftEquations.BindingSig</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Modules.SoftEquations.BindingSig</h1>
+
+<div class="code">
+</div>
+
+<div class="doc">
+<a name="lab31"></a><h1 class="section">Complements about binding/algebraic signatures</h1>
+
+
+<div class="paragraph"> </div>
+
+<ul class="doclist">
+<li> Binding Signature operations (specified by arities) yield signature-over morphisms <span class="inlinecode"><a class="idref" href="Modules.SoftEquations.BindingSig.html#bindingSig_op_to_sig_mor"><span class="id" title="definition">bindingSig_op_to_sig_mor</span></a></span>
+
+</li>
+<li> Their category of models in the sense of ModelCat has an initial object <span class="inlinecode"><a class="idref" href="Modules.SoftEquations.BindingSig.html#bindingSigHSET_Initial"><span class="id" title="definition">bindingSigHSET_Initial</span></a></span>
+
+</li>
+</ul>
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.PartD</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monads.Monads</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monads.LModules</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.SetValuedFunctors</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.HorizontalComposition</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.functor_categories</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.categories.HSET.All</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.bincoproducts</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.catiso</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Categories</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.Sets</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.SubstitutionSystems.BindingSigToMonad</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.lib.html#"><span class="id" title="library">Modules.Prelims.lib</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.Signature.html#"><span class="id" title="library">Modules.Signatures.Signature</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.PreservesEpi.html#"><span class="id" title="library">Modules.Signatures.PreservesEpi</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.ModelCat.html#"><span class="id" title="library">Modules.Signatures.ModelCat</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.LModulesBinProducts.html#"><span class="id" title="library">Modules.Prelims.LModulesBinProducts</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.BindingSig.html#"><span class="id" title="library">Modules.Signatures.BindingSig</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#"><span class="id" title="library">Modules.Signatures.SignatureBinproducts</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.SignatureCoproduct.html#"><span class="id" title="library">Modules.Signatures.SignatureCoproduct</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.SignatureDerivation.html#"><span class="id" title="library">Modules.Signatures.SignatureDerivation</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.HssToSignature.html#"><span class="id" title="library">Modules.Signatures.HssToSignature</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.HssSignatureCommutation.html#"><span class="id" title="library">Modules.Signatures.HssSignatureCommutation</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.deriveadj.html#"><span class="id" title="library">Modules.Prelims.deriveadj</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.SoftEquations.SignatureOver.html#"><span class="id" title="library">Modules.SoftEquations.SignatureOver</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.SoftEquations.Equation.html#"><span class="id" title="library">Modules.SoftEquations.Equation</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.SoftEquations.quotientequation.html#"><span class="id" title="library">Modules.SoftEquations.quotientequation</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.BinProductComplements.html#"><span class="id" title="library">Modules.Prelims.BinProductComplements</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.CoproductsComplements.html#"><span class="id" title="library">Modules.Prelims.CoproductsComplements</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.initial</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.binproducts</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.coproducts</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.terminal</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#"><span class="id" title="library">Modules.SoftEquations.SignatureOverBinproducts</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="db145f63e61c9a477f8e5c360910429f"><span class="id" title="abbreviation">ι</span></a> := (<a class="idref" href="Modules.SoftEquations.SignatureOver.html#sig_over_from_sig"><span class="id" title="definition">sig_over_from_sig</span></a> <span class="id" title="var">_</span>).<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="7943b5fdf911af3ffcf9d8f738478e8a"><span class="id" title="abbreviation">θ</span></a> := (<a class="idref" href="Modules.Signatures.Signature.html#tautological_signature"><span class="id" title="definition">tautological_signature</span></a>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Binding Signature operations (specified by arities) yield signature-over morphisms 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="bindingSig_op_to_sig_mor"><span class="id" title="definition">bindingSig_op_to_sig_mor</span></a> {<span class="id" title="var">C</span> : <span class="id" title="definition">category</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">bpC</span> <span class="id" title="var">bcpC</span>  <span class="id" title="var">cpC</span> <span class="id" title="var">TC</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">S</span> : <span class="id" title="definition">BindingSig</span>) (<span class="id" title="var">o</span> : <span class="id" title="definition">BindingSigIndex</span> <a class="idref" href="Modules.SoftEquations.BindingSig.html#S"><span class="id" title="variable">S</span></a>) :<br/>
+&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_Mor"><span class="id" title="definition">signature_over_Mor</span></a> (<span class="id" title="var">C</span> := <a class="idref" href="Modules.SoftEquations.BindingSig.html#C"><span class="id" title="variable">C</span></a>) (<a class="idref" href="Modules.Signatures.BindingSig.html#binding_to_one_sig"><span class="id" title="definition">binding_to_one_sig</span></a> <a class="idref" href="Modules.SoftEquations.BindingSig.html#bpC"><span class="id" title="variable">bpC</span></a> <a class="idref" href="Modules.SoftEquations.BindingSig.html#bcpC"><span class="id" title="variable">bcpC</span></a>  <a class="idref" href="Modules.SoftEquations.BindingSig.html#cpC"><span class="id" title="variable">cpC</span></a> <a class="idref" href="Modules.SoftEquations.BindingSig.html#TC"><span class="id" title="variable">TC</span></a> <a class="idref" href="Modules.SoftEquations.BindingSig.html#S"><span class="id" title="variable">S</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.SoftEquations.BindingSig.html#db145f63e61c9a477f8e5c360910429f"><span class="id" title="abbreviation">ι</span></a> (<a class="idref" href="Modules.Signatures.BindingSig.html#arity_to_one_sig"><span class="id" title="definition">arity_to_one_sig</span></a> <a class="idref" href="Modules.SoftEquations.BindingSig.html#bpC"><span class="id" title="variable">bpC</span></a> <a class="idref" href="Modules.SoftEquations.BindingSig.html#bcpC"><span class="id" title="variable">bcpC</span></a> <a class="idref" href="Modules.SoftEquations.BindingSig.html#TC"><span class="id" title="variable">TC</span></a> (<span class="id" title="definition">BindingSigMap</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.SoftEquations.BindingSig.html#o"><span class="id" title="variable">o</span></a>)))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.SoftEquations.BindingSig.html#db145f63e61c9a477f8e5c360910429f"><span class="id" title="abbreviation">ι</span></a> <a class="idref" href="Modules.SoftEquations.BindingSig.html#7943b5fdf911af3ffcf9d8f738478e8a"><span class="id" title="abbreviation">θ</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> (<span class="id" title="definition">compose</span> (<span class="id" title="var">C</span> := <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_category"><span class="id" title="definition">signature_over_category</span></a> <span class="id" title="var">_</span>)  ); <span class="id" title="var">revgoals</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.SoftEquations.SignatureOver.html#action_sig_over_mor"><span class="id" title="definition">action_sig_over_mor</span></a>.<br/>
+&nbsp;&nbsp;-  <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.SoftEquations.SignatureOver.html#sig_sig_over_mor"><span class="id" title="definition">sig_sig_over_mor</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> (<span class="id" title="definition">compose</span> (<span class="id" title="var">C</span> := <a class="idref" href="Modules.Signatures.Signature.html#signature_category"><span class="id" title="definition">signature_category</span></a> )  ); <span class="id" title="var">revgoals</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="var">use</span> <span class="id" title="definition">inv_from_iso</span> .<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.HssSignatureCommutation.html#coprod_sigs_har_iso"><span class="id" title="definition">coprod_sigs_har_iso</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="var">use</span> (<span class="id" title="definition">CoproductIn</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">o</span>).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Specific definition for SET 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="bindingSig_op_to_sig_morHSET"><span class="id" title="definition">bindingSig_op_to_sig_morHSET</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.BindingSig.html#bindingSig_op_to_sig_mor"><span class="id" title="definition">bindingSig_op_to_sig_mor</span></a> (<span class="id" title="var">C</span> := <span class="id" title="notation">SET</span>) <span class="id" title="lemma">BinProductsHSET</span> <span class="id" title="lemma">BinCoproductsHSET</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="lemma">CoproductsHSET</span> <span class="id" title="lemma">TerminalHSET</span> .<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="bindingSigHSET_Initial"><span class="id" title="definition">bindingSigHSET_Initial</span></a> (<span class="id" title="var">S</span> : <span class="id" title="definition">BindingSig</span>) :  <span class="id" title="definition">Initial</span> (<a class="idref" href="Modules.Signatures.ModelCat.html#rep_fiber_category"><span class="id" title="definition">rep_fiber_category</span></a> (<a class="idref" href="Modules.Signatures.BindingSig.html#binding_to_one_sigHSET"><span class="id" title="definition">binding_to_one_sigHSET</span></a>  <a class="idref" href="Modules.SoftEquations.BindingSig.html#S"><span class="id" title="variable">S</span></a>)).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> <a class="idref" href="Modules.Prelims.lib.html#catiso_initial"><span class="id" title="lemma">catiso_initial</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.ModelCat.html#catiso_modelcat"><span class="id" title="definition">catiso_modelcat</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.BindingSig.html#algebraic_sig_initial"><span class="id" title="definition">algebraic_sig_initial</span></a>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

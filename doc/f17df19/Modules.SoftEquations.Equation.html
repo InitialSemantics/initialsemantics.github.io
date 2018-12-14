@@ -1,0 +1,276 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>Modules.SoftEquations.Equation</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Modules.SoftEquations.Equation</h1>
+
+<div class="code">
+</div>
+
+<div class="doc">
+<a name="lab26"></a><h1 class="section">Σ-equations and their models</h1>
+
+
+<div class="paragraph"> </div>
+
+<ul class="doclist">
+<li> Definition of an equation <span class="inlinecode"><a class="idref" href="Modules.SoftEquations.Equation.html#equation"><span class="id" title="definition">equation</span></a></span>
+
+</li>
+<li> The satisfyability predicate for 1-model <span class="inlinecode"><a class="idref" href="Modules.SoftEquations.Equation.html#satisfies_equation"><span class="id" title="definition">satisfies_equation</span></a></span>
+
+</li>
+<li> Definition of 2-model <span class="inlinecode"><a class="idref" href="Modules.SoftEquations.Equation.html#model_equations"><span class="id" title="definition">model_equations</span></a></span>
+
+</li>
+<li> Precategory of 2-model <span class="inlinecode"><a class="idref" href="Modules.SoftEquations.Equation.html#precategory_model_equations"><span class="id" title="definition">precategory_model_equations</span></a></span>
+
+</li>
+<li> Forgetful functor from 2-models to 1-models <span class="inlinecode"><a class="idref" href="Modules.SoftEquations.Equation.html#forget_2model"><span class="id" title="definition">forget_2model</span></a></span>
+
+</li>
+<li> A 1-signature morphism : S1 -&gt; S2 induce a map between equations on S1 and equations
+   on S2
+
+</li>
+</ul>
+
+<div class="paragraph"> </div>
+
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.PartD</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.Propositions</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.Sets</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.categories.HSET.All</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monads.LModules</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Categories</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.functor_categories</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Subcategory.Core</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Subcategory.Full</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.Signature.html#"><span class="id" title="library">Modules.Signatures.Signature</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.ModelCat.html#"><span class="id" title="library">Modules.Signatures.ModelCat</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.SoftEquations.SignatureOver.html#"><span class="id" title="library">Modules.SoftEquations.SignatureOver</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Notation for 1-model morphisms 
+</div>
+<div class="code">
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span>  "R →→ S" := (<a class="idref" href="Modules.Signatures.ModelCat.html#rep_fiber_mor"><span class="id" title="definition">rep_fiber_mor</span></a> <span class="id" title="var">R</span> <span class="id" title="var">S</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 6).<br/>
+
+<br/>
+<span class="id" title="keyword">Section</span> <a name="Equation"><span class="id" title="section">Equation</span></a>.<br/>
+</div>
+
+<div class="doc">
+We fix a 1-signature <span class="inlinecode"><a class="idref" href="Modules.Signatures.PresentableSignature.html#Sig"><span class="id" title="abbreviation">Sig</span></a></span> in a category <span class="inlinecode"><a class="idref" href="Modules.Prelims.LModulesComplements.html#C"><span class="id" title="variable">C</span></a></span> 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span>  {<span class="id" title="var">C</span> : <span class="id" title="definition">category</span>} {<span class="id" title="var">Sig</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#C"><span class="id" title="variable">C</span></a>}.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="REP"><span class="id" title="abbreviation">REP</span></a> := (<a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#Equation.Sig"><span class="id" title="variable">Sig</span></a>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+A half-equation between <span class="inlinecode"><a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#GenericStrat.S1"><span class="id" title="variable">S1</span></a></span> and <span class="inlinecode"><a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#GenericStrat.S2"><span class="id" title="variable">S2</span></a></span> is just a Sig-module morphism between them 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="half_equation"><span class="id" title="definition">half_equation</span></a> (<span class="id" title="var">S1</span> <span class="id" title="var">S2</span> : <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over"><span class="id" title="definition">signature_over</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#Equation.Sig"><span class="id" title="variable">Sig</span></a>) := <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_Mor"><span class="id" title="definition">signature_over_Mor</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#Equation.Sig"><span class="id" title="variable">Sig</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#S1"><span class="id" title="variable">S1</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#S2"><span class="id" title="variable">S2</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Identity</span> <span class="id" title="keyword">Coercion</span> <span class="id" title="var">half_equation_to_sig_mor</span> : <span class="id" title="var">half_equation</span> &gt;-&gt; <span class="id" title="var">signature_over_Mor</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+An equation is given by a pair of Sig-modules and a pair of half-equations between them 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="equation"><span class="id" title="definition">equation</span></a> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">∑</span> <span class="id" title="notation">(</span><span class="id" title="var">S1</span> <span class="id" title="var">S2</span> : <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over"><span class="id" title="definition">signature_over</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#Equation.Sig"><span class="id" title="variable">Sig</span></a><span class="id" title="notation">),</span> <a class="idref" href="Modules.SoftEquations.Equation.html#half_equation"><span class="id" title="definition">half_equation</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#S1"><span class="id" title="variable">S1</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#S2"><span class="id" title="variable">S2</span></a> <span class="id" title="notation">×</span> <a class="idref" href="Modules.SoftEquations.Equation.html#half_equation"><span class="id" title="definition">half_equation</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#S1"><span class="id" title="variable">S1</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#S2"><span class="id" title="variable">S2</span></a> .<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The Sig-module source of an equation 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="source_equation"><span class="id" title="definition">source_equation</span></a> (<span class="id" title="var">e</span> : <a class="idref" href="Modules.SoftEquations.Equation.html#equation"><span class="id" title="definition">equation</span></a>) : <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over"><span class="id" title="definition">signature_over</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#Equation.Sig"><span class="id" title="variable">Sig</span></a> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="projection">pr1</span> <a class="idref" href="Modules.SoftEquations.Equation.html#e"><span class="id" title="variable">e</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="3122c41ebe889f745cb9bbe1c92165c3"><span class="id" title="abbreviation">σ</span></a> := <a class="idref" href="Modules.SoftEquations.Equation.html#source_equation"><span class="id" title="definition">source_equation</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The Sig-module target of an equation 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="target_equation"><span class="id" title="definition">target_equation</span></a> (<span class="id" title="var">e</span> : <a class="idref" href="Modules.SoftEquations.Equation.html#equation"><span class="id" title="definition">equation</span></a>) : <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over"><span class="id" title="definition">signature_over</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#Equation.Sig"><span class="id" title="variable">Sig</span></a> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="projection">pr1</span> (<span class="id" title="projection">pr2</span> <a class="idref" href="Modules.SoftEquations.Equation.html#e"><span class="id" title="variable">e</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="a788b57bb5319497a4de11f3392dcbc3"><span class="id" title="abbreviation">τ</span></a> := <a class="idref" href="Modules.SoftEquations.Equation.html#target_equation"><span class="id" title="definition">target_equation</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The first half-equation of an equation 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="halfeq1"><span class="id" title="definition">halfeq1</span></a> (<span class="id" title="var">e</span> : <a class="idref" href="Modules.SoftEquations.Equation.html#equation"><span class="id" title="definition">equation</span></a>) : <a class="idref" href="Modules.SoftEquations.Equation.html#half_equation"><span class="id" title="definition">half_equation</span></a> (<a class="idref" href="Modules.SoftEquations.Equation.html#source_equation"><span class="id" title="definition">source_equation</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#e"><span class="id" title="variable">e</span></a>) (<a class="idref" href="Modules.SoftEquations.Equation.html#target_equation"><span class="id" title="definition">target_equation</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#e"><span class="id" title="variable">e</span></a>) :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="projection">pr1</span> (<span class="id" title="projection">pr2</span> (<span class="id" title="projection">pr2</span> <a class="idref" href="Modules.SoftEquations.Equation.html#e"><span class="id" title="variable">e</span></a>)).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The second half-equation of an equation 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="halfeq2"><span class="id" title="definition">halfeq2</span></a> (<span class="id" title="var">e</span> : <a class="idref" href="Modules.SoftEquations.Equation.html#equation"><span class="id" title="definition">equation</span></a>) : <a class="idref" href="Modules.SoftEquations.Equation.html#half_equation"><span class="id" title="definition">half_equation</span></a> (<a class="idref" href="Modules.SoftEquations.Equation.html#source_equation"><span class="id" title="definition">source_equation</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#e"><span class="id" title="variable">e</span></a>) (<a class="idref" href="Modules.SoftEquations.Equation.html#target_equation"><span class="id" title="definition">target_equation</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#e"><span class="id" title="variable">e</span></a>) :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="projection">pr2</span> (<span class="id" title="projection">pr2</span> (<span class="id" title="projection">pr2</span> <a class="idref" href="Modules.SoftEquations.Equation.html#e"><span class="id" title="variable">e</span></a>)).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The proposition stating that a 1-model <span class="inlinecode"><a class="idref" href="Modules.Prelims.LModulesComplements.html#R"><span class="id" title="variable">R</span></a></span> satisfies the equation: the R-component of
+      both half-equations must be equal 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="satisfies_equation"><span class="id" title="definition">satisfies_equation</span></a> (<span class="id" title="var">e</span> : <a class="idref" href="Modules.SoftEquations.Equation.html#equation"><span class="id" title="definition">equation</span></a>) (<span class="id" title="var">R</span> : <a class="idref" href="Modules.SoftEquations.Equation.html#REP"><span class="id" title="abbreviation">REP</span></a>)  : <span class="id" title="definition">UU</span> := <a class="idref" href="Modules.SoftEquations.Equation.html#halfeq1"><span class="id" title="definition">halfeq1</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#e"><span class="id" title="variable">e</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#R"><span class="id" title="variable">R</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Modules.SoftEquations.Equation.html#halfeq2"><span class="id" title="definition">halfeq2</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#e"><span class="id" title="variable">e</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#R"><span class="id" title="variable">R</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+This statment is hProp 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="satisfies_equation_isaprop"><span class="id" title="definition">satisfies_equation_isaprop</span></a> (<span class="id" title="var">e</span> : <a class="idref" href="Modules.SoftEquations.Equation.html#equation"><span class="id" title="definition">equation</span></a>) (<span class="id" title="var">R</span> : <a class="idref" href="Modules.SoftEquations.Equation.html#REP"><span class="id" title="abbreviation">REP</span></a>)  :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">isaprop</span> (<a class="idref" href="Modules.SoftEquations.Equation.html#satisfies_equation"><span class="id" title="definition">satisfies_equation</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#e"><span class="id" title="variable">e</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#R"><span class="id" title="variable">R</span></a>) :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">homset_property</span> (<span class="id" title="definition">category_LModule</span>  <span class="id" title="var">_</span> <span class="id" title="var">_</span> ) <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="satisfies_equation_hp"><span class="id" title="definition">satisfies_equation_hp</span></a> (<span class="id" title="var">e</span> : <a class="idref" href="Modules.SoftEquations.Equation.html#equation"><span class="id" title="definition">equation</span></a>) (<span class="id" title="var">R</span> : <a class="idref" href="Modules.SoftEquations.Equation.html#REP"><span class="id" title="abbreviation">REP</span></a>) : <span class="id" title="definition">hProp</span>  :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">hProppair</span> <span class="id" title="var">_</span> (<a class="idref" href="Modules.SoftEquations.Equation.html#satisfies_equation_isaprop"><span class="id" title="definition">satisfies_equation_isaprop</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#e"><span class="id" title="variable">e</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#R"><span class="id" title="variable">R</span></a>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The proposition that a 1-model satisfies a family of equations: it must satisfy
+      each of them 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="satisfies_all_equations_hp"><span class="id" title="definition">satisfies_all_equations_hp</span></a> {<span class="id" title="var">O</span>} (<span class="id" title="var">e</span> : <a class="idref" href="Modules.SoftEquations.Equation.html#O"><span class="id" title="variable">O</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#equation"><span class="id" title="definition">equation</span></a>) <span class="id" title="var">R</span> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">forall_hProp</span> (<span class="id" title="keyword">fun</span> <span class="id" title="var">o</span> =&gt; <a class="idref" href="Modules.SoftEquations.Equation.html#satisfies_equation_hp"><span class="id" title="definition">satisfies_equation_hp</span></a> (<a class="idref" href="Modules.SoftEquations.Equation.html#e"><span class="id" title="variable">e</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#o"><span class="id" title="variable">o</span></a>) <a class="idref" href="Modules.SoftEquations.Equation.html#R"><span class="id" title="variable">R</span></a>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Definition of a 2-model: an 1-model <span class="inlinecode"><a class="idref" href="Modules.Prelims.LModulesComplements.html#R"><span class="id" title="variable">R</span></a></span> satisfying the family of equations <span class="inlinecode"><a class="idref" href="Modules.Prelims.EpiComplements.html#e"><span class="id" title="variable">e</span></a></span> 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="model_equations"><span class="id" title="definition">model_equations</span></a> {<span class="id" title="var">O</span> : <span class="id" title="definition">UU</span>} (<span class="id" title="var">e</span> : <a class="idref" href="Modules.SoftEquations.Equation.html#O"><span class="id" title="variable">O</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#equation"><span class="id" title="definition">equation</span></a>) : <span class="id" title="definition">UU</span> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">∑</span> <span class="id" title="notation">(</span><span class="id" title="var">R</span> : <a class="idref" href="Modules.SoftEquations.Equation.html#REP"><span class="id" title="abbreviation">REP</span></a><span class="id" title="notation">),</span> <span class="id" title="notation">∏</span> <span class="id" title="var">x</span><span class="id" title="notation">,</span> <a class="idref" href="Modules.SoftEquations.Equation.html#satisfies_equation"><span class="id" title="definition">satisfies_equation</span></a> (<a class="idref" href="Modules.SoftEquations.Equation.html#e"><span class="id" title="variable">e</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#x"><span class="id" title="variable">x</span></a>)  <a class="idref" href="Modules.SoftEquations.Equation.html#R"><span class="id" title="variable">R</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The underlying 1-model of a 2-model 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Coercion</span> <span class="id" title="var">model_equations_to_model</span> {<span class="id" title="var">O</span> <span class="id" title="var">e</span> } (<span class="id" title="var">R</span> : <a class="idref" href="Modules.SoftEquations.Equation.html#model_equations"><span class="id" title="definition">model_equations</span></a> (<span class="id" title="var">O</span> := <a class="idref" href="Modules.SoftEquations.Equation.html#O"><span class="id" title="variable">O</span></a>) <a class="idref" href="Modules.SoftEquations.Equation.html#e"><span class="id" title="variable">e</span></a> ) : <a class="idref" href="Modules.SoftEquations.Equation.html#REP"><span class="id" title="abbreviation">REP</span></a> := <span class="id" title="projection">pr1</span> <a class="idref" href="Modules.SoftEquations.Equation.html#R"><span class="id" title="variable">R</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+a 2-model satisfies the associated family of equations 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="model_equations_eq"><span class="id" title="definition">model_equations_eq</span></a> {<span class="id" title="var">O</span>} {<span class="id" title="var">e</span> : <a class="idref" href="Modules.SoftEquations.Equation.html#O"><span class="id" title="variable">O</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#equation"><span class="id" title="definition">equation</span></a>} (<span class="id" title="var">R</span> : <a class="idref" href="Modules.SoftEquations.Equation.html#model_equations"><span class="id" title="definition">model_equations</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#e"><span class="id" title="variable">e</span></a>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.Equation.html#satisfies_all_equations_hp"><span class="id" title="definition">satisfies_all_equations_hp</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#e"><span class="id" title="variable">e</span></a>  <a class="idref" href="Modules.SoftEquations.Equation.html#R"><span class="id" title="variable">R</span></a> := <span class="id" title="projection">pr2</span> <a class="idref" href="Modules.SoftEquations.Equation.html#R"><span class="id" title="variable">R</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The category of 2-model as the full subcategory of 1-models satisfying the required family of equations 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="precategory_model_equations"><span class="id" title="definition">precategory_model_equations</span></a> {<span class="id" title="var">O</span>} (<span class="id" title="var">e</span> : <a class="idref" href="Modules.SoftEquations.Equation.html#O"><span class="id" title="variable">O</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#equation"><span class="id" title="definition">equation</span></a>) : <span class="id" title="definition">precategory</span> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">full_sub_precategory</span> (<span class="id" title="var">C</span> := <a class="idref" href="Modules.Signatures.ModelCat.html#rep_fiber_category"><span class="id" title="definition">rep_fiber_category</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#Equation.Sig"><span class="id" title="variable">Sig</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.SoftEquations.Equation.html#satisfies_all_equations_hp"><span class="id" title="definition">satisfies_all_equations_hp</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#e"><span class="id" title="variable">e</span></a>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Forgetful functor from 2-models to 1-models 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="forget_2model"><span class="id" title="definition">forget_2model</span></a> {<span class="id" title="var">O</span>} (<span class="id" title="var">e</span> : <a class="idref" href="Modules.SoftEquations.Equation.html#O"><span class="id" title="variable">O</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#equation"><span class="id" title="definition">equation</span></a>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">functor</span> (<a class="idref" href="Modules.SoftEquations.Equation.html#precategory_model_equations"><span class="id" title="definition">precategory_model_equations</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#e"><span class="id" title="variable">e</span></a>) (<a class="idref" href="Modules.Signatures.ModelCat.html#rep_fiber_category"><span class="id" title="definition">rep_fiber_category</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#Equation.Sig"><span class="id" title="variable">Sig</span></a>) :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">sub_precategory_inclusion</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Modules.SoftEquations.Equation.html#Equation"><span class="id" title="section">Equation</span></a>.<br/>
+
+<br/>
+<span class="id" title="var">Arguments</span> <a class="idref" href="Modules.SoftEquations.Equation.html#equation"><span class="id" title="definition">equation</span></a> [<span class="id" title="var">_</span>] <span class="id" title="var">_</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="po_equation"><span class="id" title="definition">po_equation</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">C</span> : <span class="id" title="definition">category</span>} {<span class="id" title="var">S1</span> <span class="id" title="var">S2</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#C"><span class="id" title="variable">C</span></a>} (<span class="id" title="var">f</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature_Mor"><span class="id" title="definition">signature_Mor</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#S1"><span class="id" title="variable">S1</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#S2"><span class="id" title="variable">S2</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">e</span> : <a class="idref" href="Modules.SoftEquations.Equation.html#equation"><span class="id" title="definition">equation</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#S1"><span class="id" title="variable">S1</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Modules.SoftEquations.Equation.html#equation"><span class="id" title="definition">equation</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#S2"><span class="id" title="variable">S2</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.SignatureOver.html#po_signature_over"><span class="id" title="definition">po_signature_over</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#f"><span class="id" title="variable">f</span></a> (<a class="idref" href="Modules.SoftEquations.Equation.html#source_equation"><span class="id" title="definition">source_equation</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#e"><span class="id" title="variable">e</span></a>)  <span class="id" title="notation">,,</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.SignatureOver.html#po_signature_over"><span class="id" title="definition">po_signature_over</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#f"><span class="id" title="variable">f</span></a> (<a class="idref" href="Modules.SoftEquations.Equation.html#target_equation"><span class="id" title="definition">target_equation</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#e"><span class="id" title="variable">e</span></a>)  <span class="id" title="notation">,,</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.SignatureOver.html#po_signature_over_mor"><span class="id" title="definition">po_signature_over_mor</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#f"><span class="id" title="variable">f</span></a> (<a class="idref" href="Modules.SoftEquations.Equation.html#halfeq1"><span class="id" title="definition">halfeq1</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#e"><span class="id" title="variable">e</span></a>)  <span class="id" title="notation">,,</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.SignatureOver.html#po_signature_over_mor"><span class="id" title="definition">po_signature_over_mor</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#f"><span class="id" title="variable">f</span></a> (<a class="idref" href="Modules.SoftEquations.Equation.html#halfeq2"><span class="id" title="definition">halfeq2</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#e"><span class="id" title="variable">e</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="po_satisfies_equation"><span class="id" title="definition">po_satisfies_equation</span></a>  <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">C</span> : <span class="id" title="definition">category</span>} {<span class="id" title="var">S1</span> <span class="id" title="var">S2</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#C"><span class="id" title="variable">C</span></a>} (<span class="id" title="var">f</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature_Mor"><span class="id" title="definition">signature_Mor</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#S1"><span class="id" title="variable">S1</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#S2"><span class="id" title="variable">S2</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">e</span> : <a class="idref" href="Modules.SoftEquations.Equation.html#equation"><span class="id" title="definition">equation</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#S1"><span class="id" title="variable">S1</span></a>) <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">R</span> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <span class="id" title="var">_</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">hR</span> : <a class="idref" href="Modules.SoftEquations.Equation.html#satisfies_equation"><span class="id" title="definition">satisfies_equation</span></a> (<a class="idref" href="Modules.SoftEquations.Equation.html#po_equation"><span class="id" title="definition">po_equation</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#f"><span class="id" title="variable">f</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#e"><span class="id" title="variable">e</span></a>) <a class="idref" href="Modules.SoftEquations.Equation.html#R"><span class="id" title="variable">R</span></a>) :<br/>
+&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.Equation.html#satisfies_equation"><span class="id" title="definition">satisfies_equation</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#e"><span class="id" title="variable">e</span></a> (<a class="idref" href="Modules.Signatures.Signature.html#pb_rep"><span class="id" title="definition">pb_rep</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#f"><span class="id" title="variable">f</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#R"><span class="id" title="variable">R</span></a>) := <a class="idref" href="Modules.SoftEquations.Equation.html#hR"><span class="id" title="variable">hR</span></a>.<br/>
+
+<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

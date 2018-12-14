@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>Modules.SoftEquations.SignatureOverDerivation</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Modules.SoftEquations.SignatureOverDerivation</h1>
+
+<div class="code">
+</div>
+
+<div class="doc">
+Derivation of an over  signature
+(copied from SignatureDerivation)
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.PartD</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.Propositions</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.Sets</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Categories</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.functor_categories</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monads.Monads</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monads.LModules</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monads.Derivative</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Auxiliary</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Core</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Constructions</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.coproducts</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.graphs.colimits</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.terminal</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.lib.html#"><span class="id" title="library">Modules.Prelims.lib</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.LModulesCoproducts.html#"><span class="id" title="library">Modules.Prelims.LModulesCoproducts</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.DerivationIsFunctorial.html#"><span class="id" title="library">Modules.Prelims.DerivationIsFunctorial</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.Signature.html#"><span class="id" title="library">Modules.Signatures.Signature</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.ModelCat.html#"><span class="id" title="library">Modules.Signatures.ModelCat</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.SoftEquations.SignatureOver.html#"><span class="id" title="library">Modules.SoftEquations.SignatureOver</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Section</span> <a name="DAr"><span class="id" title="section">DAr</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> {<span class="id" title="var">C</span> : <span class="id" title="definition">category</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">bcpC</span> : <span class="id" title="definition">limits.bincoproducts.BinCoproducts</span> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#C"><span class="id" title="variable">C</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">CT</span> : <span class="id" title="definition">limits.terminal.Terminal</span> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#C"><span class="id" title="variable">C</span></a>).<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> "∂" := (<a class="idref" href="Modules.Prelims.DerivationIsFunctorial.html#LModule_deriv_functor"><span class="id" title="definition">LModule_deriv_functor</span></a> (<span class="id" title="definition">TerminalObject</span> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#DAr.CT"><span class="id" title="variable">CT</span></a>) <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#DAr.bcpC"><span class="id" title="variable">bcpC</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="definition">homset_property</span> <span class="id" title="var">_</span>) <span class="id" title="var">_</span>).<br/>
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="Signature"><span class="id" title="abbreviation">Signature</span></a> := (<a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#DAr.C"><span class="id" title="variable">C</span></a>).<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="MOD"><span class="id" title="abbreviation">MOD</span></a> <span class="id" title="var">R</span> := (<span class="id" title="definition">precategory_LModule</span> <span class="id" title="var">R</span> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#DAr.C"><span class="id" title="variable">C</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Context</span> { <span class="id" title="var">Sig</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#DAr.C"><span class="id" title="variable">C</span></a>}.<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="MODEL"><span class="id" title="abbreviation">MODEL</span></a> := (<a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#DAr.Sig"><span class="id" title="variable">Sig</span></a>).<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="MODEL_MOR"><span class="id" title="abbreviation">MODEL_MOR</span></a> := <a class="idref" href="Modules.Signatures.ModelCat.html#rep_fiber_mor"><span class="id" title="definition">rep_fiber_mor</span></a>.<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="OSIG"><span class="id" title="abbreviation">OSIG</span></a> := (<a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over"><span class="id" title="definition">signature_over</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#DAr.Sig"><span class="id" title="variable">Sig</span></a>).<br/>
+<span class="id" title="keyword">Variable</span> (<a name="DAr.a"><span class="id" title="variable">a</span></a> : <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#OSIG"><span class="id" title="abbreviation">OSIG</span></a>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="signature_over_deriv_on_objects"><span class="id" title="definition">signature_over_deriv_on_objects</span></a> (<span class="id" title="var">R</span> : <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#MODEL"><span class="id" title="abbreviation">MODEL</span></a>)  : <span class="id" title="definition">LModule</span> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#DAr.C"><span class="id" title="variable">C</span></a> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#2132d7a5cd4277fee61d24c3fe39b649"><span class="id" title="notation">∂</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#2132d7a5cd4277fee61d24c3fe39b649"><span class="id" title="notation">(</span></a><a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#2132d7a5cd4277fee61d24c3fe39b649"><span class="id" title="notation">a</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#2132d7a5cd4277fee61d24c3fe39b649"><span class="id" title="notation">R</span></a><a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#2132d7a5cd4277fee61d24c3fe39b649"><span class="id" title="notation">)</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="signature_over_deriv_on_morphisms"><span class="id" title="definition">signature_over_deriv_on_morphisms</span></a> (<span class="id" title="var">R</span> <span class="id" title="var">S</span> : <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#MODEL"><span class="id" title="abbreviation">MODEL</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">f</span> : <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#MODEL_MOR"><span class="id" title="abbreviation">MODEL_MOR</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#S"><span class="id" title="variable">S</span></a>) : <span class="id" title="definition">LModule_Mor</span> <span class="id" title="var">_</span> (<a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#signature_over_deriv_on_objects"><span class="id" title="definition">signature_over_deriv_on_objects</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#R"><span class="id" title="variable">R</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="definition">pb_LModule</span> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#f"><span class="id" title="variable">f</span></a> (<a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#signature_over_deriv_on_objects"><span class="id" title="definition">signature_over_deriv_on_objects</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#S"><span class="id" title="variable">S</span></a>)) :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">(</span><span class="id" title="notation">#</span> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#2132d7a5cd4277fee61d24c3fe39b649"><span class="id" title="notation">∂</span></a> (<a class="idref" href="Modules.SoftEquations.SignatureOver.html#8c55e4994f81b9d47037c4fc427b9108"><span class="id" title="notation">#</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#DAr.a"><span class="id" title="variable">a</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#f"><span class="id" title="variable">f</span></a>)%<span class="id" title="var">sigo</span> <span class="id" title="notation">)</span> <span class="id" title="notation">·</span> <span class="id" title="notation">(</span><span class="id" title="definition">inv_from_iso</span> (<span class="id" title="definition">pb_LModule_deriv_iso</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#DAr.bcpC"><span class="id" title="variable">bcpC</span></a>  <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#f"><span class="id" title="variable">f</span></a> <span class="id" title="var">_</span> )<span class="id" title="notation">)</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="signature_over_deriv_data"><span class="id" title="definition">signature_over_deriv_data</span></a> : <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_data"><span class="id" title="definition">signature_over_data</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#DAr.Sig"><span class="id" title="variable">Sig</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#signature_over_deriv_on_objects"><span class="id" title="definition">signature_over_deriv_on_objects</span></a> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#signature_over_deriv_on_morphisms"><span class="id" title="definition">signature_over_deriv_on_morphisms</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="signature_over_deriv_is_signature_over"><span class="id" title="lemma">signature_over_deriv_is_signature_over</span></a> : <a class="idref" href="Modules.SoftEquations.SignatureOver.html#is_signature_over"><span class="id" title="definition">is_signature_over</span></a> <span class="id" title="var">_</span> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#signature_over_deriv_data"><span class="id" title="definition">signature_over_deriv_data</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">R</span> <span class="id" title="var">c</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span> -[<span class="id" title="var">LModule_deriv_functor</span> <span class="id" title="var">identity</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> <span class="id" title="tactic">rewrite</span> <span class="id" title="definition">id_right</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">f</span> := ((<a class="idref" href="Modules.SoftEquations.SignatureOver.html#8c55e4994f81b9d47037c4fc427b9108"><span class="id" title="notation">#</span></a><a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#DAr.a"><span class="id" title="variable">a</span></a>)%<span class="id" title="var">sigo</span> <span class="id" title="var">_</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> (<span class="id" title="definition">maponpaths</span>  (<span class="id" title="keyword">fun</span> (<span class="id" title="var">z</span> : <span class="id" title="definition">LModule_Mor</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) =&gt; (<span class="id" title="notation">#</span> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#2132d7a5cd4277fee61d24c3fe39b649"><span class="id" title="notation">∂</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#z"><span class="id" title="variable">z</span></a> : <span class="id" title="definition">LModule_Mor</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) <span class="id" title="var">c</span> )(<span class="id" title="var">t1</span> := <span class="id" title="var">f</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">t2</span> := <span class="id" title="definition">morphism_from_iso</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> (<span class="id" title="definition">pb_LModule_id_iso</span> <span class="id" title="var">_</span>) )<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">LModule_Mor_equiv</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">nat_trans_eq</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_id"><span class="id" title="definition">signature_over_id</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">R</span> <span class="id" title="var">S</span> <span class="id" title="var">T</span> <span class="id" title="var">f</span> <span class="id" title="var">g</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">cancel_postcomposition</span> (<span class="id" title="var">C</span> := <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#MOD"><span class="id" title="abbreviation">MOD</span></a> <span class="id" title="var">R</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_comp"><span class="id" title="definition">signature_over_comp</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">functor_comp</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">LModule_Mor_equiv</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">nat_trans_eq</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> <span class="id" title="tactic">rewrite</span> <span class="id" title="definition">id_right</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="signature_over_deriv"><span class="id" title="definition">signature_over_deriv</span></a> : <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over"><span class="id" title="definition">signature_over</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#DAr.Sig"><span class="id" title="variable">Sig</span></a> := <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#signature_over_deriv_is_signature_over"><span class="id" title="lemma">signature_over_deriv_is_signature_over</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#DAr"><span class="id" title="section">DAr</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Fixpoint</span> <a name="signature_over_deriv_n"><span class="id" title="definition">signature_over_deriv_n</span></a> {<span class="id" title="var">C</span> : <span class="id" title="definition">category</span>} (<span class="id" title="var">S</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#C"><span class="id" title="variable">C</span></a>) <span class="id" title="var">bcp</span> <span class="id" title="var">T</span> <span class="id" title="var">a</span> (<span class="id" title="var">n</span> :<span class="id" title="inductive">nat</span>) : <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over"><span class="id" title="definition">signature_over</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#S"><span class="id" title="variable">S</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#n"><span class="id" title="variable">n</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;0 =&gt; <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#a"><span class="id" title="variable">a</span></a><br/>
+&nbsp;&nbsp;| <span class="id" title="constructor">S</span> <span class="id" title="var">m</span> =&gt; @<a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#signature_over_deriv"><span class="id" title="definition">signature_over_deriv</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#C"><span class="id" title="variable">C</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#bcp"><span class="id" title="variable">bcp</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#T"><span class="id" title="variable">T</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#S"><span class="id" title="variable">S</span></a> (@<a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#signature_over_deriv_n"><span class="id" title="definition">signature_over_deriv_n</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#C"><span class="id" title="variable">C</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#S"><span class="id" title="variable">S</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#bcp"><span class="id" title="variable">bcp</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#T"><span class="id" title="variable">T</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#a"><span class="id" title="variable">a</span></a> <span class="id" title="var">m</span>)<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>
