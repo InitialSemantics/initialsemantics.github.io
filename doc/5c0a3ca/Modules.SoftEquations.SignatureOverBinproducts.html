@@ -1,0 +1,393 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>Modules.SoftEquations.SignatureOverBinproducts</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Modules.SoftEquations.SignatureOverBinproducts</h1>
+
+<div class="code">
+</div>
+
+<div class="doc">
+BinProducts of over-signatures using LModulesBinProducts
+(inspired by SignatureBinproducts
+pullback binproducts
+
+<div class="paragraph"> </div>
+
+TODO: réfléchir à comment factoriser avec signatureBinproducts
+
+<div class="paragraph"> </div>
+
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.PartD</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.Propositions</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.Sets</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Categories</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.functor_categories</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monads.Monads</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monads.LModules</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Auxiliary</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Core</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Constructions</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.binproducts</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.graphs.colimits</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.lib.html#"><span class="id" title="library">Modules.Prelims.lib</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.LModulesBinProducts.html#"><span class="id" title="library">Modules.Prelims.LModulesBinProducts</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.HssSignatureCommutation.html#"><span class="id" title="library">Modules.Signatures.HssSignatureCommutation</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.Signature.html#"><span class="id" title="library">Modules.Signatures.Signature</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#"><span class="id" title="library">Modules.Signatures.SignatureBinproducts</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.SoftEquations.SignatureOver.html#"><span class="id" title="library">Modules.SoftEquations.SignatureOver</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.ModelCat.html#"><span class="id" title="library">Modules.Signatures.ModelCat</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="BPO"><span class="id" title="abbreviation">BPO</span></a> := (<span class="id" title="definition">BinProductObject</span> <span class="id" title="var">_</span> ).<br/>
+
+<br/>
+<span class="id" title="keyword">Section</span> <a name="Binprod"><span class="id" title="section">Binprod</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> {<span class="id" title="var">C</span> : <span class="id" title="definition">category</span>} .<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> {<span class="id" title="var">cpC</span> : <span class="id" title="definition">BinProducts</span>  <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.C"><span class="id" title="variable">C</span></a>}.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> (<span class="id" title="var">Sig</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.C"><span class="id" title="variable">C</span></a>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="hsC"><span class="id" title="abbreviation">hsC</span></a> := (<span class="id" title="definition">homset_property</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.C"><span class="id" title="variable">C</span></a>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="Signature"><span class="id" title="abbreviation">Signature</span></a> := (<a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.C"><span class="id" title="variable">C</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="MOD"><span class="id" title="abbreviation">MOD</span></a> <span class="id" title="var">R</span> := (<span class="id" title="definition">precategory_LModule</span> <span class="id" title="var">R</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.C"><span class="id" title="variable">C</span></a>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a name="Binprod.cpLM"><span class="id" title="variable">cpLM</span></a> (<span class="id" title="var">X</span> : <span class="id" title="definition">Monad</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.C"><span class="id" title="variable">C</span></a>) := <a class="idref" href="Modules.Prelims.LModulesBinProducts.html#LModule_BinProducts"><span class="id" title="definition">LModule_BinProducts</span></a>   <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#X"><span class="id" title="variable">X</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.cpC"><span class="id" title="variable">cpC</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#hsC"><span class="id" title="abbreviation">hsC</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a name="Binprod.cpFunc"><span class="id" title="variable">cpFunc</span></a> := <span class="id" title="definition">BinProducts_functor_precat</span>  <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.C"><span class="id" title="variable">C</span></a> <span class="id" title="var">_</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.cpC"><span class="id" title="variable">cpC</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#hsC"><span class="id" title="abbreviation">hsC</span></a> .<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> (<span class="id" title="var">a</span> <span class="id" title="var">b</span> : <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over"><span class="id" title="definition">signature_over</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.Sig"><span class="id" title="variable">Sig</span></a>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="signature_over_BinProduct_on_objects"><span class="id" title="definition">signature_over_BinProduct_on_objects</span></a> (<span class="id" title="var">R</span> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.Sig"><span class="id" title="variable">Sig</span></a> ) : <span class="id" title="definition">LModule</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.C"><span class="id" title="variable">C</span></a> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#BPO"><span class="id" title="abbreviation">BPO</span></a> (<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.cpLM"><span class="id" title="variable">cpLM</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#R"><span class="id" title="variable">R</span></a> (<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.a"><span class="id" title="variable">a</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#R"><span class="id" title="variable">R</span></a>) (<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.b"><span class="id" title="variable">b</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#R"><span class="id" title="variable">R</span></a>)).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a name="Binprod.ab"><span class="id" title="variable">ab</span></a> := <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#signature_over_BinProduct_on_objects"><span class="id" title="definition">signature_over_BinProduct_on_objects</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="signature_over_BinProduct_on_morphisms"><span class="id" title="definition">signature_over_BinProduct_on_morphisms</span></a> (<span class="id" title="var">R</span> <span class="id" title="var">S</span> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.Sig"><span class="id" title="variable">Sig</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">f</span> : <a class="idref" href="Modules.Signatures.ModelCat.html#rep_fiber_mor"><span class="id" title="definition">rep_fiber_mor</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#S"><span class="id" title="variable">S</span></a>) : <span class="id" title="definition">LModule_Mor</span> <span class="id" title="var">_</span> (<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.ab"><span class="id" title="variable">ab</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#R"><span class="id" title="variable">R</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="definition">pb_LModule</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#f"><span class="id" title="variable">f</span></a> (<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.ab"><span class="id" title="variable">ab</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#S"><span class="id" title="variable">S</span></a>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> (<span class="id" title="definition">compose</span> (<span class="id" title="var">C</span> := (<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#MOD"><span class="id" title="abbreviation">MOD</span></a> <span class="id" title="var">_</span>))); <span class="id" title="var">revgoals</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.LModulesBinProducts.html#binprod_pbm_to_pbm_binprod"><span class="id" title="definition">binprod_pbm_to_pbm_binprod</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">apply</span>  (<span class="id" title="definition">BinProductOfArrows</span> <span class="id" title="var">_</span>  (<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.cpLM"><span class="id" title="variable">cpLM</span></a> <span class="id" title="var">R</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) (<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.cpLM"><span class="id" title="variable">cpLM</span></a> <span class="id" title="var">R</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> ((<a class="idref" href="Modules.SoftEquations.SignatureOver.html#8c55e4994f81b9d47037c4fc427b9108"><span class="id" title="notation">#</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.a"><span class="id" title="variable">a</span></a> <span class="id" title="var">f</span>)%<span class="id" title="var">sigo</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> ((<a class="idref" href="Modules.SoftEquations.SignatureOver.html#8c55e4994f81b9d47037c4fc427b9108"><span class="id" title="notation">#</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.b"><span class="id" title="variable">b</span></a> <span class="id" title="var">f</span>)%<span class="id" title="var">sigo</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="signature_over_binProd_data"><span class="id" title="definition">signature_over_binProd_data</span></a> : <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_data"><span class="id" title="definition">signature_over_data</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.Sig"><span class="id" title="variable">Sig</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#signature_over_BinProduct_on_objects"><span class="id" title="definition">signature_over_BinProduct_on_objects</span></a> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#signature_over_BinProduct_on_morphisms"><span class="id" title="definition">signature_over_BinProduct_on_morphisms</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="signature_over_binProd_is_signature_over"><span class="id" title="lemma">signature_over_binProd_is_signature_over</span></a> : <a class="idref" href="Modules.SoftEquations.SignatureOver.html#is_signature_over"><span class="id" title="definition">is_signature_over</span></a> <span class="id" title="var">_</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#signature_over_binProd_data"><span class="id" title="definition">signature_over_binProd_data</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">R</span> <span class="id" title="var">c</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>  -[<span class="id" title="var">BinProductOfArrows</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="definition">id_right</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">BinProductArrowUnique</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="var">etrans</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="definition">id_left</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[|<span class="id" title="tactic">apply</span> <span class="id" title="definition">id_right</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_precomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_id"><span class="id" title="definition">signature_over_id</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="var">etrans</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="definition">id_left</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[|<span class="id" title="tactic">apply</span> <span class="id" title="definition">id_right</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_precomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_id"><span class="id" title="definition">signature_over_id</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">R</span> <span class="id" title="var">S</span> <span class="id" title="var">T</span> <span class="id" title="var">f</span> <span class="id" title="var">g</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">LModule_Mor_equiv</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ <span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>. }<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">nat_trans_eq</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>  -[<span class="id" title="var">BinProductOfArrows</span> ].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">repeat</span>  <span class="id" title="tactic">rewrite</span> <span class="id" title="definition">id_right</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>; [<span class="id" title="tactic">apply</span> <span class="id" title="definition">BinProductOfArrows_comp</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">BinProductOfArrows_eq</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">assert</span> (<span class="id" title="var">h</span> := <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_comp"><span class="id" title="definition">signature_over_comp</span></a> <span class="id" title="var">_</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.a"><span class="id" title="variable">a</span></a> <span class="id" title="var">f</span> <span class="id" title="var">g</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">LModule_Mor_equiv</span> <span class="id" title="tactic">in</span> <span class="id" title="var">h</span>;[|<span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> <span class="id" title="definition">nat_trans_eq_pointwise</span> <span class="id" title="tactic">in</span> <span class="id" title="var">h</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[<span class="id" title="tactic">eapply</span> <span class="id" title="var">h</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="definition">id_right</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">assert</span> (<span class="id" title="var">h</span> := <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_comp"><span class="id" title="definition">signature_over_comp</span></a> <span class="id" title="var">_</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.b"><span class="id" title="variable">b</span></a> <span class="id" title="var">f</span> <span class="id" title="var">g</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">LModule_Mor_equiv</span> <span class="id" title="tactic">in</span> <span class="id" title="var">h</span>;[|<span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> <span class="id" title="definition">nat_trans_eq_pointwise</span> <span class="id" title="tactic">in</span> <span class="id" title="var">h</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[<span class="id" title="tactic">eapply</span> <span class="id" title="var">h</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="definition">id_right</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="signature_over_binProd"><span class="id" title="definition">signature_over_binProd</span></a> : <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over"><span class="id" title="definition">signature_over</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.Sig"><span class="id" title="variable">Sig</span></a> := <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#signature_over_binProd_is_signature_over"><span class="id" title="lemma">signature_over_binProd_is_signature_over</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="signature_over_binProductPr1_laws"><span class="id" title="lemma">signature_over_binProductPr1_laws</span></a> : <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.SignatureOver.html#is_signature_over_Mor"><span class="id" title="definition">is_signature_over_Mor</span></a> <span class="id" title="var">_</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#signature_over_binProd"><span class="id" title="definition">signature_over_binProd</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.a"><span class="id" title="variable">a</span></a> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">fun</span> <span class="id" title="var">R</span> =&gt; <span class="id" title="definition">BinProductPr1</span>  <span class="id" title="var">_</span>  (<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.cpLM"><span class="id" title="variable">cpLM</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#R"><span class="id" title="variable">R</span></a> (<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.a"><span class="id" title="variable">a</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#R"><span class="id" title="variable">R</span></a>) (<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.b"><span class="id" title="variable">b</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#R"><span class="id" title="variable">R</span></a>)   )).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">R</span> <span class="id" title="var">S</span> <span class="id" title="var">f</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">nat_trans_eq</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span> -[<span class="id" title="var">BinProductPr1</span> <span class="id" title="var">BinProductOfArrows</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="definition">id_right</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <span class="id" title="definition">binproduct_nat_trans_pr1_data</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">CC</span> := <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.cpC"><span class="id" title="variable">cpC</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> (<span class="id" title="lemma">BinProductOfArrowsPr1</span> <span class="id" title="var">_</span>  <span class="id" title="var">CC</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="signature_over_binProductPr2_laws"><span class="id" title="lemma">signature_over_binProductPr2_laws</span></a> : <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.SignatureOver.html#is_signature_over_Mor"><span class="id" title="definition">is_signature_over_Mor</span></a> <span class="id" title="var">_</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#signature_over_binProd"><span class="id" title="definition">signature_over_binProd</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.b"><span class="id" title="variable">b</span></a> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">fun</span> <span class="id" title="var">R</span> =&gt; <span class="id" title="definition">BinProductPr2</span>  <span class="id" title="var">_</span>  (<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.cpLM"><span class="id" title="variable">cpLM</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#R"><span class="id" title="variable">R</span></a> (<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.a"><span class="id" title="variable">a</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#R"><span class="id" title="variable">R</span></a>) (<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.b"><span class="id" title="variable">b</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#R"><span class="id" title="variable">R</span></a>)   )).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">R</span> <span class="id" title="var">S</span> <span class="id" title="var">f</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">nat_trans_eq</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span> -[<span class="id" title="var">BinProductPr2</span> <span class="id" title="var">BinProductOfArrows</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="definition">id_right</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <span class="id" title="definition">binproduct_nat_trans_pr2_data</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">CC</span> := <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.cpC"><span class="id" title="variable">cpC</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> (<span class="id" title="lemma">BinProductOfArrowsPr2</span> <span class="id" title="var">_</span>  <span class="id" title="var">CC</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="signature_over_binProductPr1"><span class="id" title="definition">signature_over_binProductPr1</span></a> : <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_Mor"><span class="id" title="definition">signature_over_Mor</span></a>  <span class="id" title="var">_</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#signature_over_binProd"><span class="id" title="definition">signature_over_binProd</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.a"><span class="id" title="variable">a</span></a> := <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#signature_over_binProductPr1_laws"><span class="id" title="lemma">signature_over_binProductPr1_laws</span></a> .<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="signature_over_binProductPr2"><span class="id" title="definition">signature_over_binProductPr2</span></a> : <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_Mor"><span class="id" title="definition">signature_over_Mor</span></a>  <span class="id" title="var">_</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#signature_over_binProd"><span class="id" title="definition">signature_over_binProd</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.b"><span class="id" title="variable">b</span></a> := <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#signature_over_binProductPr2_laws"><span class="id" title="lemma">signature_over_binProductPr2_laws</span></a> .<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="signature_over_binProductArrow_laws"><span class="id" title="definition">signature_over_binProductArrow_laws</span></a> {<span class="id" title="var">c</span> : <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over"><span class="id" title="definition">signature_over</span></a> <span class="id" title="var">_</span>} (<span class="id" title="var">ca</span> :  <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_Mor"><span class="id" title="definition">signature_over_Mor</span></a> <span class="id" title="var">_</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#c"><span class="id" title="variable">c</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.a"><span class="id" title="variable">a</span></a> )<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">cb</span> : <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_Mor"><span class="id" title="definition">signature_over_Mor</span></a> <span class="id" title="var">_</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#c"><span class="id" title="variable">c</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.b"><span class="id" title="variable">b</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.SignatureOver.html#is_signature_over_Mor"><span class="id" title="definition">is_signature_over_Mor</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">_</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#c"><span class="id" title="variable">c</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#signature_over_binProd"><span class="id" title="definition">signature_over_binProd</span></a> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">fun</span> <span class="id" title="var">R</span> =&gt; <span class="id" title="definition">BinProductArrow</span>  <span class="id" title="var">_</span>  (<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.cpLM"><span class="id" title="variable">cpLM</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#R"><span class="id" title="variable">R</span></a> (<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.a"><span class="id" title="variable">a</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#R"><span class="id" title="variable">R</span></a>) (<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.b"><span class="id" title="variable">b</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#R"><span class="id" title="variable">R</span></a>)) (<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#ca"><span class="id" title="variable">ca</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#R"><span class="id" title="variable">R</span></a>) (<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#cb"><span class="id" title="variable">cb</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#R"><span class="id" title="variable">R</span></a>))  .<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">R</span> <span class="id" title="var">S</span> <span class="id" title="var">f</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">nat_trans_eq</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span> -[<span class="id" title="var">BinProductPr1</span> <span class="id" title="var">BinProductPr2</span> <span class="id" title="var">BinProductOfArrows</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="definition">id_right</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <span class="id" title="definition">binproduct_nat_trans_data</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="lemma">postcompWithBinProductArrow</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">BinProductArrowUnique</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> &lt;- <span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_precomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">CC</span> := <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.cpC"><span class="id" title="variable">cpC</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">BinProductPr1Commutes</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">CC</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_Mor_ax_pw"><span class="id" title="lemma">signature_over_Mor_ax_pw</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> &lt;- <span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_precomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">CC</span> := <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.cpC"><span class="id" title="variable">cpC</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">BinProductPr2Commutes</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">CC</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_Mor_ax_pw"><span class="id" title="lemma">signature_over_Mor_ax_pw</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="signature_over_binProductArrow"><span class="id" title="definition">signature_over_binProductArrow</span></a> {<span class="id" title="var">c</span> : <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over"><span class="id" title="definition">signature_over</span></a> <span class="id" title="var">_</span>} (<span class="id" title="var">ca</span> :  <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_Mor"><span class="id" title="definition">signature_over_Mor</span></a> <span class="id" title="var">_</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#c"><span class="id" title="variable">c</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.a"><span class="id" title="variable">a</span></a> )<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">cb</span> : <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_Mor"><span class="id" title="definition">signature_over_Mor</span></a> <span class="id" title="var">_</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#c"><span class="id" title="variable">c</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.b"><span class="id" title="variable">b</span></a>) : <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_Mor"><span class="id" title="definition">signature_over_Mor</span></a> <span class="id" title="var">_</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#c"><span class="id" title="variable">c</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#signature_over_binProd"><span class="id" title="definition">signature_over_binProd</span></a>  := <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#signature_over_binProductArrow_laws"><span class="id" title="definition">signature_over_binProductArrow_laws</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#ca"><span class="id" title="variable">ca</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#cb"><span class="id" title="variable">cb</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="signature_over_isBinProduct"><span class="id" title="lemma">signature_over_isBinProduct</span></a> : <span class="id" title="definition">isBinProduct</span> (<a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_precategory"><span class="id" title="definition">signature_over_precategory</span></a> <span class="id" title="var">_</span>)  <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#signature_over_binProductPr1"><span class="id" title="definition">signature_over_binProductPr1</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#signature_over_binProductPr2"><span class="id" title="definition">signature_over_binProductPr2</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">c</span> <span class="id" title="var">ca</span> <span class="id" title="var">cb</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">unique_exists</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#signature_over_binProductArrow"><span class="id" title="definition">signature_over_binProductArrow</span></a> <span class="id" title="var">ca</span> <span class="id" title="var">cb</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_Mor_eq"><span class="id" title="lemma">signature_over_Mor_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">R</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">BinProductPr1Commutes</span>  (<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#MOD"><span class="id" title="abbreviation">MOD</span></a> <span class="id" title="var">R</span>) <span class="id" title="var">_</span> <span class="id" title="var">_</span> (<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.cpLM"><span class="id" title="variable">cpLM</span></a> <span class="id" title="var">R</span> (<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.a"><span class="id" title="variable">a</span></a> <span class="id" title="var">R</span>) (<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.b"><span class="id" title="variable">b</span></a> <span class="id" title="var">R</span>))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_Mor_eq"><span class="id" title="lemma">signature_over_Mor_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">R</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">BinProductPr2Commutes</span>  (<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#MOD"><span class="id" title="abbreviation">MOD</span></a> <span class="id" title="var">R</span>) <span class="id" title="var">_</span> <span class="id" title="var">_</span> (<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.cpLM"><span class="id" title="variable">cpLM</span></a> <span class="id" title="var">R</span> (<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.a"><span class="id" title="variable">a</span></a> <span class="id" title="var">R</span>) (<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.b"><span class="id" title="variable">b</span></a> <span class="id" title="var">R</span>))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">y</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span> -[<span class="id" title="var">isaprop</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">isapropdirprod</span>; <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_category_has_homsets"><span class="id" title="lemma">signature_over_category_has_homsets</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">y</span> [<span class="id" title="var">h1</span> <span class="id" title="var">h2</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_Mor_eq"><span class="id" title="lemma">signature_over_Mor_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">R</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">BinProductArrowUnique</span>   (<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#MOD"><span class="id" title="abbreviation">MOD</span></a> <span class="id" title="var">R</span>) <span class="id" title="var">_</span> <span class="id" title="var">_</span> (<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.cpLM"><span class="id" title="variable">cpLM</span></a> <span class="id" title="var">R</span> (<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.a"><span class="id" title="variable">a</span></a> <span class="id" title="var">R</span>) (<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.b"><span class="id" title="variable">b</span></a> <span class="id" title="var">R</span>))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">rewrite</span> &lt;- <span class="id" title="var">h1</span>. <span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">rewrite</span> &lt;- <span class="id" title="var">h2</span>. <span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="signature_over_BinProduct"><span class="id" title="definition">signature_over_BinProduct</span></a> : <span class="id" title="definition">BinProduct</span> (<a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_precategory"><span class="id" title="definition">signature_over_precategory</span></a> <span class="id" title="var">_</span>) <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.a"><span class="id" title="variable">a</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod.b"><span class="id" title="variable">b</span></a> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">mk_BinProduct</span>  <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#signature_over_isBinProduct"><span class="id" title="lemma">signature_over_isBinProduct</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Binprod"><span class="id" title="section">Binprod</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+inspired by HssSignaturecommutation 
+</div>
+<div class="code">
+<span class="id" title="keyword">Section</span> <a name="GenericStrat"><span class="id" title="section">GenericStrat</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> {<span class="id" title="var">C</span> : <span class="id" title="definition">category</span>}.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> (<span class="id" title="var">Sig</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#GenericStrat.C"><span class="id" title="variable">C</span></a>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> (<span class="id" title="var">S_data</span> : <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_data"><span class="id" title="definition">signature_over_data</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#GenericStrat.Sig"><span class="id" title="variable">Sig</span></a>).<br/>
+
+<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> (<span class="id" title="var">isS1</span> : <a class="idref" href="Modules.SoftEquations.SignatureOver.html#is_signature_over"><span class="id" title="definition">is_signature_over</span></a> <span class="id" title="var">_</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#GenericStrat.S_data"><span class="id" title="variable">S_data</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> (<span class="id" title="var">isS2</span> : <a class="idref" href="Modules.SoftEquations.SignatureOver.html#is_signature_over"><span class="id" title="definition">is_signature_over</span></a> <span class="id" title="var">_</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#GenericStrat.S_data"><span class="id" title="variable">S_data</span></a>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a name="GenericStrat.S1"><span class="id" title="variable">S1</span></a> : <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over"><span class="id" title="definition">signature_over</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#GenericStrat.Sig"><span class="id" title="variable">Sig</span></a> := <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#GenericStrat.isS1"><span class="id" title="variable">isS1</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a name="GenericStrat.S2"><span class="id" title="variable">S2</span></a> : <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over"><span class="id" title="definition">signature_over</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#GenericStrat.Sig"><span class="id" title="variable">Sig</span></a> := <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#GenericStrat.isS2"><span class="id" title="variable">isS2</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="signature_over_S1_S2_laws"><span class="id" title="lemma">signature_over_S1_S2_laws</span></a> :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.SignatureOver.html#is_signature_over_Mor"><span class="id" title="definition">is_signature_over_Mor</span></a> <span class="id" title="var">_</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#GenericStrat.S1"><span class="id" title="variable">S1</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#GenericStrat.S2"><span class="id" title="variable">S2</span></a> (<span class="id" title="keyword">fun</span> <span class="id" title="var">R</span> =&gt; <span class="id" title="definition">identity</span> (<span class="id" title="var">C</span> := <span class="id" title="definition">category_LModule</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">R</span> <span class="id" title="var">S</span> <span class="id" title="var">f</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>; [<span class="id" title="tactic">apply</span> <span class="id" title="definition">id_right</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">id_left</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="signature_over_S2_S1_laws"><span class="id" title="lemma">signature_over_S2_S1_laws</span></a> :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.SignatureOver.html#is_signature_over_Mor"><span class="id" title="definition">is_signature_over_Mor</span></a> <span class="id" title="var">_</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#GenericStrat.S2"><span class="id" title="variable">S2</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#GenericStrat.S1"><span class="id" title="variable">S1</span></a> (<span class="id" title="keyword">fun</span> <span class="id" title="var">R</span> =&gt; <span class="id" title="definition">identity</span> (<span class="id" title="var">C</span> := <span class="id" title="definition">category_LModule</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">R</span> <span class="id" title="var">S</span> <span class="id" title="var">f</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>; [<span class="id" title="tactic">apply</span> <span class="id" title="definition">id_right</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">id_left</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="signature_over_S1_S2"><span class="id" title="definition">signature_over_S1_S2</span></a> : <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_Mor"><span class="id" title="definition">signature_over_Mor</span></a> <span class="id" title="var">_</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#GenericStrat.S1"><span class="id" title="variable">S1</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#GenericStrat.S2"><span class="id" title="variable">S2</span></a> := <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#signature_over_S1_S2_laws"><span class="id" title="lemma">signature_over_S1_S2_laws</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="signature_over_S2_S1"><span class="id" title="definition">signature_over_S2_S1</span></a> : <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_Mor"><span class="id" title="definition">signature_over_Mor</span></a> <span class="id" title="var">_</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#GenericStrat.S2"><span class="id" title="variable">S2</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#GenericStrat.S1"><span class="id" title="variable">S1</span></a> := <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#signature_over_S2_S1_laws"><span class="id" title="lemma">signature_over_S2_S1_laws</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="signature_over_S1_S2_is_inverse"><span class="id" title="lemma">signature_over_S1_S2_is_inverse</span></a>  :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">is_inverse_in_precat</span> (<span class="id" title="var">C</span> := <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_category"><span class="id" title="definition">signature_over_category</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#GenericStrat.Sig"><span class="id" title="variable">Sig</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#signature_over_S1_S2"><span class="id" title="definition">signature_over_S1_S2</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#signature_over_S2_S1"><span class="id" title="definition">signature_over_S2_S1</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">mk_is_inverse_in_precat</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_Mor_eq"><span class="id" title="lemma">signature_over_Mor_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">R</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="definition">id_left</span> (<span class="id" title="var">C</span> := <span class="id" title="definition">category_LModule</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_Mor_eq"><span class="id" title="lemma">signature_over_Mor_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">R</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="definition">id_left</span> (<span class="id" title="var">C</span> := <span class="id" title="definition">category_LModule</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>)).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="signature_over_S1_S2_iso"><span class="id" title="definition">signature_over_S1_S2_iso</span></a> : <span class="id" title="definition">iso</span> (<span class="id" title="var">C</span> := <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_category"><span class="id" title="definition">signature_over_category</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#GenericStrat.Sig"><span class="id" title="variable">Sig</span></a>) <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#GenericStrat.S1"><span class="id" title="variable">S1</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#GenericStrat.S2"><span class="id" title="variable">S2</span></a> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">isopair</span> <span class="id" title="var">_</span> (<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="lemma">is_iso_from_is_z_iso</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">_</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="definition">mk_is_z_isomorphism</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#signature_over_S1_S2_is_inverse"><span class="id" title="lemma">signature_over_S1_S2_is_inverse</span></a>)).<br/>
+
+<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#GenericStrat"><span class="id" title="section">GenericStrat</span></a>.<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="db145f63e61c9a477f8e5c360910429f"><span class="id" title="abbreviation">ι</span></a> := (<a class="idref" href="Modules.SoftEquations.SignatureOver.html#sig_over_from_sig"><span class="id" title="definition">sig_over_from_sig</span></a> <span class="id" title="var">_</span>).<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="signature_over_BinProducts"><span class="id" title="definition">signature_over_BinProducts</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">C</span> : <span class="id" title="definition">category</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">cpC</span> : <span class="id" title="definition">BinProducts</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#C"><span class="id" title="variable">C</span></a>) (<span class="id" title="var">Sig</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#C"><span class="id" title="variable">C</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id" title="definition">BinProducts</span> (<a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_precategory"><span class="id" title="definition">signature_over_precategory</span></a> (<span class="id" title="var">C</span> := <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#C"><span class="id" title="variable">C</span></a>) <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Sig"><span class="id" title="variable">Sig</span></a>) :=<br/>
+&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#signature_over_BinProduct"><span class="id" title="definition">signature_over_BinProduct</span></a> (<span class="id" title="var">cpC</span> := <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#cpC"><span class="id" title="variable">cpC</span></a>) <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Sig"><span class="id" title="variable">Sig</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="signature_over_BinProducts_commutes_sig"><span class="id" title="definition">signature_over_BinProducts_commutes_sig</span></a> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">C</span> : <span class="id" title="definition">category</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">cpC</span> : <span class="id" title="definition">BinProducts</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#C"><span class="id" title="variable">C</span></a>) (<span class="id" title="var">Sig</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#C"><span class="id" title="variable">C</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">a</span> <span class="id" title="var">b</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#C"><span class="id" title="variable">C</span></a>) :<br/>
+&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;<span class="id" title="definition">iso</span> (<span class="id" title="var">C</span> := <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_category"><span class="id" title="definition">signature_over_category</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#Sig"><span class="id" title="variable">Sig</span></a>) <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#BPO"><span class="id" title="abbreviation">BPO</span></a> (<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#signature_over_BinProducts"><span class="id" title="definition">signature_over_BinProducts</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#cpC"><span class="id" title="variable">cpC</span></a> <span class="id" title="var">_</span> (<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#db145f63e61c9a477f8e5c360910429f"><span class="id" title="abbreviation">ι</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#a"><span class="id" title="variable">a</span></a>) (<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#db145f63e61c9a477f8e5c360910429f"><span class="id" title="abbreviation">ι</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#b"><span class="id" title="variable">b</span></a>))) (<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#db145f63e61c9a477f8e5c360910429f"><span class="id" title="abbreviation">ι</span></a> (<a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#BPO"><span class="id" title="abbreviation">BPO</span></a> (<a class="idref" href="Modules.Signatures.SignatureBinproducts.html#signature_BinProducts"><span class="id" title="definition">signature_BinProducts</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#cpC"><span class="id" title="variable">cpC</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#b"><span class="id" title="variable">b</span></a>))).<br/>
+
+<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#signature_over_S1_S2_iso"><span class="id" title="definition">signature_over_S1_S2_iso</span></a>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>
