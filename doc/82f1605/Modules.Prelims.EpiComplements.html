@@ -1,0 +1,484 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>Modules.Prelims.EpiComplements</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Modules.Prelims.EpiComplements</h1>
+
+<div class="code">
+</div>
+
+<div class="doc">
+<a name="lab2"></a><h1 class="section">Complements about epis</h1>
+
+
+<div class="paragraph"> </div>
+
+Main definitions:
+<ul class="doclist">
+<li> Pointwise epimorphic natural transformation <span class="inlinecode"><a class="idref" href="Modules.Prelims.EpiComplements.html#epis_are_pointwise"><span class="id" title="definition">epis_are_pointwise</span></a></span>
+
+</li>
+<li> Products preserve epis <span class="inlinecode"><a class="idref" href="Modules.Prelims.EpiComplements.html#products_preserves_Epis"><span class="id" title="definition">products_preserves_Epis</span></a></span>
+
+</li>
+<li> Functor preserving epis <span class="inlinecode"><a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a></span>
+
+</li>
+</ul>
+
+<div class="paragraph"> </div>
+
+and related proofs
+
+<div class="paragraph"> </div>
+
+Note that a lot of statment (if not all) could be rephrased as preservation
+of epis by some functors (for example the fact that products preserve epi
+could be rephrased as the preservation of epis of some bifunctor).
+
+<div class="paragraph"> </div>
+
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.PartD</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.Propositions</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.Sets</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Core.Prelude</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.FunctorCategory</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.whiskering</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Epis</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.HorizontalComposition</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.categories.HSET.All</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Epis</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.EpiFacts</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.graphs.colimits</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.binproducts</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.bincoproducts</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.terminal</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.coproducts</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.lib.html#"><span class="id" title="library">Modules.Prelims.lib</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">cat</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="epis_are_pointwise"><span class="id" title="definition">epis_are_pointwise</span></a> (<span class="id" title="var">B</span> : <span class="id" title="definition">precategory</span>) (<span class="id" title="var">C</span> : <span class="id" title="definition">category</span>) :=<br/>
+&nbsp;&nbsp;<span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">F</span> <span class="id" title="var">F'</span>: <span class="id" title="definition">functor</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#B"><span class="id" title="variable">B</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a>) (<span class="id" title="var">α</span> : <span class="id" title="definition">nat_trans</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#F"><span class="id" title="variable">F</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#F'"><span class="id" title="variable">F'</span></a><span class="id" title="notation">),</span> <span class="id" title="definition">isEpi</span> (<span class="id" title="var">C</span> := <span class="id" title="notation">[</span><a class="idref" href="Modules.Prelims.EpiComplements.html#B"><span class="id" title="variable">B</span></a><span class="id" title="notation">,</span><a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a><span class="id" title="notation">]</span>) <a class="idref" href="Modules.Prelims.EpiComplements.html#ab410a966ac148e9b78c65c6cdf301fd"><span class="id" title="variable">α</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <span class="id" title="notation">∏</span> <span class="id" title="var">b</span><span class="id" title="notation">,</span> <span class="id" title="definition">isEpi</span> (<a class="idref" href="Modules.Prelims.EpiComplements.html#ab410a966ac148e9b78c65c6cdf301fd"><span class="id" title="variable">α</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#b"><span class="id" title="variable">b</span></a>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Epimorphic natural transformation between Set valued functors are pointwise epimorphic
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="epi_nt_SET_pw"><span class="id" title="lemma">epi_nt_SET_pw</span></a> (<span class="id" title="var">C</span> : <span class="id" title="definition">precategory</span>) : <a class="idref" href="Modules.Prelims.EpiComplements.html#epis_are_pointwise"><span class="id" title="definition">epis_are_pointwise</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a> <span class="id" title="notation">SET</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">F</span> <span class="id" title="var">F'</span> <span class="id" title="var">α</span> .<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">Pushouts_pw_epi</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">PushoutsHSET_from_Colims</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+products of epis are epis
+          This is true of regular epis in a regular category such as Set.
+            (e.g. in a topos, pullbacks of epis are epis)
+       
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="products_preserves_Epis"><span class="id" title="definition">products_preserves_Epis</span></a> {<span class="id" title="var">C</span> : <span class="id" title="definition">precategory</span>} (<span class="id" title="var">bpC</span> : <span class="id" title="definition">BinProducts</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a>) :=<br/>
+&nbsp;&nbsp;<span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">a</span> <span class="id" title="var">b</span> : <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a>)  (<span class="id" title="var">f</span> : <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a> <span class="id" title="notation">⟦</span><a class="idref" href="Modules.Prelims.EpiComplements.html#a"><span class="id" title="variable">a</span></a> <span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#b"><span class="id" title="variable">b</span></a><span class="id" title="notation">⟧</span>) (<span class="id" title="var">a'</span> <span class="id" title="var">b'</span> : <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a>)(<span class="id" title="var">f'</span> : <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a> <span class="id" title="notation">⟦</span><a class="idref" href="Modules.Prelims.EpiComplements.html#a'"><span class="id" title="variable">a'</span></a> <span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#b'"><span class="id" title="variable">b'</span></a><span class="id" title="notation">⟧</span><span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">isEpi</span>  <a class="idref" href="Modules.Prelims.EpiComplements.html#f"><span class="id" title="variable">f</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a><br/>
+&nbsp;&nbsp;<span class="id" title="definition">isEpi</span>  <a class="idref" href="Modules.Prelims.EpiComplements.html#f'"><span class="id" title="variable">f'</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a><br/>
+&nbsp;&nbsp;<span class="id" title="definition">isEpi</span> (<span class="id" title="definition">BinProductOfArrows</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a> (<a class="idref" href="Modules.Prelims.EpiComplements.html#bpC"><span class="id" title="variable">bpC</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) (<a class="idref" href="Modules.Prelims.EpiComplements.html#bpC"><span class="id" title="variable">bpC</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) <a class="idref" href="Modules.Prelims.EpiComplements.html#f"><span class="id" title="variable">f</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#f'"><span class="id" title="variable">f'</span></a>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Products of epis are epis (this is true of pullbacks) 
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="productEpisSET"><span class="id" title="lemma">productEpisSET</span></a> : <a class="idref" href="Modules.Prelims.EpiComplements.html#products_preserves_Epis"><span class="id" title="definition">products_preserves_Epis</span></a> <span class="id" title="lemma">BinProductsHSET</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">a</span> <span class="id" title="var">b</span> <span class="id" title="var">f</span> <span class="id" title="var">a'</span> <span class="id" title="var">b'</span> <span class="id" title="var">g</span> <span class="id" title="var">epif</span> <span class="id" title="var">epig</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">fg</span> := <span class="id" title="definition">BinProductOfArrows</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">EpisAreSurjective_HSET</span> <span class="id" title="tactic">in</span> <span class="id" title="var">epif</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">EpisAreSurjective_HSET</span> <span class="id" title="tactic">in</span> <span class="id" title="var">epig</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">Y</span> <span class="id" title="var">u</span> <span class="id" title="var">v</span> <span class="id" title="var">eq</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">funextfun</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> (<span class="id" title="lemma">surjectionisepitosets</span>  <span class="id" title="var">fg</span>); <span class="id" title="var">revgoals</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <span class="id" title="definition">toforallpaths</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">eq</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <span class="id" title="definition">setproperty</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">xx'</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">xx'</span> <span class="id" title="keyword">as</span> [<span class="id" title="var">x</span> <span class="id" title="var">x'</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">specialize</span> (<span class="id" title="var">epif</span> <span class="id" title="var">x</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">specialize</span> (<span class="id" title="var">epig</span> <span class="id" title="var">x'</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">revert</span> <span class="id" title="var">epif</span> <span class="id" title="var">epig</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">hinhfun2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">y</span> <span class="id" title="var">y'</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> (<span class="id" title="definition">hfiberpair</span> <span class="id" title="var">fg</span> ).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">exact</span> (<span class="id" title="definition">hfiberpr1</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">y</span> <span class="id" title="notation">,,</span> <span class="id" title="definition">hfiberpr1</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">y'</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <span class="id" title="lemma">total2_paths2</span>; <span class="id" title="var">use</span> <span class="id" title="definition">hfiberpr2</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="productEpisFunc"><span class="id" title="lemma">productEpisFunc</span></a> {<span class="id" title="var">B</span> <span class="id" title="var">C</span> : <span class="id" title="definition">category</span>} <span class="id" title="var">bpC</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">prEpi</span> : <a class="idref" href="Modules.Prelims.EpiComplements.html#products_preserves_Epis"><span class="id" title="definition">products_preserves_Epis</span></a> (<span class="id" title="var">C</span> := <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a>) <a class="idref" href="Modules.Prelims.EpiComplements.html#bpC"><span class="id" title="variable">bpC</span></a> )<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">pwEpi</span> : <a class="idref" href="Modules.Prelims.EpiComplements.html#epis_are_pointwise"><span class="id" title="definition">epis_are_pointwise</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#B"><span class="id" title="variable">B</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a>)<br/>
+&nbsp;&nbsp;:<br/>
+&nbsp;&nbsp;<a class="idref" href="Modules.Prelims.EpiComplements.html#products_preserves_Epis"><span class="id" title="definition">products_preserves_Epis</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="definition">BinProducts_functor_precat</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#B"><span class="id" title="variable">B</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#bpC"><span class="id" title="variable">bpC</span></a> (<span class="id" title="definition">homset_property</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a>) )<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">red</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">a</span> <span class="id" title="var">b</span> <span class="id" title="var">f</span> <span class="id" title="var">a'</span> <span class="id" title="var">b'</span> <span class="id" title="var">f'</span> <span class="id" title="var">epif</span> <span class="id" title="var">epif'</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">is_nat_trans_epi_from_pointwise_epis</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">X</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">prEpi</span>; <span class="id" title="tactic">apply</span> <span class="id" title="var">pwEpi</span>;[<span class="id" title="tactic">exact</span> <span class="id" title="var">epif</span>| <span class="id" title="tactic">exact</span> <span class="id" title="var">epif'</span>].<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+ morphisms between  colimits of same shape preserve epis 
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="colimOfArrows_Epi"><span class="id" title="lemma">colimOfArrows_Epi</span></a> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">C</span> : <span class="id" title="definition">precategory</span>} {<span class="id" title="var">g</span> : <span class="id" title="definition">graph</span>} {<span class="id" title="var">d1</span> <span class="id" title="var">d2</span> : <span class="id" title="definition">diagram</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#g"><span class="id" title="variable">g</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">CC1</span> : <span class="id" title="definition">ColimCocone</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#d1"><span class="id" title="variable">d1</span></a>) (<span class="id" title="var">CC2</span> : <span class="id" title="definition">ColimCocone</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#d2"><span class="id" title="variable">d2</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">f</span> : <span class="id" title="notation">∏</span> <span class="id" title="var">u</span> : <span class="id" title="definition">vertex</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#g"><span class="id" title="variable">g</span></a><span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a> <span class="id" title="notation">⟦</span> <span class="id" title="definition">dob</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#d1"><span class="id" title="variable">d1</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#u"><span class="id" title="variable">u</span></a><span class="id" title="notation">,</span> <span class="id" title="definition">dob</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#d2"><span class="id" title="variable">d2</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#u"><span class="id" title="variable">u</span></a> <span class="id" title="notation">⟧</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">epif</span> : <span class="id" title="notation">∏</span> <span class="id" title="var">u</span><span class="id" title="notation">,</span> <span class="id" title="definition">isEpi</span> (<a class="idref" href="Modules.Prelims.EpiComplements.html#f"><span class="id" title="variable">f</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#u"><span class="id" title="variable">u</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">feq</span> :  (<span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">u</span> <span class="id" title="var">v</span> : <span class="id" title="definition">vertex</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#g"><span class="id" title="variable">g</span></a>) (<span class="id" title="var">e</span> : <span class="id" title="definition">edge</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#u"><span class="id" title="variable">u</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#v"><span class="id" title="variable">v</span></a><span class="id" title="notation">),</span> <span class="id" title="definition">dmor</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#d1"><span class="id" title="variable">d1</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#e"><span class="id" title="variable">e</span></a> <span class="id" title="notation">·</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#f"><span class="id" title="variable">f</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#v"><span class="id" title="variable">v</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#f"><span class="id" title="variable">f</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#u"><span class="id" title="variable">u</span></a> <span class="id" title="notation">·</span> <span class="id" title="definition">dmor</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#d2"><span class="id" title="variable">d2</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#e"><span class="id" title="variable">e</span></a>)) :<br/>
+&nbsp;&nbsp;<span class="id" title="definition">isEpi</span>  (<span class="id" title="definition">colimOfArrows</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#CC1"><span class="id" title="variable">CC1</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#CC2"><span class="id" title="variable">CC2</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#f"><span class="id" title="variable">f</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#feq"><span class="id" title="variable">feq</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">c</span> <span class="id" title="var">u</span> <span class="id" title="var">v</span> <span class="id" title="var">uveq</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[<span class="id" title="var">use</span> <span class="id" title="lemma">colimArrowEta</span>| <span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>, <span class="id" title="lemma">colimArrowUnique</span>].<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">epif</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> (<a class="idref" href="Modules.Prelims.lib.html#changef_path_pw"><span class="id" title="lemma">changef_path_pw</span></a> <span class="id" title="var">_</span> (<span class="id" title="keyword">fun</span> <span class="id" title="var">z</span> =&gt; <span class="id" title="var">_</span> <span class="id" title="notation">·</span> <span class="id" title="notation">(</span><span class="id" title="var">_</span> <span class="id" title="notation">·</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#z"><span class="id" title="variable">z</span></a><span class="id" title="notation">)</span>) <span class="id" title="var">v</span> <span class="id" title="var">u</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">y</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="definition">assoc</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>; [<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_postcomposition</span>, <span class="id" title="definition">pathsinv0</span>, <span class="id" title="lemma">colimOfArrowsIn</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>,<span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_precomposition</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="notation">!</span> <span class="id" title="var">uveq</span>).<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+A corrollary: Coproducts of epis are epis
+The proof is replayed with the direct defintion of coproducts
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="coproduct_Epis"><span class="id" title="lemma">coproduct_Epis</span></a> {<span class="id" title="var">C</span> : <span class="id" title="definition">precategory</span>} {<span class="id" title="var">I</span> : <span class="id" title="definition">UU</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">a</span> <span class="id" title="var">b</span> : <a class="idref" href="Modules.Prelims.EpiComplements.html#I"><span class="id" title="variable">I</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a>} (<span class="id" title="var">f</span> : <span class="id" title="notation">∏</span> <span class="id" title="var">i</span><span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a> <span class="id" title="notation">⟦</span><a class="idref" href="Modules.Prelims.EpiComplements.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#i"><span class="id" title="variable">i</span></a> <span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#b"><span class="id" title="variable">b</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#i"><span class="id" title="variable">i</span></a><span class="id" title="notation">⟧</span>)(<span class="id" title="var">epif</span> : <span class="id" title="notation">∏</span> <span class="id" title="var">i</span><span class="id" title="notation">,</span> <span class="id" title="definition">isEpi</span> (<a class="idref" href="Modules.Prelims.EpiComplements.html#f"><span class="id" title="variable">f</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#i"><span class="id" title="variable">i</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">cpA</span> : <span class="id" title="definition">Coproduct</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#I"><span class="id" title="variable">I</span></a> <span class="id" title="var">_</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#a"><span class="id" title="variable">a</span></a>) (<span class="id" title="var">cpB</span> : <span class="id" title="definition">Coproduct</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#I"><span class="id" title="variable">I</span></a> <span class="id" title="var">_</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#b"><span class="id" title="variable">b</span></a>)<br/>
+&nbsp;&nbsp;:<br/>
+&nbsp;&nbsp;<span class="id" title="definition">isEpi</span> (<span class="id" title="definition">CoproductOfArrows</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#I"><span class="id" title="variable">I</span></a> <span class="id" title="var">_</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#cpA"><span class="id" title="variable">cpA</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#cpB"><span class="id" title="variable">cpB</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#f"><span class="id" title="variable">f</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">c</span> <span class="id" title="var">u</span> <span class="id" title="var">v</span> <span class="id" title="var">eq</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="lemma">CoproductArrowEta</span>|<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>; <span class="id" title="tactic">apply</span> <span class="id" title="lemma">CoproductArrowUnique</span>].<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">i</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">epif</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">do</span> 2 <span class="id" title="tactic">rewrite</span> <span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> &lt;- (<span class="id" title="lemma">CoproductOfArrowsIn</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">cpA</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">do</span> 2 <span class="id" title="tactic">rewrite</span> &lt;- <span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_precomposition</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">eq</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Again, a corrollary, in principle 
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="bincoproduct_Epis"><span class="id" title="lemma">bincoproduct_Epis</span></a> {<span class="id" title="var">C</span> : <span class="id" title="definition">precategory</span>} {<span class="id" title="var">a</span> <span class="id" title="var">b</span> <span class="id" title="var">a'</span> <span class="id" title="var">b'</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">ab</span> : <span class="id" title="definition">BinCoproduct</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#b"><span class="id" title="variable">b</span></a>) <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">a'b'</span> : <span class="id" title="definition">BinCoproduct</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#a'"><span class="id" title="variable">a'</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#b'"><span class="id" title="variable">b'</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">f</span> : <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a> <span class="id" title="notation">⟦</span><a class="idref" href="Modules.Prelims.EpiComplements.html#a"><span class="id" title="variable">a</span></a> <span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#a'"><span class="id" title="variable">a'</span></a><span class="id" title="notation">⟧</span>)(<span class="id" title="var">g</span> : <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a> <span class="id" title="notation">⟦</span><a class="idref" href="Modules.Prelims.EpiComplements.html#b"><span class="id" title="variable">b</span></a> <span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#b'"><span class="id" title="variable">b'</span></a><span class="id" title="notation">⟧</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">epif</span> : <span class="id" title="definition">isEpi</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#f"><span class="id" title="variable">f</span></a>)(<span class="id" title="var">epig</span> : <span class="id" title="definition">isEpi</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#g"><span class="id" title="variable">g</span></a>) :<br/>
+&nbsp;&nbsp;<span class="id" title="definition">isEpi</span> (<span class="id" title="definition">BinCoproductOfArrows</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#ab"><span class="id" title="variable">ab</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#a'b'"><span class="id" title="variable">a'b'</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#f"><span class="id" title="variable">f</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#g"><span class="id" title="variable">g</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">c</span> <span class="id" title="var">u</span> <span class="id" title="var">v</span> <span class="id" title="var">eq</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">BinCoproductArrowsEq</span>; [<span class="id" title="tactic">apply</span> <span class="id" title="var">epif</span>| <span class="id" title="tactic">apply</span> <span class="id" title="var">epig</span>];<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">do</span> 2 <span class="id" title="tactic">rewrite</span> <span class="id" title="definition">assoc</span>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;[<span class="id" title="var">erewrite</span> &lt;- <span class="id" title="lemma">BinCoproductOfArrowsIn1</span>| <span class="id" title="var">erewrite</span> &lt;- <span class="id" title="lemma">BinCoproductOfArrowsIn2</span>];<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">do</span> 2 <span class="id" title="tactic">rewrite</span> &lt;- <span class="id" title="definition">assoc</span>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_precomposition</span>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">eq</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="isEpi_horcomp_pw"><span class="id" title="lemma">isEpi_horcomp_pw</span></a> (<span class="id" title="var">B</span> : <span class="id" title="definition">precategory</span>)(<span class="id" title="var">C</span> <span class="id" title="var">D</span> : <span class="id" title="definition">category</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">G</span> <span class="id" title="var">H</span> : <span class="id" title="definition">functor</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#B"><span class="id" title="variable">B</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a>) (<span class="id" title="var">G'</span> <span class="id" title="var">H'</span> : <span class="id" title="definition">functor</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#D"><span class="id" title="variable">D</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">f</span> : <span class="id" title="definition">nat_trans</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#G"><span class="id" title="variable">G</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#H"><span class="id" title="variable">H</span></a>) (<span class="id" title="var">f'</span>:<span class="id" title="definition">nat_trans</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#G'"><span class="id" title="variable">G'</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#H'"><span class="id" title="variable">H'</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">(</span></a><span class="id" title="notation">∏</span> <span class="id" title="var">x</span><span class="id" title="notation">,</span> <span class="id" title="definition">isEpi</span>  (<a class="idref" href="Modules.Prelims.EpiComplements.html#f'"><span class="id" title="variable">f'</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#x"><span class="id" title="variable">x</span></a>)<a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">)</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">(</span></a><span class="id" title="notation">∏</span> <span class="id" title="var">x</span><span class="id" title="notation">,</span> <span class="id" title="definition">isEpi</span> ((<span class="id" title="notation">#</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#H'"><span class="id" title="variable">H'</span></a>)%<span class="id" title="var">Cat</span> (<a class="idref" href="Modules.Prelims.EpiComplements.html#f"><span class="id" title="variable">f</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#x"><span class="id" title="variable">x</span></a>))<a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">)</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <span class="id" title="notation">∏</span> <span class="id" title="var">x</span><span class="id" title="notation">,</span>  <span class="id" title="definition">isEpi</span> (<span class="id" title="definition">horcomp</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#f"><span class="id" title="variable">f</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#f'"><span class="id" title="variable">f'</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#x"><span class="id" title="variable">x</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">epif'</span> <span class="id" title="var">epif</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">isEpi_comp</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <span class="id" title="var">epif'</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <span class="id" title="var">epif</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="isEpi_horcomp_pw2"><span class="id" title="lemma">isEpi_horcomp_pw2</span></a> (<span class="id" title="var">B</span> : <span class="id" title="definition">precategory</span>)(<span class="id" title="var">C</span> <span class="id" title="var">D</span> : <span class="id" title="definition">category</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">G</span> <span class="id" title="var">H</span> : <span class="id" title="definition">functor</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#B"><span class="id" title="variable">B</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a>) (<span class="id" title="var">G'</span> <span class="id" title="var">H'</span> : <span class="id" title="definition">functor</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#D"><span class="id" title="variable">D</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">f</span> : <span class="id" title="definition">nat_trans</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#G"><span class="id" title="variable">G</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#H"><span class="id" title="variable">H</span></a>) (<span class="id" title="var">f'</span>:<span class="id" title="definition">nat_trans</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#G'"><span class="id" title="variable">G'</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#H'"><span class="id" title="variable">H'</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">(</span></a><span class="id" title="notation">∏</span> <span class="id" title="var">x</span><span class="id" title="notation">,</span> <span class="id" title="definition">isEpi</span>  (<a class="idref" href="Modules.Prelims.EpiComplements.html#f'"><span class="id" title="variable">f'</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#x"><span class="id" title="variable">x</span></a>)<a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">)</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">(</span></a><span class="id" title="notation">∏</span> <span class="id" title="var">x</span><span class="id" title="notation">,</span> <span class="id" title="definition">isEpi</span> ((<span class="id" title="notation">#</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#G'"><span class="id" title="variable">G'</span></a>)%<span class="id" title="var">Cat</span> (<a class="idref" href="Modules.Prelims.EpiComplements.html#f"><span class="id" title="variable">f</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#x"><span class="id" title="variable">x</span></a>))<a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">)</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <span class="id" title="notation">∏</span> <span class="id" title="var">x</span><span class="id" title="notation">,</span>  <span class="id" title="definition">isEpi</span> (<span class="id" title="definition">horcomp</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#f"><span class="id" title="variable">f</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#f'"><span class="id" title="variable">f'</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#x"><span class="id" title="variable">x</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">epif</span> <span class="id" title="var">epif'</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> &lt;- (<span class="id" title="definition">nat_trans_ax</span> <span class="id" title="var">f'</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">isEpi_comp</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <span class="id" title="var">epif'</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <span class="id" title="var">epif</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab3"></a><h1 class="section">Functor preserving of epis</h1>
+
+ 
+<div class="paragraph"> </div>
+
+
+<div class="paragraph"> </div>
+
+If the source category B is Set, then with the axiom of choice every epimorphism is split,
+thus absolute (i.e. any functor preserves epis).
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> {<span class="id" title="var">B</span> <span class="id" title="var">C</span> : <span class="id" title="definition">precategory</span>} (<span class="id" title="var">F</span> : <span class="id" title="definition">functor</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#B"><span class="id" title="variable">B</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a>) : <span class="id" title="definition">UU</span> :=<br/>
+&nbsp;&nbsp;<span class="id" title="notation">∏</span> <span class="id" title="var">a</span> <span class="id" title="var">b</span> (<span class="id" title="var">f</span> : <a class="idref" href="Modules.Prelims.EpiComplements.html#B"><span class="id" title="variable">B</span></a> <span class="id" title="notation">⟦</span><a class="idref" href="Modules.Prelims.EpiComplements.html#a"><span class="id" title="variable">a</span></a> <span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#b"><span class="id" title="variable">b</span></a><span class="id" title="notation">⟧</span><span class="id" title="notation">),</span> <span class="id" title="definition">isEpi</span>  <a class="idref" href="Modules.Prelims.EpiComplements.html#f"><span class="id" title="variable">f</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <span class="id" title="definition">isEpi</span> (<span class="id" title="notation">#</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#F"><span class="id" title="variable">F</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#f"><span class="id" title="variable">f</span></a>)%<span class="id" title="var">Cat</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Functor from Set preserves epimorphisms because thanks to the axiom of choice, any
+    set epimorphism is absolute 
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="preserves_to_HSET_isEpi"><span class="id" title="lemma">preserves_to_HSET_isEpi</span></a> (<span class="id" title="var">ax_choice</span> : <span class="id" title="definition">AxiomOfChoice.AxiomOfChoice_surj</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">B</span> := <span class="id" title="definition">hset_category</span>)  {<span class="id" title="var">C</span> : <span class="id" title="definition">category</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">G</span> : <span class="id" title="definition">functor</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#B"><span class="id" title="variable">B</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#G"><span class="id" title="variable">G</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">a</span> <span class="id" title="var">b</span> <span class="id" title="var">f</span> <span class="id" title="var">epif</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">isSplitEpi_isEpi</span>; [ <span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>|].<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">preserves_isSplitEpi</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">SplitEpis_HSET</span>; [|<span class="id" title="tactic">apply</span> <span class="id" title="var">epif</span>].<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">ax_choice</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The composition of two epi-preserving functors preserves epis 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="composite_preserves_Epi"><span class="id" title="definition">composite_preserves_Epi</span></a> {<span class="id" title="var">B</span> <span class="id" title="var">C</span> <span class="id" title="var">D</span> : <span class="id" title="definition">precategory</span>} (<span class="id" title="var">F</span> : <span class="id" title="definition">functor</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#B"><span class="id" title="variable">B</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a>) (<span class="id" title="var">G</span> : <span class="id" title="definition">functor</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#D"><span class="id" title="variable">D</span></a>) :<br/>
+&nbsp;&nbsp;<a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#F"><span class="id" title="variable">F</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#G"><span class="id" title="variable">G</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<a class="idref" href="Modules.Prelims.EpiComplements.html#F"><span class="id" title="variable">F</span></a> <span class="id" title="notation">∙</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#G"><span class="id" title="variable">G</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">hF</span> <span class="id" title="var">hG</span> <span class="id" title="var">a</span> <span class="id" title="var">b</span> <span class="id" title="var">f</span> <span class="id" title="var">epif</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">hG</span>, <span class="id" title="var">hF</span>, <span class="id" title="var">epif</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+let a : F -&gt; G be a pointwise epimorphic natural transformation.
+  If F preserves epimorphisms, then G also does 
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="epi_nt_preserves_Epi"><span class="id" title="lemma">epi_nt_preserves_Epi</span></a> {<span class="id" title="var">B</span> <span class="id" title="var">C</span> : <span class="id" title="definition">precategory</span>} {<span class="id" title="var">F</span> <span class="id" title="var">G</span> : <span class="id" title="definition">functor</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#B"><span class="id" title="variable">B</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a>} (<span class="id" title="var">a</span> : <span class="id" title="definition">nat_trans</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#F"><span class="id" title="variable">F</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#G"><span class="id" title="variable">G</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">epia</span> : <span class="id" title="notation">∏</span> <span class="id" title="var">b</span><span class="id" title="notation">,</span> <span class="id" title="definition">isEpi</span> (<a class="idref" href="Modules.Prelims.EpiComplements.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#b"><span class="id" title="variable">b</span></a>))  (<span class="id" title="var">epiF</span> : <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#F"><span class="id" title="variable">F</span></a>) : <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#G"><span class="id" title="variable">G</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">X</span> <span class="id" title="var">Y</span> <span class="id" title="var">f</span> <span class="id" title="var">epif</span> <span class="id" title="var">Z</span> <span class="id" title="var">g</span> <span class="id" title="var">h</span> <span class="id" title="var">eq</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">unshelve</span> <span class="id" title="tactic">eapply</span> (<span class="id" title="var">_</span> : <span class="id" title="definition">isEpi</span> (<span class="id" title="var">a</span> <span class="id" title="var">_</span> <span class="id" title="notation">·</span> <span class="id" title="notation">#</span> <span class="id" title="var">G</span> <span class="id" title="var">f</span>)).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">rewrite</span> &lt;- (<span class="id" title="definition">nat_trans_ax</span> <span class="id" title="var">a</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">isEpi_comp</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <span class="id" title="var">epiF</span>; <span class="id" title="tactic">assumption</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <span class="id" title="var">epia</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">do</span> 2 <span class="id" title="tactic">rewrite</span> &lt;- <span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_precomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">eq</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="id_preserves_Epi"><span class="id" title="definition">id_preserves_Epi</span></a> (<span class="id" title="var">B</span> : <span class="id" title="definition">precategory</span>) : <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<span class="id" title="definition">functor_identity</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#B"><span class="id" title="variable">B</span></a>) :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">fun</span> <span class="id" title="var">a</span> <span class="id" title="var">b</span> <span class="id" title="var">f</span> <span class="id" title="var">h</span> =&gt; <a class="idref" href="Modules.Prelims.EpiComplements.html#h"><span class="id" title="variable">h</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="const_preserves_Epi"><span class="id" title="definition">const_preserves_Epi</span></a> {<span class="id" title="var">B</span> <span class="id" title="var">C</span> : <span class="id" title="definition">precategory</span>} (<span class="id" title="var">c</span> : <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a>) : <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<span class="id" title="definition">constant_functor</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#B"><span class="id" title="variable">B</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#c"><span class="id" title="variable">c</span></a>) :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">fun</span> <span class="id" title="var">a</span> <span class="id" title="var">b</span> <span class="id" title="var">f</span> <span class="id" title="var">h</span> =&gt; <span class="id" title="lemma">identity_isEpi</span> <span class="id" title="var">_</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="preserveEpi_binProdFunc"><span class="id" title="lemma">preserveEpi_binProdFunc</span></a> {<span class="id" title="var">B</span> <span class="id" title="var">C</span> : <span class="id" title="definition">precategory</span>} {<span class="id" title="var">bpC</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">product_epis</span> : <a class="idref" href="Modules.Prelims.EpiComplements.html#products_preserves_Epis"><span class="id" title="definition">products_preserves_Epis</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#bpC"><span class="id" title="variable">bpC</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">F</span> <span class="id" title="var">F'</span> : <span class="id" title="definition">functor</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#B"><span class="id" title="variable">B</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a>) :<br/>
+&nbsp;&nbsp;<a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#F"><span class="id" title="variable">F</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#F'"><span class="id" title="variable">F'</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<span class="id" title="definition">BinProduct_of_functors</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#bpC"><span class="id" title="variable">bpC</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#F"><span class="id" title="variable">F</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#F'"><span class="id" title="variable">F'</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">epiF</span> <span class="id" title="var">epiG</span> <span class="id" title="var">M</span> <span class="id" title="var">N</span> <span class="id" title="var">f</span> <span class="id" title="var">epif</span> .<br/>
+&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">product_epis</span>; [<span class="id" title="tactic">apply</span> <span class="id" title="var">epiF</span>|<span class="id" title="tactic">apply</span> <span class="id" title="var">epiG</span>]; <span class="id" title="tactic">exact</span> <span class="id" title="var">epif</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="preserveEpi_binProdFuncSET"><span class="id" title="definition">preserveEpi_binProdFuncSET</span></a> {<span class="id" title="var">B</span>  : <span class="id" title="definition">precategory</span>} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">F</span> <span class="id" title="var">F'</span> : <span class="id" title="definition">functor</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#B"><span class="id" title="variable">B</span></a> <span class="id" title="notation">SET</span>) :<br/>
+&nbsp;&nbsp;<a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#F"><span class="id" title="variable">F</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#F'"><span class="id" title="variable">F'</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<span class="id" title="definition">BinProduct_of_functors</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#F"><span class="id" title="variable">F</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#F'"><span class="id" title="variable">F'</span></a>) :=<br/>
+&nbsp;&nbsp;<a class="idref" href="Modules.Prelims.EpiComplements.html#preserveEpi_binProdFunc"><span class="id" title="lemma">preserveEpi_binProdFunc</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#productEpisSET"><span class="id" title="lemma">productEpisSET</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#F"><span class="id" title="variable">F</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#F'"><span class="id" title="variable">F'</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+A corrolary of colimOfArrows_Epi 
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="Colim_Functor_Preserves_Epi"><span class="id" title="lemma">Colim_Functor_Preserves_Epi</span></a> {<span class="id" title="var">C</span> : <span class="id" title="definition">precategory</span>}{<span class="id" title="var">D</span> : <span class="id" title="definition">category</span>}{<span class="id" title="var">g</span> : <span class="id" title="definition">graph</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">F</span> : <span class="id" title="definition">diagram</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#g"><span class="id" title="variable">g</span></a> <span class="id" title="notation">[</span><a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a><span class="id" title="notation">,</span><a class="idref" href="Modules.Prelims.EpiComplements.html#D"><span class="id" title="variable">D</span></a><span class="id" title="notation">]</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">F_presv_epi</span> : <span class="id" title="notation">∏</span> <span class="id" title="var">i</span><span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<span class="id" title="definition">dob</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#F"><span class="id" title="variable">F</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#i"><span class="id" title="variable">i</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">cD</span> : <span class="id" title="definition">Colims_of_shape</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#g"><span class="id" title="variable">g</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#D"><span class="id" title="variable">D</span></a>)<br/>
+&nbsp;&nbsp;: <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="definition">colim</span> (<span class="id" title="lemma">ColimFunctorCocone</span> (<span class="id" title="definition">homset_property</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#D"><span class="id" title="variable">D</span></a>) <a class="idref" href="Modules.Prelims.EpiComplements.html#F"><span class="id" title="variable">F</span></a> (<span class="id" title="keyword">fun</span> <span class="id" title="var">a</span> =&gt; <a class="idref" href="Modules.Prelims.EpiComplements.html#cD"><span class="id" title="variable">cD</span></a>  <span class="id" title="var">_</span> ))).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a>. <span class="id" title="tactic">intros</span> <span class="id" title="var">X</span> <span class="id" title="var">Y</span> <span class="id" title="var">f</span> <span class="id" title="var">Hf</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#colimOfArrows_Epi"><span class="id" title="lemma">colimOfArrows_Epi</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">u</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">F_presv_epi</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">Hf</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+a corollary 
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="preserveEpi_sumFuncs"><span class="id" title="lemma">preserveEpi_sumFuncs</span></a> {<span class="id" title="var">B</span> <span class="id" title="var">C</span> : <span class="id" title="definition">precategory</span>} {<span class="id" title="var">I</span> : <span class="id" title="definition">UU</span>}(<span class="id" title="var">cp</span> : <span class="id" title="definition">Coproducts</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#I"><span class="id" title="variable">I</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a>) <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">Fs</span> (<span class="id" title="var">epiFs</span> : <span class="id" title="notation">∏</span> <span class="id" title="var">i</span><span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<a class="idref" href="Modules.Prelims.EpiComplements.html#Fs"><span class="id" title="variable">Fs</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#i"><span class="id" title="variable">i</span></a>)) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<span class="id" title="definition">coproduct_of_functors</span>  <a class="idref" href="Modules.Prelims.EpiComplements.html#I"><span class="id" title="variable">I</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#B"><span class="id" title="variable">B</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#cp"><span class="id" title="variable">cp</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#Fs"><span class="id" title="variable">Fs</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">M</span> <span class="id" title="var">N</span> <span class="id" title="var">f</span> <span class="id" title="var">epif</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#coproduct_Epis"><span class="id" title="lemma">coproduct_Epis</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">i</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">epiFs</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">epif</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Corollary 
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="preserveEpi_binCoprodFunc"><span class="id" title="lemma">preserveEpi_binCoprodFunc</span></a> {<span class="id" title="var">B</span> <span class="id" title="var">C</span> : <span class="id" title="definition">precategory</span>} (<span class="id" title="var">bcp</span> : <span class="id" title="definition">BinCoproducts</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a>) <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">Fs</span> <span class="id" title="var">Gs</span> (<span class="id" title="var">epiFs</span> : <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#Fs"><span class="id" title="variable">Fs</span></a>)(<span class="id" title="var">epiGs</span> : <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#Gs"><span class="id" title="variable">Gs</span></a>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<span class="id" title="definition">BinCoproduct_of_functors</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#B"><span class="id" title="variable">B</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#bcp"><span class="id" title="variable">bcp</span></a>  <a class="idref" href="Modules.Prelims.EpiComplements.html#Fs"><span class="id" title="variable">Fs</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#Gs"><span class="id" title="variable">Gs</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">M</span> <span class="id" title="var">N</span> <span class="id" title="var">f</span> <span class="id" title="var">epif</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#bincoproduct_Epis"><span class="id" title="lemma">bincoproduct_Epis</span></a>; <span class="id" title="tactic">auto</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="preserveEpi_precomp"><span class="id" title="lemma">preserveEpi_precomp</span></a> {<span class="id" title="var">B</span> : <span class="id" title="definition">precategory</span>} (<span class="id" title="var">C</span> <span class="id" title="var">D</span> : <span class="id" title="definition">category</span>) (<span class="id" title="var">F</span> : <span class="id" title="definition">functor</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#B"><span class="id" title="variable">B</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">pwEpi</span> : <a class="idref" href="Modules.Prelims.EpiComplements.html#epis_are_pointwise"><span class="id" title="definition">epis_are_pointwise</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#D"><span class="id" title="variable">D</span></a>)<br/>
+&nbsp;&nbsp;:<br/>
+&nbsp;&nbsp;<a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<span class="id" title="definition">pre_composition_functor</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#B"><span class="id" title="variable">B</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#C"><span class="id" title="variable">C</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#D"><span class="id" title="variable">D</span></a> (<span class="id" title="definition">homset_property</span> <span class="id" title="var">_</span>)(<span class="id" title="definition">homset_property</span> <span class="id" title="var">_</span>) <a class="idref" href="Modules.Prelims.EpiComplements.html#F"><span class="id" title="variable">F</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">M</span> <span class="id" title="var">N</span> <span class="id" title="var">f</span> <span class="id" title="var">epif</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">is_nat_trans_epi_from_pointwise_epis</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">X</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="var">pwEpi</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">epif</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The option functor preserves epis (same idea as coproduct_Epis 
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="preserves_Epi_option"><span class="id" title="lemma">preserves_Epi_option</span></a> {<span class="id" title="var">B</span> : <span class="id" title="definition">precategory</span>} (<span class="id" title="var">bcp</span> : <span class="id" title="definition">BinCoproducts</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#B"><span class="id" title="variable">B</span></a>) (<span class="id" title="var">T</span> : <span class="id" title="definition">Terminal</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#B"><span class="id" title="variable">B</span></a>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<span class="id" title="definition">option_functor</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#bcp"><span class="id" title="variable">bcp</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#T"><span class="id" title="variable">T</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">R</span> <span class="id" title="var">S</span> <span class="id" title="var">f</span> <span class="id" title="var">epif</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">c</span> <span class="id" title="var">u</span> <span class="id" title="var">v</span> <span class="id" title="var">eq</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">BinCoproductArrowsEq</span>; [<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">identity_isEpi</span> <span class="id" title="var">_</span> (<span class="id" title="var">x</span> := <span class="id" title="var">T</span>))| <span class="id" title="tactic">apply</span> <span class="id" title="var">epif</span>]; <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">do</span> 2 <span class="id" title="tactic">rewrite</span> <span class="id" title="definition">assoc</span>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;[<span class="id" title="var">erewrite</span> &lt;- <span class="id" title="lemma">BinCoproductOfArrowsIn1</span>|<span class="id" title="var">erewrite</span> &lt;- <span class="id" title="lemma">BinCoproductOfArrowsIn2</span>];<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">do</span> 2 <span class="id" title="tactic">rewrite</span> &lt;- <span class="id" title="definition">assoc</span>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_precomposition</span>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">eq</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>
