@@ -1,0 +1,569 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>Modules.Prelims.LModulesColims</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Modules.Prelims.LModulesColims</h1>
+
+<div class="code">
+
+<br/>
+</div>
+
+<div class="doc">
+It is the product of modules
+Then it induces a morphism
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.Propositions</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.Sets</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.MoreFoundations.Tactics</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Categories</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.functor_categories</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.whiskering</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.graphs.limits</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.graphs.colimits</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monads.Monads</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monads.LModules</span>.<br/>
+
+<br/>
+
+<br/>
+<span class="id" title="keyword">Local Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">cat</span>.<br/>
+
+<br/>
+
+<br/>
+<span class="id" title="keyword">Section</span> <a name="ColimsModule"><span class="id" title="section">ColimsModule</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">C</span> : <span class="id" title="definition">precategory</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">g</span> : <span class="id" title="definition">graph</span>} (<span class="id" title="var">colims_g</span> : <span class="id" title="definition">Colims_of_shape</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#g"><span class="id" title="variable">g</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#C"><span class="id" title="variable">C</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">lims_g</span> : <span class="id" title="definition">Lims_of_shape</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#g"><span class="id" title="variable">g</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#C"><span class="id" title="variable">C</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">B</span>:<span class="id" title="definition">precategory</span>} {<span class="id" title="var">R</span>:<span class="id" title="definition">Monad</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#B"><span class="id" title="variable">B</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">hsC</span> : <span class="id" title="definition">has_homsets</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#C"><span class="id" title="variable">C</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="coFunc"><span class="id" title="abbreviation">coFunc</span></a> := (<span class="id" title="lemma">ColimsFunctorCategory_of_shape</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.B"><span class="id" title="variable">B</span></a> <span class="id" title="var">_</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.hsC"><span class="id" title="variable">hsC</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.colims_g"><span class="id" title="variable">colims_g</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="limFunc"><span class="id" title="abbreviation">limFunc</span></a> := (<span class="id" title="lemma">LimsFunctorCategory_of_shape</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.B"><span class="id" title="variable">B</span></a> <span class="id" title="var">_</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.hsC"><span class="id" title="variable">hsC</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.lims_g"><span class="id" title="variable">lims_g</span></a>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="MOD"><span class="id" title="abbreviation">MOD</span></a> := (<span class="id" title="definition">precategory_LModule</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.R"><span class="id" title="variable">R</span></a> (<a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.C"><span class="id" title="variable">C</span></a> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.hsC"><span class="id" title="variable">hsC</span></a>)).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Variable</span> (<a name="ColimsModule.d"><span class="id" title="variable">d</span></a> : <span class="id" title="definition">diagram</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.g"><span class="id" title="variable">g</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#MOD"><span class="id" title="abbreviation">MOD</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="FORGET"><span class="id" title="abbreviation">FORGET</span></a> := (<span class="id" title="definition">LModule_forget_functor</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.R"><span class="id" title="variable">R</span></a> (<a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.C"><span class="id" title="variable">C</span></a> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.hsC"><span class="id" title="variable">hsC</span></a>)).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="d'"><span class="id" title="abbreviation">d'</span></a> := (  <span class="id" title="definition">mapdiagram</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#FORGET"><span class="id" title="abbreviation">FORGET</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.d"><span class="id" title="variable">d</span></a> : <span class="id" title="definition">diagram</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.g"><span class="id" title="variable">g</span></a> <span class="id" title="notation">[</span><a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.B"><span class="id" title="variable">B</span></a> <span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.C"><span class="id" title="variable">C</span></a> <span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.hsC"><span class="id" title="variable">hsC</span></a><span class="id" title="notation">]</span> ).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="F"><span class="id" title="abbreviation">F</span></a> := (<span class="id" title="definition">colim</span> (<a class="idref" href="Modules.Prelims.LModulesColims.html#coFunc"><span class="id" title="abbreviation">coFunc</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#d'"><span class="id" title="abbreviation">d'</span></a>) : <span class="id" title="definition">functor</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="F'"><span class="id" title="abbreviation">F'</span></a> := (<span class="id" title="definition">lim</span> (<a class="idref" href="Modules.Prelims.LModulesColims.html#limFunc"><span class="id" title="abbreviation">limFunc</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#d'"><span class="id" title="abbreviation">d'</span></a>) : <span class="id" title="definition">functor</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="LModule_colim_mult_data"><span class="id" title="definition">LModule_colim_mult_data</span></a> (<span class="id" title="var">x</span> : <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.B"><span class="id" title="variable">B</span></a>) : <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.C"><span class="id" title="variable">C</span></a> <span class="id" title="notation">⟦</span> (<a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.R"><span class="id" title="variable">R</span></a> <span class="id" title="notation">∙</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#F"><span class="id" title="abbreviation">F</span></a>) <a class="idref" href="Modules.Prelims.LModulesColims.html#x"><span class="id" title="variable">x</span></a><span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#F"><span class="id" title="abbreviation">F</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#x"><span class="id" title="variable">x</span></a> <span class="id" title="notation">⟧</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">colimOfArrows</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">v</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> ( <span class="id" title="definition">lm_mult</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.R"><span class="id" title="variable">R</span></a> (<span class="id" title="definition">dob</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.d"><span class="id" title="variable">d</span></a> <span class="id" title="var">v</span> : <span class="id" title="definition">LModule</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) <span class="id" title="var">x</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">u</span> <span class="id" title="var">v</span> <span class="id" title="var">e</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">now</span> <span class="id" title="tactic">apply</span>  <span class="id" title="definition">LModule_Mor_</span><span class="id" title="definition">σ</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="LModule_lim_mult_data"><span class="id" title="definition">LModule_lim_mult_data</span></a> (<span class="id" title="var">x</span> : <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.B"><span class="id" title="variable">B</span></a>) : <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.C"><span class="id" title="variable">C</span></a> <span class="id" title="notation">⟦</span> (<a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.R"><span class="id" title="variable">R</span></a> <span class="id" title="notation">∙</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#F'"><span class="id" title="abbreviation">F'</span></a>) <a class="idref" href="Modules.Prelims.LModulesColims.html#x"><span class="id" title="variable">x</span></a><span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#F'"><span class="id" title="abbreviation">F'</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#x"><span class="id" title="variable">x</span></a> <span class="id" title="notation">⟧</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">limOfArrows</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">v</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> ( <span class="id" title="definition">lm_mult</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.R"><span class="id" title="variable">R</span></a> (<span class="id" title="definition">dob</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.d"><span class="id" title="variable">d</span></a> <span class="id" title="var">v</span> : <span class="id" title="definition">LModule</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) <span class="id" title="var">x</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">u</span> <span class="id" title="var">v</span> <span class="id" title="var">e</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span>  <span class="id" title="definition">LModule_Mor_</span><span class="id" title="definition">σ</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="LModule_colim_mult_is_nat_trans"><span class="id" title="lemma">LModule_colim_mult_is_nat_trans</span></a> : <span class="id" title="definition">is_nat_trans</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>  <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_colim_mult_data"><span class="id" title="definition">LModule_colim_mult_data</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> <span class="id" title="var">f</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_colim_mult_data"><span class="id" title="definition">LModule_colim_mult_data</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>; [<span class="id" title="var">use</span> <span class="id" title="lemma">precompWithColimOfArrows</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>            .<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">colimArrowUnique</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">v</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="definition">assoc</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_postcomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="definition">nat_trans_ax</span> (<span class="id" title="definition">lm_mult</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.R"><span class="id" title="variable">R</span></a> (<span class="id" title="definition">dob</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.d"><span class="id" title="variable">d</span></a> <span class="id" title="var">v</span> : <span class="id" title="definition">LModule</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="definition">assoc</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_postcomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">CC1</span> := <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.colims_g"><span class="id" title="variable">colims_g</span></a> <span class="id" title="var">_</span> ).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">CC2</span> := <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.colims_g"><span class="id" title="variable">colims_g</span></a> <span class="id" title="var">_</span> ).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> (<span class="id" title="lemma">colimOfArrowsIn</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">CC1</span> <span class="id" title="var">CC2</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> <span class="id" title="tactic">rewrite</span> &lt;- <span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_precomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <span class="id" title="definition">ColimFunctor_mor</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">CC1</span> := <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.colims_g"><span class="id" title="variable">colims_g</span></a> <span class="id" title="var">_</span> ).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">CC2</span> := <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.colims_g"><span class="id" title="variable">colims_g</span></a> <span class="id" title="var">_</span> ).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> (<span class="id" title="lemma">colimOfArrowsIn</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">CC1</span> <span class="id" title="var">CC2</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="LModule_lim_mult_is_nat_trans"><span class="id" title="lemma">LModule_lim_mult_is_nat_trans</span></a> : <span class="id" title="definition">is_nat_trans</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>  <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_lim_mult_data"><span class="id" title="definition">LModule_lim_mult_data</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> <span class="id" title="var">f</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_lim_mult_data"><span class="id" title="definition">LModule_lim_mult_data</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>; [<span class="id" title="var">use</span> <span class="id" title="lemma">postCompWithLimOfArrows</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>            .<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">limArrowUnique</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">v</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[|<span class="id" title="tactic">apply</span> <span class="id" title="definition">assoc</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>; <span class="id" title="var">revgoals</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_precomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="definition">nat_trans_ax</span> (<span class="id" title="definition">lm_mult</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.R"><span class="id" title="variable">R</span></a> (<span class="id" title="definition">dob</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.d"><span class="id" title="variable">d</span></a> <span class="id" title="var">v</span> : <span class="id" title="definition">LModule</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[|<span class="id" title="tactic">apply</span> <span class="id" title="definition">assoc</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>; <span class="id" title="var">revgoals</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_precomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <span class="id" title="definition">LimFunctor_mor</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">CC1</span> := <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.lims_g"><span class="id" title="variable">lims_g</span></a> <span class="id" title="var">_</span> ).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">CC2</span> :=  <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.lims_g"><span class="id" title="variable">lims_g</span></a> <span class="id" title="var">_</span> ).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> (<span class="id" title="lemma">limOfArrowsOut</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">CC1</span> <span class="id" title="var">CC2</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> <span class="id" title="tactic">rewrite</span>  <span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_postcomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">CC2</span> := <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.lims_g"><span class="id" title="variable">lims_g</span></a> <span class="id" title="var">_</span> ).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">CC1</span> := <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.lims_g"><span class="id" title="variable">lims_g</span></a> <span class="id" title="var">_</span> ).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">limOfArrowsOut</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">CC1</span> <span class="id" title="var">CC2</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="LModule_colim_mult"><span class="id" title="definition">LModule_colim_mult</span></a> : <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.R"><span class="id" title="variable">R</span></a> <span class="id" title="notation">∙</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#F"><span class="id" title="abbreviation">F</span></a> <span class="id" title="notation">⟹</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#F"><span class="id" title="abbreviation">F</span></a> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_colim_mult_is_nat_trans"><span class="id" title="lemma">LModule_colim_mult_is_nat_trans</span></a>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="LModule_lim_mult"><span class="id" title="definition">LModule_lim_mult</span></a> : <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.R"><span class="id" title="variable">R</span></a> <span class="id" title="notation">∙</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#F'"><span class="id" title="abbreviation">F'</span></a> <span class="id" title="notation">⟹</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#F'"><span class="id" title="abbreviation">F'</span></a> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_lim_mult_is_nat_trans"><span class="id" title="lemma">LModule_lim_mult_is_nat_trans</span></a>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="LModule_colim_data"><span class="id" title="definition">LModule_colim_data</span></a> : <span class="id" title="definition">LModule_data</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.C"><span class="id" title="variable">C</span></a> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.Prelims.LModulesColims.html#F"><span class="id" title="abbreviation">F</span></a> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_colim_mult"><span class="id" title="definition">LModule_colim_mult</span></a>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="LModule_lim_data"><span class="id" title="definition">LModule_lim_data</span></a> : <span class="id" title="definition">LModule_data</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.C"><span class="id" title="variable">C</span></a> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.Prelims.LModulesColims.html#F'"><span class="id" title="abbreviation">F'</span></a> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_lim_mult"><span class="id" title="definition">LModule_lim_mult</span></a>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="LModule_colim_laws"><span class="id" title="lemma">LModule_colim_laws</span></a> : <span class="id" title="definition">LModule_laws</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_colim_data"><span class="id" title="definition">LModule_colim_data</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>; [<span class="id" title="var">use</span> <span class="id" title="lemma">precompWithColimOfArrows</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>            .<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">colimArrowUnique</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">u</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="definition">id_right</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[|<span class="id" title="tactic">apply</span> <span class="id" title="definition">id_left</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_postcomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">LModule_law1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>; [<span class="id" title="var">use</span> <span class="id" title="lemma">precompWithColimOfArrows</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>            .<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">colimArrowUnique</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">u</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>; [<span class="id" title="tactic">apply</span> <span class="id" title="definition">assoc</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_postcomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_colim_mult_data"><span class="id" title="definition">LModule_colim_mult_data</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">CC1</span> := <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.colims_g"><span class="id" title="variable">colims_g</span></a> <span class="id" title="var">_</span> ).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">CC2</span> := <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.colims_g"><span class="id" title="variable">colims_g</span></a> <span class="id" title="var">_</span> ).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">colimOfArrowsIn</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">CC1</span> <span class="id" title="var">CC2</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> &lt;- <span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_precomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_colim_mult_data"><span class="id" title="definition">LModule_colim_mult_data</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">CC1</span> := <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.colims_g"><span class="id" title="variable">colims_g</span></a> <span class="id" title="var">_</span> ).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">CC2</span> := <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.colims_g"><span class="id" title="variable">colims_g</span></a> <span class="id" title="var">_</span> ).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">colimOfArrowsIn</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">CC1</span> <span class="id" title="var">CC2</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> <span class="id" title="tactic">rewrite</span> <span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_postcomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">LModule_law2</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="LModule_lim_laws"><span class="id" title="lemma">LModule_lim_laws</span></a> : <span class="id" title="definition">LModule_laws</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_lim_data"><span class="id" title="definition">LModule_lim_data</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>; [<span class="id" title="var">use</span> <span class="id" title="lemma">postCompWithLimArrow</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>            .<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">limArrowUnique</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">u</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="definition">id_left</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="definition">assoc</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_postcomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <span class="id" title="definition">LimFunctor_mor</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">CC2</span> := <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.lims_g"><span class="id" title="variable">lims_g</span></a> <span class="id" title="var">_</span> ).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">CC1</span> := <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.lims_g"><span class="id" title="variable">lims_g</span></a> <span class="id" title="var">_</span> ).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">limOfArrowsOut</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">CC1</span> <span class="id" title="var">CC2</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> &lt;-<span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[|<span class="id" title="tactic">apply</span> <span class="id" title="definition">id_right</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_precomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">LModule_law1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>; [<span class="id" title="var">use</span> <span class="id" title="lemma">postCompWithLimOfArrows</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>            .<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">limArrowUnique</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">u</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> &lt;- <span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_precomposition</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_lim_mult_data"><span class="id" title="definition">LModule_lim_mult_data</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">CC1</span> := <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.lims_g"><span class="id" title="variable">lims_g</span></a> <span class="id" title="var">_</span> ).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">CC2</span> := <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.lims_g"><span class="id" title="variable">lims_g</span></a> <span class="id" title="var">_</span> ).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">limOfArrowsOut</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">CC1</span> <span class="id" title="var">CC2</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_postcomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_lim_mult_data"><span class="id" title="definition">LModule_lim_mult_data</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">CC2</span> := <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.lims_g"><span class="id" title="variable">lims_g</span></a> <span class="id" title="var">_</span> ).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">CC1</span> := <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.lims_g"><span class="id" title="variable">lims_g</span></a> <span class="id" title="var">_</span> ).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">limOfArrowsOut</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">CC1</span> <span class="id" title="var">CC2</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> <span class="id" title="tactic">rewrite</span> &lt;- <span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_precomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">LModule_law2</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="LModule_colim"><span class="id" title="definition">LModule_colim</span></a> : <span class="id" title="definition">LModule</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.C"><span class="id" title="variable">C</span></a> := (<span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_colim_laws"><span class="id" title="lemma">LModule_colim_laws</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="LModule_lim"><span class="id" title="definition">LModule_lim</span></a> : <span class="id" title="definition">LModule</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.C"><span class="id" title="variable">C</span></a> := (<span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_lim_laws"><span class="id" title="lemma">LModule_lim_laws</span></a>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="LModule_coconeIn_laws"><span class="id" title="lemma">LModule_coconeIn_laws</span></a> <span class="id" title="var">v</span> : <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">LModule_Mor_laws</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.R"><span class="id" title="variable">R</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">T</span> := (<span class="id" title="definition">dob</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#v"><span class="id" title="variable">v</span></a> : <span class="id" title="definition">LModule</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>)) (<span class="id" title="var">T'</span> := <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_colim"><span class="id" title="definition">LModule_colim</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((<span class="id" title="definition">coconeIn</span> (<span class="id" title="definition">colimCocone</span> (<a class="idref" href="Modules.Prelims.LModulesColims.html#coFunc"><span class="id" title="abbreviation">coFunc</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#d'"><span class="id" title="abbreviation">d'</span></a>)) <a class="idref" href="Modules.Prelims.LModulesColims.html#v"><span class="id" title="variable">v</span></a> : <span class="id" title="definition">nat_trans</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) ).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">c</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_colim_mult_data"><span class="id" title="definition">LModule_colim_mult_data</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">CC1</span> := <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.colims_g"><span class="id" title="variable">colims_g</span></a> <span class="id" title="var">_</span> ).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">CC2</span> := <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.colims_g"><span class="id" title="variable">colims_g</span></a> <span class="id" title="var">_</span> ).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">colimOfArrowsIn</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">CC1</span> <span class="id" title="var">CC2</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="LModule_coneOut_laws"><span class="id" title="lemma">LModule_coneOut_laws</span></a> <span class="id" title="var">v</span> : <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">LModule_Mor_laws</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.R"><span class="id" title="variable">R</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">T</span> := <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_lim"><span class="id" title="definition">LModule_lim</span></a>) (<span class="id" title="var">T'</span> := (<span class="id" title="definition">dob</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#v"><span class="id" title="variable">v</span></a> : <span class="id" title="definition">LModule</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>)) <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((<span class="id" title="definition">coneOut</span> (<span class="id" title="definition">limCone</span> (<a class="idref" href="Modules.Prelims.LModulesColims.html#limFunc"><span class="id" title="abbreviation">limFunc</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#d'"><span class="id" title="abbreviation">d'</span></a>)) <a class="idref" href="Modules.Prelims.LModulesColims.html#v"><span class="id" title="variable">v</span></a> : <span class="id" title="definition">nat_trans</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) ).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">c</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_lim_mult_data"><span class="id" title="definition">LModule_lim_mult_data</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">CC1</span> := <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.lims_g"><span class="id" title="variable">lims_g</span></a> <span class="id" title="var">_</span> ).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">CC2</span> := <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.lims_g"><span class="id" title="variable">lims_g</span></a> <span class="id" title="var">_</span> ).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">limOfArrowsOut</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">CC1</span> <span class="id" title="var">CC2</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="LModule_coconeIn"><span class="id" title="definition">LModule_coconeIn</span></a> <span class="id" title="var">v</span> : <a class="idref" href="Modules.Prelims.LModulesColims.html#MOD"><span class="id" title="abbreviation">MOD</span></a> <span class="id" title="notation">⟦</span> <span class="id" title="definition">dob</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#v"><span class="id" title="variable">v</span></a><span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_colim"><span class="id" title="definition">LModule_colim</span></a> <span class="id" title="notation">⟧</span> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_coconeIn_laws"><span class="id" title="lemma">LModule_coconeIn_laws</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#v"><span class="id" title="variable">v</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="LModule_coneOut"><span class="id" title="definition">LModule_coneOut</span></a> <span class="id" title="var">v</span> : <a class="idref" href="Modules.Prelims.LModulesColims.html#MOD"><span class="id" title="abbreviation">MOD</span></a> <span class="id" title="notation">⟦</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_lim"><span class="id" title="definition">LModule_lim</span></a><span class="id" title="notation">,</span> <span class="id" title="definition">dob</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#v"><span class="id" title="variable">v</span></a> <span class="id" title="notation">⟧</span> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_coneOut_laws"><span class="id" title="lemma">LModule_coneOut_laws</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#v"><span class="id" title="variable">v</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="LModule_coconeIn_commutes"><span class="id" title="lemma">LModule_coconeIn_commutes</span></a> (<span class="id" title="var">u</span> <span class="id" title="var">v</span> : <span class="id" title="definition">vertex</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.g"><span class="id" title="variable">g</span></a>) (<span class="id" title="var">e</span> : <span class="id" title="definition">edge</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#u"><span class="id" title="variable">u</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#v"><span class="id" title="variable">v</span></a>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">dmor</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#e"><span class="id" title="variable">e</span></a> <span class="id" title="notation">·</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_coconeIn"><span class="id" title="definition">LModule_coconeIn</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#v"><span class="id" title="variable">v</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_coconeIn"><span class="id" title="definition">LModule_coconeIn</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#u"><span class="id" title="variable">u</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">LModule_Mor_equiv</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.hsC"><span class="id" title="variable">hsC</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> (<span class="id" title="lemma">coconeInCommutes</span> (<span class="id" title="definition">colimCocone</span> (<a class="idref" href="Modules.Prelims.LModulesColims.html#coFunc"><span class="id" title="abbreviation">coFunc</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#d'"><span class="id" title="abbreviation">d'</span></a>))).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="LModule_coneOut_commutes"><span class="id" title="lemma">LModule_coneOut_commutes</span></a> (<span class="id" title="var">u</span> <span class="id" title="var">v</span> : <span class="id" title="definition">vertex</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.g"><span class="id" title="variable">g</span></a>) (<span class="id" title="var">e</span> : <span class="id" title="definition">edge</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#u"><span class="id" title="variable">u</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#v"><span class="id" title="variable">v</span></a>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_coneOut"><span class="id" title="definition">LModule_coneOut</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#u"><span class="id" title="variable">u</span></a> <span class="id" title="notation">·</span> <span class="id" title="definition">dmor</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#e"><span class="id" title="variable">e</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_coneOut"><span class="id" title="definition">LModule_coneOut</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#v"><span class="id" title="variable">v</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">LModule_Mor_equiv</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.hsC"><span class="id" title="variable">hsC</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> (<span class="id" title="lemma">coneOutCommutes</span> (<span class="id" title="definition">limCone</span> (<a class="idref" href="Modules.Prelims.LModulesColims.html#limFunc"><span class="id" title="abbreviation">limFunc</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#d'"><span class="id" title="abbreviation">d'</span></a>))).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="LModule_colim_cocone"><span class="id" title="definition">LModule_colim_cocone</span></a> : <span class="id" title="definition">cocone</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_colim"><span class="id" title="definition">LModule_colim</span></a> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">mk_cocone</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_coconeIn"><span class="id" title="definition">LModule_coconeIn</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_coconeIn_commutes"><span class="id" title="lemma">LModule_coconeIn_commutes</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="LModule_lim_cone"><span class="id" title="definition">LModule_lim_cone</span></a> : <span class="id" title="definition">cone</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_lim"><span class="id" title="definition">LModule_lim</span></a> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">mk_cone</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_coneOut"><span class="id" title="definition">LModule_coneOut</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_coneOut_commutes"><span class="id" title="lemma">LModule_coneOut_commutes</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="LModule_colimArrow_laws"><span class="id" title="definition">LModule_colimArrow_laws</span></a> {<span class="id" title="var">M</span> : <span class="id" title="definition">LModule</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.C"><span class="id" title="variable">C</span></a>} (<span class="id" title="var">cc</span> : <span class="id" title="definition">cocone</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#M"><span class="id" title="variable">M</span></a>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">LModule_Mor_laws</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">_</span> (<span class="id" title="var">T</span> := <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_colim"><span class="id" title="definition">LModule_colim</span></a>) (<span class="id" title="var">T'</span> := <a class="idref" href="Modules.Prelims.LModulesColims.html#M"><span class="id" title="variable">M</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="definition">colimArrow</span>  (<a class="idref" href="Modules.Prelims.LModulesColims.html#coFunc"><span class="id" title="abbreviation">coFunc</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#d'"><span class="id" title="abbreviation">d'</span></a>) (<a class="idref" href="Modules.Prelims.LModulesColims.html#M"><span class="id" title="variable">M</span></a> : <span class="id" title="definition">functor</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) (<span class="id" title="definition">mapcocone</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#FORGET"><span class="id" title="abbreviation">FORGET</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#cc"><span class="id" title="variable">cc</span></a>) : <span class="id" title="definition">nat_trans</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> ).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">c</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_colim_mult_data"><span class="id" title="definition">LModule_colim_mult_data</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="lemma">precompWithColimOfArrows</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">colimArrowUnique</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">u</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="definition">assoc</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_postcomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">CC1</span> := <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.colims_g"><span class="id" title="variable">colims_g</span></a> <span class="id" title="var">_</span> ).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">colimArrowCommutes</span> <span class="id" title="var">CC1</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">LModule_Mor_</span><span class="id" title="definition">σ</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="LModule_limArrow_laws"><span class="id" title="definition">LModule_limArrow_laws</span></a> {<span class="id" title="var">M</span> : <span class="id" title="definition">LModule</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.C"><span class="id" title="variable">C</span></a>} (<span class="id" title="var">cc</span> : <span class="id" title="definition">cone</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#M"><span class="id" title="variable">M</span></a>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">LModule_Mor_laws</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">_</span> (<span class="id" title="var">T</span> := <a class="idref" href="Modules.Prelims.LModulesColims.html#M"><span class="id" title="variable">M</span></a>)(<span class="id" title="var">T'</span> := <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_lim"><span class="id" title="definition">LModule_lim</span></a>) <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="definition">limArrow</span>  (<a class="idref" href="Modules.Prelims.LModulesColims.html#limFunc"><span class="id" title="abbreviation">limFunc</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#d'"><span class="id" title="abbreviation">d'</span></a>) (<a class="idref" href="Modules.Prelims.LModulesColims.html#M"><span class="id" title="variable">M</span></a> : <span class="id" title="definition">functor</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) (<span class="id" title="definition">mapcone</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#FORGET"><span class="id" title="abbreviation">FORGET</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#cc"><span class="id" title="variable">cc</span></a>) : <span class="id" title="definition">nat_trans</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> ).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">c</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_lim_mult_data"><span class="id" title="definition">LModule_lim_mult_data</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="lemma">postCompWithLimOfArrows</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">limArrowUnique</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">u</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> &lt;- <span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_precomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">CC1</span> := <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.lims_g"><span class="id" title="variable">lims_g</span></a> <span class="id" title="var">_</span> ).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">limArrowCommutes</span> <span class="id" title="var">CC1</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">LModule_Mor_</span><span class="id" title="definition">σ</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="LModule_colimArrow"><span class="id" title="definition">LModule_colimArrow</span></a> {<span class="id" title="var">M</span> : <span class="id" title="definition">LModule</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.C"><span class="id" title="variable">C</span></a>} (<span class="id" title="var">cc</span> : <span class="id" title="definition">cocone</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#M"><span class="id" title="variable">M</span></a>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">LModule_Mor</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_colim"><span class="id" title="definition">LModule_colim</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#M"><span class="id" title="variable">M</span></a> := <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_colimArrow_laws"><span class="id" title="definition">LModule_colimArrow_laws</span></a>  <a class="idref" href="Modules.Prelims.LModulesColims.html#cc"><span class="id" title="variable">cc</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="LModule_limArrow"><span class="id" title="definition">LModule_limArrow</span></a> {<span class="id" title="var">M</span> : <span class="id" title="definition">LModule</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.C"><span class="id" title="variable">C</span></a>} (<span class="id" title="var">cc</span> : <span class="id" title="definition">cone</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.d"><span class="id" title="variable">d</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#M"><span class="id" title="variable">M</span></a>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">LModule_Mor</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#M"><span class="id" title="variable">M</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_lim"><span class="id" title="definition">LModule_lim</span></a> := <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_limArrow_laws"><span class="id" title="definition">LModule_limArrow_laws</span></a>  <a class="idref" href="Modules.Prelims.LModulesColims.html#cc"><span class="id" title="variable">cc</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="LModule_isColimCocone"><span class="id" title="lemma">LModule_isColimCocone</span></a> : <span class="id" title="definition">isColimCocone</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_colim_cocone"><span class="id" title="definition">LModule_colim_cocone</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">M</span> <span class="id" title="var">cc</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">unique_exists</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_colimArrow"><span class="id" title="definition">LModule_colimArrow</span></a> <span class="id" title="var">cc</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">v</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">LModule_Mor_equiv</span>;[<span class="id" title="tactic">exact</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.hsC"><span class="id" title="variable">hsC</span></a>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">colimArrowCommutes</span> (<a class="idref" href="Modules.Prelims.LModulesColims.html#coFunc"><span class="id" title="abbreviation">coFunc</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#d'"><span class="id" title="abbreviation">d'</span></a>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">y</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span> -[<span class="id" title="var">isaprop</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span>  <span class="id" title="lemma">impred_isaprop</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">u</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">has_homsets_LModule</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">y</span> <span class="id" title="var">h</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">LModule_Mor_equiv</span>;[<span class="id" title="tactic">exact</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.hsC"><span class="id" title="variable">hsC</span></a>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">colimArrowUnique</span> (<a class="idref" href="Modules.Prelims.LModulesColims.html#coFunc"><span class="id" title="abbreviation">coFunc</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#d'"><span class="id" title="abbreviation">d'</span></a>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">u</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (  <span class="id" title="definition">maponpaths</span> <span class="id" title="projection">pr1</span> (<span class="id" title="var">h</span> <span class="id" title="var">u</span>)).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="LModule_isLimCone"><span class="id" title="lemma">LModule_isLimCone</span></a> : <span class="id" title="definition">isLimCone</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_lim_cone"><span class="id" title="definition">LModule_lim_cone</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">M</span> <span class="id" title="var">cc</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">unique_exists</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_limArrow"><span class="id" title="definition">LModule_limArrow</span></a> <span class="id" title="var">cc</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">v</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">LModule_Mor_equiv</span>;[<span class="id" title="tactic">exact</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.hsC"><span class="id" title="variable">hsC</span></a>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">limArrowCommutes</span> (<a class="idref" href="Modules.Prelims.LModulesColims.html#limFunc"><span class="id" title="abbreviation">limFunc</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#d'"><span class="id" title="abbreviation">d'</span></a>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">y</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span> -[<span class="id" title="var">isaprop</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span>  <span class="id" title="lemma">impred_isaprop</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">u</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">has_homsets_LModule</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">y</span> <span class="id" title="var">h</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">LModule_Mor_equiv</span>;[<span class="id" title="tactic">exact</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.hsC"><span class="id" title="variable">hsC</span></a>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">limArrowUnique</span> (<a class="idref" href="Modules.Prelims.LModulesColims.html#limFunc"><span class="id" title="abbreviation">limFunc</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#d'"><span class="id" title="abbreviation">d'</span></a>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">u</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (  <span class="id" title="definition">maponpaths</span> <span class="id" title="projection">pr1</span> (<span class="id" title="var">h</span> <span class="id" title="var">u</span>)).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="LModule_ColimCocone"><span class="id" title="definition">LModule_ColimCocone</span></a> : <span class="id" title="definition">ColimCocone</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.d"><span class="id" title="variable">d</span></a> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">mk_ColimCocone</span>  <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>  <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_isColimCocone"><span class="id" title="lemma">LModule_isColimCocone</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="LModule_LimCone"><span class="id" title="definition">LModule_LimCone</span></a> : <span class="id" title="definition">LimCone</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule.d"><span class="id" title="variable">d</span></a> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">mk_LimCone</span>  <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>  <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_isLimCone"><span class="id" title="lemma">LModule_isLimCone</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#ColimsModule"><span class="id" title="section">ColimsModule</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="LModule_Colims_of_shape"><span class="id" title="definition">LModule_Colims_of_shape</span></a> (<span class="id" title="var">C</span> : <span class="id" title="definition">category</span>) {<span class="id" title="var">B</span> : <span class="id" title="definition">precategory</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">R</span> : <span class="id" title="definition">Monad</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#B"><span class="id" title="variable">B</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">g</span> : <span class="id" title="definition">graph</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">colims_g</span> : <span class="id" title="definition">Colims_of_shape</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#g"><span class="id" title="variable">g</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#C"><span class="id" title="variable">C</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id" title="definition">Colims_of_shape</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#g"><span class="id" title="variable">g</span></a> (<span class="id" title="definition">precategory_LModule</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#C"><span class="id" title="variable">C</span></a>) :=<br/>
+&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_ColimCocone"><span class="id" title="definition">LModule_ColimCocone</span></a>  <a class="idref" href="Modules.Prelims.LModulesColims.html#colims_g"><span class="id" title="variable">colims_g</span></a> (<span class="id" title="definition">homset_property</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#C"><span class="id" title="variable">C</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="LModule_Lims_of_shape"><span class="id" title="definition">LModule_Lims_of_shape</span></a> (<span class="id" title="var">C</span> : <span class="id" title="definition">category</span>) {<span class="id" title="var">B</span> : <span class="id" title="definition">precategory</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">R</span> : <span class="id" title="definition">Monad</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#B"><span class="id" title="variable">B</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">g</span> : <span class="id" title="definition">graph</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">lims_g</span> : <span class="id" title="definition">Lims_of_shape</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#g"><span class="id" title="variable">g</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#C"><span class="id" title="variable">C</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id" title="definition">Lims_of_shape</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#g"><span class="id" title="variable">g</span></a> (<span class="id" title="definition">precategory_LModule</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#C"><span class="id" title="variable">C</span></a>) :=<br/>
+&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_LimCone"><span class="id" title="definition">LModule_LimCone</span></a>  <a class="idref" href="Modules.Prelims.LModulesColims.html#lims_g"><span class="id" title="variable">lims_g</span></a> (<span class="id" title="definition">homset_property</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#C"><span class="id" title="variable">C</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Section</span> <a name="pullback_lims"><span class="id" title="section">pullback_lims</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">D</span> : <span class="id" title="definition">category</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">g</span> : <span class="id" title="definition">graph</span>} (<span class="id" title="var">colims_g</span> : <span class="id" title="definition">Colims_of_shape</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#g"><span class="id" title="variable">g</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#D"><span class="id" title="variable">D</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">lims_g</span> : <span class="id" title="definition">Lims_of_shape</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#g"><span class="id" title="variable">g</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#D"><span class="id" title="variable">D</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">C</span>:<span class="id" title="definition">category</span>}.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a name="pullback_lims.MOD"><span class="id" title="variable">MOD</span></a> (<span class="id" title="var">R</span> : <span class="id" title="definition">Monad</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.C"><span class="id" title="variable">C</span></a>) := (<span class="id" title="definition">precategory_LModule</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.D"><span class="id" title="variable">D</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a name="pullback_lims.cMod"><span class="id" title="variable">cMod</span></a> (<span class="id" title="var">R</span> : <span class="id" title="definition">Monad</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.C"><span class="id" title="variable">C</span></a>) := <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_Colims_of_shape"><span class="id" title="definition">LModule_Colims_of_shape</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.D"><span class="id" title="variable">D</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.g"><span class="id" title="variable">g</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.colims_g"><span class="id" title="variable">colims_g</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a name="pullback_lims.lMod"><span class="id" title="variable">lMod</span></a> (<span class="id" title="var">R</span> : <span class="id" title="definition">Monad</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.C"><span class="id" title="variable">C</span></a>) := <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_Lims_of_shape"><span class="id" title="definition">LModule_Lims_of_shape</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.D"><span class="id" title="variable">D</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.g"><span class="id" title="variable">g</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.lims_g"><span class="id" title="variable">lims_g</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> {<span class="id" title="var">R</span> <span class="id" title="var">S</span> : <span class="id" title="definition">Monad</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.C"><span class="id" title="variable">C</span></a>} (<span class="id" title="var">f</span> : <span class="id" title="definition">Monad_Mor</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#S"><span class="id" title="variable">S</span></a>) (<span class="id" title="var">M</span> : <span class="id" title="definition">LModule</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#S"><span class="id" title="variable">S</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.D"><span class="id" title="variable">D</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Variable</span> (<a name="pullback_lims.dS"><span class="id" title="variable">dS</span></a> : <span class="id" title="definition">diagram</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.g"><span class="id" title="variable">g</span></a> (<a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.MOD"><span class="id" title="variable">MOD</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.S"><span class="id" title="variable">S</span></a>)).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a name="pullback_lims.dR"><span class="id" title="variable">dR</span></a> := <span class="id" title="definition">mapdiagram</span> (<span class="id" title="definition">pb_LModule_functor</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.f"><span class="id" title="variable">f</span></a>) <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.dS"><span class="id" title="variable">dS</span></a> .<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a name="pullback_lims.cS"><span class="id" title="variable">cS</span></a> := <span class="id" title="definition">colim</span> (<a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.cMod"><span class="id" title="variable">cMod</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.S"><span class="id" title="variable">S</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.dS"><span class="id" title="variable">dS</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a name="pullback_lims.lS"><span class="id" title="variable">lS</span></a> :=   <span class="id" title="definition">lim</span> (<a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.lMod"><span class="id" title="variable">lMod</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.S"><span class="id" title="variable">S</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.dS"><span class="id" title="variable">dS</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a name="pullback_lims.cR"><span class="id" title="variable">cR</span></a> := <span class="id" title="definition">colim</span> (<a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.cMod"><span class="id" title="variable">cMod</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.dR"><span class="id" title="variable">dR</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a name="pullback_lims.lR"><span class="id" title="variable">lR</span></a> :=   <span class="id" title="definition">lim</span> (<a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.lMod"><span class="id" title="variable">lMod</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.dR"><span class="id" title="variable">dR</span></a>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="pb_colims_eq_mult"><span class="id" title="lemma">pb_colims_eq_mult</span></a> (<span class="id" title="var">c</span> : <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.C"><span class="id" title="variable">C</span></a>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_colim_mult"><span class="id" title="definition">LModule_colim_mult</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.colims_g"><span class="id" title="variable">colims_g</span></a> (<span class="id" title="definition">homset_property</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.D"><span class="id" title="variable">D</span></a>) <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.dR"><span class="id" title="variable">dR</span></a>) <a class="idref" href="Modules.Prelims.LModulesColims.html#c"><span class="id" title="variable">c</span></a> <span class="id" title="notation">=</span> (<span class="id" title="definition">pb_LModule_</span><span class="id" title="definition">σ</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.f"><span class="id" title="variable">f</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.cS"><span class="id" title="variable">cS</span></a>) <a class="idref" href="Modules.Prelims.LModulesColims.html#c"><span class="id" title="variable">c</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <span class="id" title="definition">ColimFunctor_mor</span>, <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_colim_mult_data"><span class="id" title="definition">LModule_colim_mult_data</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[|<span class="id" title="tactic">eapply</span> <span class="id" title="definition">pathsinv0</span>;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">precompWithColimOfArrows</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">colimArrowUnique</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">v</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="lemma">colimOfArrowsIn</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="pb_lims_eq_mult"><span class="id" title="lemma">pb_lims_eq_mult</span></a> (<span class="id" title="var">c</span> : <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.C"><span class="id" title="variable">C</span></a>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_lim_mult"><span class="id" title="definition">LModule_lim_mult</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.lims_g"><span class="id" title="variable">lims_g</span></a> (<span class="id" title="definition">homset_property</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.D"><span class="id" title="variable">D</span></a>) <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.dR"><span class="id" title="variable">dR</span></a>) <a class="idref" href="Modules.Prelims.LModulesColims.html#c"><span class="id" title="variable">c</span></a> <span class="id" title="notation">=</span> (<span class="id" title="definition">pb_LModule_</span><span class="id" title="definition">σ</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.f"><span class="id" title="variable">f</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.lS"><span class="id" title="variable">lS</span></a>) <a class="idref" href="Modules.Prelims.LModulesColims.html#c"><span class="id" title="variable">c</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <span class="id" title="definition">LimFunctor_mor</span>, <a class="idref" href="Modules.Prelims.LModulesColims.html#LModule_lim_mult_data"><span class="id" title="definition">LModule_lim_mult_data</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[|<span class="id" title="tactic">eapply</span> <span class="id" title="definition">pathsinv0</span>;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">postCompWithLimOfArrows</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">limArrowUnique</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">v</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="lemma">limOfArrowsOut</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="pb_LModule_colim_iso"><span class="id" title="definition">pb_LModule_colim_iso</span></a> : <span class="id" title="definition">iso</span> (<span class="id" title="var">C</span> := <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.MOD"><span class="id" title="variable">MOD</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.R"><span class="id" title="variable">R</span></a>) <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.cR"><span class="id" title="variable">cR</span></a> (<span class="id" title="definition">pb_LModule</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.f"><span class="id" title="variable">f</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.cS"><span class="id" title="variable">cS</span></a>) :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">LModule_same_func_iso</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#pb_colims_eq_mult"><span class="id" title="lemma">pb_colims_eq_mult</span></a> (<span class="id" title="definition">homset_property</span> <span class="id" title="var">_</span>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="pb_LModule_lim_iso"><span class="id" title="definition">pb_LModule_lim_iso</span></a> : <span class="id" title="definition">iso</span> (<span class="id" title="var">C</span> := <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.MOD"><span class="id" title="variable">MOD</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.R"><span class="id" title="variable">R</span></a>) <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.lR"><span class="id" title="variable">lR</span></a> (<span class="id" title="definition">pb_LModule</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.f"><span class="id" title="variable">f</span></a> <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims.lS"><span class="id" title="variable">lS</span></a>) :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">LModule_same_func_iso</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#pb_lims_eq_mult"><span class="id" title="lemma">pb_lims_eq_mult</span></a> (<span class="id" title="definition">homset_property</span> <span class="id" title="var">_</span>).<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Modules.Prelims.LModulesColims.html#pullback_lims"><span class="id" title="section">pullback_lims</span></a>.<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

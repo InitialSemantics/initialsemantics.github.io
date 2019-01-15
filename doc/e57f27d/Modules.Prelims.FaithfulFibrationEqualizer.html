@@ -1,0 +1,243 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>Modules.Prelims.FaithfulFibrationEqualizer</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Modules.Prelims.FaithfulFibrationEqualizer</h1>
+
+<div class="code">
+</div>
+
+<div class="doc">
+<a name="lab13"></a><h1 class="section">Modularity in a fibration setting</h1>
+
+
+<div class="paragraph"> </div>
+
+The main result of this file is described here.
+
+<div class="paragraph"> </div>
+
+Let D be a fibration (ie, a cleaving in the displayed category setting)
+over a category C such that the projection functor is faithful.
+
+<div class="paragraph"> </div>
+
+Then the projection functor lifts equalizers.
+
+<div class="paragraph"> </div>
+
+We also prove the dual statement (opfibration and coequalizers)
+
+<div class="paragraph"> </div>
+
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.PartD</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.Propositions</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.Sets</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Categories</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.functor_categories</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.pushouts</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.initial</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Auxiliary</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Core</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Constructions</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Fibrations</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.graphs.colimits</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.graphs.limits</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.graphs.equalizers</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.graphs.coequalizers</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.Opfibration.html#"><span class="id" title="library">Modules.Prelims.Opfibration</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">cat</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Section</span> <a name="pr"><span class="id" title="section">pr</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> {<span class="id" title="var">C</span> : <span class="id" title="definition">category</span>} (<span class="id" title="var">D</span> : <span class="id" title="definition">disp_cat</span> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#C"><span class="id" title="variable">C</span></a>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+This is a fibration 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span>   (<span class="id" title="var">cl</span> : <span class="id" title="definition">cleaving</span> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#pr.D"><span class="id" title="variable">D</span></a>).<br/>
+</div>
+
+<div class="doc">
+The fibration is faithful
+This can be reformulated as <span class="inlinecode"><span class="id" title="definition">faithful</span></span> <span class="inlinecode"><span class="id" title="definition">pr1_category</span>)</span> <span class="inlinecode"><span class="id" title="keyword">as</span></span> <span class="inlinecode"><span class="id" title="tactic">in</span></span> <span class="inlinecode">[<span class="id" title="lemma">faithful_pr1_category</span>]</span>
+   <span class="inlinecode"></span>
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Hypothesis</span> (<a name="pr.faithful_fibration"><span class="id" title="variable">faithful_fibration</span></a> : <span class="id" title="definition">faithful</span> (<span class="id" title="definition">pr1_category</span> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#pr.D"><span class="id" title="variable">D</span></a>)).<br/>
+</div>
+
+<div class="doc">
+Yet another formulation 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="faithful_reformulated"><span class="id" title="lemma">faithful_reformulated</span></a> {<span class="id" title="var">x</span> <span class="id" title="var">y</span>} (<span class="id" title="var">f</span> <span class="id" title="var">g</span> : <span class="id" title="definition">total_category</span> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#pr.D"><span class="id" title="variable">D</span></a> <span class="id" title="notation">⟦</span> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#x"><span class="id" title="variable">x</span></a><span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#y"><span class="id" title="variable">y</span></a> <span class="id" title="notation">⟧</span>) : <span class="id" title="projection">pr1</span> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#f"><span class="id" title="variable">f</span></a> <span class="id" title="notation">=</span> <span class="id" title="projection">pr1</span> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#g"><span class="id" title="variable">g</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#f"><span class="id" title="variable">f</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#g"><span class="id" title="variable">g</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> <span class="id" title="definition">invmaponpathsincl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#pr.faithful_fibration"><span class="id" title="variable">faithful_fibration</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="faithful_fibration_equalizer"><span class="id" title="lemma">faithful_fibration_equalizer</span></a> {<span class="id" title="var">a</span> <span class="id" title="var">b</span>} (<span class="id" title="var">f</span> <span class="id" title="var">g</span> : <span class="id" title="definition">total_category</span> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#pr.D"><span class="id" title="variable">D</span></a><span class="id" title="notation">⟦</span><a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#a"><span class="id" title="variable">a</span></a><span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#b"><span class="id" title="variable">b</span></a><span class="id" title="notation">⟧</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( <span class="id" title="var">eq</span>  : <span class="id" title="definition">Equalizer</span> <span class="id" title="var">_</span> (<span class="id" title="notation">#</span> <span class="id" title="notation">(</span><span class="id" title="definition">pr1_category</span> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#pr.D"><span class="id" title="variable">D</span></a><span class="id" title="notation">)</span> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#f"><span class="id" title="variable">f</span></a>)%<span class="id" title="var">cat</span> (<span class="id" title="notation">#</span> <span class="id" title="notation">(</span><span class="id" title="definition">pr1_category</span> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#pr.D"><span class="id" title="variable">D</span></a><span class="id" title="notation">)</span> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#g"><span class="id" title="variable">g</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id" title="definition">Equalizer</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#f"><span class="id" title="variable">f</span></a> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#g"><span class="id" title="variable">g</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">mk_Equalizer</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">refine</span> (<span class="id" title="definition">EqualizerObject</span> <span class="id" title="var">_</span> <span class="id" title="var">eq</span> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> (<span class="id" title="definition">cleaving_ob</span> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#pr.cl"><span class="id" title="variable">cl</span></a> ).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <span class="id" title="definition">EqualizerArrow</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">exact</span> (<span class="id" title="projection">pr2</span> <span class="id" title="var">a</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">refine</span> (<span class="id" title="definition">EqualizerArrow</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">cleaving_mor</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#faithful_reformulated"><span class="id" title="lemma">faithful_reformulated</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">EqualizerArrowEq</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="var">use</span> <span class="id" title="definition">mk_isEqualizer</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">intros</span> <span class="id" title="var">e</span> <span class="id" title="var">h'</span> <span class="id" title="var">eqh'</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">assert</span> (<span class="id" title="var">h</span> := <span class="id" title="lemma">EqualizerArrowComm</span> <span class="id" title="var">_</span> <span class="id" title="var">eq</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> (<span class="id" title="lemma">base_paths</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">eqh'</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">ar_base</span> := <span class="id" title="definition">EqualizerIn</span>  <span class="id" title="var">_</span> <span class="id" title="var">eq</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> (<span class="id" title="lemma">base_paths</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">eqh'</span>)) <span class="id" title="tactic">in</span> <span class="id" title="var">h</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">unique_exists</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id" title="tactic">refine</span> (<span class="id" title="var">ar_base</span> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> <span class="id" title="definition">cartesian_factorisation</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="id" title="var">use</span> <span class="id" title="definition">cartesian_lift_is_cartesian</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="id" title="tactic">generalize</span> (<span class="id" title="projection">pr2</span> <span class="id" title="var">h'</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">transportb</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">h</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">subtypePairEquality'</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--  <span class="id" title="tactic">exact</span> <span class="id" title="var">h</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--  <span class="id" title="tactic">apply</span> <span class="id" title="lemma">invproofirrelevance</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">u</span> <span class="id" title="var">v</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">pair_inj</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++ <span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++ <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#faithful_reformulated"><span class="id" title="lemma">faithful_reformulated</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id" title="var">cbn</span> -[<span class="id" title="var">isaprop</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">y</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="definition">homset_property</span> (<span class="id" title="definition">total_category</span> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#pr.D"><span class="id" title="variable">D</span></a>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">h'2</span> <span class="id" title="var">eqh'2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#faithful_reformulated"><span class="id" title="lemma">faithful_reformulated</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">EqualizerInUnique</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">base_paths</span> <span class="id" title="tactic">in</span>  <span class="id" title="var">eqh'2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">eqh'2</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#pr"><span class="id" title="section">pr</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Section</span> <a name="oppr"><span class="id" title="section">oppr</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> {<span class="id" title="var">C</span> : <span class="id" title="definition">category</span>} (<span class="id" title="var">D</span> : <span class="id" title="definition">disp_cat</span> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#C"><span class="id" title="variable">C</span></a>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+This is a opfibration 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span>   (<span class="id" title="var">cl</span> : <a class="idref" href="Modules.Prelims.Opfibration.html#opcleaving"><span class="id" title="definition">opcleaving</span></a> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#oppr.D"><span class="id" title="variable">D</span></a>).<br/>
+</div>
+
+<div class="doc">
+The opfibration is faithful
+This can be reformulated as <span class="inlinecode"><span class="id" title="definition">faithful</span></span> <span class="inlinecode"><span class="id" title="definition">pr1_category</span>)</span> <span class="inlinecode"><span class="id" title="keyword">as</span></span> <span class="inlinecode"><span class="id" title="tactic">in</span></span> <span class="inlinecode">[<span class="id" title="lemma">faithful_pr1_category</span>]</span>
+   <span class="inlinecode"></span>
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Hypothesis</span> (<a name="oppr.faithful_opfibration"><span class="id" title="variable">faithful_opfibration</span></a> : <span class="id" title="definition">faithful</span> (<span class="id" title="definition">pr1_category</span> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#oppr.D"><span class="id" title="variable">D</span></a>)).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="faithful_reformulated"><span class="id" title="abbreviation">faithful_reformulated</span></a> := (<a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#faithful_reformulated"><span class="id" title="lemma">faithful_reformulated</span></a>  <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#oppr.D"><span class="id" title="variable">D</span></a>  <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#oppr.faithful_opfibration"><span class="id" title="variable">faithful_opfibration</span></a>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="faithful_opfibration_coequalizer"><span class="id" title="lemma">faithful_opfibration_coequalizer</span></a> {<span class="id" title="var">a</span> <span class="id" title="var">b</span>} (<span class="id" title="var">f</span> <span class="id" title="var">g</span> : <span class="id" title="definition">total_category</span> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#oppr.D"><span class="id" title="variable">D</span></a><span class="id" title="notation">⟦</span><a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#a"><span class="id" title="variable">a</span></a><span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#b"><span class="id" title="variable">b</span></a><span class="id" title="notation">⟧</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( <span class="id" title="var">eq</span>  : <span class="id" title="definition">Coequalizer</span> <span class="id" title="var">_</span> (<span class="id" title="notation">#</span> <span class="id" title="notation">(</span><span class="id" title="definition">pr1_category</span> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#oppr.D"><span class="id" title="variable">D</span></a><span class="id" title="notation">)</span> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#f"><span class="id" title="variable">f</span></a>)%<span class="id" title="var">cat</span> (<span class="id" title="notation">#</span> <span class="id" title="notation">(</span><span class="id" title="definition">pr1_category</span> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#oppr.D"><span class="id" title="variable">D</span></a><span class="id" title="notation">)</span> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#g"><span class="id" title="variable">g</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id" title="definition">Coequalizer</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#f"><span class="id" title="variable">f</span></a> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#g"><span class="id" title="variable">g</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">mk_Coequalizer</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">refine</span> (<span class="id" title="definition">CoequalizerObject</span> <span class="id" title="var">_</span> <span class="id" title="var">eq</span> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> (<a class="idref" href="Modules.Prelims.Opfibration.html#opcleaving_ob"><span class="id" title="definition">opcleaving_ob</span></a> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#oppr.cl"><span class="id" title="variable">cl</span></a> ).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <span class="id" title="definition">CoequalizerArrow</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">exact</span> (<span class="id" title="projection">pr2</span> <span class="id" title="var">b</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">refine</span> (<span class="id" title="definition">CoequalizerArrow</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.Opfibration.html#opcleaving_mor"><span class="id" title="definition">opcleaving_mor</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#faithful_reformulated"><span class="id" title="abbreviation">faithful_reformulated</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">CoequalizerArrowEq</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="var">use</span> <span class="id" title="definition">mk_isCoequalizer</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">intros</span> <span class="id" title="var">e</span> <span class="id" title="var">h'</span> <span class="id" title="var">eqh'</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">assert</span> (<span class="id" title="var">h</span> := <span class="id" title="lemma">CoequalizerArrowComm</span> <span class="id" title="var">_</span> <span class="id" title="var">eq</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> (<span class="id" title="lemma">base_paths</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">eqh'</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">ar_base</span> := <span class="id" title="definition">CoequalizerOut</span>  <span class="id" title="var">_</span> <span class="id" title="var">eq</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> (<span class="id" title="lemma">base_paths</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">eqh'</span>)) <span class="id" title="tactic">in</span> <span class="id" title="var">h</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">unique_exists</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id" title="tactic">refine</span> (<span class="id" title="var">ar_base</span> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> <a class="idref" href="Modules.Prelims.Opfibration.html#cocartesian_factorisation"><span class="id" title="definition">cocartesian_factorisation</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="id" title="var">use</span> <a class="idref" href="Modules.Prelims.Opfibration.html#cocartesian_lift_is_cocartesian"><span class="id" title="definition">cocartesian_lift_is_cocartesian</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="id" title="tactic">generalize</span> (<span class="id" title="projection">pr2</span> <span class="id" title="var">h'</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">transportb</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">h</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">subtypePairEquality'</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--  <span class="id" title="tactic">exact</span> <span class="id" title="var">h</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--  <span class="id" title="tactic">apply</span> <span class="id" title="lemma">invproofirrelevance</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">u</span> <span class="id" title="var">v</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">pair_inj</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++ <span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++ <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#faithful_reformulated"><span class="id" title="abbreviation">faithful_reformulated</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id" title="var">cbn</span> -[<span class="id" title="var">isaprop</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">y</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="definition">homset_property</span> (<span class="id" title="definition">total_category</span> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#oppr.D"><span class="id" title="variable">D</span></a>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">h'2</span> <span class="id" title="var">eqh'2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#faithful_reformulated"><span class="id" title="abbreviation">faithful_reformulated</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">CoequalizerOutUnique</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">base_paths</span> <span class="id" title="tactic">in</span>  <span class="id" title="var">eqh'2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">eqh'2</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#oppr"><span class="id" title="section">oppr</span></a>.<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

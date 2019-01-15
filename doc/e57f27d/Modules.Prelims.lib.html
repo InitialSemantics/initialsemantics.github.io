@@ -1,0 +1,219 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>Modules.Prelims.lib</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Modules.Prelims.lib</h1>
+
+<div class="code">
+</div>
+
+<div class="doc">
+<a name="lab1"></a><h1 class="section">Some useful lemmas</h1>
+
+
+<div class="paragraph"> </div>
+
+Among other things:
+<ul class="doclist">
+<li> associativity of horizontal composition of natural transformations <span class="inlinecode"><a class="idref" href="Modules.Prelims.lib.html#horcomp_assoc"><span class="id" title="lemma">horcomp_assoc</span></a></span>
+
+</li>
+<li> functors from Set preserves epis, assuming the axiom of choice <span class="inlinecode"><a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_to_HSET_isEpi"><span class="id" title="lemma">preserves_to_HSET_isEpi</span></a></span>
+
+</li>
+<li> isomorphisms of categories transfer initiality
+
+</li>
+<li> if there is a universal arrow from the initial object, then the target category has
+  an initial object <span class="inlinecode"><a class="idref" href="Modules.Prelims.lib.html#initial_universal_to_lift_initial"><span class="id" title="lemma">initial_universal_to_lift_initial</span></a></span>
+
+</li>
+</ul>
+
+<div class="paragraph"> </div>
+
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.PartD</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.Propositions</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.Sets</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Categories</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.functor_categories</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.whiskering</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Epis</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.HorizontalComposition</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.categories.HSET.All</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Epis</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.EpiFacts</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.binproducts</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.initial</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.catiso</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Adjunctions</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> "'SET'" := <span class="id" title="definition">hset_category</span>.<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> "G □ F" := (<span class="id" title="definition">functor_composite</span> <span class="id" title="var">F</span> <span class="id" title="var">G</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 35).<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> "F ⟶ G" := (<span class="id" title="definition">nat_trans</span> <span class="id" title="var">F</span> <span class="id" title="var">G</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 39).<br/>
+<span class="id" title="keyword">Local</span>  <span class="id" title="keyword">Notation</span> "α ∙∙ β" := (<span class="id" title="definition">horcomp</span> <span class="id" title="var">β</span> <span class="id" title="var">α</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 20).<br/>
+
+<br/>
+<span class="id" title="keyword">Tactic Notation</span> "cpre" <span class="id" title="var">uconstr</span>(<span class="id" title="var">x</span>) := <span class="id" title="tactic">apply</span> (<span class="id" title="lemma">cancel_precomposition</span> <span class="id" title="var">x</span>).<br/>
+<span class="id" title="keyword">Tactic Notation</span> "cpost" <span class="id" title="var">uconstr</span>(<span class="id" title="var">x</span>) := <span class="id" title="tactic">apply</span> (<span class="id" title="lemma">cancel_postcomposition</span>).<br/>
+
+<br/>
+<span class="id" title="keyword">Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">cat</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Even true of equivalences 
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="catiso_initial"><span class="id" title="lemma">catiso_initial</span></a> {<span class="id" title="var">C</span> <span class="id" title="var">D</span> : <span class="id" title="definition">precategory</span>} (<span class="id" title="var">w</span> : <span class="id" title="definition">catiso</span> <a class="idref" href="Modules.Prelims.lib.html#C"><span class="id" title="variable">C</span></a> <a class="idref" href="Modules.Prelims.lib.html#D"><span class="id" title="variable">D</span></a>) (<span class="id" title="var">ini</span> : <span class="id" title="definition">Initial</span> <a class="idref" href="Modules.Prelims.lib.html#C"><span class="id" title="variable">C</span></a>) : <span class="id" title="definition">Initial</span> <a class="idref" href="Modules.Prelims.lib.html#D"><span class="id" title="variable">D</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">obweq</span> := <span class="id" title="definition">catiso_ob_weq</span> <span class="id" title="var">w</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">mk_Initial</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<span class="id" title="var">w</span> <span class="id" title="var">ini</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="var">use</span> <span class="id" title="definition">mk_isInitial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">b</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">assert</span> (<span class="id" title="var">h</span> := <span class="id" title="definition">homotweqinvweq</span> <span class="id" title="var">obweq</span> <span class="id" title="var">b</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> &lt;- <span class="id" title="var">h</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> <span class="id" title="lemma">iscontrweqb</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <span class="id" title="definition">invweq</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">catiso_fully_faithful_weq</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> (<span class="id" title="projection">pr2</span> <span class="id" title="var">ini</span>).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="initial_universal_to_lift_initial"><span class="id" title="lemma">initial_universal_to_lift_initial</span></a> {<span class="id" title="var">D</span> <span class="id" title="var">C</span> : <span class="id" title="definition">precategory</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">S</span> : <a class="idref" href="Modules.Prelims.lib.html#D"><span class="id" title="variable">D</span></a> <span class="id" title="notation">⟶</span> <a class="idref" href="Modules.Prelims.lib.html#C"><span class="id" title="variable">C</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">c</span> : <span class="id" title="definition">Initial</span> <a class="idref" href="Modules.Prelims.lib.html#C"><span class="id" title="variable">C</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">r</span> : <a class="idref" href="Modules.Prelims.lib.html#D"><span class="id" title="variable">D</span></a>} {<span class="id" title="var">f</span> : <a class="idref" href="Modules.Prelims.lib.html#C"><span class="id" title="variable">C</span></a> <span class="id" title="notation">⟦</span> <a class="idref" href="Modules.Prelims.lib.html#c"><span class="id" title="variable">c</span></a><span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.lib.html#S"><span class="id" title="variable">S</span></a> <a class="idref" href="Modules.Prelims.lib.html#r"><span class="id" title="variable">r</span></a> <span class="id" title="notation">⟧</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">unif</span> : <span class="id" title="definition">is_universal_arrow_to</span>  <a class="idref" href="Modules.Prelims.lib.html#S"><span class="id" title="variable">S</span></a> <a class="idref" href="Modules.Prelims.lib.html#c"><span class="id" title="variable">c</span></a> <a class="idref" href="Modules.Prelims.lib.html#r"><span class="id" title="variable">r</span></a> <a class="idref" href="Modules.Prelims.lib.html#f"><span class="id" title="variable">f</span></a>) :<br/>
+&nbsp;&nbsp;<span class="id" title="definition">isInitial</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.Prelims.lib.html#r"><span class="id" title="variable">r</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">d</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">specialize</span> (<span class="id" title="var">unif</span> <span class="id" title="var">d</span> (<span class="id" title="definition">InitialArrow</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>)).<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">iscontrpair</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> (<span class="id" title="definition">iscontrpr1</span> <span class="id" title="var">unif</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">g</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">limits.path_to_ctr</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">InitialArrowUnique</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+common generalization to <span class="inlinecode"><span class="id" title="definition">maponpaths</span></span> and <span class="inlinecode"><span class="id" title="definition">toforallpaths</span></span> 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="changef_path"><span class="id" title="lemma">changef_path</span></a>   {<span class="id" title="var">T1</span> <span class="id" title="var">T2</span> : <span class="id" title="definition">UU</span>} (<span class="id" title="var">f</span> <span class="id" title="var">g</span> : <a class="idref" href="Modules.Prelims.lib.html#T1"><span class="id" title="variable">T1</span></a> <span class="id" title="notation">→</span> <a class="idref" href="Modules.Prelims.lib.html#T2"><span class="id" title="variable">T2</span></a>) (<span class="id" title="var">t1</span> <span class="id" title="var">t2</span> : <a class="idref" href="Modules.Prelims.lib.html#T1"><span class="id" title="variable">T1</span></a>) :<br/>
+&nbsp;&nbsp;<a class="idref" href="Modules.Prelims.lib.html#f"><span class="id" title="variable">f</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Modules.Prelims.lib.html#g"><span class="id" title="variable">g</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="Modules.Prelims.lib.html#f"><span class="id" title="variable">f</span></a> <a class="idref" href="Modules.Prelims.lib.html#t1"><span class="id" title="variable">t1</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Modules.Prelims.lib.html#f"><span class="id" title="variable">f</span></a> <a class="idref" href="Modules.Prelims.lib.html#t2"><span class="id" title="variable">t2</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="Modules.Prelims.lib.html#g"><span class="id" title="variable">g</span></a> <a class="idref" href="Modules.Prelims.lib.html#t1"><span class="id" title="variable">t1</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Modules.Prelims.lib.html#g"><span class="id" title="variable">g</span></a> <a class="idref" href="Modules.Prelims.lib.html#t2"><span class="id" title="variable">t2</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">induction</span> 1; <span class="id" title="tactic">auto</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="changef_path_pw"><span class="id" title="lemma">changef_path_pw</span></a>   {<span class="id" title="var">T1</span> <span class="id" title="var">T2</span> : <span class="id" title="definition">UU</span>} (<span class="id" title="var">f</span> <span class="id" title="var">g</span> : <a class="idref" href="Modules.Prelims.lib.html#T1"><span class="id" title="variable">T1</span></a> <span class="id" title="notation">→</span> <a class="idref" href="Modules.Prelims.lib.html#T2"><span class="id" title="variable">T2</span></a>) (<span class="id" title="var">t1</span> <span class="id" title="var">t2</span> : <a class="idref" href="Modules.Prelims.lib.html#T1"><span class="id" title="variable">T1</span></a>) :<br/>
+&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">(</span></a><span class="id" title="notation">∏</span> <span class="id" title="var">x</span><span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.lib.html#f"><span class="id" title="variable">f</span></a> <a class="idref" href="Modules.Prelims.lib.html#x"><span class="id" title="variable">x</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Modules.Prelims.lib.html#g"><span class="id" title="variable">g</span></a> <a class="idref" href="Modules.Prelims.lib.html#x"><span class="id" title="variable">x</span></a><a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">)</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="Modules.Prelims.lib.html#f"><span class="id" title="variable">f</span></a> <a class="idref" href="Modules.Prelims.lib.html#t1"><span class="id" title="variable">t1</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Modules.Prelims.lib.html#f"><span class="id" title="variable">f</span></a> <a class="idref" href="Modules.Prelims.lib.html#t2"><span class="id" title="variable">t2</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="Modules.Prelims.lib.html#g"><span class="id" title="variable">g</span></a> <a class="idref" href="Modules.Prelims.lib.html#t1"><span class="id" title="variable">t1</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Modules.Prelims.lib.html#g"><span class="id" title="variable">g</span></a> <a class="idref" href="Modules.Prelims.lib.html#t2"><span class="id" title="variable">t2</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">eq</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">induction</span> (<span class="id" title="var">eq</span> <span class="id" title="var">t1</span>); <span class="id" title="tactic">induction</span> (<span class="id" title="var">eq</span> <span class="id" title="var">t2</span>); <span class="id" title="tactic">auto</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Associativity of horizontal composition of natural transformations 
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="horcomp_assoc"><span class="id" title="lemma">horcomp_assoc</span></a> <br/>
+&nbsp;&nbsp;: <span class="id" title="notation">∏</span> <span class="id" title="notation">{</span><span class="id" title="var">B</span> <span class="id" title="var">C</span> <span class="id" title="var">D</span> <span class="id" title="var">E</span> : <span class="id" title="definition">precategory</span>} {<span class="id" title="var">H</span> <span class="id" title="var">H'</span> : <span class="id" title="definition">functor</span> <a class="idref" href="Modules.Prelims.lib.html#B"><span class="id" title="variable">B</span></a> <a class="idref" href="Modules.Prelims.lib.html#C"><span class="id" title="variable">C</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">F</span> <span class="id" title="var">F'</span> : <span class="id" title="definition">functor</span> <a class="idref" href="Modules.Prelims.lib.html#C"><span class="id" title="variable">C</span></a> <a class="idref" href="Modules.Prelims.lib.html#D"><span class="id" title="variable">D</span></a>} {<span class="id" title="var">G</span> <span class="id" title="var">G'</span> : <span class="id" title="definition">functor</span> <a class="idref" href="Modules.Prelims.lib.html#D"><span class="id" title="variable">D</span></a> <a class="idref" href="Modules.Prelims.lib.html#E"><span class="id" title="variable">E</span></a>} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">a</span> : <span class="id" title="definition">nat_trans</span> <a class="idref" href="Modules.Prelims.lib.html#H"><span class="id" title="variable">H</span></a> <a class="idref" href="Modules.Prelims.lib.html#H'"><span class="id" title="variable">H'</span></a>) (<span class="id" title="var">b</span> : <span class="id" title="definition">nat_trans</span> <a class="idref" href="Modules.Prelims.lib.html#F"><span class="id" title="variable">F</span></a> <a class="idref" href="Modules.Prelims.lib.html#F'"><span class="id" title="variable">F'</span></a>) (<span class="id" title="var">c</span> : <span class="id" title="definition">nat_trans</span> <a class="idref" href="Modules.Prelims.lib.html#G"><span class="id" title="variable">G</span></a> <a class="idref" href="Modules.Prelims.lib.html#G'"><span class="id" title="variable">G'</span></a>) <span class="id" title="var">x</span><span class="id" title="notation">,</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.Prelims.lib.html#e09d6a906f32c61dec0590b0d20cc0e7"><span class="id" title="notation">(</span></a><a class="idref" href="Modules.Prelims.lib.html#c"><span class="id" title="variable">c</span></a> <a class="idref" href="Modules.Prelims.lib.html#e09d6a906f32c61dec0590b0d20cc0e7"><span class="id" title="notation">∙∙</span></a> <a class="idref" href="Modules.Prelims.lib.html#b"><span class="id" title="variable">b</span></a><a class="idref" href="Modules.Prelims.lib.html#e09d6a906f32c61dec0590b0d20cc0e7"><span class="id" title="notation">)</span></a> <a class="idref" href="Modules.Prelims.lib.html#e09d6a906f32c61dec0590b0d20cc0e7"><span class="id" title="notation">∙∙</span></a> <a class="idref" href="Modules.Prelims.lib.html#a"><span class="id" title="variable">a</span></a>) <a class="idref" href="Modules.Prelims.lib.html#x"><span class="id" title="variable">x</span></a> <span class="id" title="notation">=</span> (<a class="idref" href="Modules.Prelims.lib.html#c"><span class="id" title="variable">c</span></a> <a class="idref" href="Modules.Prelims.lib.html#e09d6a906f32c61dec0590b0d20cc0e7"><span class="id" title="notation">∙∙(</span></a> <a class="idref" href="Modules.Prelims.lib.html#b"><span class="id" title="variable">b</span></a> <a class="idref" href="Modules.Prelims.lib.html#e09d6a906f32c61dec0590b0d20cc0e7"><span class="id" title="notation">∙∙</span></a> <a class="idref" href="Modules.Prelims.lib.html#a"><span class="id" title="variable">a</span></a><a class="idref" href="Modules.Prelims.lib.html#e09d6a906f32c61dec0590b0d20cc0e7"><span class="id" title="notation">)</span></a>) <a class="idref" href="Modules.Prelims.lib.html#x"><span class="id" title="variable">x</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">symmetry</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="definition">functor_comp</span>,<span class="id" title="definition">assoc</span>. <span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Same as <span class="inlinecode"><span class="id" title="lemma">nat_trans_comp_pointwise</span></span>, but with B = A · A' 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="nat_trans_comp_pointwise'"><span class="id" title="definition">nat_trans_comp_pointwise'</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">C</span> : <span class="id" title="definition">precategory</span>) (<span class="id" title="var">C'</span> : <span class="id" title="definition">category</span>)  (<span class="id" title="var">F</span> <span class="id" title="var">G</span> <span class="id" title="var">H</span> : (<span class="id" title="notation">[</span><a class="idref" href="Modules.Prelims.lib.html#C"><span class="id" title="variable">C</span></a><span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.lib.html#C'"><span class="id" title="variable">C'</span></a> <span class="id" title="notation">,</span> <span class="id" title="var">_</span> <span class="id" title="notation">]</span>)%<span class="id" title="var">Cat</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">A</span> : (<span class="id" title="notation">[</span><a class="idref" href="Modules.Prelims.lib.html#C"><span class="id" title="variable">C</span></a><span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.lib.html#C'"><span class="id" title="variable">C'</span></a> <span class="id" title="notation">,</span> <span class="id" title="var">_</span><span class="id" title="notation">]</span> <span class="id" title="notation">⟦</span> <a class="idref" href="Modules.Prelims.lib.html#F"><span class="id" title="variable">F</span></a><span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.lib.html#G"><span class="id" title="variable">G</span></a> <span class="id" title="notation">⟧</span>)%<span class="id" title="var">Cat</span>) (<span class="id" title="var">A'</span> : (<span class="id" title="notation">[</span><a class="idref" href="Modules.Prelims.lib.html#C"><span class="id" title="variable">C</span></a><span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.lib.html#C'"><span class="id" title="variable">C'</span></a> <span class="id" title="notation">,</span> <span class="id" title="var">_</span><span class="id" title="notation">]</span> <span class="id" title="notation">⟦</span> <a class="idref" href="Modules.Prelims.lib.html#G"><span class="id" title="variable">G</span></a><span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.lib.html#H"><span class="id" title="variable">H</span></a> <span class="id" title="notation">⟧</span>)%<span class="id" title="var">Cat</span>) (<span class="id" title="var">a</span> : <a class="idref" href="Modules.Prelims.lib.html#C"><span class="id" title="variable">C</span></a><span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;((<a class="idref" href="Modules.Prelims.lib.html#A"><span class="id" title="variable">A</span></a>  : <span class="id" title="definition">nat_trans</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) <a class="idref" href="Modules.Prelims.lib.html#a"><span class="id" title="variable">a</span></a> <span class="id" title="notation">·</span>  (<a class="idref" href="Modules.Prelims.lib.html#A'"><span class="id" title="variable">A'</span></a> : <span class="id" title="definition">nat_trans</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) <a class="idref" href="Modules.Prelims.lib.html#a"><span class="id" title="variable">a</span></a>)%<span class="id" title="var">Cat</span> <span class="id" title="notation">=</span>  (<a class="idref" href="Modules.Prelims.lib.html#A"><span class="id" title="variable">A</span></a> <span class="id" title="notation">·</span> <a class="idref" href="Modules.Prelims.lib.html#A'"><span class="id" title="variable">A'</span></a> : <span class="id" title="definition">nat_trans</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>)%<span class="id" title="var">Cat</span> <a class="idref" href="Modules.Prelims.lib.html#a"><span class="id" title="variable">a</span></a><br/>
+&nbsp;&nbsp;:=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">fun</span> <span class="id" title="var">C</span> <span class="id" title="var">C'</span>  <span class="id" title="var">F</span> <span class="id" title="var">G</span> <span class="id" title="var">H</span> <span class="id" title="var">A</span> <span class="id" title="var">A'</span> =&gt; @<span class="id" title="lemma">nat_trans_comp_pointwise</span> <a class="idref" href="Modules.Prelims.lib.html#C"><span class="id" title="variable">C</span></a> <a class="idref" href="Modules.Prelims.lib.html#C'"><span class="id" title="variable">C'</span></a> (<span class="id" title="definition">homset_property</span> <a class="idref" href="Modules.Prelims.lib.html#C'"><span class="id" title="variable">C'</span></a>) <a class="idref" href="Modules.Prelims.lib.html#F"><span class="id" title="variable">F</span></a> <a class="idref" href="Modules.Prelims.lib.html#G"><span class="id" title="variable">G</span></a> <a class="idref" href="Modules.Prelims.lib.html#H"><span class="id" title="variable">H</span></a> <a class="idref" href="Modules.Prelims.lib.html#A"><span class="id" title="variable">A</span></a> <a class="idref" href="Modules.Prelims.lib.html#A'"><span class="id" title="variable">A'</span></a> <span class="id" title="var">_</span> (<span class="id" title="abbreviation">idpath</span> <span class="id" title="var">_</span>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Composition in Set category is the usual composition of function 
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="comp_cat_comp"><span class="id" title="lemma">comp_cat_comp</span></a> {<span class="id" title="var">A</span> <span class="id" title="var">B</span> <span class="id" title="var">C</span>:<span class="id" title="definition">hSet</span>} (<span class="id" title="var">f</span> : <a class="idref" href="Modules.Prelims.lib.html#A"><span class="id" title="variable">A</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="Modules.Prelims.lib.html#B"><span class="id" title="variable">B</span></a>) (<span class="id" title="var">g</span>:<a class="idref" href="Modules.Prelims.lib.html#B"><span class="id" title="variable">B</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.8.1/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="Modules.Prelims.lib.html#C"><span class="id" title="variable">C</span></a>) <span class="id" title="var">x</span> :<br/>
+&nbsp;&nbsp;<a class="idref" href="Modules.Prelims.lib.html#g"><span class="id" title="variable">g</span></a> (<a class="idref" href="Modules.Prelims.lib.html#f"><span class="id" title="variable">f</span></a> <a class="idref" href="Modules.Prelims.lib.html#x"><span class="id" title="variable">x</span></a>) <span class="id" title="notation">=</span> <span class="id" title="definition">compose</span> (<span class="id" title="var">C</span>:= <span class="id" title="notation">SET</span>) <a class="idref" href="Modules.Prelims.lib.html#f"><span class="id" title="variable">f</span></a> <a class="idref" href="Modules.Prelims.lib.html#g"><span class="id" title="variable">g</span></a> <a class="idref" href="Modules.Prelims.lib.html#x"><span class="id" title="variable">x</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+
+<br/>
+
+<br/>
+
+<br/>
+
+<br/>
+
+<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>
