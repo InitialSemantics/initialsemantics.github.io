@@ -1,0 +1,382 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>Modules.Signatures.BindingSig</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Modules.Signatures.BindingSig</h1>
+
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.PartD</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.Propositions</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.Sets</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.bincoproducts</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.SubstitutionSystems.BindingSigToMonad</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.SubstitutionSystems.Signatures</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Core.Prelude</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.FunctorCategory</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.categories.HSET.All</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Epis</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.EpiFacts</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#"><span class="id" title="library">Modules.Prelims.EpiComplements</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Combinatorics.Lists</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.whiskering</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.lib.html#"><span class="id" title="library">Modules.Prelims.lib</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.CoproductsComplements.html#"><span class="id" title="library">Modules.Prelims.CoproductsComplements</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.initial</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Constructions</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.SigWithStrengthToSignature.html#"><span class="id" title="library">Modules.Signatures.SigWithStrengthToSignature</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.Signature.html#"><span class="id" title="library">Modules.Signatures.Signature</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.HssInitialModel.html#"><span class="id" title="library">Modules.Signatures.HssInitialModel</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.SubstitutionSystems.ModulesFromSignatures</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monads.Monads</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.binproducts</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.coproducts</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.terminal</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Chains.Chains</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Chains.Adamek</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Chains.OmegaCocontFunctors</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.FunctorAlgebras</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.SubstitutionSystems.LiftingInitial_alt</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.SubstitutionSystems.ModulesFromSignatures</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.SubstitutionSystems.SignatureCategory</span>.<br/>
+<span class="id" title="keyword">Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">cat</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Turn a binding signature into an algebraic 1-signature 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="binding_to_one_sig"><span class="id" title="definition">binding_to_one_sig</span></a> {<span class="id" title="var">C</span> : <span class="id" title="definition">category</span>} (<span class="id" title="var">hsC</span> := <span class="id" title="definition">homset_property</span> <a class="idref" href="Modules.Signatures.BindingSig.html#C"><span class="id" title="variable">C</span></a>) <span class="id" title="var">bpC</span> <span class="id" title="var">bcpC</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">cpC</span> : <span class="id" title="notation">∏</span> <span class="id" title="var">X</span><span class="id" title="notation">,</span> <span class="id" title="definition">isaset</span> <a class="idref" href="Modules.Signatures.BindingSig.html#X"><span class="id" title="variable">X</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <span class="id" title="definition">Coproducts</span> <a class="idref" href="Modules.Signatures.BindingSig.html#X"><span class="id" title="variable">X</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#C"><span class="id" title="variable">C</span></a> ) <span class="id" title="var">TC</span> <span class="id" title="var">S</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#C"><span class="id" title="variable">C</span></a> :=<br/>
+&nbsp;&nbsp;(<a class="idref" href="Modules.Signatures.SigWithStrengthToSignature.html#sigWithStrength_to_sig"><span class="id" title="definition">sigWithStrength_to_sig</span></a> (<span class="id" title="var">C</span> := <a class="idref" href="Modules.Signatures.BindingSig.html#C"><span class="id" title="variable">C</span></a>) (<span class="id" title="definition">BindingSigToSignature</span> <a class="idref" href="Modules.Signatures.BindingSig.html#hsC"><span class="id" title="variable">hsC</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#bpC"><span class="id" title="variable">bpC</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#bcpC"><span class="id" title="variable">bcpC</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#TC"><span class="id" title="variable">TC</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.BindingSig.html#S"><span class="id" title="variable">S</span></a> (<a class="idref" href="Modules.Signatures.BindingSig.html#cpC"><span class="id" title="variable">cpC</span></a> <span class="id" title="var">_</span> (<span class="id" title="definition">BindingSigIsaset</span> <a class="idref" href="Modules.Signatures.BindingSig.html#S"><span class="id" title="variable">S</span></a>)))).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Turn an arity of a binding signature (i.e. a list of natural numbers
+specifying an operation in the syntax) into an elementary 1-signature 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="arity_to_one_sig"><span class="id" title="definition">arity_to_one_sig</span></a> {<span class="id" title="var">C</span> : <span class="id" title="definition">category</span>} (<span class="id" title="var">hsC</span> := <span class="id" title="definition">homset_property</span> <a class="idref" href="Modules.Signatures.BindingSig.html#C"><span class="id" title="variable">C</span></a>) <span class="id" title="var">bpC</span> <span class="id" title="var">bcpC</span>  <span class="id" title="var">TC</span> <span class="id" title="var">S</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#C"><span class="id" title="variable">C</span></a> :=<br/>
+&nbsp;&nbsp;(<a class="idref" href="Modules.Signatures.SigWithStrengthToSignature.html#sigWithStrength_to_sig"><span class="id" title="definition">sigWithStrength_to_sig</span></a> (<span class="id" title="var">C</span> := <a class="idref" href="Modules.Signatures.BindingSig.html#C"><span class="id" title="variable">C</span></a>) (<span class="id" title="definition">Arity_to_Signature</span> <a class="idref" href="Modules.Signatures.BindingSig.html#hsC"><span class="id" title="variable">hsC</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#bpC"><span class="id" title="variable">bpC</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#bcpC"><span class="id" title="variable">bcpC</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#TC"><span class="id" title="variable">TC</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#S"><span class="id" title="variable">S</span></a> )).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+specific definition for the hSet category 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="binding_to_one_sigHSET"><span class="id" title="definition">binding_to_one_sigHSET</span></a> <span class="id" title="var">S</span> :=<br/>
+&nbsp;&nbsp;(<a class="idref" href="Modules.Signatures.SigWithStrengthToSignature.html#sigWithStrength_to_sig"><span class="id" title="definition">sigWithStrength_to_sig</span></a> (<span class="id" title="var">C</span> := <span class="id" title="notation">SET</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="definition">BindingSigToSignatureHSET</span> <a class="idref" href="Modules.Signatures.BindingSig.html#S"><span class="id" title="variable">S</span></a>)).<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="Arity_to_SignatureHSET"><span class="id" title="definition">Arity_to_SignatureHSET</span></a> := <br/>
+&nbsp;&nbsp;<span class="id" title="definition">Arity_to_Signature</span> (<span class="id" title="definition">homset_property</span> <span class="id" title="notation">SET</span>) <span class="id" title="lemma">BinProductsHSET</span> <span class="id" title="lemma">BinCoproductsHSET</span> <span class="id" title="lemma">TerminalHSET</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="arity_to_one_sigHSET"><span class="id" title="definition">arity_to_one_sigHSET</span></a> <span class="id" title="var">S</span> :=<br/>
+&nbsp;&nbsp;(<a class="idref" href="Modules.Signatures.SigWithStrengthToSignature.html#sigWithStrength_to_sig"><span class="id" title="definition">sigWithStrength_to_sig</span></a> (<span class="id" title="var">C</span> := <span class="id" title="notation">SET</span>) (<a class="idref" href="Modules.Signatures.BindingSig.html#Arity_to_SignatureHSET"><span class="id" title="definition">Arity_to_SignatureHSET</span></a>  <a class="idref" href="Modules.Signatures.BindingSig.html#S"><span class="id" title="variable">S</span></a> )).<br/>
+
+<br/>
+<span class="id" title="keyword">Section</span> <a name="EpiSignatureSig"><span class="id" title="section">EpiSignatureSig</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="hom_SET"><span class="id" title="abbreviation">hom_SET</span></a> := <span class="id" title="lemma">has_homsets_HSET</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="Sig"><span class="id" title="abbreviation">Sig</span></a> := (<span class="id" title="definition">Signature</span> <span class="id" title="notation">SET</span> <span class="id" title="lemma">has_homsets_HSET</span> <span class="id" title="definition">hset_precategory</span> <span class="id" title="lemma">has_homsets_HSET</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="EndSet"><span class="id" title="abbreviation">EndSet</span></a> := <span class="id" title="notation">[</span><span class="id" title="definition">hset_category</span><span class="id" title="notation">,</span> <span class="id" title="definition">hset_category</span><span class="id" title="notation">]</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="toSig"><span class="id" title="abbreviation">toSig</span></a> := <span class="id" title="definition">BindingSigToSignatureHSET</span> .<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="Cset"><span class="id" title="abbreviation">Cset</span></a> <span class="id" title="var">sig</span> := (<span class="id" title="lemma">is_omega_cocont_BindingSigToSignatureHSET</span> <span class="id" title="var">sig</span>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The initial model of the algebraic signature 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="alg_initialR"><span class="id" title="definition">alg_initialR</span></a> (<span class="id" title="var">sig</span> : <span class="id" title="definition">BindingSig</span>) : <span class="id" title="notation">(</span><a class="idref" href="Modules.Signatures.Signature.html#rep_disp"><span class="id" title="definition">rep_disp</span></a> <span class="id" title="notation">SET</span><span class="id" title="notation">)</span> <span class="id" title="notation">[{</span><a class="idref" href="Modules.Signatures.BindingSig.html#binding_to_one_sigHSET"><span class="id" title="definition">binding_to_one_sigHSET</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#sig"><span class="id" title="variable">sig</span></a><span class="id" title="notation">}]</span> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.HssInitialModel.html#hss_initial_model"><span class="id" title="lemma">hss_initial_model</span></a> (<a class="idref" href="Modules.Signatures.BindingSig.html#Cset"><span class="id" title="abbreviation">Cset</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#sig"><span class="id" title="variable">sig</span></a>).<br/>
+
+<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Theorem</span> <a name="algebraic_sig_representable"><span class="id" title="lemma">algebraic_sig_representable</span></a> (<span class="id" title="var">sig</span> : <span class="id" title="definition">BindingSig</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id" title="definition">isInitial</span> <span class="id" title="var">_</span> (<a class="idref" href="Modules.Signatures.BindingSig.html#alg_initialR"><span class="id" title="definition">alg_initialR</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#sig"><span class="id" title="variable">sig</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Modules.Signatures.HssInitialModel.html#hss_sig_representable"><span class="id" title="lemma">hss_sig_representable</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="algebraic_sig_initial"><span class="id" title="definition">algebraic_sig_initial</span></a> (<span class="id" title="var">sig</span> : <span class="id" title="definition">BindingSig</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id" title="definition">Initial</span> <span class="id" title="notation">(</span><a class="idref" href="Modules.Signatures.Signature.html#rep_disp"><span class="id" title="definition">rep_disp</span></a> <span class="id" title="notation">SET</span><span class="id" title="notation">)[{</span><a class="idref" href="Modules.Signatures.BindingSig.html#binding_to_one_sigHSET"><span class="id" title="definition">binding_to_one_sigHSET</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#sig"><span class="id" title="variable">sig</span></a><span class="id" title="notation">}]</span>  := <span class="id" title="definition">mk_Initial</span> <span class="id" title="var">_</span> (<a class="idref" href="Modules.Signatures.BindingSig.html#algebraic_sig_representable"><span class="id" title="lemma">algebraic_sig_representable</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#sig"><span class="id" title="variable">sig</span></a>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a name="EpiSignatureSig.isEpiSig"><span class="id" title="variable">isEpiSig</span></a> (<span class="id" title="var">S</span> : <a class="idref" href="Modules.Signatures.BindingSig.html#Sig"><span class="id" title="abbreviation">Sig</span></a>) := <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<a class="idref" href="Modules.Signatures.BindingSig.html#S"><span class="id" title="variable">S</span></a> : <span class="id" title="definition">functor</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a name="EpiSignatureSig.isEpiEpiFunc"><span class="id" title="variable">isEpiEpiFunc</span></a> (<span class="id" title="var">S</span> : <span class="id" title="definition">functor</span> <span class="id" title="notation">[</span><span class="id" title="notation">SET</span><span class="id" title="notation">,</span><span class="id" title="notation">SET</span><span class="id" title="notation">]</span> <span class="id" title="notation">[</span><span class="id" title="notation">SET</span><span class="id" title="notation">,</span><span class="id" title="notation">SET</span><span class="id" title="notation">]</span>) := <span class="id" title="notation">∏</span> <span class="id" title="var">R</span><span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<a class="idref" href="Modules.Signatures.BindingSig.html#S"><span class="id" title="variable">S</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#R"><span class="id" title="variable">R</span></a>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="ArToSig"><span class="id" title="abbreviation">ArToSig</span></a>  := <a class="idref" href="Modules.Signatures.BindingSig.html#Arity_to_SignatureHSET"><span class="id" title="definition">Arity_to_SignatureHSET</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="sumSig"><span class="id" title="abbreviation">sumSig</span></a> <span class="id" title="var">I</span> <span class="id" title="var">Ihset</span>  :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="definition">SumOfSignatures.Sum_of_Signatures</span> <span class="id" title="var">I</span> <span class="id" title="notation">HSET</span> <a class="idref" href="Modules.Signatures.BindingSig.html#hom_SET"><span class="id" title="abbreviation">hom_SET</span></a> <span class="id" title="notation">HSET</span> <a class="idref" href="Modules.Signatures.BindingSig.html#hom_SET"><span class="id" title="abbreviation">hom_SET</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="lemma">CoproductsHSET</span> <span class="id" title="var">I</span> <span class="id" title="var">Ihset</span>)).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="precompToFunc"><span class="id" title="abbreviation">precompToFunc</span></a> <span class="id" title="var">n</span> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="definition">precomp_option_iter</span> <span class="id" title="lemma">has_homsets_HSET</span> <span class="id" title="lemma">BinCoproductsHSET</span>  <span class="id" title="lemma">TerminalHSET</span> <span class="id" title="var">n</span>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="precompToSig"><span class="id" title="abbreviation">precompToSig</span></a> <span class="id" title="var">n</span> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="definition">precomp_option_iter_Signature</span> <span class="id" title="lemma">has_homsets_HSET</span> <span class="id" title="lemma">BinCoproductsHSET</span>  <span class="id" title="lemma">TerminalHSET</span> <span class="id" title="var">n</span> ).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="precomp_functor"><span class="id" title="abbreviation">precomp_functor</span></a>  <span class="id" title="var">F</span> :=<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="definition">pre_composition_functor</span> <span class="id" title="notation">SET</span> <span class="id" title="notation">SET</span> <span class="id" title="notation">SET</span> <a class="idref" href="Modules.Signatures.BindingSig.html#hom_SET"><span class="id" title="abbreviation">hom_SET</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#hom_SET"><span class="id" title="abbreviation">hom_SET</span></a> <span class="id" title="var">F</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="binProdSig"><span class="id" title="abbreviation">binProdSig</span></a> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="definition">BinProductOfSignatures.BinProduct_of_Signatures</span> <span class="id" title="notation">HSET</span> <a class="idref" href="Modules.Signatures.BindingSig.html#hom_SET"><span class="id" title="abbreviation">hom_SET</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">HSET</span> <a class="idref" href="Modules.Signatures.BindingSig.html#hom_SET"><span class="id" title="abbreviation">hom_SET</span></a> <span class="id" title="lemma">BinProductsHSET</span>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="binProdFunc"><span class="id" title="abbreviation">binProdFunc</span></a> := <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="definition">binproducts.BinProduct_of_functors</span> <span class="id" title="notation">[</span><span class="id" title="notation">HSET</span><span class="id" title="notation">,</span> <span class="id" title="notation">HSET</span><span class="id" title="notation">,</span> <a class="idref" href="Modules.Signatures.BindingSig.html#hom_SET"><span class="id" title="abbreviation">hom_SET</span></a><span class="id" title="notation">]</span> <span class="id" title="notation">[</span><span class="id" title="notation">HSET</span><span class="id" title="notation">,</span> <span class="id" title="notation">HSET</span><span class="id" title="notation">,</span> <a class="idref" href="Modules.Signatures.BindingSig.html#hom_SET"><span class="id" title="abbreviation">hom_SET</span></a><span class="id" title="notation">]</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="definition">binproducts.BinProducts_functor_precat</span> <span class="id" title="notation">HSET</span> <span class="id" title="notation">HSET</span> <span class="id" title="lemma">BinProductsHSET</span> <a class="idref" href="Modules.Signatures.BindingSig.html#hom_SET"><span class="id" title="abbreviation">hom_SET</span></a>)).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="sumFuncs"><span class="id" title="abbreviation">sumFuncs</span></a> <span class="id" title="var">I</span> <span class="id" title="var">Ihset</span> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="definition">coproducts.coproduct_of_functors</span> <span class="id" title="var">I</span> <span class="id" title="notation">[</span><span class="id" title="notation">HSET</span><span class="id" title="notation">,</span> <span class="id" title="notation">HSET</span><span class="id" title="notation">,</span> <a class="idref" href="Modules.Signatures.BindingSig.html#hom_SET"><span class="id" title="abbreviation">hom_SET</span></a><span class="id" title="notation">]</span> <span class="id" title="notation">[</span><span class="id" title="notation">HSET</span><span class="id" title="notation">,</span> <span class="id" title="notation">HSET</span><span class="id" title="notation">,</span> <a class="idref" href="Modules.Signatures.BindingSig.html#hom_SET"><span class="id" title="abbreviation">hom_SET</span></a><span class="id" title="notation">]</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="definition">coproducts.Coproducts_functor_precat</span> <span class="id" title="var">I</span> <span class="id" title="notation">HSET</span> <span class="id" title="notation">HSET</span> (<span class="id" title="lemma">CoproductsHSET</span> <span class="id" title="var">I</span> <span class="id" title="var">Ihset</span>) <a class="idref" href="Modules.Signatures.BindingSig.html#hom_SET"><span class="id" title="abbreviation">hom_SET</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;).<br/>
+
+<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="isEpi_binProdSig"><span class="id" title="lemma">isEpi_binProdSig</span></a> <span class="id" title="var">S</span> <span class="id" title="var">S'</span> : <a class="idref" href="Modules.Signatures.BindingSig.html#EpiSignatureSig.isEpiSig"><span class="id" title="variable">isEpiSig</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#S"><span class="id" title="variable">S</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#EpiSignatureSig.isEpiSig"><span class="id" title="variable">isEpiSig</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#S'"><span class="id" title="variable">S'</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#EpiSignatureSig.isEpiSig"><span class="id" title="variable">isEpiSig</span></a> (<a class="idref" href="Modules.Signatures.BindingSig.html#binProdSig"><span class="id" title="abbreviation">binProdSig</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#S"><span class="id" title="variable">S</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#S'"><span class="id" title="variable">S'</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#preserveEpi_binProdFunc"><span class="id" title="lemma">preserveEpi_binProdFunc</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> (<a class="idref" href="Modules.Prelims.EpiComplements.html#productEpisFunc"><span class="id" title="lemma">productEpisFunc</span></a> (<span class="id" title="var">B</span> := <span class="id" title="notation">SET</span>) (<span class="id" title="var">C</span> := <span class="id" title="notation">SET</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#productEpisSET"><span class="id" title="lemma">productEpisSET</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#epi_nt_SET_pw"><span class="id" title="lemma">epi_nt_SET_pw</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="precomp_func_preserveEpi"><span class="id" title="lemma">precomp_func_preserveEpi</span></a> <span class="id" title="var">F</span> : <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<a class="idref" href="Modules.Signatures.BindingSig.html#precomp_functor"><span class="id" title="abbreviation">precomp_functor</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#F"><span class="id" title="variable">F</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#preserveEpi_precomp"><span class="id" title="lemma">preserveEpi_precomp</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#epi_nt_SET_pw"><span class="id" title="lemma">epi_nt_SET_pw</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+No need for an induction even though the functor is defined as such 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="precompEpiFunc"><span class="id" title="lemma">precompEpiFunc</span></a> (<span class="id" title="var">n</span> : <span class="id" title="inductive">nat</span>) : <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<a class="idref" href="Modules.Signatures.BindingSig.html#precompToFunc"><span class="id" title="abbreviation">precompToFunc</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#n"><span class="id" title="variable">n</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">destruct</span> <span class="id" title="var">n</span> <span class="id" title="keyword">as</span> [|<span class="id" title="var">n</span> ].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#id_preserves_Epi"><span class="id" title="definition">id_preserves_Epi</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.BindingSig.html#precomp_func_preserveEpi"><span class="id" title="lemma">precomp_func_preserveEpi</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="precompEpiEpiFuncSn"><span class="id" title="lemma">precompEpiEpiFuncSn</span></a> (<span class="id" title="var">n</span> : <span class="id" title="inductive">nat</span>) : <a class="idref" href="Modules.Signatures.BindingSig.html#EpiSignatureSig.isEpiEpiFunc"><span class="id" title="variable">isEpiEpiFunc</span></a> (<a class="idref" href="Modules.Signatures.BindingSig.html#precompToFunc"><span class="id" title="abbreviation">precompToFunc</span></a> (<span class="id" title="constructor">S</span> <a class="idref" href="Modules.Signatures.BindingSig.html#n"><span class="id" title="variable">n</span></a>)).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">n</span> <span class="id" title="keyword">as</span> [|<span class="id" title="var">n</span> ].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">R</span> <span class="id" title="var">fhR</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#composite_preserves_Epi"><span class="id" title="definition">composite_preserves_Epi</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi_option"><span class="id" title="lemma">preserves_Epi_option</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">exact</span> <span class="id" title="var">fhR</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">R</span> <span class="id" title="var">hR</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#composite_preserves_Epi"><span class="id" title="definition">composite_preserves_Epi</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <span class="id" title="var">IHn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi_option"><span class="id" title="lemma">preserves_Epi_option</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">exact</span> <span class="id" title="var">hR</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="precompEpiEpiFunc"><span class="id" title="lemma">precompEpiEpiFunc</span></a> (<span class="id" title="var">n</span> : <span class="id" title="inductive">nat</span>) : <a class="idref" href="Modules.Signatures.BindingSig.html#EpiSignatureSig.isEpiEpiFunc"><span class="id" title="variable">isEpiEpiFunc</span></a> (<a class="idref" href="Modules.Signatures.BindingSig.html#precompToFunc"><span class="id" title="abbreviation">precompToFunc</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#n"><span class="id" title="variable">n</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">destruct</span> <span class="id" title="var">n</span> <span class="id" title="keyword">as</span> [|<span class="id" title="var">n</span> ].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<span class="id" title="keyword">fun</span> <span class="id" title="var">R</span> <span class="id" title="var">hR</span> =&gt; <a class="idref" href="Modules.Signatures.BindingSig.html#hR"><span class="id" title="variable">hR</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.BindingSig.html#precompEpiEpiFuncSn"><span class="id" title="lemma">precompEpiEpiFuncSn</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="ArAreEpiSig"><span class="id" title="lemma">ArAreEpiSig</span></a> (<span class="id" title="var">ar</span> : <span class="id" title="definition">list</span> <span class="id" title="inductive">nat</span>) : <a class="idref" href="Modules.Signatures.BindingSig.html#EpiSignatureSig.isEpiSig"><span class="id" title="variable">isEpiSig</span></a> (<a class="idref" href="Modules.Signatures.BindingSig.html#ArToSig"><span class="id" title="abbreviation">ArToSig</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#ar"><span class="id" title="variable">ar</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">pattern</span> <span class="id" title="var">ar</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">list_ind</span>; <span class="id" title="tactic">clear</span> <span class="id" title="var">ar</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#const_preserves_Epi"><span class="id" title="definition">const_preserves_Epi</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">n</span> <span class="id" title="var">ar</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">revert</span> <span class="id" title="var">n</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">pattern</span> <span class="id" title="var">ar</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">list_ind</span>; <span class="id" title="tactic">clear</span> <span class="id" title="var">ar</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">intros</span> <span class="id" title="var">n</span> <span class="id" title="var">epinil</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.BindingSig.html#precompEpiFunc"><span class="id" title="lemma">precompEpiFunc</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">intros</span> <span class="id" title="var">n</span> <span class="id" title="var">ar</span> <span class="id" title="var">HI</span> <span class="id" title="var">m</span> <span class="id" title="var">epi_ar</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">M</span> <span class="id" title="var">N</span> <span class="id" title="var">f</span> <span class="id" title="var">epif</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <a class="idref" href="Modules.Signatures.BindingSig.html#Arity_to_SignatureHSET"><span class="id" title="definition">ArToSig</span></a>,  <span class="id" title="definition">Arity_to_Signature</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> 2!<span class="id" title="lemma">map_cons</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="lemma">foldr1_cons</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.BindingSig.html#isEpi_binProdSig"><span class="id" title="lemma">isEpi_binProdSig</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.BindingSig.html#precompEpiFunc"><span class="id" title="lemma">precompEpiFunc</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id" title="tactic">exact</span> <span class="id" title="var">epi_ar</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id" title="tactic">exact</span> <span class="id" title="var">epif</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="ArAreEpiEpiSig"><span class="id" title="lemma">ArAreEpiEpiSig</span></a> (<span class="id" title="var">ar</span> : <span class="id" title="definition">list</span> <span class="id" title="inductive">nat</span>) : <a class="idref" href="Modules.Signatures.BindingSig.html#EpiSignatureSig.isEpiEpiFunc"><span class="id" title="variable">isEpiEpiFunc</span></a> (<a class="idref" href="Modules.Signatures.BindingSig.html#ArToSig"><span class="id" title="abbreviation">ArToSig</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#ar"><span class="id" title="variable">ar</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">pattern</span> <span class="id" title="var">ar</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">list_ind</span>; <span class="id" title="tactic">clear</span> <span class="id" title="var">ar</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">R</span> <span class="id" title="var">_</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#const_preserves_Epi"><span class="id" title="definition">const_preserves_Epi</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">n</span> <span class="id" title="var">ar</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">revert</span> <span class="id" title="var">n</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">pattern</span> <span class="id" title="var">ar</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">list_ind</span>; <span class="id" title="tactic">clear</span> <span class="id" title="var">ar</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">intros</span> <span class="id" title="var">n</span> <span class="id" title="var">epinil</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.BindingSig.html#precompEpiEpiFunc"><span class="id" title="lemma">precompEpiEpiFunc</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">intros</span> <span class="id" title="var">n</span> <span class="id" title="var">ar</span> <span class="id" title="var">HI</span> <span class="id" title="var">m</span> <span class="id" title="var">epi_ar</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">R</span> <span class="id" title="var">epiR</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <a class="idref" href="Modules.Signatures.BindingSig.html#Arity_to_SignatureHSET"><span class="id" title="definition">ArToSig</span></a>,  <span class="id" title="definition">Arity_to_Signature</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> 2!<span class="id" title="lemma">map_cons</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="lemma">foldr1_cons</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#preserveEpi_binProdFunc"><span class="id" title="lemma">preserveEpi_binProdFunc</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#productEpisSET"><span class="id" title="lemma">productEpisSET</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.BindingSig.html#precompEpiEpiFunc"><span class="id" title="lemma">precompEpiEpiFunc</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">epiR</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id" title="tactic">apply</span> <span class="id" title="var">epi_ar</span>; <span class="id" title="tactic">assumption</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="BindingSigAreEpiSig"><span class="id" title="lemma">BindingSigAreEpiSig</span></a> (<span class="id" title="var">S</span> : <span class="id" title="definition">BindingSig</span>) : <a class="idref" href="Modules.Signatures.BindingSig.html#EpiSignatureSig.isEpiSig"><span class="id" title="variable">isEpiSig</span></a> (<a class="idref" href="Modules.Signatures.BindingSig.html#toSig"><span class="id" title="abbreviation">toSig</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#S"><span class="id" title="variable">S</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#preserveEpi_sumFuncs"><span class="id" title="lemma">preserveEpi_sumFuncs</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">i</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.BindingSig.html#ArAreEpiSig"><span class="id" title="lemma">ArAreEpiSig</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="BindingSigAreEpiEpiSig"><span class="id" title="lemma">BindingSigAreEpiEpiSig</span></a> (<span class="id" title="var">S</span> : <span class="id" title="definition">BindingSig</span>) : <a class="idref" href="Modules.Signatures.BindingSig.html#EpiSignatureSig.isEpiEpiFunc"><span class="id" title="variable">isEpiEpiFunc</span></a> (<a class="idref" href="Modules.Signatures.BindingSig.html#toSig"><span class="id" title="abbreviation">toSig</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#S"><span class="id" title="variable">S</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">R</span> <span class="id" title="var">hR</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#preserveEpi_sumFuncs"><span class="id" title="lemma">preserveEpi_sumFuncs</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">i</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.BindingSig.html#ArAreEpiEpiSig"><span class="id" title="lemma">ArAreEpiEpiSig</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">hR</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="algebraic_model_Epi"><span class="id" title="lemma">algebraic_model_Epi</span></a> (<span class="id" title="var">sig</span>: <span class="id" title="definition">BindingSig</span>) : <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> (<a class="idref" href="Modules.Signatures.BindingSig.html#alg_initialR"><span class="id" title="definition">alg_initialR</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#sig"><span class="id" title="variable">sig</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#Colim_Functor_Preserves_Epi"><span class="id" title="lemma">Colim_Functor_Preserves_Epi</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">i</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">X</span> <span class="id" title="var">Y</span> <span class="id" title="var">f</span> <span class="id" title="var">epif</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> (<span class="id" title="definition">transportf</span> (@<span class="id" title="definition">isEpi</span> <span class="id" title="notation">SET</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) (<span class="id" title="var">x</span> := <span class="id" title="keyword">fun</span> <span class="id" title="var">z</span> =&gt; <a class="idref" href="Modules.Signatures.BindingSig.html#z"><span class="id" title="variable">z</span></a>) ).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">InitialArrowEq</span> (<span class="id" title="var">O</span> := <span class="id" title="lemma">InitialHSET</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">identity_isEpi</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="var">cbn</span> -[<span class="id" title="var">functor_composite</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#preserveEpi_binCoprodFunc"><span class="id" title="lemma">preserveEpi_binCoprodFunc</span></a>; [<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#id_preserves_Epi"><span class="id" title="definition">id_preserves_Epi</span></a>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.BindingSig.html#BindingSigAreEpiEpiSig"><span class="id" title="lemma">BindingSigAreEpiEpiSig</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">IHi</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="BindingSig_on_model_isEpi"><span class="id" title="lemma">BindingSig_on_model_isEpi</span></a> (<span class="id" title="var">S</span> : <span class="id" title="definition">BindingSig</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> ((<a class="idref" href="Modules.Signatures.BindingSig.html#toSig"><span class="id" title="abbreviation">toSig</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#S"><span class="id" title="variable">S</span></a> : <span class="id" title="definition">functor</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) ((<a class="idref" href="Modules.Signatures.BindingSig.html#alg_initialR"><span class="id" title="definition">alg_initialR</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#S"><span class="id" title="variable">S</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a>  <span class="id" title="var">_</span>) : <span class="id" title="definition">functor</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>)).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.BindingSig.html#BindingSigAreEpiEpiSig"><span class="id" title="lemma">BindingSigAreEpiEpiSig</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.BindingSig.html#algebraic_model_Epi"><span class="id" title="lemma">algebraic_model_Epi</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Modules.Signatures.BindingSig.html#EpiSignatureSig"><span class="id" title="section">EpiSignatureSig</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="BindingSigIndexhSet"><span class="id" title="definition">BindingSigIndexhSet</span></a> : <span class="id" title="definition">BindingSig</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <span class="id" title="definition">hSet</span> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">fun</span> <span class="id" title="var">S</span> =&gt; <span class="id" title="definition">hSetpair</span> <span class="id" title="var">_</span> (<span class="id" title="definition">BindingSigIsaset</span> <a class="idref" href="Modules.Signatures.BindingSig.html#S"><span class="id" title="variable">S</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Section</span> <a name="CoprodBindingSig"><span class="id" title="section">CoprodBindingSig</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="BindingSigIndexhSet_coprod"><span class="id" title="definition">BindingSigIndexhSet_coprod</span></a>  {<span class="id" title="var">O</span> : <span class="id" title="definition">hSet</span>} (<span class="id" title="var">sigs</span> : <a class="idref" href="Modules.Signatures.BindingSig.html#O"><span class="id" title="variable">O</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <span class="id" title="definition">BindingSig</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id" title="definition">hSet</span> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="notation">∑</span> <span class="id" title="notation">(</span><span class="id" title="var">o</span> : <a class="idref" href="Modules.Signatures.BindingSig.html#O"><span class="id" title="variable">O</span></a><span class="id" title="notation">),</span> <a class="idref" href="Modules.Signatures.BindingSig.html#BindingSigIndexhSet"><span class="id" title="definition">BindingSigIndexhSet</span></a> (<a class="idref" href="Modules.Signatures.BindingSig.html#sigs"><span class="id" title="variable">sigs</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#o"><span class="id" title="variable">o</span></a>))%<span class="id" title="tactic">set</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="coprod_BindingSig"><span class="id" title="definition">coprod_BindingSig</span></a> {<span class="id" title="var">O</span> : <span class="id" title="definition">hSet</span>} (<span class="id" title="var">sigs</span> : <a class="idref" href="Modules.Signatures.BindingSig.html#O"><span class="id" title="variable">O</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <span class="id" title="definition">BindingSig</span>) : <span class="id" title="definition">BindingSig</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="definition">mkBindingSig</span> (<span class="id" title="var">I</span> := <a class="idref" href="Modules.Signatures.BindingSig.html#BindingSigIndexhSet_coprod"><span class="id" title="definition">BindingSigIndexhSet_coprod</span></a> <span class="id" title="var">sigs</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <span class="id" title="definition">setproperty</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="definition">BindingSigMap</span> (<span class="id" title="var">sigs</span> (<span class="id" title="projection">pr1</span> <span class="id" title="var">x</span>)) (<span class="id" title="projection">pr2</span> <span class="id" title="var">x</span>)).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> {<span class="id" title="var">C</span> : <span class="id" title="definition">category</span>} (<span class="id" title="var">bpC</span> : <span class="id" title="definition">BinProducts</span> <a class="idref" href="Modules.Signatures.BindingSig.html#C"><span class="id" title="variable">C</span></a>) (<span class="id" title="var">bcpC</span> : <span class="id" title="definition">BinCoproducts</span> <a class="idref" href="Modules.Signatures.BindingSig.html#C"><span class="id" title="variable">C</span></a>) (<span class="id" title="var">TC</span> : <span class="id" title="definition">Terminal</span> <a class="idref" href="Modules.Signatures.BindingSig.html#C"><span class="id" title="variable">C</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">cpC</span> : <span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">X</span> : <span class="id" title="definition">UU</span>) (<span class="id" title="var">setX</span> : <span class="id" title="definition">isaset</span> <a class="idref" href="Modules.Signatures.BindingSig.html#X"><span class="id" title="variable">X</span></a><span class="id" title="notation">),</span> <span class="id" title="definition">Coproducts</span> <a class="idref" href="Modules.Signatures.BindingSig.html#X"><span class="id" title="variable">X</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#C"><span class="id" title="variable">C</span></a>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a name="CoprodBindingSig.toSig"><span class="id" title="variable">toSig</span></a> <span class="id" title="var">sig</span> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="definition">BindingSigToSignature</span> (<span class="id" title="definition">homset_property</span> <a class="idref" href="Modules.Signatures.BindingSig.html#CoprodBindingSig.C"><span class="id" title="variable">C</span></a>) <a class="idref" href="Modules.Signatures.BindingSig.html#CoprodBindingSig.bpC"><span class="id" title="variable">bpC</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.BindingSig.html#CoprodBindingSig.bcpC"><span class="id" title="variable">bcpC</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#CoprodBindingSig.TC"><span class="id" title="variable">TC</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#sig"><span class="id" title="variable">sig</span></a> (<a class="idref" href="Modules.Signatures.BindingSig.html#CoprodBindingSig.cpC"><span class="id" title="variable">cpC</span></a> <span class="id" title="var">_</span> (<span class="id" title="definition">BindingSigIsaset</span> <a class="idref" href="Modules.Signatures.BindingSig.html#sig"><span class="id" title="variable">sig</span></a>))).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="SIG"><span class="id" title="abbreviation">SIG</span></a> := (<span class="id" title="definition">Signature_precategory</span> <a class="idref" href="Modules.Signatures.BindingSig.html#CoprodBindingSig.C"><span class="id" title="variable">C</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#CoprodBindingSig.C"><span class="id" title="variable">C</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a name="CoprodBindingSig.hsSig"><span class="id" title="variable">hsSig</span></a> := <span class="id" title="lemma">has_homsets_Signature_precategory</span> <a class="idref" href="Modules.Signatures.BindingSig.html#CoprodBindingSig.C"><span class="id" title="variable">C</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#CoprodBindingSig.C"><span class="id" title="variable">C</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a name="CoprodBindingSig.cpSig"><span class="id" title="variable">cpSig</span></a> (<span class="id" title="var">I</span> : <span class="id" title="definition">hSet</span>) : <span class="id" title="definition">Coproducts</span> (<span class="id" title="projection">pr1</span> <a class="idref" href="Modules.Signatures.BindingSig.html#I"><span class="id" title="variable">I</span></a>) <a class="idref" href="Modules.Signatures.BindingSig.html#SIG"><span class="id" title="abbreviation">SIG</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="id" title="lemma">Coproducts_Signature_precategory</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.Signatures.BindingSig.html#CoprodBindingSig.C"><span class="id" title="variable">C</span></a> <span class="id" title="var">_</span> (<a class="idref" href="Modules.Signatures.BindingSig.html#CoprodBindingSig.cpC"><span class="id" title="variable">cpC</span></a> <span class="id" title="var">_</span> (<span class="id" title="definition">setproperty</span> <a class="idref" href="Modules.Signatures.BindingSig.html#I"><span class="id" title="variable">I</span></a>)).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a name="CoprodBindingSig.ArToSig"><span class="id" title="variable">ArToSig</span></a> := <span class="id" title="definition">Arity_to_Signature</span> (<span class="id" title="definition">homset_property</span> <a class="idref" href="Modules.Signatures.BindingSig.html#CoprodBindingSig.C"><span class="id" title="variable">C</span></a>) <a class="idref" href="Modules.Signatures.BindingSig.html#CoprodBindingSig.bpC"><span class="id" title="variable">bpC</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#CoprodBindingSig.bcpC"><span class="id" title="variable">bcpC</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#CoprodBindingSig.TC"><span class="id" title="variable">TC</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a name="CoprodBindingSig.CP_from_BindingSig"><span class="id" title="variable">CP_from_BindingSig</span></a> (<span class="id" title="var">S</span> : <span class="id" title="definition">BindingSig</span>) := (<a class="idref" href="Modules.Signatures.BindingSig.html#CoprodBindingSig.cpSig"><span class="id" title="variable">cpSig</span></a>  <span class="id" title="var">_</span> (<span class="id" title="keyword">fun</span> (<span class="id" title="var">o</span> : <a class="idref" href="Modules.Signatures.BindingSig.html#BindingSigIndexhSet"><span class="id" title="definition">BindingSigIndexhSet</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#S"><span class="id" title="variable">S</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt; <a class="idref" href="Modules.Signatures.BindingSig.html#CoprodBindingSig.ArToSig"><span class="id" title="variable">ArToSig</span></a> (<span class="id" title="definition">BindingSigMap</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.Signatures.BindingSig.html#o"><span class="id" title="variable">o</span></a>))).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="binding_Sig_iso"><span class="id" title="definition">binding_Sig_iso</span></a> {<span class="id" title="var">O</span> : <span class="id" title="definition">hSet</span>} (<span class="id" title="var">sigs</span> : <a class="idref" href="Modules.Signatures.BindingSig.html#O"><span class="id" title="variable">O</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <span class="id" title="definition">BindingSig</span>) : <span class="id" title="definition">iso</span> (<span class="id" title="var">C</span> := <a class="idref" href="Modules.Signatures.BindingSig.html#SIG"><span class="id" title="abbreviation">SIG</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.Signatures.BindingSig.html#CoprodBindingSig.toSig"><span class="id" title="variable">toSig</span></a> (<a class="idref" href="Modules.Signatures.BindingSig.html#coprod_BindingSig"><span class="id" title="definition">coprod_BindingSig</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#sigs"><span class="id" title="variable">sigs</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="definition">CoproductObject</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> (<a class="idref" href="Modules.Signatures.BindingSig.html#CoprodBindingSig.cpSig"><span class="id" title="variable">cpSig</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#O"><span class="id" title="variable">O</span></a> (<span class="id" title="keyword">fun</span> <span class="id" title="var">o</span> =&gt; <a class="idref" href="Modules.Signatures.BindingSig.html#CoprodBindingSig.toSig"><span class="id" title="variable">toSig</span></a> (<a class="idref" href="Modules.Signatures.BindingSig.html#sigs"><span class="id" title="variable">sigs</span></a> <a class="idref" href="Modules.Signatures.BindingSig.html#o"><span class="id" title="variable">o</span></a>)))).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">binds</span> := <span class="id" title="keyword">fun</span> <span class="id" title="var">o</span> =&gt; (<span class="id" title="var">sigs</span> <a class="idref" href="Modules.Signatures.BindingSig.html#o"><span class="id" title="variable">o</span></a>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">cpSigs</span> := <a class="idref" href="Modules.Signatures.BindingSig.html#coprod_BindingSig"><span class="id" title="definition">coprod_BindingSig</span></a> <span class="id" title="var">sigs</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">CC'</span> := <a class="idref" href="Modules.Signatures.BindingSig.html#CoprodBindingSig.CP_from_BindingSig"><span class="id" title="variable">CP_from_BindingSig</span></a> <span class="id" title="var">cpSigs</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">cp1</span> := <span class="id" title="keyword">fun</span> <span class="id" title="var">o</span> =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.BindingSig.html#CoprodBindingSig.CP_from_BindingSig"><span class="id" title="variable">CP_from_BindingSig</span></a> (<span class="id" title="var">binds</span> <a class="idref" href="Modules.Signatures.BindingSig.html#o"><span class="id" title="variable">o</span></a>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<a class="idref" href="Modules.Prelims.CoproductsComplements.html#sigma_coprod_iso"><span class="id" title="definition">sigma_coprod_iso</span></a> (<span class="id" title="var">C</span> := <a class="idref" href="Modules.Signatures.BindingSig.html#SIG"><span class="id" title="abbreviation">SIG</span></a> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Signatures.BindingSig.html#CoprodBindingSig.hsSig"><span class="id" title="variable">hsSig</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">B</span> := <span class="id" title="keyword">fun</span> <span class="id" title="var">o</span> <span class="id" title="var">a</span> =&gt; <a class="idref" href="Modules.Signatures.BindingSig.html#CoprodBindingSig.ArToSig"><span class="id" title="variable">ArToSig</span></a> (<span class="id" title="definition">BindingSigMap</span> (<span class="id" title="var">binds</span> <a class="idref" href="Modules.Signatures.BindingSig.html#o"><span class="id" title="variable">o</span></a>) <a class="idref" href="Modules.Signatures.BindingSig.html#a"><span class="id" title="variable">a</span></a>)) <span class="id" title="var">CC'</span> <span class="id" title="var">cp1</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Modules.Signatures.BindingSig.html#CoprodBindingSig"><span class="id" title="section">CoprodBindingSig</span></a>.<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

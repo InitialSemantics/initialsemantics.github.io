@@ -1,0 +1,650 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>Modules.SoftEquations.CatOfTwoSignatures</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Modules.SoftEquations.CatOfTwoSignatures</h1>
+
+<div class="code">
+</div>
+
+<div class="doc">
+The category of 2-signatures
+<ul class="doclist">
+<li> proof that 2-signatures is a opfibered over the 1-signatures <span class="inlinecode"><a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#opfib_two_sig"><span class="id" title="definition">opfib_two_sig</span></a></span>
+
+</li>
+<li> proof that 2-signatures have coequalizers <span class="inlinecode"><a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature_Coequalizers"><span class="id" title="lemma">TwoSignature_Coequalizers</span></a></span> if the base category has
+
+</li>
+<li> coproducts of 2-signatures <span class="inlinecode"><a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature_Coproducts"><span class="id" title="lemma">TwoSignature_Coproducts</span></a></span>
+
+</li>
+<li> pushouts of 2-signatures <span class="inlinecode"><a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature_Pushouts"><span class="id" title="lemma">TwoSignature_Pushouts</span></a></span>
+
+</li>
+<li> the forgetful functor from 2-signature to 1-signature  has a left adjoint <span class="inlinecode"><a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature_To_One_right_adjoint"><span class="id" title="definition">TwoSignature_To_One_right_adjoint</span></a></span>
+
+</li>
+<li> The fibration of 2-models over 2-signatures  <span class="inlinecode"><a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#two_mod_cleaving"><span class="id" title="lemma">two_mod_cleaving</span></a></span>
+
+</li>
+<li> the forgetful functor from 2-models to 1-models  has a left adjoint <span class="inlinecode"><a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoMod_To_One_right_adjoint"><span class="id" title="definition">TwoMod_To_One_right_adjoint</span></a></span>
+ 
+</li>
+</ul>
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.PartD</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monads.Monads</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monads.LModules</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.SetValuedFunctors</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.HorizontalComposition</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Core.Prelude</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.FunctorCategory</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.categories.HSET.All</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.Sets</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Epis</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.EpiFacts</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.graphs.coequalizers</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.lib.html#"><span class="id" title="library">Modules.Prelims.lib</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#"><span class="id" title="library">Modules.Prelims.FaithfulFibrationEqualizer</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.Signature.html#"><span class="id" title="library">Modules.Signatures.Signature</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.ModelCat.html#"><span class="id" title="library">Modules.Signatures.ModelCat</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.SoftEquations.SignatureOver.html#"><span class="id" title="library">Modules.SoftEquations.SignatureOver</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.SoftEquations.Equation.html#"><span class="id" title="library">Modules.SoftEquations.Equation</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Auxiliary</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Core</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Constructions</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Fibrations</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.Opfibration.html#"><span class="id" title="library">Modules.Prelims.Opfibration</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.PushoutsFromCoeqBinCoproducts.html#"><span class="id" title="library">Modules.Prelims.PushoutsFromCoeqBinCoproducts</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.BinCoproductComplements.html#"><span class="id" title="library">Modules.Prelims.BinCoproductComplements</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#"><span class="id" title="library">Modules.Signatures.SignaturesColims</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.SignatureCoproduct.html#"><span class="id" title="library">Modules.Signatures.SignatureCoproduct</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.coproducts</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.bincoproducts</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.pushouts</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Adjunctions.Core</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Section</span> <a name="TwoSig"><span class="id" title="section">TwoSig</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span>  {<span class="id" title="var">C</span> : <span class="id" title="definition">category</span>} .<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="pb_rep_id"><span class="id" title="lemma">pb_rep_id</span></a> {<span class="id" title="var">S</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSig.C"><span class="id" title="variable">C</span></a>} (<span class="id" title="var">R</span> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#S"><span class="id" title="variable">S</span></a>) : <a class="idref" href="Modules.Signatures.Signature.html#pb_rep"><span class="id" title="definition">pb_rep</span></a> (<a class="idref" href="Modules.Signatures.Signature.html#signature_Mor_id"><span class="id" title="definition">signature_Mor_id</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#S"><span class="id" title="variable">S</span></a>)  <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#R"><span class="id" title="variable">R</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#R"><span class="id" title="variable">R</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pair_path_in2</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="definition">id_left</span> (<span class="id" title="var">C</span> := <span class="id" title="definition">category_LModule</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>)).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="pb_rep_comp"><span class="id" title="lemma">pb_rep_comp</span></a> {<span class="id" title="var">F</span> <span class="id" title="var">G</span> <span class="id" title="var">H</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSig.C"><span class="id" title="variable">C</span></a>} (<span class="id" title="var">a</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature_Mor"><span class="id" title="definition">signature_Mor</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#F"><span class="id" title="variable">F</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#G"><span class="id" title="variable">G</span></a>) (<span class="id" title="var">b</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature_Mor"><span class="id" title="definition">signature_Mor</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#G"><span class="id" title="variable">G</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#H"><span class="id" title="variable">H</span></a>) (<span class="id" title="var">R</span> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#H"><span class="id" title="variable">H</span></a>) :<br/>
+&nbsp;&nbsp;&nbsp;<span class="id" title="notation">(</span><a class="idref" href="Modules.Signatures.Signature.html#pb_rep"><span class="id" title="definition">pb_rep</span></a> (<span class="id" title="definition">compose</span> (<span class="id" title="var">C</span> := <a class="idref" href="Modules.Signatures.Signature.html#signature_category"><span class="id" title="definition">signature_category</span></a>) <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#b"><span class="id" title="variable">b</span></a>) <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#R"><span class="id" title="variable">R</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">=</span> <a class="idref" href="Modules.Signatures.Signature.html#pb_rep"><span class="id" title="definition">pb_rep</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#a"><span class="id" title="variable">a</span></a> (<a class="idref" href="Modules.Signatures.Signature.html#pb_rep"><span class="id" title="definition">pb_rep</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#b"><span class="id" title="variable">b</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#R"><span class="id" title="variable">R</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pair_path_in2</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">cbn</span> -[<span class="id" title="var">compose</span>].<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="definition">assoc</span> (<span class="id" title="var">C</span> := <span class="id" title="definition">category_LModule</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>)).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="two_signature_disp_ob_mor"><span class="id" title="definition">two_signature_disp_ob_mor</span></a> : <span class="id" title="definition">disp_cat_ob_mor</span> (<a class="idref" href="Modules.Signatures.Signature.html#signature_category"><span class="id" title="definition">signature_category</span></a> (<span class="id" title="var">C</span> := <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSig.C"><span class="id" title="variable">C</span></a>)) :=<br/>
+&nbsp;&nbsp;<span class="id" title="definition">mk_disp_cat_ob_mor</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.Signature.html#signature_category"><span class="id" title="definition">signature_category</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">fun</span> (<span class="id" title="var">S</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSig.C"><span class="id" title="variable">C</span></a>) =&gt; <span class="id" title="notation">∑</span> <span class="id" title="notation">(</span><span class="id" title="var">O</span> : <span class="id" title="definition">UU</span><span class="id" title="notation">),</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#O"><span class="id" title="variable">O</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#equation"><span class="id" title="definition">equation</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#S"><span class="id" title="variable">S</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">fun</span> (<span class="id" title="var">S1</span> <span class="id" title="var">S2</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSig.C"><span class="id" title="variable">C</span></a>) <span class="id" title="var">SS1</span> <span class="id" title="var">SS2</span> (<span class="id" title="var">f</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature_Mor"><span class="id" title="definition">signature_Mor</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#S1"><span class="id" title="variable">S1</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#S2"><span class="id" title="variable">S2</span></a>) =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+<div class="doc">
+forall for hprop 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">∀</span> <span class="id" title="notation">(</span><span class="id" title="var">R</span> : <a class="idref" href="Modules.SoftEquations.Equation.html#model_equations"><span class="id" title="definition">model_equations</span></a> (<span class="id" title="projection">pr2</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#SS2"><span class="id" title="variable">SS2</span></a>)) <span class="id" title="var">o</span> <span class="id" title="notation">,</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.Equation.html#satisfies_equation_hp"><span class="id" title="definition">satisfies_equation_hp</span></a> (<span class="id" title="projection">pr2</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#SS1"><span class="id" title="variable">SS1</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#o"><span class="id" title="variable">o</span></a>) (<a class="idref" href="Modules.Signatures.Signature.html#pb_rep"><span class="id" title="definition">pb_rep</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#f"><span class="id" title="variable">f</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#R"><span class="id" title="variable">R</span></a>)).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The pullback model with equations 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="pb_modeq"><span class="id" title="definition">pb_modeq</span></a> {<span class="id" title="var">S1</span> <span class="id" title="var">S2</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSig.C"><span class="id" title="variable">C</span></a>} {<span class="id" title="var">m</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature_Mor"><span class="id" title="definition">signature_Mor</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#S1"><span class="id" title="variable">S1</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#S2"><span class="id" title="variable">S2</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">SS1</span> : <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#two_signature_disp_ob_mor"><span class="id" title="definition">two_signature_disp_ob_mor</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#S1"><span class="id" title="variable">S1</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">SS2</span> : <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#two_signature_disp_ob_mor"><span class="id" title="definition">two_signature_disp_ob_mor</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#S2"><span class="id" title="variable">S2</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">mm</span>: <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#SS1"><span class="id" title="variable">SS1</span></a> <span class="id" title="notation">--&gt;[</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#m"><span class="id" title="variable">m</span></a> <span class="id" title="notation">]</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#SS2"><span class="id" title="variable">SS2</span></a>) (<span class="id" title="var">R</span> : <a class="idref" href="Modules.SoftEquations.Equation.html#model_equations"><span class="id" title="definition">model_equations</span></a> (<span class="id" title="projection">pr2</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#SS2"><span class="id" title="variable">SS2</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Modules.SoftEquations.Equation.html#model_equations"><span class="id" title="definition">model_equations</span></a> (<span class="id" title="projection">pr2</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#SS1"><span class="id" title="variable">SS1</span></a>) :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.Signature.html#pb_rep"><span class="id" title="definition">pb_rep</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#m"><span class="id" title="variable">m</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#R"><span class="id" title="variable">R</span></a> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#mm"><span class="id" title="variable">mm</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#R"><span class="id" title="variable">R</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="two_signature_identity_Mor"><span class="id" title="lemma">two_signature_identity_Mor</span></a> (<span class="id" title="var">x</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature_category"><span class="id" title="definition">signature_category</span></a>) (<span class="id" title="var">xx</span> : <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#two_signature_disp_ob_mor"><span class="id" title="definition">two_signature_disp_ob_mor</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#x"><span class="id" title="variable">x</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#xx"><span class="id" title="variable">xx</span></a> <span class="id" title="notation">--&gt;[</span> <span class="id" title="definition">identity</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#x"><span class="id" title="variable">x</span></a><span class="id" title="notation">]</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#xx"><span class="id" title="variable">xx</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">R</span> <span class="id" title="var">o</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <span class="id" title="definition">identity</span>; <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> (<span class="id" title="definition">transportb</span> (<a class="idref" href="Modules.SoftEquations.Equation.html#satisfies_equation"><span class="id" title="definition">satisfies_equation</span></a> <span class="id" title="var">_</span>)).<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#pb_rep_id"><span class="id" title="lemma">pb_rep_id</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<a class="idref" href="Modules.SoftEquations.Equation.html#model_equations_eq"><span class="id" title="definition">model_equations_eq</span></a> <span class="id" title="var">R</span> <span class="id" title="var">o</span>).<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="two_signature_comp_Mor"><span class="id" title="lemma">two_signature_comp_Mor</span></a> <br/>
+&nbsp;&nbsp;(<span class="id" title="var">x</span> <span class="id" title="var">y</span> <span class="id" title="var">z</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature_category"><span class="id" title="definition">signature_category</span></a>) (<span class="id" title="var">f</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature_category"><span class="id" title="definition">signature_category</span></a> <span class="id" title="notation">⟦</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#x"><span class="id" title="variable">x</span></a><span class="id" title="notation">,</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#y"><span class="id" title="variable">y</span></a> <span class="id" title="notation">⟧</span>) (<span class="id" title="var">g</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature_category"><span class="id" title="definition">signature_category</span></a> <span class="id" title="notation">⟦</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#y"><span class="id" title="variable">y</span></a><span class="id" title="notation">,</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#z"><span class="id" title="variable">z</span></a> <span class="id" title="notation">⟧</span>)<br/>
+&nbsp;&nbsp;(<span class="id" title="var">xx</span> : <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#two_signature_disp_ob_mor"><span class="id" title="definition">two_signature_disp_ob_mor</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#x"><span class="id" title="variable">x</span></a>) (<span class="id" title="var">yy</span> : <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#two_signature_disp_ob_mor"><span class="id" title="definition">two_signature_disp_ob_mor</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#y"><span class="id" title="variable">y</span></a>) (<span class="id" title="var">zz</span> : <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#two_signature_disp_ob_mor"><span class="id" title="definition">two_signature_disp_ob_mor</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#z"><span class="id" title="variable">z</span></a>) :<br/>
+&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#xx"><span class="id" title="variable">xx</span></a> <span class="id" title="notation">--&gt;[</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#f"><span class="id" title="variable">f</span></a><span class="id" title="notation">]</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#yy"><span class="id" title="variable">yy</span></a> <span class="id" title="notation">→</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#yy"><span class="id" title="variable">yy</span></a> <span class="id" title="notation">--&gt;[</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#g"><span class="id" title="variable">g</span></a><span class="id" title="notation">]</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#zz"><span class="id" title="variable">zz</span></a> <span class="id" title="notation">→</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#xx"><span class="id" title="variable">xx</span></a> <span class="id" title="notation">--&gt;[</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#f"><span class="id" title="variable">f</span></a> <span class="id" title="notation">·</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#g"><span class="id" title="variable">g</span></a><span class="id" title="notation">]</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#zz"><span class="id" title="variable">zz</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">hf</span> <span class="id" title="var">hg</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">R</span> .<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#pb_rep_comp"><span class="id" title="lemma">pb_rep_comp</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="var">hf</span> (<a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#pb_modeq"><span class="id" title="definition">pb_modeq</span></a> <span class="id" title="var">hg</span> <span class="id" title="var">R</span>)).<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="two_signature_data"><span class="id" title="definition">two_signature_data</span></a> : <span class="id" title="definition">disp_cat_data</span> (<a class="idref" href="Modules.Signatures.Signature.html#signature_category"><span class="id" title="definition">signature_category</span></a> (<span class="id" title="var">C</span>:= <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSig.C"><span class="id" title="variable">C</span></a>)) :=<br/>
+&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#two_signature_disp_ob_mor"><span class="id" title="definition">two_signature_disp_ob_mor</span></a> <span class="id" title="notation">,,</span> <span class="id" title="notation">(</span><a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#two_signature_identity_Mor"><span class="id" title="lemma">two_signature_identity_Mor</span></a> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#two_signature_comp_Mor"><span class="id" title="lemma">two_signature_comp_Mor</span></a><span class="id" title="notation">)</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="two_signature_axioms"><span class="id" title="lemma">two_signature_axioms</span></a> : <span class="id" title="definition">disp_cat_axioms</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#two_signature_data"><span class="id" title="definition">two_signature_data</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> <span class="id" title="tactic">apply</span> <span class="id" title="constructor">tpair</span>; <span class="id" title="tactic">intros</span>;  <span class="id" title="tactic">try</span> <span class="id" title="tactic">apply</span> <span class="id" title="definition">Propositions.proofirrelevance_hProp</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">isasetaprop</span>; <span class="id" title="tactic">apply</span> <span class="id" title="definition">propproperty</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="two_signature_disp"><span class="id" title="definition">two_signature_disp</span></a> : <span class="id" title="definition">disp_cat</span> <span class="id" title="var">_</span> := <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#two_signature_data"><span class="id" title="definition">two_signature_data</span></a> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#two_signature_axioms"><span class="id" title="lemma">two_signature_axioms</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="opfib_two_sig"><span class="id" title="definition">opfib_two_sig</span></a> : <a class="idref" href="Modules.Prelims.Opfibration.html#opcleaving"><span class="id" title="definition">opcleaving</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#two_signature_disp"><span class="id" title="definition">two_signature_disp</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">S</span> <span class="id" title="var">S'</span> <span class="id" title="var">f</span> <span class="id" title="var">SS'</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">red</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="constructor">tpair</span>;[|<span class="id" title="var">use</span> <span class="id" title="constructor">tpair</span>].<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">eapply</span> <span class="id" title="constructor">tpair</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> ( <span class="id" title="keyword">fun</span> (<span class="id" title="var">o</span> : <span class="id" title="projection">pr1</span> <span class="id" title="var">SS'</span>) =&gt; <a class="idref" href="Modules.SoftEquations.Equation.html#po_equation"><span class="id" title="definition">po_equation</span></a> <span class="id" title="var">f</span> (<span class="id" title="projection">pr2</span> <span class="id" title="var">SS'</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#o"><span class="id" title="variable">o</span></a>)).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="Modules.SoftEquations.Equation.html#model_equations_eq"><span class="id" title="definition">model_equations_eq</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">red</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">S2</span> <span class="id" title="var">f2</span> <span class="id" title="var">e2</span> <span class="id" title="var">hf2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">unshelve</span> <span class="id" title="tactic">eapply</span> <span class="id" title="lemma">unique_exists</span>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[| | <span class="id" title="tactic">intros</span>; <span class="id" title="tactic">eapply</span> <span class="id" title="lemma">isapropifcontr</span>,<span class="id" title="definition">propproperty</span> |<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span>; <span class="id" title="tactic">eapply</span> <span class="id" title="lemma">proofirrelevance</span>,<span class="id" title="definition">propproperty</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">intros</span> <span class="id" title="var">R</span> <span class="id" title="var">o</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">specialize</span> (<span class="id" title="var">hf2</span> <span class="id" title="var">R</span> <span class="id" title="var">o</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#pb_rep_comp"><span class="id" title="lemma">pb_rep_comp</span></a> <span class="id" title="tactic">in</span> <span class="id" title="var">hf2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">hf2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <span class="id" title="lemma">proofirrelevance</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">propproperty</span>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="TwoSignature_category"><span class="id" title="definition">TwoSignature_category</span></a> : <span class="id" title="definition">category</span> :=  <span class="id" title="definition">total_category</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#two_signature_disp"><span class="id" title="definition">two_signature_disp</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="TwoSignature"><span class="id" title="definition">TwoSignature</span></a> := <span class="id" title="definition">ob</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature_category"><span class="id" title="definition">TwoSignature_category</span></a>.<br/>
+<span class="id" title="keyword">Definition</span> <a name="TwoSignature_Mor"><span class="id" title="definition">TwoSignature_Mor</span></a> (<span class="id" title="var">S1</span> <span class="id" title="var">S2</span> : <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature"><span class="id" title="definition">TwoSignature</span></a>) := <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature_category"><span class="id" title="definition">TwoSignature_category</span></a> <span class="id" title="notation">⟦</span><a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#S1"><span class="id" title="variable">S1</span></a> <span class="id" title="notation">,</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#S2"><span class="id" title="variable">S2</span></a><span class="id" title="notation">⟧</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Coercion</span> <span class="id" title="var">OneSig_from_TwoSig</span> (<span class="id" title="var">S</span> : <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature"><span class="id" title="definition">TwoSignature</span></a>) : <a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSig.C"><span class="id" title="variable">C</span></a> := <span class="id" title="projection">pr1</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#S"><span class="id" title="variable">S</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="TwoSignature_index"><span class="id" title="definition">TwoSignature_index</span></a> (<span class="id" title="var">S</span> : <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature"><span class="id" title="definition">TwoSignature</span></a>) : <span class="id" title="definition">UU</span> := <span class="id" title="projection">pr1</span> (<span class="id" title="projection">pr2</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#S"><span class="id" title="variable">S</span></a>).<br/>
+<span class="id" title="keyword">Definition</span> <a name="TwoSignature_eqs"><span class="id" title="definition">TwoSignature_eqs</span></a> (<span class="id" title="var">S</span> : <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature"><span class="id" title="definition">TwoSignature</span></a>) : <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature_index"><span class="id" title="definition">TwoSignature_index</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#S"><span class="id" title="variable">S</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="Modules.SoftEquations.Equation.html#equation"><span class="id" title="definition">equation</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#S"><span class="id" title="variable">S</span></a> := <span class="id" title="projection">pr2</span> (<span class="id" title="projection">pr2</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#S"><span class="id" title="variable">S</span></a>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+If thebase category has coequalizers, then the total two-sig category also 
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="TwoSignature_Coequalizers"><span class="id" title="lemma">TwoSignature_Coequalizers</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">coeq</span> : <span class="id" title="definition">colimits.Colims_of_shape</span> <span class="id" title="definition">Coequalizer_graph</span>  <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSig.C"><span class="id" title="variable">C</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">Coequalizers</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature_category"><span class="id" title="definition">TwoSignature_category</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">red</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">S1</span> <span class="id" title="var">S2</span> <span class="id" title="var">f</span> <span class="id" title="var">g</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<a class="idref" href="Modules.Prelims.FaithfulFibrationEqualizer.html#faithful_opfibration_coequalizer"><span class="id" title="lemma">faithful_opfibration_coequalizer</span></a> <span class="id" title="var">_</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#opfib_two_sig"><span class="id" title="definition">opfib_two_sig</span></a>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <span class="id" title="lemma">faithful_pr1_category</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span>; <span class="id" title="tactic">apply</span> <span class="id" title="definition">propproperty</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.SignaturesColims.html#Sig_Colims_of_shape"><span class="id" title="definition">Sig_Colims_of_shape</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">coeq</span>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="two_signature_coproduct"><span class="id" title="definition">two_signature_coproduct</span></a><br/>
+&nbsp;&nbsp;{<span class="id" title="var">O</span> : <span class="id" title="definition">UU</span>}<br/>
+&nbsp;&nbsp;(<span class="id" title="var">c</span> : <span class="id" title="definition">Coproducts</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#O"><span class="id" title="variable">O</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSig.C"><span class="id" title="variable">C</span></a>)<br/>
+&nbsp;&nbsp;(<span class="id" title="var">sigs</span> : <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#O"><span class="id" title="variable">O</span></a> <span class="id" title="notation">→</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature_category"><span class="id" title="definition">TwoSignature_category</span></a>) : <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature"><span class="id" title="definition">TwoSignature</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="constructor">tpair</span>.<br/>
+&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> (<a class="idref" href="Modules.Signatures.SignatureCoproduct.html#signature_Coproduct"><span class="id" title="definition">signature_Coproduct</span></a> (<span class="id" title="var">cpC</span> := <span class="id" title="var">c</span>) ).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">sigs</span>.<br/>
+&nbsp;&nbsp;+ <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<span class="id" title="notation">(</span><span class="id" title="notation">∑</span> <span class="id" title="notation">(</span><span class="id" title="var">o</span> : <span class="id" title="var">O</span><span class="id" title="notation">),</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature_index"><span class="id" title="definition">TwoSignature_index</span></a> (<span class="id" title="var">sigs</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#o"><span class="id" title="variable">o</span></a>)<span class="id" title="notation">),,</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">oo</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> <a class="idref" href="Modules.SoftEquations.Equation.html#po_equation"><span class="id" title="definition">po_equation</span></a>; <span class="id" title="var">revgoals</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id" title="tactic">apply</span> (<a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature_eqs"><span class="id" title="definition">TwoSignature_eqs</span></a> (<span class="id" title="var">sigs</span> (<span class="id" title="projection">pr1</span> <span class="id" title="var">oo</span>)) (<span class="id" title="projection">pr2</span> <span class="id" title="var">oo</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id" title="tactic">exact</span> ( <span class="id" title="definition">CoproductIn</span>  <span class="id" title="var">_</span> <span class="id" title="var">_</span> (<a class="idref" href="Modules.Signatures.SignatureCoproduct.html#signature_Coproduct"><span class="id" title="definition">signature_Coproduct</span></a> (<span class="id" title="var">cpC</span> := <span class="id" title="var">c</span>) <span class="id" title="var">_</span>) (<span class="id" title="projection">pr1</span> <span class="id" title="var">oo</span>)).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="two_signature_coproduct_in"><span class="id" title="definition">two_signature_coproduct_in</span></a><br/>
+&nbsp;&nbsp;{<span class="id" title="var">O</span> : <span class="id" title="definition">UU</span>}<br/>
+&nbsp;&nbsp;(<span class="id" title="var">c</span> : <span class="id" title="definition">Coproducts</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#O"><span class="id" title="variable">O</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSig.C"><span class="id" title="variable">C</span></a>)<br/>
+&nbsp;&nbsp;(<span class="id" title="var">sigs</span> : <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#O"><span class="id" title="variable">O</span></a> <span class="id" title="notation">→</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature_category"><span class="id" title="definition">TwoSignature_category</span></a>) <br/>
+&nbsp;&nbsp;(<span class="id" title="var">i</span> : <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#O"><span class="id" title="variable">O</span></a>) : <br/>
+&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature_category"><span class="id" title="definition">TwoSignature_category</span></a> <span class="id" title="notation">⟦</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#sigs"><span class="id" title="variable">sigs</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#i"><span class="id" title="variable">i</span></a><span class="id" title="notation">,</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#two_signature_coproduct"><span class="id" title="definition">two_signature_coproduct</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#c"><span class="id" title="variable">c</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#sigs"><span class="id" title="variable">sigs</span></a> <span class="id" title="notation">⟧</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="constructor">tpair</span>.<br/>
+&nbsp;&nbsp;+ <span class="id" title="tactic">exact</span> ( <span class="id" title="definition">CoproductIn</span>  <span class="id" title="var">_</span> <span class="id" title="var">_</span> (<a class="idref" href="Modules.Signatures.SignatureCoproduct.html#signature_Coproduct"><span class="id" title="definition">signature_Coproduct</span></a> (<span class="id" title="var">cpC</span> := <span class="id" title="var">c</span>) <span class="id" title="var">_</span>) <span class="id" title="var">i</span>).<br/>
+&nbsp;&nbsp;+ <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">R</span> <span class="id" title="var">o</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<a class="idref" href="Modules.SoftEquations.Equation.html#model_equations_eq"><span class="id" title="definition">model_equations_eq</span></a> <span class="id" title="var">R</span> (<span class="id" title="var">i</span> <span class="id" title="notation">,,</span> <span class="id" title="var">o</span>)).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="two_signature_is_coproduct"><span class="id" title="lemma">two_signature_is_coproduct</span></a> <br/>
+&nbsp;&nbsp;{<span class="id" title="var">O</span> : <span class="id" title="definition">UU</span>}<br/>
+&nbsp;&nbsp;(<span class="id" title="var">c</span> : <span class="id" title="definition">Coproducts</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#O"><span class="id" title="variable">O</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSig.C"><span class="id" title="variable">C</span></a>)<br/>
+&nbsp;&nbsp;(<span class="id" title="var">sigs</span> : <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#O"><span class="id" title="variable">O</span></a> <span class="id" title="notation">→</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature_category"><span class="id" title="definition">TwoSignature_category</span></a>)  :<br/>
+&nbsp;&nbsp;<span class="id" title="definition">isCoproduct</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#O"><span class="id" title="variable">O</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature_category"><span class="id" title="definition">TwoSignature_category</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#sigs"><span class="id" title="variable">sigs</span></a> (<a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#two_signature_coproduct"><span class="id" title="definition">two_signature_coproduct</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#c"><span class="id" title="variable">c</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#sigs"><span class="id" title="variable">sigs</span></a>) (<a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#two_signature_coproduct_in"><span class="id" title="definition">two_signature_coproduct_in</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#c"><span class="id" title="variable">c</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#sigs"><span class="id" title="variable">sigs</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">S</span> <span class="id" title="var">fS</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">unique_exists</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="var">use</span> <span class="id" title="constructor">tpair</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="var">use</span> (<span class="id" title="definition">CoproductArrow</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>  (<a class="idref" href="Modules.Signatures.SignatureCoproduct.html#signature_Coproduct"><span class="id" title="definition">signature_Coproduct</span></a> (<span class="id" title="var">cpC</span> := <span class="id" title="var">c</span>) <span class="id" title="var">_</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">fS</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">R</span> <span class="id" title="var">oo</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">hnf</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">he1</span> := <a class="idref" href="Modules.SoftEquations.Equation.html#halfeq1"><span class="id" title="definition">halfeq1</span></a> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">he2</span> := <a class="idref" href="Modules.SoftEquations.Equation.html#halfeq2"><span class="id" title="definition">halfeq2</span></a> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">r</span> := <a class="idref" href="Modules.Signatures.Signature.html#pb_rep"><span class="id" title="definition">pb_rep</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">change</span> ((<span class="id" title="keyword">fun</span> <span class="id" title="var">z</span> =&gt; <span class="id" title="var">he1</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#z"><span class="id" title="variable">z</span></a>  <span class="id" title="notation">=</span> <span class="id" title="var">he2</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#z"><span class="id" title="variable">z</span></a> ) <span class="id" title="var">r</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> <span class="id" title="definition">transportf</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id" title="var">etrans</span>;[| <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#pb_rep_comp"><span class="id" title="lemma">pb_rep_comp</span></a>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">ff</span> := <span class="id" title="definition">compose</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">pattern</span> <span class="id" title="var">ff</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> <span class="id" title="definition">transportb</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">CoproductInCommutes</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>  (<a class="idref" href="Modules.Signatures.SignatureCoproduct.html#signature_Coproduct"><span class="id" title="definition">signature_Coproduct</span></a> (<span class="id" title="var">cpC</span> := <span class="id" title="var">c</span>) <span class="id" title="var">_</span>) <span class="id" title="var">_</span> (<span class="id" title="keyword">fun</span> <span class="id" title="var">i</span> =&gt; <span class="id" title="projection">pr1</span> (<span class="id" title="var">fS</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#i"><span class="id" title="variable">i</span></a>))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id" title="tactic">exact</span>(  <span class="id" title="projection">pr2</span> (<span class="id" title="var">fS</span> (<span class="id" title="projection">pr1</span> <span class="id" title="var">oo</span>)) <span class="id" title="var">R</span> (<span class="id" title="projection">pr2</span> <span class="id" title="var">oo</span>)).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">i</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">subtypeEquality_prop</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">CoproductInCommutes</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>  (<a class="idref" href="Modules.Signatures.SignatureCoproduct.html#signature_Coproduct"><span class="id" title="definition">signature_Coproduct</span></a> (<span class="id" title="var">cpC</span> := <span class="id" title="var">c</span>) <span class="id" title="var">_</span>) <span class="id" title="var">_</span> (<span class="id" title="keyword">fun</span> <span class="id" title="var">i</span> =&gt; <span class="id" title="projection">pr1</span> (<span class="id" title="var">fS</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#i"><span class="id" title="variable">i</span></a>))).<br/>
+&nbsp;&nbsp;- <span class="id" title="var">cbn</span> <span class="id" title="keyword">beta</span> .<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">impred_isaprop</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">y</span> <span class="id" title="var">hi</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">subtypeEquality_prop</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">CoproductArrowUnique</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>  (<a class="idref" href="Modules.Signatures.SignatureCoproduct.html#signature_Coproduct"><span class="id" title="definition">signature_Coproduct</span></a> (<span class="id" title="var">cpC</span> := <span class="id" title="var">c</span>) <span class="id" title="var">_</span>) <span class="id" title="var">_</span> (<span class="id" title="keyword">fun</span> <span class="id" title="var">i</span> =&gt; <span class="id" title="projection">pr1</span> (<span class="id" title="var">fS</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#i"><span class="id" title="variable">i</span></a>))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">i</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">specialize</span> (<span class="id" title="var">hi</span> <span class="id" title="var">i</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">base_paths</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">hi</span>).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="TwoSignature_Coproducts"><span class="id" title="lemma">TwoSignature_Coproducts</span></a> {<span class="id" title="var">O</span> : <span class="id" title="definition">UU</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">c</span> : <span class="id" title="definition">Coproducts</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#O"><span class="id" title="variable">O</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSig.C"><span class="id" title="variable">C</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">Coproducts</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#O"><span class="id" title="variable">O</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature_category"><span class="id" title="definition">TwoSignature_category</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">sigs</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">mk_Coproduct</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#two_signature_coproduct"><span class="id" title="definition">two_signature_coproduct</span></a> <span class="id" title="var">c</span> <span class="id" title="var">sigs</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#two_signature_coproduct_in"><span class="id" title="definition">two_signature_coproduct_in</span></a> <span class="id" title="var">c</span> <span class="id" title="var">sigs</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#two_signature_is_coproduct"><span class="id" title="lemma">two_signature_is_coproduct</span></a>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="TwoSignature_Pushouts"><span class="id" title="lemma">TwoSignature_Pushouts</span></a> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">b</span> : <span class="id" title="definition">BinCoproducts</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSig.C"><span class="id" title="variable">C</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">coeq</span> : <span class="id" title="definition">colimits.Colims_of_shape</span> <span class="id" title="definition">Coequalizer_graph</span>  <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSig.C"><span class="id" title="variable">C</span></a>)<br/>
+&nbsp;&nbsp;: <span class="id" title="definition">Pushouts</span>  <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature_category"><span class="id" title="definition">TwoSignature_category</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.PushoutsFromCoeqBinCoproducts.html#pushouts_from_coeq_bincoprod"><span class="id" title="definition">pushouts_from_coeq_bincoprod</span></a>; <span class="id" title="var">revgoals</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature_Coequalizers"><span class="id" title="lemma">TwoSignature_Coequalizers</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">coeq</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.BinCoproductComplements.html#BinCoproducts_from_CoproductsBool"><span class="id" title="definition">BinCoproducts_from_CoproductsBool</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature_Coproducts"><span class="id" title="lemma">TwoSignature_Coproducts</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">CoproductsBool</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">b</span>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="EQS"><span class="id" title="abbreviation">EQS</span></a> := <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature_eqs"><span class="id" title="definition">TwoSignature_eqs</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span>  "R →→ S" := (<a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature_Mor"><span class="id" title="definition">TwoSignature_Mor</span></a> <span class="id" title="var">R</span> <span class="id" title="var">S</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 6).<br/>
+<span class="id" title="keyword">Coercion</span> <span class="id" title="var">OneSigMore_from_TwoSigMor</span> {<span class="id" title="var">R</span> <span class="id" title="var">S</span>} (<span class="id" title="var">m</span> : <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#2e09bac70e8bf05c655a48867897d4dd"><span class="id" title="notation">→→</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#S"><span class="id" title="variable">S</span></a>) : <a class="idref" href="Modules.Signatures.Signature.html#signature_Mor"><span class="id" title="definition">signature_Mor</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#S"><span class="id" title="variable">S</span></a> := <span class="id" title="projection">pr1</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#m"><span class="id" title="variable">m</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="TwoSignature_Mor_eq"><span class="id" title="lemma">TwoSignature_Mor_eq</span></a> (<span class="id" title="var">F</span> <span class="id" title="var">F'</span> : <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature"><span class="id" title="definition">TwoSignature</span></a>)(<span class="id" title="var">a</span> <span class="id" title="var">a'</span> : <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature_Mor"><span class="id" title="definition">TwoSignature_Mor</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#F"><span class="id" title="variable">F</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#F'"><span class="id" title="variable">F'</span></a>):<br/>
+&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">(</span></a><span class="id" title="notation">∏</span> <span class="id" title="var">x</span><span class="id" title="notation">,</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#x"><span class="id" title="variable">x</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#a'"><span class="id" title="variable">a'</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#x"><span class="id" title="variable">x</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">)</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.8.2/stdlib//Coq.Init.Logic.html#d43e996736952df71ebeeae74d10a287"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#a"><span class="id" title="variable">a</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#a'"><span class="id" title="variable">a'</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">h</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">subtypeEquality_prop</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.Signature.html#signature_Mor_eq"><span class="id" title="lemma">signature_Mor_eq</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">h</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+A 1-signature S induces a 2-signature consisting of no equation 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="OneSig_to_TwoSig"><span class="id" title="definition">OneSig_to_TwoSig</span></a> (<span class="id" title="var">S</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSig.C"><span class="id" title="variable">C</span></a>) : <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature"><span class="id" title="definition">TwoSignature</span></a> := (<a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#S"><span class="id" title="variable">S</span></a> <span class="id" title="notation">,,</span> <span class="id" title="notation">∅</span> <span class="id" title="notation">,,</span> <span class="id" title="definition">empty_rect</span> <span class="id" title="var">_</span>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+This induces a left adjoint to the forgetful functor 
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="universal_OneSig_to_TwoSig"><span class="id" title="lemma">universal_OneSig_to_TwoSig</span></a> (<span class="id" title="var">S</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSig.C"><span class="id" title="variable">C</span></a>) :<br/>
+&nbsp;&nbsp;<span class="id" title="definition">is_universal_arrow_to</span> (<span class="id" title="definition">pr1_category</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#two_signature_disp"><span class="id" title="definition">two_signature_disp</span></a>) <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#S"><span class="id" title="variable">S</span></a> (<a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#OneSig_to_TwoSig"><span class="id" title="definition">OneSig_to_TwoSig</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#S"><span class="id" title="variable">S</span></a>) (<span class="id" title="definition">identity</span> <span class="id" title="var">_</span>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">TT</span> <span class="id" title="var">f</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">unshelve</span> <span class="id" title="tactic">eapply</span> <span class="id" title="lemma">unique_exists</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">refine</span> (<span class="id" title="var">f</span> <span class="id" title="notation">,,</span> <span class="id" title="var">_</span>) .<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">empty_rect</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <span class="id" title="definition">id_left</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intro</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">y</span> <span class="id" title="var">eqy</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">subtypeEquality_prop</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[|<span class="id" title="tactic">exact</span> <span class="id" title="var">eqy</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>, <span class="id" title="definition">id_left</span>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="TwoSignature_To_One_right_adjoint"><span class="id" title="definition">TwoSignature_To_One_right_adjoint</span></a><br/>
+&nbsp;&nbsp;: <span class="id" title="definition">is_right_adjoint</span> (<span class="id" title="definition">pr1_category</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#two_signature_disp"><span class="id" title="definition">two_signature_disp</span></a>)<br/>
+&nbsp;&nbsp;:= <span class="id" title="definition">right_adjoint_left_from_partial</span> (<span class="id" title="var">X</span> := <a class="idref" href="Modules.Signatures.Signature.html#signature_category"><span class="id" title="definition">signature_category</span></a> ) <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#universal_OneSig_to_TwoSig"><span class="id" title="lemma">universal_OneSig_to_TwoSig</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="OneSig_to_TwoSig_fully_faithful"><span class="id" title="lemma">OneSig_to_TwoSig_fully_faithful</span></a><br/>
+&nbsp;&nbsp;: <span class="id" title="definition">fully_faithful</span> (<span class="id" title="definition">left_adjoint</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature_To_One_right_adjoint"><span class="id" title="definition">TwoSignature_To_One_right_adjoint</span></a> : <span class="id" title="var">_</span> <span class="id" title="notation">⟶</span>  <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature_category"><span class="id" title="definition">TwoSignature_category</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Modules.Prelims.lib.html#isounit_coreflection"><span class="id" title="lemma">isounit_coreflection</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">is_left_adjoint_left_adjoint</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">unshelve</span> <span class="id" title="tactic">eapply</span> <span class="id" title="lemma">functor_iso_if_pointwise_iso</span>; [<span class="id" title="tactic">exact</span> (<span class="id" title="definition">homset_property</span> <a class="idref" href="Modules.Signatures.Signature.html#signature_category"><span class="id" title="definition">signature_category</span></a>)|].<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intro</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">identity_is_iso</span>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="MONAD"><span class="id" title="abbreviation">MONAD</span></a> := (<span class="id" title="definition">Monad</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSig.C"><span class="id" title="variable">C</span></a>).<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="PRE_MONAD"><span class="id" title="abbreviation">PRE_MONAD</span></a> := (<span class="id" title="definition">category_Monad</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSig.C"><span class="id" title="variable">C</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="PRECAT_SIGNATURE"><span class="id" title="abbreviation">PRECAT_SIGNATURE</span></a>  := (@<a class="idref" href="Modules.Signatures.Signature.html#signature_precategory"><span class="id" title="definition">signature_precategory</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSig.C"><span class="id" title="variable">C</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Notation</span> <a name="signature"><span class="id" title="abbreviation">signature</span></a>  := (@<a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSig.C"><span class="id" title="variable">C</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="6e339d25b4e8063149b40e48a727392c"><span class="id" title="abbreviation">Θ</span></a> := <span class="id" title="definition">tautological_LModule</span>.<br/>
+
+<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+A model is a monad with a module morphisme from its image by the signature
+ to itself 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="two_model"><span class="id" title="definition">two_model</span></a> (<span class="id" title="var">ar</span> : <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature"><span class="id" title="definition">TwoSignature</span></a>) := <a class="idref" href="Modules.SoftEquations.Equation.html#model_equations"><span class="id" title="definition">model_equations</span></a>  (<a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#EQS"><span class="id" title="abbreviation">EQS</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#ar"><span class="id" title="variable">ar</span></a>).<br/>
+<span class="id" title="keyword">Identity</span> <span class="id" title="keyword">Coercion</span>  <span class="id" title="var">two_model_to_model_equations</span>  : <span class="id" title="var">two_model</span>  &gt;-&gt; <span class="id" title="var">model_equations</span> .<br/>
+
+<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="two_model_disp_ob_mor"><span class="id" title="definition">two_model_disp_ob_mor</span></a> : <span class="id" title="definition">disp_cat_ob_mor</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature_category"><span class="id" title="definition">TwoSignature_category</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">exists</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#two_model"><span class="id" title="definition">two_model</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">refine</span> ( <span class="id" title="keyword">fun</span> (<span class="id" title="var">a</span> <span class="id" title="var">b</span> : <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature"><span class="id" title="definition">TwoSignature</span></a>) <span class="id" title="var">M</span> <span class="id" title="var">N</span> (<span class="id" title="var">f</span> : <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#2e09bac70e8bf05c655a48867897d4dd"><span class="id" title="notation">→→</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#b"><span class="id" title="variable">b</span></a>) =&gt; <a class="idref" href="Modules.Signatures.Signature.html#model_mor_mor"><span class="id" title="definition">model_mor_mor</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#b"><span class="id" title="variable">b</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#M"><span class="id" title="variable">M</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#N"><span class="id" title="variable">N</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#f"><span class="id" title="variable">f</span></a>).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="two_mod_data"><span class="id" title="definition">two_mod_data</span></a> : <span class="id" title="definition">disp_cat_data</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature_category"><span class="id" title="definition">TwoSignature_category</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">exists</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#two_model_disp_ob_mor"><span class="id" title="definition">two_model_disp_ob_mor</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;+ <span class="id" title="tactic">intros</span>; <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.Signature.html#rep_id"><span class="id" title="definition">rep_id</span></a>.<br/>
+&nbsp;&nbsp;+ <span class="id" title="tactic">intros</span> ????????.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.Signature.html#rep_comp"><span class="id" title="definition">rep_comp</span></a>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="transport_signature_mor"><span class="id" title="lemma">transport_signature_mor</span></a> (<span class="id" title="var">x</span> <span class="id" title="var">y</span> : <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature"><span class="id" title="definition">TwoSignature</span></a>) (<span class="id" title="var">f</span> <span class="id" title="var">g</span> :  <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#x"><span class="id" title="variable">x</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#2e09bac70e8bf05c655a48867897d4dd"><span class="id" title="notation">→→</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#y"><span class="id" title="variable">y</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">e</span> : <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#f"><span class="id" title="variable">f</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#g"><span class="id" title="variable">g</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">xx</span> : <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#two_model_disp_ob_mor"><span class="id" title="definition">two_model_disp_ob_mor</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#x"><span class="id" title="variable">x</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">yy</span> : <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#two_model_disp_ob_mor"><span class="id" title="definition">two_model_disp_ob_mor</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#y"><span class="id" title="variable">y</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">ff</span> : <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#xx"><span class="id" title="variable">xx</span></a> <span class="id" title="notation">--&gt;[</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#f"><span class="id" title="variable">f</span></a><span class="id" title="notation">]</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#yy"><span class="id" title="variable">yy</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">c</span> : <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSig.C"><span class="id" title="variable">C</span></a>) :<br/>
+&nbsp;&nbsp;<span class="id" title="projection">pr1</span> (<span class="id" title="projection">pr1</span> (<span class="id" title="definition">transportf</span> (<span class="id" title="definition">mor_disp</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#xx"><span class="id" title="variable">xx</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#yy"><span class="id" title="variable">yy</span></a>) <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#e"><span class="id" title="variable">e</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#ff"><span class="id" title="variable">ff</span></a>)) <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#c"><span class="id" title="variable">c</span></a> <span class="id" title="notation">=</span> <span class="id" title="projection">pr1</span> (<span class="id" title="projection">pr1</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#ff"><span class="id" title="variable">ff</span></a>) <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#c"><span class="id" title="variable">c</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">e</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="two_mod_axioms"><span class="id" title="lemma">two_mod_axioms</span></a> : <span class="id" title="definition">disp_cat_axioms</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#two_mod_data"><span class="id" title="definition">two_mod_data</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> <span class="id" title="tactic">apply</span> <span class="id" title="constructor">tpair</span>; <span class="id" title="tactic">intros</span>; <span class="id" title="tactic">try</span> <span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.Signature.html#model_mor_mor_equiv"><span class="id" title="lemma">model_mor_mor_equiv</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">c</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>. <span class="id" title="tactic">apply</span> <span class="id" title="definition">id_left</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">symmetry</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#transport_signature_mor"><span class="id" title="lemma">transport_signature_mor</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.Signature.html#model_mor_mor_equiv"><span class="id" title="lemma">model_mor_mor_equiv</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">c</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>. <span class="id" title="tactic">apply</span> <span class="id" title="definition">id_right</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">symmetry</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#transport_signature_mor"><span class="id" title="lemma">transport_signature_mor</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">set</span> (<span class="id" title="var">heqf</span>:= <span class="id" title="definition">assoc</span> <span class="id" title="var">f</span> <span class="id" title="var">g</span> <span class="id" title="var">h</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.Signature.html#model_mor_mor_equiv"><span class="id" title="lemma">model_mor_mor_equiv</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">c</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>. <span class="id" title="var">Focus</span> 2.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">symmetry</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#transport_signature_mor"><span class="id" title="lemma">transport_signature_mor</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.Signature.html#isaset_model_mor_mor"><span class="id" title="lemma">isaset_model_mor_mor</span></a>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="two_model_disp"><span class="id" title="definition">two_model_disp</span></a> : <span class="id" title="definition">disp_cat</span> <span class="id" title="var">_</span> := <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#two_mod_data"><span class="id" title="definition">two_mod_data</span></a> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#two_mod_axioms"><span class="id" title="lemma">two_mod_axioms</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab30"></a><h2 class="section">Now the cleaving</h2>
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="two_mod_cleaving"><span class="id" title="lemma">two_mod_cleaving</span></a> : <span class="id" title="definition">cleaving</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#two_model_disp"><span class="id" title="definition">two_model_disp</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">a</span> <span class="id" title="var">a'</span> <span class="id" title="var">f</span> <span class="id" title="var">R</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">red</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="constructor">tpair</span>;[ |<span class="id" title="var">use</span> <span class="id" title="constructor">tpair</span>].<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> (<a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#pb_modeq"><span class="id" title="definition">pb_modeq</span></a> (<span class="id" title="projection">pr2</span> <span class="id" title="var">f</span>) <span class="id" title="var">R</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.Signature.html#pb_rep_to"><span class="id" title="definition">pb_rep_to</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">simpl</span> <span class="id" title="tactic">in</span> <span class="id" title="var">f</span>,<span class="id" title="var">R</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">hnf</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Modules.Signatures.Signature.html#pb_rep_to_cartesian"><span class="id" title="definition">pb_rep_to_cartesian</span></a>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab31"></a><h1 class="section">Adjunction between 2-models and 1-models</h1>
+
+ 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="MOD1"><span class="id" title="abbreviation">MOD1</span></a> := (<span class="id" title="definition">total_category</span> (<a class="idref" href="Modules.Signatures.Signature.html#rep_disp"><span class="id" title="definition">rep_disp</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSig.C"><span class="id" title="variable">C</span></a>)).<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="MOD2"><span class="id" title="abbreviation">MOD2</span></a> := (<span class="id" title="definition">total_category</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#two_model_disp"><span class="id" title="definition">two_model_disp</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="Two_to_OneMod_functor_data"><span class="id" title="definition">Two_to_OneMod_functor_data</span></a> : <span class="id" title="definition">functor_data</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#MOD2"><span class="id" title="abbreviation">MOD2</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#MOD1"><span class="id" title="abbreviation">MOD1</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" title="definition">mk_functor_data</span> (<span class="id" title="var">C</span> := <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#MOD2"><span class="id" title="abbreviation">MOD2</span></a>) (<span class="id" title="var">C'</span> := <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#MOD1"><span class="id" title="abbreviation">MOD1</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">fun</span> <span class="id" title="var">M</span> =&gt; (<span class="id" title="projection">pr1</span> (<span class="id" title="projection">pr1</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#M"><span class="id" title="variable">M</span></a>) <span class="id" title="notation">,,</span> <span class="id" title="notation">(</span>(<span class="id" title="projection">pr2</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#M"><span class="id" title="variable">M</span></a> : <a class="idref" href="Modules.SoftEquations.Equation.html#model_equations"><span class="id" title="definition">model_equations</span></a>  <span class="id" title="var">_</span>) : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <span class="id" title="var">_</span><span class="id" title="notation">)</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">fun</span> <span class="id" title="var">a</span> <span class="id" title="var">b</span> <span class="id" title="var">f</span> =&gt; (<span class="id" title="projection">pr1</span> (<span class="id" title="projection">pr1</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#f"><span class="id" title="variable">f</span></a>) <span class="id" title="notation">,,</span> <span class="id" title="projection">pr2</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#f"><span class="id" title="variable">f</span></a>)).<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="Two_to_OneMod_is_functor"><span class="id" title="definition">Two_to_OneMod_is_functor</span></a> : <span class="id" title="definition">is_functor</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#Two_to_OneMod_functor_data"><span class="id" title="definition">Two_to_OneMod_functor_data</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" title="notation">(</span><span class="id" title="keyword">fun</span> <span class="id" title="var">x</span> =&gt; <span class="id" title="abbreviation">idpath</span> <span class="id" title="var">_</span><span class="id" title="notation">)</span>  <span class="id" title="notation">,,</span> <span class="id" title="notation">(</span><span class="id" title="keyword">fun</span> <span class="id" title="var">a</span> <span class="id" title="var">b</span> <span class="id" title="var">c</span> <span class="id" title="var">f</span> <span class="id" title="var">g</span> =&gt; <span class="id" title="abbreviation">idpath</span> <span class="id" title="var">_</span><span class="id" title="notation">)</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="Two_to_OneMod_functor"><span class="id" title="definition">Two_to_OneMod_functor</span></a> : <span class="id" title="definition">functor</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#MOD2"><span class="id" title="abbreviation">MOD2</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#MOD1"><span class="id" title="abbreviation">MOD1</span></a> :=<br/>
+&nbsp;&nbsp;&nbsp;<span class="id" title="definition">mk_functor</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#Two_to_OneMod_functor_data"><span class="id" title="definition">Two_to_OneMod_functor_data</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#Two_to_OneMod_is_functor"><span class="id" title="definition">Two_to_OneMod_is_functor</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+A 1-model S induces a 2-model consisting of no equation 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="OneMod_to_TwoMod"><span class="id" title="definition">OneMod_to_TwoMod</span></a> (<span class="id" title="var">M</span> : <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#MOD1"><span class="id" title="abbreviation">MOD1</span></a>) : <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#MOD2"><span class="id" title="abbreviation">MOD2</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#OneSig_to_TwoSig"><span class="id" title="definition">OneSig_to_TwoSig</span></a> (<span class="id" title="projection">pr1</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#M"><span class="id" title="variable">M</span></a>) <span class="id" title="notation">,,</span> <span class="id" title="projection">pr2</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#M"><span class="id" title="variable">M</span></a> <span class="id" title="notation">,,</span> <span class="id" title="definition">empty_rect</span> <span class="id" title="var">_</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+This induces a left adjoint to the forgetful functor 
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="universal_OneMod_to_TwoMod"><span class="id" title="lemma">universal_OneMod_to_TwoMod</span></a> (<span class="id" title="var">M</span> : <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#MOD1"><span class="id" title="abbreviation">MOD1</span></a>) :<br/>
+&nbsp;&nbsp;<span class="id" title="definition">is_universal_arrow_to</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#Two_to_OneMod_functor"><span class="id" title="definition">Two_to_OneMod_functor</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#M"><span class="id" title="variable">M</span></a>  (<a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#OneMod_to_TwoMod"><span class="id" title="definition">OneMod_to_TwoMod</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#M"><span class="id" title="variable">M</span></a> ) (<span class="id" title="definition">identity</span> <span class="id" title="var">_</span>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">TT</span> <span class="id" title="var">f</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">unshelve</span> <span class="id" title="tactic">eapply</span> <span class="id" title="lemma">unique_exists</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<span class="id" title="notation">(</span><span class="id" title="projection">pr1</span> <span class="id" title="var">f</span> <span class="id" title="notation">,,</span> <span class="id" title="keyword">fun</span> <span class="id" title="var">x</span> =&gt; <span class="id" title="definition">empty_rect</span> <span class="id" title="var">_</span><span class="id" title="notation">)</span> <span class="id" title="notation">,,</span> <span class="id" title="projection">pr2</span> <span class="id" title="var">f</span>) .<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <span class="id" title="definition">id_left</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intro</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>.<br/>
+&nbsp;&nbsp;-<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">y</span> <span class="id" title="var">eqy</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="definition">id_left</span> <span class="id" title="tactic">in</span> <span class="id" title="var">eqy</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span> <span class="id" title="tactic">in</span> <span class="id" title="var">eqy</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> &lt;- <span class="id" title="var">eqy</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">y2'</span> := <span class="id" title="keyword">fun</span> (<span class="id" title="var">x</span> : <a class="idref" href="Modules.SoftEquations.Equation.html#model_equations"><span class="id" title="definition">model_equations</span></a> <span class="id" title="var">_</span>) =&gt; <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">assert</span> (<span class="id" title="var">e</span> : <span class="id" title="var">y2'</span> <span class="id" title="notation">=</span> <span class="id" title="notation">(</span><span class="id" title="projection">pr2</span> (<span class="id" title="projection">pr1</span> <span class="id" title="var">y</span>)<span class="id" title="notation">)</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">proofirrelevance</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">impred_isaprop</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">t</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">impred_isaprop</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="definition">empty_rect</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="var">e</span>.<br/>
+</div>
+
+<div class="doc">
+reflexivity thanks to primitive projections 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="TwoMod_To_One_right_adjoint"><span class="id" title="definition">TwoMod_To_One_right_adjoint</span></a> : <span class="id" title="definition">is_right_adjoint</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#Two_to_OneMod_functor"><span class="id" title="definition">Two_to_OneMod_functor</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" title="definition">right_adjoint_left_from_partial</span> (<span class="id" title="var">X</span> := <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#MOD1"><span class="id" title="abbreviation">MOD1</span></a>) <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#universal_OneMod_to_TwoMod"><span class="id" title="lemma">universal_OneMod_to_TwoMod</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="OneMod_to_TwoMod_fully_faithful"><span class="id" title="lemma">OneMod_to_TwoMod_fully_faithful</span></a> : <span class="id" title="definition">fully_faithful</span> (<span class="id" title="definition">left_adjoint</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoMod_To_One_right_adjoint"><span class="id" title="definition">TwoMod_To_One_right_adjoint</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Modules.Prelims.lib.html#isounit_coreflection"><span class="id" title="lemma">isounit_coreflection</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">is_left_adjoint_left_adjoint</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">unshelve</span> <span class="id" title="tactic">eapply</span> <span class="id" title="lemma">functor_iso_if_pointwise_iso</span>; [<span class="id" title="tactic">exact</span> (<span class="id" title="definition">homset_property</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#MOD1"><span class="id" title="abbreviation">MOD1</span></a>)|].<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intro</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">identity_is_iso</span>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSig"><span class="id" title="section">TwoSig</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Colimits in the specific case of SET.
+In fact, from coequalizers and coproducts, we could construct any colimits 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="TwoSignature_CoequalizersSET"><span class="id" title="definition">TwoSignature_CoequalizersSET</span></a> : <span class="id" title="definition">Coequalizers</span> (<a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature_category"><span class="id" title="definition">TwoSignature_category</span></a> (<span class="id" title="var">C</span> := <span class="id" title="notation">SET</span>)) :=<br/>
+&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature_Coequalizers"><span class="id" title="lemma">TwoSignature_Coequalizers</span></a> (<span class="id" title="var">C</span> := <span class="id" title="notation">SET</span>) (<span class="id" title="lemma">ColimsHSET_of_shape</span> <span class="id" title="var">_</span>).<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="TwoSignature_CoproductsSET"><span class="id" title="definition">TwoSignature_CoproductsSET</span></a> (<span class="id" title="var">O</span> : <span class="id" title="definition">hSet</span>) : <span class="id" title="definition">Coproducts</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#O"><span class="id" title="variable">O</span></a> (<a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature_category"><span class="id" title="definition">TwoSignature_category</span></a> (<span class="id" title="var">C</span> := <span class="id" title="notation">SET</span>)) :=<br/>
+&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature_Coproducts"><span class="id" title="lemma">TwoSignature_Coproducts</span></a> (<span class="id" title="var">C</span> := <span class="id" title="notation">SET</span>) (<span class="id" title="lemma">CoproductsHSET</span> <span class="id" title="var">_</span> (<span class="id" title="definition">setproperty</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#O"><span class="id" title="variable">O</span></a>)).<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="TwoSignature_PushoutsSET"><span class="id" title="definition">TwoSignature_PushoutsSET</span></a> : <span class="id" title="definition">Pushouts</span> (<a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature_category"><span class="id" title="definition">TwoSignature_category</span></a> (<span class="id" title="var">C</span> := <span class="id" title="notation">SET</span>)) :=<br/>
+&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature_Pushouts"><span class="id" title="lemma">TwoSignature_Pushouts</span></a> (<span class="id" title="var">C</span> := <span class="id" title="notation">SET</span>) <span class="id" title="lemma">BinCoproductsHSET</span> (<span class="id" title="lemma">ColimsHSET_of_shape</span> <span class="id" title="var">_</span>).<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>
