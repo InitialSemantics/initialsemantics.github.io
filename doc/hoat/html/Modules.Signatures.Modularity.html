@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>Modules.Signatures.Modularity</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Modules.Signatures.Modularity</h1>
+
+<div class="code">
+</div>
+
+<div class="doc">
+<a name="lab22"></a><h1 class="section">Modulsignature for signatures</h1>
+
+
+<div class="paragraph"> </div>
+
+Suppose we have the following pushout diagram in the category of signatures:
+<pre>&lt;
+                f1
+       a0 ------------&gt;  a1 
+       |                 |
+       |                 |
+   f2  |                 | g2
+       |                 |
+       |                 |
+       |                 |
+       V                 V
+       a2 ------------&gt;  a' 
+                 g1 
+</pre>
+&gt;
+
+<div class="paragraph"> </div>
+
+such that a0, a1, a2 and a' are representable with initial models
+R0, R1, R2 and R'. Then, above this pushout there is a pushout square in the
+large category of models:
+<pre>&lt;
+                ff1
+       R0 ------------&gt;  R1 
+       |                 |
+       |                 |
+  ff2  |                 | gg2
+       |                 |
+       |                 |
+       |                 |
+       V                 V
+       R2 ------------&gt;  R' 
+                 gg1 
+</pre>
+&gt;
+
+<div class="paragraph"> </div>
+
+ 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.PartD</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.Propositions</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.Sets</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Core.Prelude</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.FunctorCategory</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.pushouts</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.initial</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Auxiliary</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Core</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Constructions</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Fibrations</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.Signature.html#"><span class="id" title="library">Modules.Signatures.Signature</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.FibrationInitialPushout.html#"><span class="id" title="library">Modules.Prelims.FibrationInitialPushout</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">cat</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Section</span> <a name="init"><span class="id" title="section">init</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> {<span class="id" title="var">C</span> : <span class="id" title="definition">category</span>} (<span class="id" title="var">dC</span> : <span class="id" title="definition">disp_cat</span> <a class="idref" href="Modules.Signatures.Modularity.html#C"><span class="id" title="variable">C</span></a>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="TT"><span class="id" title="abbreviation">TT</span></a> := (<a class="idref" href="Modules.Prelims.FibrationInitialPushout.html#disp_mor_to_total_mor"><span class="id" title="definition">disp_mor_to_total_mor</span></a> (<a class="idref" href="Modules.Signatures.Signature.html#rep_disp"><span class="id" title="definition">rep_disp</span></a> <a class="idref" href="Modules.Signatures.Modularity.html#init.C"><span class="id" title="variable">C</span></a>)).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">a0</span> <span class="id" title="var">a1</span> <span class="id" title="var">a2</span> <span class="id" title="var">a'</span> : @<a class="idref" href="Modules.Signatures.Signature.html#signature_category"><span class="id" title="definition">signature_category</span></a> <a class="idref" href="Modules.Signatures.Modularity.html#init.C"><span class="id" title="variable">C</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">f1</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature_category"><span class="id" title="definition">signature_category</span></a> <span class="id" title="notation">⟦</span> <a class="idref" href="Modules.Signatures.Modularity.html#a0"><span class="id" title="variable">a0</span></a><span class="id" title="notation">,</span> <a class="idref" href="Modules.Signatures.Modularity.html#a1"><span class="id" title="variable">a1</span></a> <span class="id" title="notation">⟧</span>}{<span class="id" title="var">f2</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature_category"><span class="id" title="definition">signature_category</span></a> <span class="id" title="notation">⟦</span> <a class="idref" href="Modules.Signatures.Modularity.html#a0"><span class="id" title="variable">a0</span></a><span class="id" title="notation">,</span> <a class="idref" href="Modules.Signatures.Modularity.html#a2"><span class="id" title="variable">a2</span></a> <span class="id" title="notation">⟧</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">g1</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature_category"><span class="id" title="definition">signature_category</span></a> <span class="id" title="notation">⟦</span> <a class="idref" href="Modules.Signatures.Modularity.html#a1"><span class="id" title="variable">a1</span></a><span class="id" title="notation">,</span> <a class="idref" href="Modules.Signatures.Modularity.html#a'"><span class="id" title="variable">a'</span></a> <span class="id" title="notation">⟧</span>}{<span class="id" title="var">g2</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature_category"><span class="id" title="definition">signature_category</span></a> <span class="id" title="notation">⟦</span> <a class="idref" href="Modules.Signatures.Modularity.html#a2"><span class="id" title="variable">a2</span></a><span class="id" title="notation">,</span> <a class="idref" href="Modules.Signatures.Modularity.html#a'"><span class="id" title="variable">a'</span></a> <span class="id" title="notation">⟧</span>}<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">R0</span> : <a class="idref" href="Modules.Signatures.Signature.html#rep_disp"><span class="id" title="definition">rep_disp</span></a> <span class="id" title="var">_</span> <a class="idref" href="Modules.Signatures.Modularity.html#a0"><span class="id" title="variable">a0</span></a>} {<span class="id" title="var">R1</span> : <a class="idref" href="Modules.Signatures.Signature.html#rep_disp"><span class="id" title="definition">rep_disp</span></a> <span class="id" title="var">_</span> <a class="idref" href="Modules.Signatures.Modularity.html#a1"><span class="id" title="variable">a1</span></a>} {<span class="id" title="var">R2</span> : <a class="idref" href="Modules.Signatures.Signature.html#rep_disp"><span class="id" title="definition">rep_disp</span></a> <span class="id" title="var">_</span> <a class="idref" href="Modules.Signatures.Modularity.html#a2"><span class="id" title="variable">a2</span></a>} {<span class="id" title="var">R'</span> : <a class="idref" href="Modules.Signatures.Signature.html#rep_disp"><span class="id" title="definition">rep_disp</span></a> <span class="id" title="var">_</span> <a class="idref" href="Modules.Signatures.Modularity.html#a'"><span class="id" title="variable">a'</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">repr_R0</span> : <span class="id" title="definition">isInitial</span>  (<span class="id" title="definition">fiber_category</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) <a class="idref" href="Modules.Signatures.Modularity.html#R0"><span class="id" title="variable">R0</span></a>)  <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">repr_R1</span> : <span class="id" title="definition">isInitial</span>  (<span class="id" title="definition">fiber_category</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) <a class="idref" href="Modules.Signatures.Modularity.html#R1"><span class="id" title="variable">R1</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">repr_R2</span> : <span class="id" title="definition">isInitial</span>  (<span class="id" title="definition">fiber_category</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) <a class="idref" href="Modules.Signatures.Modularity.html#R2"><span class="id" title="variable">R2</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">repr_R'</span> : <span class="id" title="definition">isInitial</span>  (<span class="id" title="definition">fiber_category</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) <a class="idref" href="Modules.Signatures.Modularity.html#R'"><span class="id" title="variable">R'</span></a>) .<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span>  (<span class="id" title="var">heq</span> :  <a class="idref" href="Modules.Signatures.Modularity.html#init.f1"><span class="id" title="variable">f1</span></a> <span class="id" title="notation">·</span> <a class="idref" href="Modules.Signatures.Modularity.html#init.g1"><span class="id" title="variable">g1</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Modules.Signatures.Modularity.html#init.f2"><span class="id" title="variable">f2</span></a> <span class="id" title="notation">·</span> <a class="idref" href="Modules.Signatures.Modularity.html#init.g2"><span class="id" title="variable">g2</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">poC</span> : <span class="id" title="definition">isPushout</span> <a class="idref" href="Modules.Signatures.Modularity.html#init.f1"><span class="id" title="variable">f1</span></a> <a class="idref" href="Modules.Signatures.Modularity.html#init.f2"><span class="id" title="variable">f2</span></a> <a class="idref" href="Modules.Signatures.Modularity.html#init.g1"><span class="id" title="variable">g1</span></a> <a class="idref" href="Modules.Signatures.Modularity.html#init.g2"><span class="id" title="variable">g2</span></a> <a class="idref" href="Modules.Signatures.Modularity.html#heq"><span class="id" title="variable">heq</span></a>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a name="init.ff1"><span class="id" title="variable">ff1</span></a> : <a class="idref" href="Modules.Signatures.Modularity.html#init.R0"><span class="id" title="variable">R0</span></a> <span class="id" title="notation">--&gt;[</span><a class="idref" href="Modules.Signatures.Modularity.html#init.f1"><span class="id" title="variable">f1</span></a><span class="id" title="notation">]</span> <a class="idref" href="Modules.Signatures.Modularity.html#init.R1"><span class="id" title="variable">R1</span></a> :=  <a class="idref" href="Modules.Prelims.FibrationInitialPushout.html#disp_InitialArrow"><span class="id" title="definition">disp_InitialArrow</span></a> (<a class="idref" href="Modules.Signatures.Signature.html#rep_disp"><span class="id" title="definition">rep_disp</span></a> <span class="id" title="var">_</span>) (<a class="idref" href="Modules.Signatures.Signature.html#rep_cleaving"><span class="id" title="lemma">rep_cleaving</span></a> <span class="id" title="var">_</span>) <a class="idref" href="Modules.Signatures.Modularity.html#init.repr_R0"><span class="id" title="variable">repr_R0</span></a> <a class="idref" href="Modules.Signatures.Modularity.html#init.f1"><span class="id" title="variable">f1</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a name="init.ff2"><span class="id" title="variable">ff2</span></a> : <a class="idref" href="Modules.Signatures.Modularity.html#init.R0"><span class="id" title="variable">R0</span></a> <span class="id" title="notation">--&gt;[</span><a class="idref" href="Modules.Signatures.Modularity.html#init.f2"><span class="id" title="variable">f2</span></a><span class="id" title="notation">]</span> <a class="idref" href="Modules.Signatures.Modularity.html#init.R2"><span class="id" title="variable">R2</span></a> :=  <a class="idref" href="Modules.Prelims.FibrationInitialPushout.html#disp_InitialArrow"><span class="id" title="definition">disp_InitialArrow</span></a> (<a class="idref" href="Modules.Signatures.Signature.html#rep_disp"><span class="id" title="definition">rep_disp</span></a> <span class="id" title="var">_</span>) (<a class="idref" href="Modules.Signatures.Signature.html#rep_cleaving"><span class="id" title="lemma">rep_cleaving</span></a> <span class="id" title="var">_</span>) <a class="idref" href="Modules.Signatures.Modularity.html#init.repr_R0"><span class="id" title="variable">repr_R0</span></a> <a class="idref" href="Modules.Signatures.Modularity.html#init.f2"><span class="id" title="variable">f2</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a name="init.gg1"><span class="id" title="variable">gg1</span></a> : <a class="idref" href="Modules.Signatures.Modularity.html#init.R1"><span class="id" title="variable">R1</span></a> <span class="id" title="notation">--&gt;[</span><a class="idref" href="Modules.Signatures.Modularity.html#init.g1"><span class="id" title="variable">g1</span></a><span class="id" title="notation">]</span> <a class="idref" href="Modules.Signatures.Modularity.html#init.R'"><span class="id" title="variable">R'</span></a> :=  <a class="idref" href="Modules.Prelims.FibrationInitialPushout.html#disp_InitialArrow"><span class="id" title="definition">disp_InitialArrow</span></a> (<a class="idref" href="Modules.Signatures.Signature.html#rep_disp"><span class="id" title="definition">rep_disp</span></a> <span class="id" title="var">_</span>) (<a class="idref" href="Modules.Signatures.Signature.html#rep_cleaving"><span class="id" title="lemma">rep_cleaving</span></a> <span class="id" title="var">_</span>) <a class="idref" href="Modules.Signatures.Modularity.html#init.repr_R1"><span class="id" title="variable">repr_R1</span></a> <a class="idref" href="Modules.Signatures.Modularity.html#init.g1"><span class="id" title="variable">g1</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a name="init.gg2"><span class="id" title="variable">gg2</span></a> : <a class="idref" href="Modules.Signatures.Modularity.html#init.R2"><span class="id" title="variable">R2</span></a> <span class="id" title="notation">--&gt;[</span><a class="idref" href="Modules.Signatures.Modularity.html#init.g2"><span class="id" title="variable">g2</span></a><span class="id" title="notation">]</span> <a class="idref" href="Modules.Signatures.Modularity.html#init.R'"><span class="id" title="variable">R'</span></a> :=  <a class="idref" href="Modules.Prelims.FibrationInitialPushout.html#disp_InitialArrow"><span class="id" title="definition">disp_InitialArrow</span></a> (<a class="idref" href="Modules.Signatures.Signature.html#rep_disp"><span class="id" title="definition">rep_disp</span></a> <span class="id" title="var">_</span>) (<a class="idref" href="Modules.Signatures.Signature.html#rep_cleaving"><span class="id" title="lemma">rep_cleaving</span></a> <span class="id" title="var">_</span>) <a class="idref" href="Modules.Signatures.Modularity.html#init.repr_R2"><span class="id" title="variable">repr_R2</span></a> <a class="idref" href="Modules.Signatures.Modularity.html#init.g2"><span class="id" title="variable">g2</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a name="init.eq_ff"><span class="id" title="variable">eq_ff</span></a> : <a class="idref" href="Modules.Signatures.Modularity.html#TT"><span class="id" title="abbreviation">TT</span></a> <a class="idref" href="Modules.Signatures.Modularity.html#init.ff1"><span class="id" title="variable">ff1</span></a> <span class="id" title="notation">·</span> <a class="idref" href="Modules.Signatures.Modularity.html#TT"><span class="id" title="abbreviation">TT</span></a> <a class="idref" href="Modules.Signatures.Modularity.html#init.gg1"><span class="id" title="variable">gg1</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Modules.Signatures.Modularity.html#TT"><span class="id" title="abbreviation">TT</span></a> <a class="idref" href="Modules.Signatures.Modularity.html#init.ff2"><span class="id" title="variable">ff2</span></a> <span class="id" title="notation">·</span> <a class="idref" href="Modules.Signatures.Modularity.html#TT"><span class="id" title="abbreviation">TT</span></a> <a class="idref" href="Modules.Signatures.Modularity.html#init.gg2"><span class="id" title="variable">gg2</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">total2_paths2_b</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="Modules.Signatures.Modularity.html#init.heq"><span class="id" title="variable">heq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="var">etrans</span>; [ <span class="id" title="tactic">apply</span> (<a class="idref" href="Modules.Prelims.FibrationInitialPushout.html#disp_InitialArrowUnique"><span class="id" title="lemma">disp_InitialArrowUnique</span></a> <span class="id" title="var">_</span> (<a class="idref" href="Modules.Signatures.Signature.html#rep_cleaving"><span class="id" title="lemma">rep_cleaving</span></a> <span class="id" title="var">_</span>) <a class="idref" href="Modules.Signatures.Modularity.html#init.repr_R0"><span class="id" title="variable">repr_R0</span></a>) | ].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<a class="idref" href="Modules.Prelims.FibrationInitialPushout.html#disp_InitialArrowUnique"><span class="id" title="lemma">disp_InitialArrowUnique</span></a> <span class="id" title="var">_</span> (<a class="idref" href="Modules.Signatures.Signature.html#rep_cleaving"><span class="id" title="lemma">rep_cleaving</span></a> <span class="id" title="var">_</span>) <a class="idref" href="Modules.Signatures.Modularity.html#init.repr_R0"><span class="id" title="variable">repr_R0</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="pushout_in_big_rep"><span class="id" title="definition">pushout_in_big_rep</span></a> : <span class="id" title="definition">isPushout</span> (<a class="idref" href="Modules.Signatures.Modularity.html#TT"><span class="id" title="abbreviation">TT</span></a> <a class="idref" href="Modules.Signatures.Modularity.html#init.ff1"><span class="id" title="variable">ff1</span></a>)(<a class="idref" href="Modules.Signatures.Modularity.html#TT"><span class="id" title="abbreviation">TT</span></a> <a class="idref" href="Modules.Signatures.Modularity.html#init.ff2"><span class="id" title="variable">ff2</span></a>)(<a class="idref" href="Modules.Signatures.Modularity.html#TT"><span class="id" title="abbreviation">TT</span></a> <a class="idref" href="Modules.Signatures.Modularity.html#init.gg1"><span class="id" title="variable">gg1</span></a>)(<a class="idref" href="Modules.Signatures.Modularity.html#TT"><span class="id" title="abbreviation">TT</span></a> <a class="idref" href="Modules.Signatures.Modularity.html#init.gg2"><span class="id" title="variable">gg2</span></a>) <a class="idref" href="Modules.Signatures.Modularity.html#init.eq_ff"><span class="id" title="variable">eq_ff</span></a> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Prelims.FibrationInitialPushout.html#pushout_total"><span class="id" title="lemma">pushout_total</span></a> (<a class="idref" href="Modules.Signatures.Signature.html#rep_disp"><span class="id" title="definition">rep_disp</span></a> <a class="idref" href="Modules.Signatures.Modularity.html#init.C"><span class="id" title="variable">C</span></a>) (<a class="idref" href="Modules.Signatures.Signature.html#rep_cleaving"><span class="id" title="lemma">rep_cleaving</span></a> <span class="id" title="var">_</span>) <a class="idref" href="Modules.Signatures.Modularity.html#init.ff1"><span class="id" title="variable">ff1</span></a> <a class="idref" href="Modules.Signatures.Modularity.html#init.ff2"><span class="id" title="variable">ff2</span></a> <a class="idref" href="Modules.Signatures.Modularity.html#init.gg1"><span class="id" title="variable">gg1</span></a> <a class="idref" href="Modules.Signatures.Modularity.html#init.gg2"><span class="id" title="variable">gg2</span></a> <a class="idref" href="Modules.Signatures.Modularity.html#init.repr_R1"><span class="id" title="variable">repr_R1</span></a> <a class="idref" href="Modules.Signatures.Modularity.html#init.repr_R2"><span class="id" title="variable">repr_R2</span></a> <a class="idref" href="Modules.Signatures.Modularity.html#init.repr_R'"><span class="id" title="variable">repr_R'</span></a> <a class="idref" href="Modules.Signatures.Modularity.html#init.poC"><span class="id" title="variable">poC</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Modules.Signatures.Modularity.html#init"><span class="id" title="section">init</span></a>.<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

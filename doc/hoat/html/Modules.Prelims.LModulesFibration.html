@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>Modules.Prelims.LModulesFibration</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Modules.Prelims.LModulesFibration</h1>
+
+<div class="code">
+</div>
+
+<div class="doc">
+
+<div class="paragraph"> </div>
+
+<ul class="doclist">
+<li> displayed categories of modules over a monad 
+
+</li>
+<li> proof that it is a fibration
+
+</li>
+</ul>
+
+<div class="paragraph"> </div>
+
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.PartD</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.Propositions</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.Sets</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Core.Prelude</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monads.Monads</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monads.LModules</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Auxiliary</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Core</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Fibrations</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">cat</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The pullback module/morphism construction allow to construct a large category of modules over monads
+where objects are pairs (Monad, Module over this monad).
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Section</span> <a name="LargeCatMod"><span class="id" title="section">LargeCatMod</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Context</span> (<span class="id" title="var">C</span>: <span class="id" title="definition">category</span>).<br/>
+<span class="id" title="keyword">Context</span> (<span class="id" title="var">D</span>:<span class="id" title="definition">category</span>).<br/>
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="MONAD"><span class="id" title="abbreviation">MONAD</span></a> := (<span class="id" title="definition">category_Monad</span> <a class="idref" href="Modules.Prelims.LModulesFibration.html#LargeCatMod.C"><span class="id" title="variable">C</span></a>).<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="MODULE"><span class="id" title="abbreviation">MODULE</span></a> <span class="id" title="var">R</span> := (<span class="id" title="definition">category_LModule</span> <span class="id" title="var">R</span> <a class="idref" href="Modules.Prelims.LModulesFibration.html#LargeCatMod.D"><span class="id" title="variable">D</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="bmod_disp_ob_mor"><span class="id" title="definition">bmod_disp_ob_mor</span></a> : <span class="id" title="definition">disp_cat_ob_mor</span> <a class="idref" href="Modules.Prelims.LModulesFibration.html#MONAD"><span class="id" title="abbreviation">MONAD</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">exists</span> (<span class="id" title="keyword">fun</span> <span class="id" title="var">R</span> : <a class="idref" href="Modules.Prelims.LModulesFibration.html#MONAD"><span class="id" title="abbreviation">MONAD</span></a> =&gt; <span class="id" title="definition">ob</span> (<a class="idref" href="Modules.Prelims.LModulesFibration.html#MODULE"><span class="id" title="abbreviation">MODULE</span></a> <a class="idref" href="Modules.Prelims.LModulesFibration.html#R"><span class="id" title="variable">R</span></a>)).<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">xx'</span> <span class="id" title="var">yy'</span> <span class="id" title="var">g</span> <span class="id" title="var">h</span> <span class="id" title="var">ff'</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="definition">precategory_morphisms</span>  <span class="id" title="var">g</span> ( <span class="id" title="definition">pb_LModule</span>  <span class="id" title="var">ff'</span>  <span class="id" title="var">h</span> )).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="bmod_id_comp"><span class="id" title="definition">bmod_id_comp</span></a> : <span class="id" title="definition">disp_cat_id_comp</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.Prelims.LModulesFibration.html#bmod_disp_ob_mor"><span class="id" title="definition">bmod_disp_ob_mor</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">x</span> <span class="id" title="var">xx</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pb_LModule_id_iso</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> <span class="id" title="var">z</span> <span class="id" title="var">f</span> <span class="id" title="var">g</span> <span class="id" title="var">xx</span> <span class="id" title="var">yy</span> <span class="id" title="var">zz</span> <span class="id" title="var">ff</span> <span class="id" title="var">gg</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">pbm_g</span> := <span class="id" title="definition">pb_LModule_Mor</span> <span class="id" title="var">f</span> <span class="id" title="var">gg</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">pbm_gf</span> := (<span class="id" title="definition">LModule_composition</span> <span class="id" title="var">_</span> <span class="id" title="var">pbm_g</span> (<span class="id" title="definition">morphism_from_iso</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>(<span class="id" title="definition">pb_LModule_comp_iso</span> <span class="id" title="var">f</span> <span class="id" title="var">g</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>)))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">simpl</span> <span class="id" title="tactic">in</span> <span class="id" title="var">ff</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="definition">compose</span> (<span class="id" title="var">C</span>:=<span class="id" title="definition">category_LModule</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> ) <span class="id" title="var">ff</span> <span class="id" title="var">pbm_gf</span>).<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="bmod_data"><span class="id" title="definition">bmod_data</span></a> : <span class="id" title="definition">disp_cat_data</span> <span class="id" title="var">_</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= (<a class="idref" href="Modules.Prelims.LModulesFibration.html#bmod_disp_ob_mor"><span class="id" title="definition">bmod_disp_ob_mor</span></a> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Prelims.LModulesFibration.html#bmod_id_comp"><span class="id" title="definition">bmod_id_comp</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="bmod_transport"><span class="id" title="lemma">bmod_transport</span></a> (<span class="id" title="var">x</span> <span class="id" title="var">y</span> : <a class="idref" href="Modules.Prelims.LModulesFibration.html#MONAD"><span class="id" title="abbreviation">MONAD</span></a>) (<span class="id" title="var">f</span> <span class="id" title="var">g</span> : <a class="idref" href="Modules.Prelims.LModulesFibration.html#MONAD"><span class="id" title="abbreviation">MONAD</span></a> <span class="id" title="notation">⟦</span> <a class="idref" href="Modules.Prelims.LModulesFibration.html#x"><span class="id" title="variable">x</span></a><span class="id" title="notation">,</span> <a class="idref" href="Modules.Prelims.LModulesFibration.html#y"><span class="id" title="variable">y</span></a> <span class="id" title="notation">⟧</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">e</span> : <a class="idref" href="Modules.Prelims.LModulesFibration.html#f"><span class="id" title="variable">f</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Modules.Prelims.LModulesFibration.html#g"><span class="id" title="variable">g</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">xx</span> : <a class="idref" href="Modules.Prelims.LModulesFibration.html#bmod_data"><span class="id" title="definition">bmod_data</span></a> <a class="idref" href="Modules.Prelims.LModulesFibration.html#x"><span class="id" title="variable">x</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">yy</span> : <span class="id" title="projection">pr1</span> <a class="idref" href="Modules.Prelims.LModulesFibration.html#bmod_data"><span class="id" title="definition">bmod_data</span></a> <a class="idref" href="Modules.Prelims.LModulesFibration.html#y"><span class="id" title="variable">y</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">ff</span> : <a class="idref" href="Modules.Prelims.LModulesFibration.html#xx"><span class="id" title="variable">xx</span></a> <span class="id" title="notation">--&gt;[</span> <a class="idref" href="Modules.Prelims.LModulesFibration.html#f"><span class="id" title="variable">f</span></a><span class="id" title="notation">]</span> <a class="idref" href="Modules.Prelims.LModulesFibration.html#yy"><span class="id" title="variable">yy</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">c</span> : <a class="idref" href="Modules.Prelims.LModulesFibration.html#LargeCatMod.C"><span class="id" title="variable">C</span></a>) : (<span class="id" title="projection">pr1</span> (<span class="id" title="definition">transportf</span> (<span class="id" title="definition">mor_disp</span> <a class="idref" href="Modules.Prelims.LModulesFibration.html#xx"><span class="id" title="variable">xx</span></a> <a class="idref" href="Modules.Prelims.LModulesFibration.html#yy"><span class="id" title="variable">yy</span></a>) <a class="idref" href="Modules.Prelims.LModulesFibration.html#e"><span class="id" title="variable">e</span></a> <a class="idref" href="Modules.Prelims.LModulesFibration.html#ff"><span class="id" title="variable">ff</span></a>) <a class="idref" href="Modules.Prelims.LModulesFibration.html#c"><span class="id" title="variable">c</span></a> <span class="id" title="notation">=</span> <span class="id" title="projection">pr1</span> <a class="idref" href="Modules.Prelims.LModulesFibration.html#ff"><span class="id" title="variable">ff</span></a> <a class="idref" href="Modules.Prelims.LModulesFibration.html#c"><span class="id" title="variable">c</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">e</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="bmod_axioms"><span class="id" title="lemma">bmod_axioms</span></a> : <span class="id" title="definition">disp_cat_axioms</span> <a class="idref" href="Modules.Prelims.LModulesFibration.html#MONAD"><span class="id" title="abbreviation">MONAD</span></a> <a class="idref" href="Modules.Prelims.LModulesFibration.html#bmod_data"><span class="id" title="definition">bmod_data</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> <span class="id" title="tactic">apply</span> <span class="id" title="constructor">tpair</span>; <span class="id" title="tactic">intros</span>; <span class="id" title="tactic">try</span> <span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <span class="id" title="definition">id_disp</span>; <span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="definition">invmap</span> ((@<span class="id" title="definition">LModule_Mor_equiv</span> <span class="id" title="var">_</span> <span class="id" title="var">x</span> <span class="id" title="var">_</span> (<span class="id" title="definition">homset_property</span> <a class="idref" href="Modules.Prelims.LModulesFibration.html#LargeCatMod.D"><span class="id" title="variable">D</span></a>) <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>  ))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">nat_trans_eq</span>; <span class="id" title="tactic">try</span> <span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">c</span>; <span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="definition">assoc</span>; <span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>; [<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.LModulesFibration.html#bmod_transport"><span class="id" title="lemma">bmod_transport</span></a> |].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="definition">id_right</span>,<span class="id" title="definition">id_left</span>; <span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">set</span> (<span class="id" title="var">heqf</span> := <span class="id" title="definition">id_right</span> <span class="id" title="var">f</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="definition">invmap</span> ((@<span class="id" title="definition">LModule_Mor_equiv</span> <span class="id" title="var">_</span> <span class="id" title="var">x</span> <span class="id" title="var">_</span> (<span class="id" title="definition">homset_property</span> <a class="idref" href="Modules.Prelims.LModulesFibration.html#LargeCatMod.D"><span class="id" title="variable">D</span></a>) <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>  ))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">nat_trans_eq</span>; <span class="id" title="tactic">try</span> <span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">c</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="definition">id_right</span>,<span class="id" title="definition">id_right</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">revert</span> <span class="id" title="var">ff</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">induction</span> (<span class="id" title="var">heqf</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span>; <span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">set</span> (<span class="id" title="var">heqf</span>:= <span class="id" title="definition">assoc</span> <span class="id" title="var">f</span> <span class="id" title="var">g</span> <span class="id" title="var">h</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="definition">invmap</span> ((@<span class="id" title="definition">LModule_Mor_equiv</span> <span class="id" title="var">_</span> <span class="id" title="var">x</span> <span class="id" title="var">_</span> (<span class="id" title="definition">homset_property</span> <a class="idref" href="Modules.Prelims.LModulesFibration.html#LargeCatMod.D"><span class="id" title="variable">D</span></a>) <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>  ))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">nat_trans_eq</span>; <span class="id" title="tactic">try</span> <span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">c</span>; <span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>; [ <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.LModulesFibration.html#bmod_transport"><span class="id" title="lemma">bmod_transport</span></a> |].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> <span class="id" title="tactic">rewrite</span> <span class="id" title="definition">id_right</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>, <span class="id" title="definition">assoc</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="bmod_disp"><span class="id" title="definition">bmod_disp</span></a> : <span class="id" title="definition">disp_cat</span> <a class="idref" href="Modules.Prelims.LModulesFibration.html#MONAD"><span class="id" title="abbreviation">MONAD</span></a> := (<a class="idref" href="Modules.Prelims.LModulesFibration.html#bmod_data"><span class="id" title="definition">bmod_data</span></a> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Prelims.LModulesFibration.html#bmod_axioms"><span class="id" title="lemma">bmod_axioms</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="cleaving_bmod"><span class="id" title="definition">cleaving_bmod</span></a> : <span class="id" title="definition">cleaving</span> <a class="idref" href="Modules.Prelims.LModulesFibration.html#bmod_disp"><span class="id" title="definition">bmod_disp</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">R</span> <span class="id" title="var">R'</span> <span class="id" title="var">f</span> <span class="id" title="var">M</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="constructor">tpair</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="var">cbn</span> <span class="id" title="tactic">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="definition">pb_LModule</span> <span class="id" title="var">f</span> <span class="id" title="var">M</span>).<br/>
+&nbsp;&nbsp;- <span class="id" title="var">use</span> <span class="id" title="constructor">tpair</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">exact</span> (<span class="id" title="definition">LModule_identity</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> ).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">intros</span> <span class="id" title="var">R''</span> <span class="id" title="var">f'</span> <span class="id" title="var">M''</span> <span class="id" title="var">a</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span> <span class="id" title="tactic">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">unique_exists</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id" title="var">use</span> (<span class="id" title="definition">LModule_composition</span> <span class="id" title="var">R''</span> <span class="id" title="var">a</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> ( <span class="id" title="definition">inv_from_iso</span> (<span class="id" title="definition">pb_LModule_comp_iso</span> (<span class="id" title="var">C</span> := <a class="idref" href="Modules.Prelims.LModulesFibration.html#LargeCatMod.D"><span class="id" title="variable">D</span></a>) <span class="id" title="var">f'</span> <span class="id" title="var">f</span> <span class="id" title="var">M</span> <span class="id" title="var">_</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id" title="tactic">hnf</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="definition">invmap</span> ((@<span class="id" title="definition">LModule_Mor_equiv</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>  <span class="id" title="var">_</span> (<span class="id" title="definition">homset_property</span> <a class="idref" href="Modules.Prelims.LModulesFibration.html#LargeCatMod.D"><span class="id" title="variable">D</span></a>) <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>  ))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">nat_trans_eq</span>. { <span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>. }<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">c</span>. <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> <span class="id" title="tactic">rewrite</span> <span class="id" title="definition">id_right</span>. <span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id" title="tactic">intro</span> <span class="id" title="var">s</span>. <span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">has_homsets_LModule</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id" title="tactic">intros</span> <span class="id" title="var">s</span> <span class="id" title="var">Hs</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">hnf</span> <span class="id" title="tactic">in</span> <span class="id" title="var">Hs</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="definition">invmap</span> ((@<span class="id" title="definition">LModule_Mor_equiv</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>  <span class="id" title="var">_</span> (<span class="id" title="definition">homset_property</span> <a class="idref" href="Modules.Prelims.LModulesFibration.html#LargeCatMod.D"><span class="id" title="variable">D</span></a>) <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>  ))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">nat_trans_eq</span>. { <span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>. }<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">c</span>. <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (((@<span class="id" title="definition">LModule_Mor_equiv</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>  <span class="id" title="var">_</span> (<span class="id" title="definition">homset_property</span> <a class="idref" href="Modules.Prelims.LModulesFibration.html#LargeCatMod.D"><span class="id" title="variable">D</span></a>) <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>  ))) <span class="id" title="tactic">in</span> <span class="id" title="var">Hs</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">XR</span> := <span class="id" title="definition">nat_trans_eq_pointwise</span> <span class="id" title="var">Hs</span> <span class="id" title="var">c</span>). <span class="id" title="var">cbn</span> <span class="id" title="tactic">in</span> <span class="id" title="var">XR</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> <span class="id" title="tactic">rewrite</span> <span class="id" title="definition">id_right</span> <span class="id" title="tactic">in</span> <span class="id" title="var">XR</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> <span class="id" title="tactic">rewrite</span> <span class="id" title="definition">id_right</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">XR</span>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Modules.Prelims.LModulesFibration.html#LargeCatMod"><span class="id" title="section">LargeCatMod</span></a>.<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

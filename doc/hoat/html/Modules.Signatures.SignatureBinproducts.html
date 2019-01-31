@@ -1,0 +1,283 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>Modules.Signatures.SignatureBinproducts</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Modules.Signatures.SignatureBinproducts</h1>
+
+<div class="code">
+</div>
+
+<div class="doc">
+BinProducts of  arities using LModulesBinProducts
+(inspired by SignatureCoproduct
+pullback binproducts
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.PartD</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.Propositions</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.Sets</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Core.Prelude</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.FunctorCategory</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monads.Monads</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monads.LModules</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Auxiliary</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Core</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Constructions</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.binproducts</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.graphs.colimits</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.lib.html#"><span class="id" title="library">Modules.Prelims.lib</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.LModulesBinProducts.html#"><span class="id" title="library">Modules.Prelims.LModulesBinProducts</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.Signature.html#"><span class="id" title="library">Modules.Signatures.Signature</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Section</span> <a name="Binprod"><span class="id" title="section">Binprod</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> {<span class="id" title="var">C</span> : <span class="id" title="definition">category</span>} .<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> {<span class="id" title="var">cpC</span> : <span class="id" title="definition">BinProducts</span>  <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.C"><span class="id" title="variable">C</span></a>}.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="hsC"><span class="id" title="abbreviation">hsC</span></a> := (<span class="id" title="definition">homset_property</span> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.C"><span class="id" title="variable">C</span></a>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="Signature"><span class="id" title="abbreviation">Signature</span></a> := (<a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.C"><span class="id" title="variable">C</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="MOD"><span class="id" title="abbreviation">MOD</span></a> <span class="id" title="var">R</span> := (<span class="id" title="definition">precategory_LModule</span> <span class="id" title="var">R</span> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.C"><span class="id" title="variable">C</span></a>).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a name="Binprod.cpLM"><span class="id" title="variable">cpLM</span></a> (<span class="id" title="var">X</span> : <span class="id" title="definition">Monad</span> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.C"><span class="id" title="variable">C</span></a>) := <a class="idref" href="Modules.Prelims.LModulesBinProducts.html#LModule_BinProducts"><span class="id" title="definition">LModule_BinProducts</span></a>   <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#X"><span class="id" title="variable">X</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.cpC"><span class="id" title="variable">cpC</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#hsC"><span class="id" title="abbreviation">hsC</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a name="Binprod.cpFunc"><span class="id" title="variable">cpFunc</span></a> := <span class="id" title="definition">BinProducts_functor_precat</span>  <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.C"><span class="id" title="variable">C</span></a> <span class="id" title="var">_</span> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.cpC"><span class="id" title="variable">cpC</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#hsC"><span class="id" title="abbreviation">hsC</span></a> .<br/>
+
+<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Context</span> (<span class="id" title="var">a</span> <span class="id" title="var">b</span> : <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Signature"><span class="id" title="abbreviation">Signature</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="BPO"><span class="id" title="abbreviation">BPO</span></a> := (<span class="id" title="definition">BinProductObject</span> <span class="id" title="var">_</span> ).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="signature_BinProduct_on_objects"><span class="id" title="definition">signature_BinProduct_on_objects</span></a> (<span class="id" title="var">R</span> : <span class="id" title="definition">Monad</span> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.C"><span class="id" title="variable">C</span></a>) : <span class="id" title="definition">LModule</span> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.C"><span class="id" title="variable">C</span></a> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.SignatureBinproducts.html#BPO"><span class="id" title="abbreviation">BPO</span></a> (<a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.cpLM"><span class="id" title="variable">cpLM</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#R"><span class="id" title="variable">R</span></a> (<a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.a"><span class="id" title="variable">a</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#R"><span class="id" title="variable">R</span></a>) (<a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.b"><span class="id" title="variable">b</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#R"><span class="id" title="variable">R</span></a>)).<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Let</span> <a name="Binprod.ab"><span class="id" title="variable">ab</span></a> := <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#signature_BinProduct_on_objects"><span class="id" title="definition">signature_BinProduct_on_objects</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="signature_BinProduct_on_morphisms"><span class="id" title="definition">signature_BinProduct_on_morphisms</span></a> (<span class="id" title="var">R</span> <span class="id" title="var">S</span> : <span class="id" title="definition">Monad</span> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.C"><span class="id" title="variable">C</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">f</span> : <span class="id" title="definition">Monad_Mor</span> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#S"><span class="id" title="variable">S</span></a>) : <span class="id" title="definition">LModule_Mor</span> <span class="id" title="var">_</span> (<a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.ab"><span class="id" title="variable">ab</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#R"><span class="id" title="variable">R</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="definition">pb_LModule</span> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#f"><span class="id" title="variable">f</span></a> (<a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.ab"><span class="id" title="variable">ab</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#S"><span class="id" title="variable">S</span></a>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> (<span class="id" title="definition">compose</span> (<span class="id" title="var">C</span> := (<a class="idref" href="Modules.Signatures.SignatureBinproducts.html#MOD"><span class="id" title="abbreviation">MOD</span></a> <span class="id" title="var">_</span>))); <span class="id" title="var">revgoals</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.LModulesBinProducts.html#binprod_pbm_to_pbm_binprod"><span class="id" title="definition">binprod_pbm_to_pbm_binprod</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">apply</span>  (<span class="id" title="definition">BinProductOfArrows</span> <span class="id" title="var">_</span>  (<a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.cpLM"><span class="id" title="variable">cpLM</span></a> <span class="id" title="var">R</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) (<a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.cpLM"><span class="id" title="variable">cpLM</span></a> <span class="id" title="var">R</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> ((<a class="idref" href="Modules.Signatures.Signature.html#291389361d487de917b722c0b1fff482"><span class="id" title="notation">#</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.a"><span class="id" title="variable">a</span></a> <span class="id" title="var">f</span>)%<span class="id" title="var">ar</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> ((<a class="idref" href="Modules.Signatures.Signature.html#291389361d487de917b722c0b1fff482"><span class="id" title="notation">#</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.b"><span class="id" title="variable">b</span></a> <span class="id" title="var">f</span>)%<span class="id" title="var">ar</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="signature_binProd_data"><span class="id" title="definition">signature_binProd_data</span></a> : @<a class="idref" href="Modules.Signatures.Signature.html#signature_data"><span class="id" title="definition">signature_data</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.C"><span class="id" title="variable">C</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#signature_BinProduct_on_objects"><span class="id" title="definition">signature_BinProduct_on_objects</span></a> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#signature_BinProduct_on_morphisms"><span class="id" title="definition">signature_BinProduct_on_morphisms</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="signature_binProd_is_signature"><span class="id" title="lemma">signature_binProd_is_signature</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#is_signature"><span class="id" title="definition">is_signature</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#signature_binProd_data"><span class="id" title="definition">signature_binProd_data</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">R</span> <span class="id" title="var">c</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>  -[<span class="id" title="var">BinProductOfArrows</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="definition">id_right</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">BinProductArrowUnique</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="var">etrans</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="definition">id_left</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[|<span class="id" title="tactic">apply</span> <span class="id" title="definition">id_right</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_precomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.Signature.html#signature_id"><span class="id" title="definition">signature_id</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="var">etrans</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="definition">id_left</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[|<span class="id" title="tactic">apply</span> <span class="id" title="definition">id_right</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_precomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.Signature.html#signature_id"><span class="id" title="definition">signature_id</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">R</span> <span class="id" title="var">S</span> <span class="id" title="var">T</span> <span class="id" title="var">f</span> <span class="id" title="var">g</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">LModule_Mor_equiv</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ <span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>. }<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">nat_trans_eq</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>  -[<span class="id" title="var">BinProductOfArrows</span> ].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">repeat</span>  <span class="id" title="tactic">rewrite</span> <span class="id" title="definition">id_right</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>; [<span class="id" title="tactic">apply</span> <span class="id" title="definition">BinProductOfArrows_comp</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">BinProductOfArrows_eq</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">assert</span> (<span class="id" title="var">h</span> := <a class="idref" href="Modules.Signatures.Signature.html#signature_comp"><span class="id" title="definition">signature_comp</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.a"><span class="id" title="variable">a</span></a> <span class="id" title="var">f</span> <span class="id" title="var">g</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">LModule_Mor_equiv</span> <span class="id" title="tactic">in</span> <span class="id" title="var">h</span>;[|<span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> <span class="id" title="definition">nat_trans_eq_pointwise</span> <span class="id" title="tactic">in</span> <span class="id" title="var">h</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[<span class="id" title="tactic">eapply</span> <span class="id" title="var">h</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="definition">id_right</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">assert</span> (<span class="id" title="var">h</span> := <a class="idref" href="Modules.Signatures.Signature.html#signature_comp"><span class="id" title="definition">signature_comp</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.b"><span class="id" title="variable">b</span></a> <span class="id" title="var">f</span> <span class="id" title="var">g</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">LModule_Mor_equiv</span> <span class="id" title="tactic">in</span> <span class="id" title="var">h</span>;[|<span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> <span class="id" title="definition">nat_trans_eq_pointwise</span> <span class="id" title="tactic">in</span> <span class="id" title="var">h</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[<span class="id" title="tactic">eapply</span> <span class="id" title="var">h</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="definition">id_right</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="signature_binProd"><span class="id" title="definition">signature_binProd</span></a> : <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Signature"><span class="id" title="abbreviation">Signature</span></a> := <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#signature_binProd_is_signature"><span class="id" title="lemma">signature_binProd_is_signature</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="signature_binProductPr1_laws"><span class="id" title="lemma">signature_binProductPr1_laws</span></a> : <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.Signature.html#is_signature_Mor"><span class="id" title="definition">is_signature_Mor</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#signature_binProd"><span class="id" title="definition">signature_binProd</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.a"><span class="id" title="variable">a</span></a> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">fun</span> <span class="id" title="var">R</span> =&gt; <span class="id" title="definition">BinProductPr1</span>  <span class="id" title="var">_</span>  (<a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.cpLM"><span class="id" title="variable">cpLM</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#R"><span class="id" title="variable">R</span></a> (<a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.a"><span class="id" title="variable">a</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#R"><span class="id" title="variable">R</span></a>) (<a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.b"><span class="id" title="variable">b</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#R"><span class="id" title="variable">R</span></a>)   )).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">R</span> <span class="id" title="var">S</span> <span class="id" title="var">f</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">nat_trans_eq</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span> -[<span class="id" title="var">BinProductPr1</span> <span class="id" title="var">BinProductOfArrows</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="definition">id_right</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <span class="id" title="definition">binproduct_nat_trans_pr1_data</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">CC</span> := <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.cpC"><span class="id" title="variable">cpC</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> (<span class="id" title="lemma">BinProductOfArrowsPr1</span> <span class="id" title="var">_</span>  <span class="id" title="var">CC</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="signature_binProductPr2_laws"><span class="id" title="lemma">signature_binProductPr2_laws</span></a> : <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.Signature.html#is_signature_Mor"><span class="id" title="definition">is_signature_Mor</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#signature_binProd"><span class="id" title="definition">signature_binProd</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.b"><span class="id" title="variable">b</span></a> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">fun</span> <span class="id" title="var">R</span> =&gt; <span class="id" title="definition">BinProductPr2</span>  <span class="id" title="var">_</span>  (<a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.cpLM"><span class="id" title="variable">cpLM</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#R"><span class="id" title="variable">R</span></a> (<a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.a"><span class="id" title="variable">a</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#R"><span class="id" title="variable">R</span></a>) (<a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.b"><span class="id" title="variable">b</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#R"><span class="id" title="variable">R</span></a>)   )).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">R</span> <span class="id" title="var">S</span> <span class="id" title="var">f</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">nat_trans_eq</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span> -[<span class="id" title="var">BinProductPr2</span> <span class="id" title="var">BinProductOfArrows</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="definition">id_right</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <span class="id" title="definition">binproduct_nat_trans_pr2_data</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">CC</span> := <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.cpC"><span class="id" title="variable">cpC</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> (<span class="id" title="lemma">BinProductOfArrowsPr2</span> <span class="id" title="var">_</span>  <span class="id" title="var">CC</span>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="signature_binProductPr1"><span class="id" title="definition">signature_binProductPr1</span></a> : <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.Signature.html#signature_Mor"><span class="id" title="definition">signature_Mor</span></a>  <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#signature_binProd"><span class="id" title="definition">signature_binProd</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.a"><span class="id" title="variable">a</span></a> := <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#signature_binProductPr1_laws"><span class="id" title="lemma">signature_binProductPr1_laws</span></a> .<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="signature_binProductPr2"><span class="id" title="definition">signature_binProductPr2</span></a> : <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.Signature.html#signature_Mor"><span class="id" title="definition">signature_Mor</span></a>  <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#signature_binProd"><span class="id" title="definition">signature_binProd</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.b"><span class="id" title="variable">b</span></a> := <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#signature_binProductPr2_laws"><span class="id" title="lemma">signature_binProductPr2_laws</span></a> .<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="signature_binProductArrow_laws"><span class="id" title="definition">signature_binProductArrow_laws</span></a> {<span class="id" title="var">c</span> : <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Signature"><span class="id" title="abbreviation">Signature</span></a>} (<span class="id" title="var">ca</span> :  <a class="idref" href="Modules.Signatures.Signature.html#signature_Mor"><span class="id" title="definition">signature_Mor</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#c"><span class="id" title="variable">c</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.a"><span class="id" title="variable">a</span></a> )<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">cb</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature_Mor"><span class="id" title="definition">signature_Mor</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#c"><span class="id" title="variable">c</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.b"><span class="id" title="variable">b</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.Signature.html#is_signature_Mor"><span class="id" title="definition">is_signature_Mor</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.SignatureBinproducts.html#c"><span class="id" title="variable">c</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#signature_binProd"><span class="id" title="definition">signature_binProd</span></a> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">fun</span> <span class="id" title="var">R</span> =&gt; <span class="id" title="definition">BinProductArrow</span>  <span class="id" title="var">_</span>  (<a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.cpLM"><span class="id" title="variable">cpLM</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#R"><span class="id" title="variable">R</span></a> (<a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.a"><span class="id" title="variable">a</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#R"><span class="id" title="variable">R</span></a>) (<a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.b"><span class="id" title="variable">b</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#R"><span class="id" title="variable">R</span></a>)) (<a class="idref" href="Modules.Signatures.SignatureBinproducts.html#ca"><span class="id" title="variable">ca</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#R"><span class="id" title="variable">R</span></a>) (<a class="idref" href="Modules.Signatures.SignatureBinproducts.html#cb"><span class="id" title="variable">cb</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#R"><span class="id" title="variable">R</span></a>))  .<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">R</span> <span class="id" title="var">S</span> <span class="id" title="var">f</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">nat_trans_eq</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="definition">homset_property</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span> -[<span class="id" title="var">BinProductPr1</span> <span class="id" title="var">BinProductPr2</span> <span class="id" title="var">BinProductOfArrows</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="definition">id_right</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <span class="id" title="definition">binproduct_nat_trans_data</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>;[<span class="id" title="tactic">apply</span> <span class="id" title="lemma">postcompWithBinProductArrow</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">BinProductArrowUnique</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> &lt;- <span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_precomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">CC</span> := <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.cpC"><span class="id" title="variable">cpC</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">BinProductPr1Commutes</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">CC</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.Signature.html#signature_Mor_ax_pw"><span class="id" title="lemma">signature_Mor_ax_pw</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> &lt;- <span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_precomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">CC</span> := <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.cpC"><span class="id" title="variable">cpC</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">BinProductPr2Commutes</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">CC</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.Signature.html#signature_Mor_ax_pw"><span class="id" title="lemma">signature_Mor_ax_pw</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="signature_binProductArrow"><span class="id" title="definition">signature_binProductArrow</span></a> {<span class="id" title="var">c</span> : <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Signature"><span class="id" title="abbreviation">Signature</span></a>} (<span class="id" title="var">ca</span> :  <a class="idref" href="Modules.Signatures.Signature.html#signature_Mor"><span class="id" title="definition">signature_Mor</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#c"><span class="id" title="variable">c</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.a"><span class="id" title="variable">a</span></a> )<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">cb</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature_Mor"><span class="id" title="definition">signature_Mor</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#c"><span class="id" title="variable">c</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.b"><span class="id" title="variable">b</span></a>) : <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.Signature.html#signature_Mor"><span class="id" title="definition">signature_Mor</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#c"><span class="id" title="variable">c</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#signature_binProd"><span class="id" title="definition">signature_binProd</span></a>  := <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#signature_binProductArrow_laws"><span class="id" title="definition">signature_binProductArrow_laws</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#ca"><span class="id" title="variable">ca</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#cb"><span class="id" title="variable">cb</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a name="signature_isBinProduct"><span class="id" title="lemma">signature_isBinProduct</span></a> : <span class="id" title="definition">isBinProduct</span> <a class="idref" href="Modules.Signatures.Signature.html#signature_precategory"><span class="id" title="definition">signature_precategory</span></a>   <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.SignatureBinproducts.html#signature_binProductPr1"><span class="id" title="definition">signature_binProductPr1</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#signature_binProductPr2"><span class="id" title="definition">signature_binProductPr2</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">c</span> <span class="id" title="var">ca</span> <span class="id" title="var">cb</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="lemma">unique_exists</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Modules.Signatures.SignatureBinproducts.html#signature_binProductArrow"><span class="id" title="definition">signature_binProductArrow</span></a> <span class="id" title="var">ca</span> <span class="id" title="var">cb</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.Signature.html#signature_Mor_eq"><span class="id" title="lemma">signature_Mor_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">R</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">BinProductPr1Commutes</span>  (<a class="idref" href="Modules.Signatures.SignatureBinproducts.html#MOD"><span class="id" title="abbreviation">MOD</span></a> <span class="id" title="var">R</span>) <span class="id" title="var">_</span> <span class="id" title="var">_</span> (<a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.cpLM"><span class="id" title="variable">cpLM</span></a> <span class="id" title="var">R</span> (<a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.a"><span class="id" title="variable">a</span></a> <span class="id" title="var">R</span>) (<a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.b"><span class="id" title="variable">b</span></a> <span class="id" title="var">R</span>))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.Signature.html#signature_Mor_eq"><span class="id" title="lemma">signature_Mor_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">R</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">BinProductPr2Commutes</span>  (<a class="idref" href="Modules.Signatures.SignatureBinproducts.html#MOD"><span class="id" title="abbreviation">MOD</span></a> <span class="id" title="var">R</span>) <span class="id" title="var">_</span> <span class="id" title="var">_</span> (<a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.cpLM"><span class="id" title="variable">cpLM</span></a> <span class="id" title="var">R</span> (<a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.a"><span class="id" title="variable">a</span></a> <span class="id" title="var">R</span>) (<a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.b"><span class="id" title="variable">b</span></a> <span class="id" title="var">R</span>))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">y</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span> -[<span class="id" title="var">isaprop</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">isapropdirprod</span>; <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.Signature.html#signature_category_has_homsets"><span class="id" title="lemma">signature_category_has_homsets</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">y</span> [<span class="id" title="var">h1</span> <span class="id" title="var">h2</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.Signature.html#signature_Mor_eq"><span class="id" title="lemma">signature_Mor_eq</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">R</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">BinProductArrowUnique</span>   (<a class="idref" href="Modules.Signatures.SignatureBinproducts.html#MOD"><span class="id" title="abbreviation">MOD</span></a> <span class="id" title="var">R</span>) <span class="id" title="var">_</span> <span class="id" title="var">_</span> (<a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.cpLM"><span class="id" title="variable">cpLM</span></a> <span class="id" title="var">R</span> (<a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.a"><span class="id" title="variable">a</span></a> <span class="id" title="var">R</span>) (<a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.b"><span class="id" title="variable">b</span></a> <span class="id" title="var">R</span>))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">rewrite</span> &lt;- <span class="id" title="var">h1</span>. <span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">rewrite</span> &lt;- <span class="id" title="var">h2</span>. <span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a name="signature_BinProduct"><span class="id" title="definition">signature_BinProduct</span></a> : <span class="id" title="definition">BinProduct</span> <a class="idref" href="Modules.Signatures.Signature.html#signature_precategory"><span class="id" title="definition">signature_precategory</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.a"><span class="id" title="variable">a</span></a> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod.b"><span class="id" title="variable">b</span></a> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">mk_BinProduct</span>  <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#signature_isBinProduct"><span class="id" title="lemma">signature_isBinProduct</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#Binprod"><span class="id" title="section">Binprod</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="signature_BinProducts"><span class="id" title="definition">signature_BinProducts</span></a> {<span class="id" title="var">C</span> : <span class="id" title="definition">category</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">cpC</span> : <span class="id" title="definition">BinProducts</span> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#C"><span class="id" title="variable">C</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id" title="definition">BinProducts</span> (<a class="idref" href="Modules.Signatures.Signature.html#signature_precategory"><span class="id" title="definition">signature_precategory</span></a> (<span class="id" title="var">C</span> := <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#C"><span class="id" title="variable">C</span></a>)) :=<br/>
+&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.SignatureBinproducts.html#signature_BinProduct"><span class="id" title="definition">signature_BinProduct</span></a> (<span class="id" title="var">cpC</span> := <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#cpC"><span class="id" title="variable">cpC</span></a>).<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>
