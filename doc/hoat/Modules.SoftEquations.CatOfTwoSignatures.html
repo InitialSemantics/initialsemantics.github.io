@@ -43,6 +43,12 @@ The category of 2-signatures
 
 </li>
 <li> the forgetful functor from 2-models to 1-models  has a left adjoint <span class="inlinecode"><a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoMod_To_One_right_adjoint"><span class="id" title="definition">TwoMod_To_One_right_adjoint</span></a></span>
+
+</li>
+<li> isomorphism between the fiber category of models of a 2-signature and the full subcategory
+   of 1-models (based on the alternative direct definition rather than derived from the
+   displayed category) <span class="inlinecode"><a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#catiso_modelcat_eq"><span class="id" title="definition">catiso_modelcat_eq</span></a></span>.
+   The counterpart of this theorem for 1-signatures only can be found in Signatures/ModelCat
  
 </li>
 </ul>
@@ -77,6 +83,9 @@ The category of 2-signatures
 <span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.SoftEquations.Equation.html#"><span class="id" title="library">Modules.SoftEquations.Equation</span></a>.<br/>
 
 <br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Subcategory.Core</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Subcategory.Full</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.catiso</span>.<br/>
 <span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Auxiliary</span>.<br/>
 <span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Core</span>.<br/>
 <span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.DisplayedCats.Constructions</span>.<br/>
@@ -615,6 +624,64 @@ reflexivity thanks to primitive projections
 &nbsp;&nbsp;<span class="id" title="tactic">intro</span>.<br/>
 &nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">identity_is_iso</span>.<br/>
 <span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Isomorphism of category between the direct definition of category of
+2-models of a signature, and the defined as the fiber category of the
+ displayed category on the same signature.
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="MODEL_CAT"><span class="id" title="abbreviation">MODEL_CAT</span></a> <span class="id" title="var">S</span> := (<a class="idref" href="Modules.SoftEquations.Equation.html#precategory_model_equations"><span class="id" title="definition">precategory_model_equations</span></a> (<a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature_eqs"><span class="id" title="definition">TwoSignature_eqs</span></a> <span class="id" title="var">S</span>)).<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="FIBER_CAT"><span class="id" title="abbreviation">FIBER_CAT</span></a> <span class="id" title="var">S</span> := (<a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#two_model_disp"><span class="id" title="definition">two_model_disp</span></a> <span class="id" title="notation">[{</span><span class="id" title="var">S</span><span class="id" title="notation">}]</span>).<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="fib_to_dir_mor_weq"><span class="id" title="definition">fib_to_dir_mor_weq</span></a> {<span class="id" title="var">S</span> : <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature"><span class="id" title="definition">TwoSignature</span></a>} (<span class="id" title="var">R</span> <span class="id" title="var">R'</span> : <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#two_model"><span class="id" title="definition">two_model</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#S"><span class="id" title="variable">S</span></a>) :<br/>
+&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#FIBER_CAT"><span class="id" title="abbreviation">FIBER_CAT</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#S"><span class="id" title="variable">S</span></a> <span class="id" title="notation">⟦</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#R"><span class="id" title="variable">R</span></a> <span class="id" title="notation">,</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#R'"><span class="id" title="variable">R'</span></a> <span class="id" title="notation">⟧</span> <span class="id" title="notation">≃</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#MODEL_CAT"><span class="id" title="abbreviation">MODEL_CAT</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#S"><span class="id" title="variable">S</span></a>  <span class="id" title="notation">⟦</span>  <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#R"><span class="id" title="variable">R</span></a> <span class="id" title="notation">,</span>  <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#R'"><span class="id" title="variable">R'</span></a> <span class="id" title="notation">⟧</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> <span class="id" title="definition">weqcomp</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> (<a class="idref" href="Modules.Signatures.ModelCat.html#fib_to_dir_mor_weq"><span class="id" title="definition">fib_to_dir_mor_weq</span></a> <span class="id" title="var">S</span> (<span class="id" title="var">R</span> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <span class="id" title="var">_</span>) (<span class="id" title="var">R'</span> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <span class="id" title="var">_</span>)).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <span class="id" title="definition">invweq</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">assert</span> (<span class="id" title="var">h'</span> :=  (<span class="id" title="lemma">fully_faithful_sub_precategory_inclusion</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.Signatures.ModelCat.html#rep_fiber_category"><span class="id" title="definition">rep_fiber_category</span></a> <span class="id" title="var">S</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.SoftEquations.Equation.html#satisfies_all_equations_hp"><span class="id" title="definition">satisfies_all_equations_hp</span></a> (<a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature_eqs"><span class="id" title="definition">TwoSignature_eqs</span></a> <span class="id" title="var">S</span>)))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span>  <span class="id" title="definition">weq_from_fully_faithful</span> <span class="id" title="tactic">in</span> <span class="id" title="var">h'</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">h'</span>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="FSmor"><span class="id" title="abbreviation">FSmor</span></a> := (<a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#fib_to_dir_mor_weq"><span class="id" title="definition">fib_to_dir_mor_weq</span></a> ).<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="fib_to_dir_functor_data"><span class="id" title="definition">fib_to_dir_functor_data</span></a> <span class="id" title="var">S</span> : <span class="id" title="definition">functor_data</span> (<a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#FIBER_CAT"><span class="id" title="abbreviation">FIBER_CAT</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#S"><span class="id" title="variable">S</span></a>) (<a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#MODEL_CAT"><span class="id" title="abbreviation">MODEL_CAT</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#S"><span class="id" title="variable">S</span></a>) :=<br/>
+&nbsp;&nbsp;<span class="id" title="definition">functor_data_constr</span> (<a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#FIBER_CAT"><span class="id" title="abbreviation">FIBER_CAT</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#S"><span class="id" title="variable">S</span></a>)(<a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#MODEL_CAT"><span class="id" title="abbreviation">MODEL_CAT</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#S"><span class="id" title="variable">S</span></a>) (<span class="id" title="definition">idfun</span> <span class="id" title="var">_</span>)  <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#FSmor"><span class="id" title="abbreviation">FSmor</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="fib_to_dir_is_functor"><span class="id" title="lemma">fib_to_dir_is_functor</span></a> <span class="id" title="var">S</span> : <span class="id" title="definition">is_functor</span> (<a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#fib_to_dir_functor_data"><span class="id" title="definition">fib_to_dir_functor_data</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#S"><span class="id" title="variable">S</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">R</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> <span class="id" title="lemma">isweqonpathsincl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">faithful_sub_precategory_inclusion</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Modules.Signatures.ModelCat.html#rep_fiber_mor_eq_nt"><span class="id" title="lemma">rep_fiber_mor_eq_nt</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="tactic">intros</span> <span class="id" title="var">R</span> <span class="id" title="var">R'</span> <span class="id" title="var">T</span> <span class="id" title="var">f</span> <span class="id" title="var">g</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> <span class="id" title="lemma">isweqonpathsincl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">faithful_sub_precategory_inclusion</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.ModelCat.html#rep_fiber_mor_eq_nt"><span class="id" title="lemma">rep_fiber_mor_eq_nt</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">set</span> (<span class="id" title="var">e</span> := <span class="id" title="definition">id_right</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">e</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="abbreviation">idpath</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="catiso_modelcat_eq"><span class="id" title="definition">catiso_modelcat_eq</span></a> (<span class="id" title="var">S</span> : <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature"><span class="id" title="definition">TwoSignature</span></a>) : <br/>
+&nbsp;&nbsp;<span class="id" title="definition">catiso</span> (<a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#two_model_disp"><span class="id" title="definition">two_model_disp</span></a> <span class="id" title="notation">[{</span><a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#S"><span class="id" title="variable">S</span></a><span class="id" title="notation">}]</span>) (<a class="idref" href="Modules.SoftEquations.Equation.html#precategory_model_equations"><span class="id" title="definition">precategory_model_equations</span></a> (<a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSignature_eqs"><span class="id" title="definition">TwoSignature_eqs</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#S"><span class="id" title="variable">S</span></a>)) :=<br/>
+&nbsp;&nbsp;&nbsp;(<span class="id" title="definition">mk_functor</span> <span class="id" title="var">_</span> (<a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#fib_to_dir_is_functor"><span class="id" title="lemma">fib_to_dir_is_functor</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#S"><span class="id" title="variable">S</span></a>) <span class="id" title="notation">,,</span> <span class="id" title="notation">(</span><span class="id" title="notation">λ</span> <span class="id" title="var">x</span> <span class="id" title="var">y</span> : (<a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#FIBER_CAT"><span class="id" title="abbreviation">FIBER_CAT</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#S"><span class="id" title="variable">S</span></a><span class="id" title="notation">),</span> <span class="id" title="definition">weqproperty</span> (<a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#FSmor"><span class="id" title="abbreviation">FSmor</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#x"><span class="id" title="variable">x</span></a> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#y"><span class="id" title="variable">y</span></a>)<span class="id" title="notation">),,</span> <span class="id" title="lemma">idisweq</span> <span class="id" title="var">_</span>).<br/>
 
 <br/>
 <span class="id" title="keyword">End</span> <a class="idref" href="Modules.SoftEquations.CatOfTwoSignatures.html#TwoSig"><span class="id" title="section">TwoSig</span></a>.<br/>
