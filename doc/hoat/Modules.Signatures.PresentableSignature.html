@@ -115,7 +115,7 @@ We show that presentable signatures generate a syntax
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="lemma">CoproductsHSET</span> (<span class="id" title="definition">BindingSigIndex</span> <span class="id" title="var">sig</span>) (<span class="id" title="definition">BindingSigIsaset</span> <span class="id" title="var">sig</span>))).<br/>
 
 <br/>
-<span class="id" title="keyword">Lemma</span> <a name="PresentableisRepresentable"><span class="id" title="lemma">PresentableisRepresentable</span></a> <br/>
+<span class="id" title="keyword">Lemma</span> <a name="PresentableisEffective"><span class="id" title="lemma">PresentableisEffective</span></a> <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">a</span> : <a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <span class="id" title="notation">SET</span>} (<span class="id" title="var">p</span> : <a class="idref" href="Modules.Signatures.PresentableSignature.html#isPresentable"><span class="id" title="definition">isPresentable</span></a> (<span class="id" title="var">C</span> := <span class="id" title="notation">SET</span>) <span class="id" title="lemma">BinProductsHSET</span> <span class="id" title="lemma">BinCoproductsHSET</span> <span class="id" title="lemma">TerminalHSET</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">fun</span> <span class="id" title="var">i</span> =&gt; <span class="id" title="lemma">CoproductsHSET</span> <span class="id" title="var">_</span> (<span class="id" title="definition">setproperty</span> <a class="idref" href="Modules.Signatures.PresentableSignature.html#i"><span class="id" title="variable">i</span></a>)) <a class="idref" href="Modules.Signatures.PresentableSignature.html#a"><span class="id" title="variable">a</span></a>)<br/>
 &nbsp;&nbsp;:<br/>
@@ -128,7 +128,7 @@ We show that presentable signatures generate a syntax
 &nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.PreservesEpi.html#algSig_NatEpi"><span class="id" title="lemma">algSig_NatEpi</span></a>.<br/>
 &nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.EpiArePointwise.html#pwEpiSig_isEpi"><span class="id" title="lemma">pwEpiSig_isEpi</span></a>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.PresentableSignature.html#epi_p_mor"><span class="id" title="definition">epi_p_mor</span></a>.<br/>
-&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.BindingSig.html#algebraic_sig_representable"><span class="id" title="lemma">algebraic_sig_representable</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.BindingSig.html#algebraic_sig_effective"><span class="id" title="lemma">algebraic_sig_effective</span></a>.<br/>
 <span class="id" title="keyword">Qed</span>.<br/>
 
 <br/>
