@@ -1,0 +1,492 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>Modules.SoftEquations.Examples.LCBetaEta</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Modules.SoftEquations.Examples.LCBetaEta</h1>
+
+<div class="code">
+</div>
+
+<div class="doc">
+<a name="lab33"></a><h1 class="section">Lambda calculus modulo beta eta</h1>
+
+
+<div class="paragraph"> </div>
+
+We start with the algebraic signature Θ × Θ + Θ' specified by the binding
+signature <span class="inlinecode">0,0</span> , <span class="inlinecode">1</span>. The associated syntax is the lambda-calculus monad.
+
+<div class="paragraph"> </div>
+
+Two elementary equations are imposed:
+
+<div class="paragraph"> </div>
+
+1. Beta equivalence
+
+<div class="paragraph"> </div>
+
+The two half-equations are:
+
+<div class="paragraph"> </div>
+
+<pre>&lt;
+      abs × id         app
+θ' × θ -------&gt; θ × θ ---&gt; θ
+</pre>
+&gt;
+
+<div class="paragraph"> </div>
+
+and
+
+<div class="paragraph"> </div>
+
+<pre>&lt;
+         subst
+θ' × θ  ----&gt; θ
+</pre>
+&gt;
+
+<div class="paragraph"> </div>
+
+2. Eta equivalence
+
+<div class="paragraph"> </div>
+
+The two half-equations are:
+
+<div class="paragraph"> </div>
+
+<pre>&lt;
+    in         abs
+θ  -----&gt; θ' -----&gt; θ
+</pre>
+&gt;
+
+<div class="paragraph"> </div>
+
+and
+
+<div class="paragraph"> </div>
+
+<pre>&lt;
+   id
+θ ----&gt; θ
+</pre>
+&gt;
+
+<div class="paragraph"> </div>
+
+Some results:
+
+<div class="paragraph"> </div>
+
+<ul class="doclist">
+<li> Definition of the beta and eta elementary equations  <span class="inlinecode"><a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#beta_equation"><span class="id" title="definition">beta_equation</span></a></span> and <span class="inlinecode"><a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#eta_equation"><span class="id" title="definition">eta_equation</span></a></span>
+
+</li>
+</ul>
+
+<div class="paragraph"> </div>
+
+
+<div class="paragraph"> </div>
+
+ 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.PartD</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monads.Monads</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monads.LModules</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.SetValuedFunctors</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.HorizontalComposition</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Core.Prelude</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.FunctorCategory</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.categories.HSET.All</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Subcategory.Core</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Subcategory.Full</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.bincoproducts</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.catiso</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.Sets</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Epis</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.SubstitutionSystems.LamFromBindingSig</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.SubstitutionSystems.BindingSigToMonad</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Adjunctions.Core</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.lib.html#"><span class="id" title="library">Modules.Prelims.lib</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.LModulesComplements.html#"><span class="id" title="library">Modules.Prelims.LModulesComplements</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#"><span class="id" title="library">Modules.Prelims.EpiComplements</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.quotientmonad.html#"><span class="id" title="library">Modules.Prelims.quotientmonad</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.quotientmonadslice.html#"><span class="id" title="library">Modules.Prelims.quotientmonadslice</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.Signature.html#"><span class="id" title="library">Modules.Signatures.Signature</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.PreservesEpi.html#"><span class="id" title="library">Modules.Signatures.PreservesEpi</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.ModelCat.html#"><span class="id" title="library">Modules.Signatures.ModelCat</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.LModulesBinProducts.html#"><span class="id" title="library">Modules.Prelims.LModulesBinProducts</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.BindingSig.html#"><span class="id" title="library">Modules.Signatures.BindingSig</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.SignatureBinproducts.html#"><span class="id" title="library">Modules.Signatures.SignatureBinproducts</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.SignatureCoproduct.html#"><span class="id" title="library">Modules.Signatures.SignatureCoproduct</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.SignatureDerivation.html#"><span class="id" title="library">Modules.Signatures.SignatureDerivation</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.SigWithStrengthToSignature.html#"><span class="id" title="library">Modules.Signatures.SigWithStrengthToSignature</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Signatures.HssSignatureCommutation.html#"><span class="id" title="library">Modules.Signatures.HssSignatureCommutation</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.deriveadj.html#"><span class="id" title="library">Modules.Prelims.deriveadj</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.SoftEquations.SignatureOver.html#"><span class="id" title="library">Modules.SoftEquations.SignatureOver</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.SoftEquations.Equation.html#"><span class="id" title="library">Modules.SoftEquations.Equation</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#"><span class="id" title="library">Modules.SoftEquations.AdjunctionEquationRep</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.SoftEquations.quotientequation.html#"><span class="id" title="library">Modules.SoftEquations.quotientequation</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.BinProductComplements.html#"><span class="id" title="library">Modules.Prelims.BinProductComplements</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.CoproductsComplements.html#"><span class="id" title="library">Modules.Prelims.CoproductsComplements</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.initial</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.binproducts</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.coproducts</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.limits.terminal</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#"><span class="id" title="library">Modules.SoftEquations.SignatureOverBinproducts</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.SoftEquations.BindingSig.html#"><span class="id" title="library">Modules.SoftEquations.BindingSig</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="7943b5fdf911af3ffcf9d8f738478e8a"><span class="id" title="abbreviation">θ</span></a> := (<a class="idref" href="Modules.Signatures.Signature.html#tautological_signature"><span class="id" title="definition">tautological_signature</span></a>).<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="a788b57bb5319497a4de11f3392dcbc3"><span class="id" title="abbreviation">τ</span></a> := (<span class="id" title="definition">tautological_LModule</span>).<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="BPO"><span class="id" title="abbreviation">BPO</span></a> := (<span class="id" title="definition">limits.binproducts.BinProductObject</span> <span class="id" title="var">_</span> ).<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="CPO"><span class="id" title="abbreviation">CPO</span></a> := (<span class="id" title="definition">limits.coproducts.CoproductObject</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> ).<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="db145f63e61c9a477f8e5c360910429f"><span class="id" title="abbreviation">ι</span></a> := (<a class="idref" href="Modules.SoftEquations.SignatureOver.html#sig_over_from_sig"><span class="id" title="definition">sig_over_from_sig</span></a> <span class="id" title="var">_</span>).<br/>
+
+<br/>
+<span class="id" title="keyword">Section</span> <a name="BindingSigOp"><span class="id" title="section">BindingSigOp</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Context</span> {<span class="id" title="var">C</span> : <span class="id" title="definition">category</span>} (<span class="id" title="var">bpC</span> : <span class="id" title="definition">BinProducts</span> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#C"><span class="id" title="variable">C</span></a>) (<span class="id" title="var">bcpC</span> : <span class="id" title="definition">BinCoproducts</span> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#C"><span class="id" title="variable">C</span></a>) (<span class="id" title="var">TC</span> : <span class="id" title="definition">Terminal</span> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#C"><span class="id" title="variable">C</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">cpC</span> : <span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">X</span> : <span class="id" title="definition">UU</span>) (<span class="id" title="var">setX</span> : <span class="id" title="definition">isaset</span> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#X"><span class="id" title="variable">X</span></a><span class="id" title="notation">),</span> <span class="id" title="definition">Coproducts</span> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#X"><span class="id" title="variable">X</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#C"><span class="id" title="variable">C</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="hsC"><span class="id" title="abbreviation">hsC</span></a> := (<span class="id" title="definition">homset_property</span> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.C"><span class="id" title="variable">C</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> "∂" := (<a class="idref" href="Modules.Signatures.SignatureDerivation.html#signature_deriv"><span class="id" title="definition">signature_deriv</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.bcpC"><span class="id" title="variable">bcpC</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.TC"><span class="id" title="variable">TC</span></a>).<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Infix</span> "××" :=  (<a class="idref" href="Modules.Signatures.SignatureBinproducts.html#signature_BinProduct"><span class="id" title="definition">signature_BinProduct</span></a> (<span class="id" title="var">cpC</span> := <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.bpC"><span class="id" title="variable">bpC</span></a>)  ) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 20).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The LC algebraic signature is to Θ' + Θ × Θ
+The binding signature <span class="inlinecode"><span class="id" title="definition">LamSig</span></span> is defined in UniMath as <span class="inlinecode">1</span>, <span class="inlinecode">0,0</span> 
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="LamOneSig"><span class="id" title="definition">LamOneSig</span></a> := <a class="idref" href="Modules.Signatures.BindingSig.html#binding_to_one_sig"><span class="id" title="definition">binding_to_one_sig</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.bpC"><span class="id" title="variable">bpC</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.bcpC"><span class="id" title="variable">bcpC</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.cpC"><span class="id" title="variable">cpC</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.TC"><span class="id" title="variable">TC</span></a> <span class="id" title="definition">LamSig</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Indexes for the operations in the family LamSig 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="appIdx"><span class="id" title="definition">appIdx</span></a> := <span class="id" title="constructor">true</span>.<br/>
+<span class="id" title="keyword">Definition</span> <a name="absIdx"><span class="id" title="definition">absIdx</span></a> := <span class="id" title="constructor">false</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The algebraic signature of app is isomorphic to θ × θ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="source_app_iso"><span class="id" title="lemma">source_app_iso</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" title="definition">iso</span> (<span class="id" title="var">C</span> := <a class="idref" href="Modules.Signatures.Signature.html#signature_category"><span class="id" title="definition">signature_category</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.Signatures.BindingSig.html#arity_to_one_sig"><span class="id" title="definition">arity_to_one_sig</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.bpC"><span class="id" title="variable">bpC</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.bcpC"><span class="id" title="variable">bcpC</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.TC"><span class="id" title="variable">TC</span></a> (<span class="id" title="definition">BindingSigMap</span> <span class="id" title="definition">LamSig</span> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#appIdx"><span class="id" title="definition">appIdx</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BPO"><span class="id" title="abbreviation">BPO</span></a> (<a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#7943b5fdf911af3ffcf9d8f738478e8a"><span class="id" title="abbreviation">θ</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#3608c33cc7e64d5932a864844c9f5831"><span class="id" title="notation">××</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#7943b5fdf911af3ffcf9d8f738478e8a"><span class="id" title="abbreviation">θ</span></a>)).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> <span class="id" title="definition">iso_comp</span>; [ <span class="id" title="var">use</span> <a class="idref" href="Modules.Signatures.HssSignatureCommutation.html#binprod_sigs_har_iso"><span class="id" title="definition">binprod_sigs_har_iso</span></a>|<span class="id" title="var">use</span> <a class="idref" href="Modules.Prelims.BinProductComplements.html#BinProduct_pw_iso"><span class="id" title="definition">BinProduct_pw_iso</span></a>]; <span class="id" title="var">cbn</span> ; <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.HssSignatureCommutation.html#tauto_sigs_har_iso"><span class="id" title="definition">tauto_sigs_har_iso</span></a>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The next lemmas show that the arity of abs is isomorphic to θ' 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="arity_abs"><span class="id" title="definition">arity_abs</span></a> := <a class="idref" href="Modules.Signatures.BindingSig.html#arity_to_one_sig"><span class="id" title="definition">arity_to_one_sig</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.bpC"><span class="id" title="variable">bpC</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.bcpC"><span class="id" title="variable">bcpC</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.TC"><span class="id" title="variable">TC</span></a> (<span class="id" title="definition">BindingSigMap</span> <span class="id" title="definition">LamSig</span> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#absIdx"><span class="id" title="definition">absIdx</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="arity_abs_mod_eq_mult"><span class="id" title="lemma">arity_abs_mod_eq_mult</span></a> <span class="id" title="var">R</span> <span class="id" title="var">c</span> : <br/>
+&nbsp;&nbsp;(<span class="id" title="definition">ModulesFromSignatures.lift_lm_mult</span> (<span class="id" title="definition">Arity_to_Signature</span> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#hsC"><span class="id" title="abbreviation">hsC</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.bpC"><span class="id" title="variable">bpC</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.bcpC"><span class="id" title="variable">bcpC</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.TC"><span class="id" title="variable">TC</span></a> (<span class="id" title="definition">BindingSigMap</span> <span class="id" title="definition">LamSig</span> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#absIdx"><span class="id" title="definition">absIdx</span></a>)) <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#R"><span class="id" title="variable">R</span></a> (<a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#a788b57bb5319497a4de11f3392dcbc3"><span class="id" title="abbreviation">τ</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#R"><span class="id" title="variable">R</span></a>) :<br/>
+&nbsp;&nbsp;<span class="id" title="definition">nat_trans</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#c"><span class="id" title="variable">c</span></a> <span class="id" title="notation">=</span><br/>
+&nbsp;&nbsp;(<span class="id" title="definition">nat_trans_comp</span> (<span class="id" title="definition">whiskering.post_whisker</span> (<span class="id" title="definition">Derivative.deriv_dist</span> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.TC"><span class="id" title="variable">TC</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.bcpC"><span class="id" title="variable">bcpC</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#R"><span class="id" title="variable">R</span></a>) (<a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#7943b5fdf911af3ffcf9d8f738478e8a"><span class="id" title="abbreviation">θ</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#R"><span class="id" title="variable">R</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="definition">whiskering.pre_whisker</span> (<span class="id" title="definition">Derivative.maybe_monad</span> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.TC"><span class="id" title="variable">TC</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.bcpC"><span class="id" title="variable">bcpC</span></a>) (<span class="id" title="definition">lm_mult</span> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#R"><span class="id" title="variable">R</span></a> (<a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#7943b5fdf911af3ffcf9d8f738478e8a"><span class="id" title="abbreviation">θ</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#R"><span class="id" title="variable">R</span></a>)))) <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#c"><span class="id" title="variable">c</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="definition">id_left</span>, <span class="id" title="definition">id_right</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="arity_abs_eq"><span class="id" title="lemma">arity_abs_eq</span></a> (<span class="id" title="var">R</span> <span class="id" title="var">S</span> : <span class="id" title="definition">Monad</span> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.C"><span class="id" title="variable">C</span></a>) (<span class="id" title="var">f</span> : <span class="id" title="definition">Monad_Mor</span> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#S"><span class="id" title="variable">S</span></a>) (<span class="id" title="var">c</span> : <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.C"><span class="id" title="variable">C</span></a>) :<br/>
+&nbsp;&nbsp;(<a class="idref" href="Modules.Signatures.SignatureDerivation.html#signature_deriv_on_morphisms"><span class="id" title="definition">signature_deriv_on_morphisms</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.bcpC"><span class="id" title="variable">bcpC</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.TC"><span class="id" title="variable">TC</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#7943b5fdf911af3ffcf9d8f738478e8a"><span class="id" title="abbreviation">θ</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#S"><span class="id" title="variable">S</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#f"><span class="id" title="variable">f</span></a>) <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#c"><span class="id" title="variable">c</span></a> <span class="id" title="notation">=</span><br/>
+&nbsp;&nbsp;<span class="id" title="notation">(</span><span class="id" title="notation">(</span><a class="idref" href="Modules.Signatures.SigWithStrengthToSignature.html#lift_lmodule_mor"><span class="id" title="definition">lift_lmodule_mor</span></a> (<span class="id" title="definition">Arity_to_Signature</span> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#hsC"><span class="id" title="abbreviation">hsC</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.bpC"><span class="id" title="variable">bpC</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.bcpC"><span class="id" title="variable">bcpC</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.TC"><span class="id" title="variable">TC</span></a> (<span class="id" title="definition">BindingSigMap</span> <span class="id" title="definition">LamSig</span> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#absIdx"><span class="id" title="definition">absIdx</span></a>)) <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#R"><span class="id" title="variable">R</span></a> (<a class="idref" href="Modules.Prelims.LModulesComplements.html#monad_mor_to_lmodule"><span class="id" title="definition">monad_mor_to_lmodule</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#f"><span class="id" title="variable">f</span></a>) <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#c"><span class="id" title="variable">c</span></a><span class="id" title="notation">)</span> <span class="id" title="notation">·</span> <br/>
+<br/>
+&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.Signatures.SigWithStrengthToSignature.html#lift_pb_LModule"><span class="id" title="definition">lift_pb_LModule</span></a> (<span class="id" title="definition">Arity_to_Signature</span> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#hsC"><span class="id" title="abbreviation">hsC</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.bpC"><span class="id" title="variable">bpC</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.bcpC"><span class="id" title="variable">bcpC</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.TC"><span class="id" title="variable">TC</span></a> (<span class="id" title="definition">BindingSigMap</span> <span class="id" title="definition">LamSig</span> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#absIdx"><span class="id" title="definition">absIdx</span></a>)) <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#f"><span class="id" title="variable">f</span></a>) <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#c"><span class="id" title="variable">c</span></a><span class="id" title="notation">)</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> <span class="id" title="tactic">rewrite</span> <span class="id" title="definition">id_right</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="source_abs_iso"><span class="id" title="definition">source_abs_iso</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" title="definition">iso</span> (<span class="id" title="var">C</span> := <a class="idref" href="Modules.Signatures.Signature.html#signature_category"><span class="id" title="definition">signature_category</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.Signatures.BindingSig.html#arity_to_one_sig"><span class="id" title="definition">arity_to_one_sig</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.bpC"><span class="id" title="variable">bpC</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.bcpC"><span class="id" title="variable">bcpC</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.TC"><span class="id" title="variable">TC</span></a> (<span class="id" title="definition">BindingSigMap</span> <span class="id" title="definition">LamSig</span> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#absIdx"><span class="id" title="definition">absIdx</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#cd6a74db5da5573ede701a9b1b93c99c"><span class="id" title="notation">∂</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#cd6a74db5da5573ede701a9b1b93c99c"><span class="id" title="notation">θ</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Modules.Signatures.HssSignatureCommutation.html#signature_S1_S2_iso"><span class="id" title="definition">signature_S1_S2_iso</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">exact</span> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#arity_abs_mod_eq_mult"><span class="id" title="lemma">arity_abs_mod_eq_mult</span></a>.<br/>
+&nbsp;&nbsp;- <span class="id" title="var">use</span> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#arity_abs_eq"><span class="id" title="lemma">arity_abs_eq</span></a>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The first beta half-equation:
+
+<div class="paragraph"> </div>
+
+<pre>&lt;
+      abs × id         app
+θ' × θ -------&gt; θ × θ ---&gt; θ
+</pre>
+&gt;
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="abs_app_halfeq"><span class="id" title="lemma">abs_app_halfeq</span></a> : <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_Mor"><span class="id" title="definition">signature_over_Mor</span></a> (<a class="idref" href="Modules.Signatures.BindingSig.html#binding_to_one_sig"><span class="id" title="definition">binding_to_one_sig</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.bpC"><span class="id" title="variable">bpC</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.bcpC"><span class="id" title="variable">bcpC</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.cpC"><span class="id" title="variable">cpC</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.TC"><span class="id" title="variable">TC</span></a> <span class="id" title="definition">LamSig</span>) <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#db145f63e61c9a477f8e5c360910429f"><span class="id" title="abbreviation">ι</span></a> (<a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BPO"><span class="id" title="abbreviation">BPO</span></a> (<a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#3608c33cc7e64d5932a864844c9f5831"><span class="id" title="notation">(</span></a><a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#cd6a74db5da5573ede701a9b1b93c99c"><span class="id" title="notation">∂</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#cd6a74db5da5573ede701a9b1b93c99c"><span class="id" title="notation">θ</span></a><a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#3608c33cc7e64d5932a864844c9f5831"><span class="id" title="notation">)</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#3608c33cc7e64d5932a864844c9f5831"><span class="id" title="notation">××</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#7943b5fdf911af3ffcf9d8f738478e8a"><span class="id" title="abbreviation">θ</span></a>)))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#db145f63e61c9a477f8e5c360910429f"><span class="id" title="abbreviation">ι</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#7943b5fdf911af3ffcf9d8f738478e8a"><span class="id" title="abbreviation">θ</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> (<span class="id" title="definition">compose</span> (<span class="id" title="var">C</span> := <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_category"><span class="id" title="definition">signature_over_category</span></a> <span class="id" title="var">_</span>)); <span class="id" title="var">revgoals</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">apply</span> (<a class="idref" href="Modules.SoftEquations.BindingSig.html#bindingSig_op_to_sig_mor"><span class="id" title="definition">bindingSig_op_to_sig_mor</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.bpC"><span class="id" title="variable">bpC</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.bcpC"><span class="id" title="variable">bcpC</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.cpC"><span class="id" title="variable">cpC</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.TC"><span class="id" title="variable">TC</span></a> <span class="id" title="definition">LamSig</span> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#appIdx"><span class="id" title="definition">appIdx</span></a>).<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">eapply</span> <span class="id" title="definition">compose</span>; <span class="id" title="var">revgoals</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.SoftEquations.SignatureOver.html#sig_sig_over_mor"><span class="id" title="definition">sig_sig_over_mor</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="definition">inv_from_iso</span> (<span class="id" title="var">C</span> := <a class="idref" href="Modules.Signatures.Signature.html#signature_category"><span class="id" title="definition">signature_category</span></a>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#source_app_iso"><span class="id" title="lemma">source_app_iso</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id" title="tactic">eapply</span> <span class="id" title="definition">compose</span>;[|<span class="id" title="tactic">apply</span>  <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#signature_over_BinProducts_commutes_sig"><span class="id" title="definition">signature_over_BinProducts_commutes_sig</span></a>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> (<span class="id" title="definition">compose</span> );[<span class="id" title="tactic">apply</span> <span class="id" title="definition">inv_from_iso</span>, <a class="idref" href="Modules.SoftEquations.SignatureOverBinproducts.html#signature_over_BinProducts_commutes_sig"><span class="id" title="definition">signature_over_BinProducts_commutes_sig</span></a>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">BinProductOfArrows</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id" title="tactic">eapply</span> <span class="id" title="definition">compose</span>; [<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.SoftEquations.SignatureOver.html#sig_sig_over_mor"><span class="id" title="definition">sig_sig_over_mor</span></a>, (<span class="id" title="definition">inv_from_iso</span> (<span class="id" title="var">C</span> := <a class="idref" href="Modules.Signatures.Signature.html#signature_category"><span class="id" title="definition">signature_category</span></a>)), <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#source_abs_iso"><span class="id" title="definition">source_abs_iso</span></a>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.SoftEquations.BindingSig.html#bindingSig_op_to_sig_mor"><span class="id" title="definition">bindingSig_op_to_sig_mor</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id" title="tactic">apply</span> <span class="id" title="definition">identity</span>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The first eta half-equation:
+<pre>&lt;
+    in         abs
+θ  -----&gt; θ' -----&gt; θ
+</pre>
+&gt;
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="in_abs_halfeq"><span class="id" title="definition">in_abs_halfeq</span></a> : <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_Mor"><span class="id" title="definition">signature_over_Mor</span></a> (<a class="idref" href="Modules.Signatures.BindingSig.html#binding_to_one_sig"><span class="id" title="definition">binding_to_one_sig</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.bpC"><span class="id" title="variable">bpC</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.bcpC"><span class="id" title="variable">bcpC</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.cpC"><span class="id" title="variable">cpC</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp.TC"><span class="id" title="variable">TC</span></a> <span class="id" title="definition">LamSig</span>) <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#db145f63e61c9a477f8e5c360910429f"><span class="id" title="abbreviation">ι</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#7943b5fdf911af3ffcf9d8f738478e8a"><span class="id" title="abbreviation">θ</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#db145f63e61c9a477f8e5c360910429f"><span class="id" title="abbreviation">ι</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#7943b5fdf911af3ffcf9d8f738478e8a"><span class="id" title="abbreviation">θ</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> (<span class="id" title="definition">compose</span> (<span class="id" title="var">C</span> := <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_category"><span class="id" title="definition">signature_over_category</span></a> <span class="id" title="var">_</span>)); <span class="id" title="var">revgoals</span>.<br/>
+&nbsp;&nbsp;{ <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.SoftEquations.BindingSig.html#bindingSig_op_to_sig_mor"><span class="id" title="definition">bindingSig_op_to_sig_mor</span></a>. }<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.SoftEquations.SignatureOver.html#sig_sig_over_mor"><span class="id" title="definition">sig_sig_over_mor</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> (<span class="id" title="definition">compose</span> (<span class="id" title="var">C</span> := <a class="idref" href="Modules.Signatures.Signature.html#signature_category"><span class="id" title="definition">signature_category</span></a> )); <span class="id" title="var">revgoals</span>.<br/>
+&nbsp;&nbsp;{ <span class="id" title="tactic">apply</span> (<span class="id" title="definition">inv_from_iso</span> (<span class="id" title="var">C</span> := <a class="idref" href="Modules.Signatures.Signature.html#signature_category"><span class="id" title="definition">signature_category</span></a>)), <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#source_abs_iso"><span class="id" title="definition">source_abs_iso</span></a>. }<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.SignatureDerivation.html#signature_to_deriv"><span class="id" title="definition">signature_to_deriv</span></a>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BindingSigOp"><span class="id" title="section">BindingSigOp</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="BP"><span class="id" title="abbreviation">BP</span></a> := (<span class="id" title="lemma">BinProductsHSET</span> : <span class="id" title="definition">limits.binproducts.BinProducts</span> <span class="id" title="notation">SET</span>).<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="BCP"><span class="id" title="abbreviation">BCP</span></a> := (<span class="id" title="lemma">BinCoproductsHSET</span> : <span class="id" title="definition">limits.bincoproducts.BinCoproducts</span> <span class="id" title="notation">SET</span>).<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="T"><span class="id" title="abbreviation">T</span></a> := (<span class="id" title="lemma">TerminalHSET</span> : <span class="id" title="definition">limits.terminal.Terminal</span> <span class="id" title="notation">SET</span>).<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="CP"><span class="id" title="abbreviation">CP</span></a> := (<span class="id" title="lemma">CoproductsHSET</span>).<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> "∂" := (<a class="idref" href="Modules.Signatures.SignatureDerivation.html#signature_deriv"><span class="id" title="definition">signature_deriv</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BCP"><span class="id" title="abbreviation">BCP</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#T"><span class="id" title="abbreviation">T</span></a>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The algebraic lambda calculus signature (in SET) 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="LamOneSigHSET"><span class="id" title="definition">LamOneSigHSET</span></a> := <a class="idref" href="Modules.Signatures.BindingSig.html#binding_to_one_sigHSET"><span class="id" title="definition">binding_to_one_sigHSET</span></a> <span class="id" title="definition">LamSig</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+It is an epi-signature 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="LamOneSigHSET_epiSig"><span class="id" title="definition">LamOneSigHSET_epiSig</span></a> : <a class="idref" href="Modules.Signatures.PreservesEpi.html#sig_preservesNatEpiMonad"><span class="id" title="definition">sig_preservesNatEpiMonad</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#LamOneSigHSET"><span class="id" title="definition">LamOneSigHSET</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.PreservesEpi.html#algSig_NatEpi"><span class="id" title="lemma">algSig_NatEpi</span></a> <span class="id" title="definition">LamSig</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+It has an initial model 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="LamOneSigHSET_Initial"><span class="id" title="definition">LamOneSigHSET_Initial</span></a> :  <span class="id" title="definition">Initial</span> (<a class="idref" href="Modules.Signatures.ModelCat.html#rep_fiber_category"><span class="id" title="definition">rep_fiber_category</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#LamOneSigHSET"><span class="id" title="definition">LamOneSigHSET</span></a>) :=<br/>
+&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.BindingSig.html#bindingSigHSET_Initial"><span class="id" title="definition">bindingSigHSET_Initial</span></a> <span class="id" title="definition">LamSig</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span>  "S1 →→s S2" := (<a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_Mor"><span class="id" title="definition">signature_over_Mor</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#LamOneSigHSET"><span class="id" title="definition">LamOneSigHSET</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.SoftEquations.SignatureOver.html#sig_over_from_sig"><span class="id" title="definition">sig_over_from_sig</span></a> <span class="id" title="var">_</span> <span class="id" title="var">S1</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.SoftEquations.SignatureOver.html#sig_over_from_sig"><span class="id" title="definition">sig_over_from_sig</span></a> <span class="id" title="var">_</span> <span class="id" title="var">S2</span>)) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 6).<br/>
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Infix</span> "××" :=  (<a class="idref" href="Modules.Signatures.SignatureBinproducts.html#signature_BinProduct"><span class="id" title="definition">signature_BinProduct</span></a> (<span class="id" title="var">cpC</span> := <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BP"><span class="id" title="abbreviation">BP</span></a>)  ) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 20).<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> "R ××M S" :=  (<a class="idref" href="Modules.Prelims.LModulesBinProducts.html#LModule_BinProducts"><span class="id" title="definition">LModule_BinProducts</span></a> <span class="id" title="var">_</span> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BP"><span class="id" title="abbreviation">BP</span></a> (<span class="id" title="definition">homset_property</span> <span class="id" title="notation">SET</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">R</span> : <span class="id" title="definition">LModule</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">S</span> : <span class="id" title="definition">LModule</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 20).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The source of the beta equation 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="beta_sig_source"><span class="id" title="definition">beta_sig_source</span></a> : <a class="idref" href="Modules.Signatures.Signature.html#signature"><span class="id" title="definition">signature</span></a> <span class="id" title="notation">SET</span>  :=<br/>
+&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BPO"><span class="id" title="abbreviation">BPO</span></a> (<a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#c84df8f06e90e5a63874f49d16eb190a"><span class="id" title="notation">(</span></a><a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#3066fcb16060d3ae9d94075e4eed62f8"><span class="id" title="notation">∂</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#3066fcb16060d3ae9d94075e4eed62f8"><span class="id" title="notation">θ</span></a><a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#c84df8f06e90e5a63874f49d16eb190a"><span class="id" title="notation">)</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#c84df8f06e90e5a63874f49d16eb190a"><span class="id" title="notation">××</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#7943b5fdf911af3ffcf9d8f738478e8a"><span class="id" title="abbreviation">θ</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="isEpi_beta_sig_source"><span class="id" title="lemma">isEpi_beta_sig_source</span></a> : <a class="idref" href="Modules.Signatures.PreservesEpi.html#sig_preservesNatEpiMonad"><span class="id" title="definition">sig_preservesNatEpiMonad</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#beta_sig_source"><span class="id" title="definition">beta_sig_source</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.PreservesEpi.html#sig_preservesNatEpiMonad_reduce_pw_SET"><span class="id" title="lemma">sig_preservesNatEpiMonad_reduce_pw_SET</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.PreservesEpi.html#binProd_epiSigSET"><span class="id" title="definition">binProd_epiSigSET</span></a>;[<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.PreservesEpi.html#deriv_epiSig"><span class="id" title="lemma">deriv_epiSig</span></a>|]; <span class="id" title="tactic">red</span>; <span class="id" title="tactic">auto</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The second half-equation for beta:
+<pre>&lt;
+         subst
+θ' × θ  ----&gt; θ
+</pre>
+&gt;
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="half_beta_subst"><span class="id" title="definition">half_beta_subst</span></a> : <a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_Mor"><span class="id" title="definition">signature_over_Mor</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#LamOneSigHSET"><span class="id" title="definition">LamOneSigHSET</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#db145f63e61c9a477f8e5c360910429f"><span class="id" title="abbreviation">ι</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#beta_sig_source"><span class="id" title="definition">beta_sig_source</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#db145f63e61c9a477f8e5c360910429f"><span class="id" title="abbreviation">ι</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#7943b5fdf911af3ffcf9d8f738478e8a"><span class="id" title="abbreviation">θ</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span> <span class="id" title="constructor">tpair</span>.<br/>
+&nbsp;&nbsp;- <span class="id" title="tactic">intro</span> <span class="id" title="var">R</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="definition">counit_from_are_adjoints</span> (<a class="idref" href="Modules.Prelims.deriveadj.html#deriv_adj"><span class="id" title="lemma">deriv_adj</span></a> (<span class="id" title="var">R</span> := <span class="id" title="var">R</span>))).<br/>
+&nbsp;&nbsp;- <span class="id" title="var">cbn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">R</span> <span class="id" title="var">S</span> <span class="id" title="var">f</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">nat_trans_eq</span> (<span class="id" title="definition">homset_property</span> <span class="id" title="notation">SET</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">use</span> <a class="idref" href="Modules.Prelims.deriveadj.html#functorial_counit_derivadj"><span class="id" title="lemma">functorial_counit_derivadj</span></a>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+the beta equation 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="beta_equation"><span class="id" title="definition">beta_equation</span></a> : @<a class="idref" href="Modules.SoftEquations.quotientequation.html#elementary_equation"><span class="id" title="definition">elementary_equation</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#LamOneSigHSET"><span class="id" title="definition">LamOneSigHSET</span></a> :=<br/>
+&nbsp;&nbsp;(<a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#db145f63e61c9a477f8e5c360910429f"><span class="id" title="abbreviation">ι</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#beta_sig_source"><span class="id" title="definition">beta_sig_source</span></a> <span class="id" title="notation">,,</span> 0 <span class="id" title="notation">,,</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">(</span><span class="id" title="keyword">fun</span> <span class="id" title="var">R</span> <span class="id" title="var">S</span> (<span class="id" title="var">f</span> : <a class="idref" href="Modules.Signatures.ModelCat.html#rep_fiber_mor"><span class="id" title="definition">rep_fiber_mor</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#S"><span class="id" title="variable">S</span></a>) =&gt; <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#isEpi_beta_sig_source"><span class="id" title="lemma">isEpi_beta_sig_source</span></a> (<a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#R"><span class="id" title="variable">R</span></a> : <span class="id" title="definition">Monad</span> <span class="id" title="var">_</span>) (<a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#S"><span class="id" title="variable">S</span></a> : <span class="id" title="definition">Monad</span> <span class="id" title="var">_</span>) (<a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#f"><span class="id" title="variable">f</span></a> : <span class="id" title="definition">Monad_Mor</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>)<span class="id" title="notation">)</span> <span class="id" title="notation">,,</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#abs_app_halfeq"><span class="id" title="lemma">abs_app_halfeq</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BP"><span class="id" title="abbreviation">BP</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BCP"><span class="id" title="abbreviation">BCP</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#T"><span class="id" title="abbreviation">T</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#CP"><span class="id" title="abbreviation">CP</span></a> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#half_beta_subst"><span class="id" title="definition">half_beta_subst</span></a>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+the eta equation 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="eta_equation"><span class="id" title="definition">eta_equation</span></a>  : @<a class="idref" href="Modules.SoftEquations.quotientequation.html#elementary_equation"><span class="id" title="definition">elementary_equation</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#LamOneSigHSET"><span class="id" title="definition">LamOneSigHSET</span></a> :=<br/>
+&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#db145f63e61c9a477f8e5c360910429f"><span class="id" title="abbreviation">ι</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#7943b5fdf911af3ffcf9d8f738478e8a"><span class="id" title="abbreviation">θ</span></a> <span class="id" title="notation">,,</span> 0 <span class="id" title="notation">,,</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">(</span><span class="id" title="notation">λ</span> <span class="id" title="notation">(</span><span class="id" title="var">M</span> <span class="id" title="var">N</span> : <a class="idref" href="Modules.Signatures.Signature.html#model"><span class="id" title="definition">model</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#LamOneSigHSET"><span class="id" title="definition">LamOneSigHSET</span></a>) (<span class="id" title="var">f</span> : <a class="idref" href="Modules.Signatures.ModelCat.html#rep_fiber_mor"><span class="id" title="definition">rep_fiber_mor</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#M"><span class="id" title="variable">M</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#N"><span class="id" title="variable">N</span></a><span class="id" title="notation">),</span> <a class="idref" href="Modules.Signatures.PreservesEpi.html#tautological_epiSig"><span class="id" title="definition">tautological_epiSig</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#M"><span class="id" title="variable">M</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#N"><span class="id" title="variable">N</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#f"><span class="id" title="variable">f</span></a><span class="id" title="notation">)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">,,</span> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#in_abs_halfeq"><span class="id" title="definition">in_abs_halfeq</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BP"><span class="id" title="abbreviation">BP</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#BCP"><span class="id" title="abbreviation">BCP</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#T"><span class="id" title="abbreviation">T</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#CP"><span class="id" title="abbreviation">CP</span></a> <span class="id" title="notation">,,</span> <span class="id" title="notation">(</span><a class="idref" href="Modules.SoftEquations.SignatureOver.html#signature_over_Mor_id"><span class="id" title="definition">signature_over_Mor_id</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span><span class="id" title="notation">)</span>  ).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+gather the beta and eta equations into a family of equations indexed over
+the boolean 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="beta_eta_equations"><span class="id" title="definition">beta_eta_equations</span></a> (<span class="id" title="var">b</span> : <span class="id" title="inductive">bool</span>) : <a class="idref" href="Modules.SoftEquations.quotientequation.html#elementary_equation"><span class="id" title="definition">elementary_equation</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">if</span> <span class="id" title="constructor">true</span> <span class="id" title="keyword">then</span> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#beta_equation"><span class="id" title="definition">beta_equation</span></a> <span class="id" title="keyword">else</span> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#eta_equation"><span class="id" title="definition">eta_equation</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The lambda calculus modulo beta eta 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="LCBetaEta"><span class="id" title="definition">LCBetaEta</span></a> : <span class="id" title="definition">Initial</span><br/>
+&nbsp;&nbsp;(<a class="idref" href="Modules.SoftEquations.Equation.html#category_model_equations"><span class="id" title="definition">category_model_equations</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">fun</span> <span class="id" title="var">o</span> =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.quotientequation.html#soft_equation_from_elementary_equation"><span class="id" title="definition">soft_equation_from_elementary_equation</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#LamOneSigHSET_epiSig"><span class="id" title="definition">LamOneSigHSET_epiSig</span></a> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#beta_eta_equations"><span class="id" title="definition">beta_eta_equations</span></a> <a class="idref" href="Modules.SoftEquations.Examples.LCBetaEta.html#o"><span class="id" title="variable">o</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">use</span>  <a class="idref" href="Modules.SoftEquations.AdjunctionEquationRep.html#elementary_equations_on_alg_preserve_initiality"><span class="id" title="definition">elementary_equations_on_alg_preserve_initiality</span></a>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>
