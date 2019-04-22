@@ -1,0 +1,404 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>Modules.Signatures.quotientrep</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Modules.Signatures.quotientrep</h1>
+
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.PartD</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Core.Prelude</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.FunctorCategory</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monads.Monads</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Monads.LModules</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.SetValuedFunctors</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.HorizontalComposition</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.categories.HSET.All</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.Foundations.Sets</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.Epis</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.EpiFacts</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#"><span class="id" title="library">Modules.Prelims.EpiComplements</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.lib.html#"><span class="id" title="library">Modules.Prelims.lib</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Modules.Prelims.quotientmonad.html#"><span class="id" title="library">Modules.Prelims.quotientmonad</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">UniMath.CategoryTheory.whiskering</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> "α ∙∙ β" := (<span class="id" title="definition">horcomp</span> <span class="id" title="var">β</span> <span class="id" title="var">α</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 20).<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> "α 'ø' Z" := (<span class="id" title="definition">pre_whisker</span> <span class="id" title="var">Z</span> <span class="id" title="var">α</span>)  (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 25).<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> "Z ∘ α" := (<span class="id" title="definition">post_whisker</span> <span class="id" title="var">α</span> <span class="id" title="var">Z</span>).<br/>
+
+<br/>
+<span class="id" title="keyword">Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">cat</span>.<br/>
+
+<br/>
+
+<br/>
+<span class="id" title="keyword">Set</span> <span class="id" title="var">Automatic</span> <span class="id" title="var">Introduction</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Section</span> <a name="QuotientMonad"><span class="id" title="section">QuotientMonad</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Context</span> {<span class="id" title="var">R</span> : <span class="id" title="definition">Monad</span> <span class="id" title="notation">SET</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">R_epi</span> : <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#R"><span class="id" title="variable">R</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">eqrel_equivc</span> : <span class="id" title="notation">∏</span> <span class="id" title="var">c</span><span class="id" title="notation">,</span> <span class="id" title="definition">eqrel</span> (<a class="idref" href="Modules.Signatures.quotientrep.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#c"><span class="id" title="variable">c</span></a> : <span class="id" title="definition">hSet</span>)}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">congr_equivc</span> : <span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">x</span> <span class="id" title="var">y</span> : <span class="id" title="notation">SET</span>) (<span class="id" title="var">f</span> : <span class="id" title="notation">SET</span><span class="id" title="notation">⟦</span><a class="idref" href="Modules.Signatures.quotientrep.html#x"><span class="id" title="variable">x</span></a><span class="id" title="notation">,</span> <a class="idref" href="Modules.Signatures.quotientrep.html#y"><span class="id" title="variable">y</span></a><span class="id" title="notation">⟧</span><span class="id" title="notation">),</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="definition">iscomprelrelfun</span> (<a class="idref" href="Modules.Signatures.quotientrep.html#eqrel_equivc"><span class="id" title="variable">eqrel_equivc</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#x"><span class="id" title="variable">x</span></a>) (<a class="idref" href="Modules.Signatures.quotientrep.html#eqrel_equivc"><span class="id" title="variable">eqrel_equivc</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#y"><span class="id" title="variable">y</span></a>) (<span class="id" title="notation">#</span> <a class="idref" href="Modules.Signatures.quotientrep.html#R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#f"><span class="id" title="variable">f</span></a>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">compat_μ_projR</span> : <a class="idref" href="Modules.Prelims.quotientmonad.html#359101606e393eb96f2071864a3a1db1"><span class="id" title="definition">compat_μ_projR_def</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#congr_equivc"><span class="id" title="variable">congr_equivc</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Let</span> <a name="QuotientMonad.equivc"><span class="id" title="variable">equivc</span></a> {<span class="id" title="var">c</span>:<span class="id" title="definition">hSet</span>} <span class="id" title="var">x</span> <span class="id" title="var">y</span> : <span class="id" title="definition">hProp</span> := <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.eqrel_equivc"><span class="id" title="variable">eqrel_equivc</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#c"><span class="id" title="variable">c</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#x"><span class="id" title="variable">x</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#y"><span class="id" title="variable">y</span></a>.<br/>
+
+<br/>
+
+<br/>
+<span class="id" title="keyword">Let</span> <a name="QuotientMonad.R'"><span class="id" title="variable">R'</span></a> : <span class="id" title="notation">SET</span> <span class="id" title="notation">⟶</span> <span class="id" title="notation">SET</span><br/>
+&nbsp;&nbsp;:= <a class="idref" href="Modules.Prelims.quotientmonad.html#R'"><span class="id" title="definition">R'</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.congr_equivc"><span class="id" title="variable">congr_equivc</span></a>.<br/>
+<span class="id" title="keyword">Let</span> <a name="QuotientMonad.projR"><span class="id" title="variable">projR</span></a> : <span class="id" title="notation">(</span><a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.R"><span class="id" title="variable">R</span></a> : <span class="id" title="notation">SET</span> <span class="id" title="notation">⟶</span> <span class="id" title="notation">SET</span><span class="id" title="notation">)</span> <span class="id" title="notation">⟹</span> <a class="idref" href="Modules.Prelims.quotientmonad.html#R'"><span class="id" title="definition">quotientmonad.R'</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.congr_equivc"><span class="id" title="variable">congr_equivc</span></a><br/>
+&nbsp;&nbsp;:= <a class="idref" href="Modules.Prelims.quotientmonad.html#projR"><span class="id" title="definition">projR</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.congr_equivc"><span class="id" title="variable">congr_equivc</span></a>.<br/>
+<span class="id" title="keyword">Let</span> <a name="QuotientMonad.R'_monad"><span class="id" title="variable">R'_monad</span></a> : <span class="id" title="definition">Monad</span> <span class="id" title="notation">SET</span><br/>
+&nbsp;&nbsp;:= <a class="idref" href="Modules.Prelims.quotientmonad.html#R'_monad"><span class="id" title="definition">R'_monad</span></a>  <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.R_epi"><span class="id" title="variable">R_epi</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.congr_equivc"><span class="id" title="variable">congr_equivc</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#14738aae9de01fcbe7fd11d60fd609c6"><span class="id" title="variable">compat_μ_projR</span></a>.<br/>
+<span class="id" title="keyword">Let</span> <a name="QuotientMonad.projR_monad"><span class="id" title="variable">projR_monad</span></a><br/>
+&nbsp;&nbsp;: <span class="id" title="definition">Monad_Mor</span> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.R"><span class="id" title="variable">R</span></a> (<a class="idref" href="Modules.Prelims.quotientmonad.html#R'_monad"><span class="id" title="definition">quotientmonad.R'_monad</span></a>  <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.R_epi"><span class="id" title="variable">R_epi</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.congr_equivc"><span class="id" title="variable">congr_equivc</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#14738aae9de01fcbe7fd11d60fd609c6"><span class="id" title="variable">compat_μ_projR</span></a>)<br/>
+&nbsp;&nbsp;:= <a class="idref" href="Modules.Prelims.quotientmonad.html#projR_monad"><span class="id" title="definition">projR_monad</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.R_epi"><span class="id" title="variable">R_epi</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.congr_equivc"><span class="id" title="variable">congr_equivc</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#14738aae9de01fcbe7fd11d60fd609c6"><span class="id" title="variable">compat_μ_projR</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="31bf0b12546409e15021243132fc7574"><span class="id" title="abbreviation">π</span></a> := <span class="id" title="var">projR_monad</span>.<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="6e339d25b4e8063149b40e48a727392c"><span class="id" title="abbreviation">Θ</span></a> := <span class="id" title="definition">tautological_LModule</span>.<br/>
+
+<br/>
+
+<br/>
+<span class="id" title="keyword">Context</span> {<span class="id" title="var">a</span> : <span class="id" title="definition">LModule</span> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.R"><span class="id" title="variable">R</span></a> <span class="id" title="notation">SET</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">b</span> : <span class="id" title="definition">LModule</span> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.R'_monad"><span class="id" title="variable">R'_monad</span></a> <span class="id" title="notation">SET</span>}.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+We need that either <span class="inlinecode"><a class="idref" href="Modules.SoftEquations.SignatureOverDerivation.html#DAr.a"><span class="id" title="variable">a</span></a></span> or <span class="inlinecode"><a class="idref" href="Modules.Signatures.PresentableSignatureBinProdR.html#CoprodAr.b"><span class="id" title="variable">b</span></a></span> preserves epis to show that
+     τ' is a module morphism
+   
+</div>
+<div class="code">
+<span class="id" title="keyword">Context</span> (<span class="id" title="var">ab_epi</span> : <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.a"><span class="id" title="variable">a</span></a> <span class="id" title="notation">⨿</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#preserves_Epi"><span class="id" title="definition">preserves_Epi</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.b"><span class="id" title="variable">b</span></a>).<br/>
+<span class="id" title="keyword">Context</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{τ : <span class="id" title="definition">LModule_Mor</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.a"><span class="id" title="variable">a</span></a> (<a class="idref" href="Modules.Signatures.quotientrep.html#6e339d25b4e8063149b40e48a727392c"><span class="id" title="abbreviation">Θ</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.R"><span class="id" title="variable">R</span></a>)}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">h</span> : <span class="id" title="definition">LModule_Mor</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.a"><span class="id" title="variable">a</span></a> (<span class="id" title="definition">pb_LModule</span> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.projR_monad"><span class="id" title="variable">projR_monad</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.b"><span class="id" title="variable">b</span></a>)}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">compath</span> : <span class="id" title="notation">∏</span> <span class="id" title="var">X</span> (<span class="id" title="var">x</span> <span class="id" title="var">y</span>:(<a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.a"><span class="id" title="variable">a</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#X"><span class="id" title="variable">X</span></a>:<span class="id" title="definition">hSet</span><span class="id" title="notation">)),</span> <a class="idref" href="Modules.Signatures.quotientrep.html#h"><span class="id" title="variable">h</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#X"><span class="id" title="variable">X</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#x"><span class="id" title="variable">x</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Modules.Signatures.quotientrep.html#h"><span class="id" title="variable">h</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#X"><span class="id" title="variable">X</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#y"><span class="id" title="variable">y</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">-&gt;</span></a> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Modules.Signatures.quotientrep.html#a788b57bb5319497a4de11f3392dcbc3"><span class="id" title="variable">τ</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#X"><span class="id" title="variable">X</span></a> <span class="id" title="notation">·</span> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.projR_monad"><span class="id" title="variable">projR_monad</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#X"><span class="id" title="variable">X</span></a>) <a class="idref" href="Modules.Signatures.quotientrep.html#x"><span class="id" title="variable">x</span></a> <span class="id" title="notation">=</span> (<a class="idref" href="Modules.Signatures.quotientrep.html#a788b57bb5319497a4de11f3392dcbc3"><span class="id" title="variable">τ</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#X"><span class="id" title="variable">X</span></a> <span class="id" title="notation">·</span> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.projR_monad"><span class="id" title="variable">projR_monad</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#X"><span class="id" title="variable">X</span></a>) <a class="idref" href="Modules.Signatures.quotientrep.html#y"><span class="id" title="variable">y</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">isEpih</span> : <span class="id" title="definition">isEpi</span> (<span class="id" title="var">C</span>:=<span class="id" title="notation">[</span><span class="id" title="notation">SET</span><span class="id" title="notation">,</span><span class="id" title="notation">SET</span><span class="id" title="notation">]</span>) (<a class="idref" href="Modules.Signatures.quotientrep.html#h"><span class="id" title="variable">h</span></a>:<span class="id" title="definition">nat_trans</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>)).<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="402ccbb12a5c40dc28cea5b10f94dcc0"><span class="id" title="definition">R'_model_</span></a><a name="402ccbb12a5c40dc28cea5b10f94dcc0"><span class="id" title="definition">τ</span></a>  : <span class="id" title="definition">nat_trans</span> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.b"><span class="id" title="variable">b</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.R'"><span class="id" title="variable">R'</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="definition">univ_surj_nt</span> <span class="id" title="var">_</span> (<span class="id" title="notation">(</span>(<a class="idref" href="Modules.Signatures.quotientrep.html#031d68eb74db4b6e3958b52259cf93a9"><span class="id" title="variable">τ</span></a> :<span class="id" title="definition">nat_trans</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>):<span class="id" title="notation">[</span><span class="id" title="notation">SET</span><span class="id" title="notation">,</span><span class="id" title="notation">SET</span><span class="id" title="notation">]</span><span class="id" title="notation">⟦</span><span class="id" title="var">_</span><span class="id" title="notation">,</span><span class="id" title="var">_</span><span class="id" title="notation">⟧</span><span class="id" title="notation">)</span> <span class="id" title="notation">·</span> <span class="id" title="notation">(</span><a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.projR_monad"><span class="id" title="variable">projR_monad</span></a>:<span class="id" title="definition">nat_trans</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span><span class="id" title="notation">)</span>) <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.compath"><span class="id" title="variable">compath</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.isEpih"><span class="id" title="variable">isEpih</span></a>.<br/>
+<span class="id" title="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="cbd2a29045df5fcd04ccd1afe9a0e326"><span class="id" title="abbreviation">τ'</span></a> := <a class="idref" href="Modules.Signatures.quotientrep.html#402ccbb12a5c40dc28cea5b10f94dcc0"><span class="id" title="definition">R'_model_</span></a><a class="idref" href="Modules.Signatures.quotientrep.html#402ccbb12a5c40dc28cea5b10f94dcc0"><span class="id" title="definition">τ</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="2f62a0726e454d52757daf42834ac691"><span class="id" title="definition">R'_model_</span></a><a name="2f62a0726e454d52757daf42834ac691"><span class="id" title="definition">τ</span></a><a name="2f62a0726e454d52757daf42834ac691"><span class="id" title="definition">_def</span></a> : <span class="id" title="notation">∏</span> <span class="id" title="var">X</span><span class="id" title="notation">,</span> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.h"><span class="id" title="variable">h</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#X"><span class="id" title="variable">X</span></a> <span class="id" title="notation">·</span> <a class="idref" href="Modules.Signatures.quotientrep.html#cbd2a29045df5fcd04ccd1afe9a0e326"><span class="id" title="abbreviation">τ'</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#X"><span class="id" title="variable">X</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Modules.Signatures.quotientrep.html#031d68eb74db4b6e3958b52259cf93a9"><span class="id" title="variable">τ</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#X"><span class="id" title="variable">X</span></a> <span class="id" title="notation">·</span> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.projR_monad"><span class="id" title="variable">projR_monad</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#X"><span class="id" title="variable">X</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="lemma">univ_surj_nt_ax_pw</span> <span class="id" title="var">_</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="notation">(</span>(<a class="idref" href="Modules.Signatures.quotientrep.html#031d68eb74db4b6e3958b52259cf93a9"><span class="id" title="variable">τ</span></a> : <span class="id" title="definition">nat_trans</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> ) : <span class="id" title="notation">[</span><span class="id" title="notation">SET</span><span class="id" title="notation">,</span><span class="id" title="notation">SET</span><span class="id" title="notation">]</span><span class="id" title="notation">⟦</span><span class="id" title="var">_</span><span class="id" title="notation">,</span><span class="id" title="var">_</span><span class="id" title="notation">⟧</span><span class="id" title="notation">)</span> <span class="id" title="notation">·</span> <span class="id" title="notation">(</span><a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.projR_monad"><span class="id" title="variable">projR_monad</span></a> : <span class="id" title="definition">nat_trans</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span><span class="id" title="notation">)</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.compath"><span class="id" title="variable">compath</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.isEpih"><span class="id" title="variable">isEpih</span></a>).<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Notation</span> <a name="3122c41ebe889f745cb9bbe1c92165c3"><span class="id" title="abbreviation">σ</span></a> := (<span class="id" title="definition">lm_mult</span> <span class="id" title="var">_</span>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+
+<div class="paragraph"> </div>
+
+ τ' is a module morphism
+
+<div class="paragraph"> </div>
+
+This is the following diagram :
+
+<div class="paragraph"> </div>
+
+<pre>&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+
+          τ' R'
+   b R' --------&gt; R' R'
+   |               |
+   |               |
+σ b|               | μ'
+   |               |
+   V               V
+   b ------------&gt; R'
+           τ'
+
+</pre>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+
+<div class="paragraph"> </div>
+
+To show this, we post-compose with h·π (horizontal composition)
+(see t'_law_eq1 &amp; 2)
+
+<div class="paragraph"> </div>
+
+  
+<div class="paragraph"> </div>
+
+
+<div class="paragraph"> </div>
+
+h·π ;; τ' R' ;; μ' = (h ;; τ')·π ;; μ'   ( property of horizontal comp)
+                   = (τ ;; π )·π ;; μ'   (definition of τ')
+                   = (τ·id) ;; π ·π ;; μ' (propoerty of horizontal comp)
+                   = τ R    ;; μ ;; π     (π is a monad morphism)
+                   = σ a    ;; τ  ;; π     (τ is a module morphism)
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="dfdb530c640fb57b876a51ea5efecb5c"><span class="id" title="lemma">τ'</span></a><a name="dfdb530c640fb57b876a51ea5efecb5c"><span class="id" title="lemma">_law_eq1</span></a> <span class="id" title="var">X</span> : (<span class="id" title="notation">(</span><a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.h"><span class="id" title="variable">h</span></a><a class="idref" href="Modules.Signatures.quotientrep.html#fcb2c477e6542952b8308656749b51d9"><span class="id" title="notation">∙∙</span></a><a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.projR_monad"><span class="id" title="variable">projR_monad</span></a> :<span class="id" title="notation">[</span><span class="id" title="notation">SET</span><span class="id" title="notation">,</span><span class="id" title="notation">SET</span><span class="id" title="notation">]</span><span class="id" title="notation">⟦</span><span class="id" title="var">_</span><span class="id" title="notation">,</span><span class="id" title="var">_</span><span class="id" title="notation">⟧</span><span class="id" title="notation">)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">·</span> <span class="id" title="notation">(</span><a class="idref" href="Modules.Signatures.quotientrep.html#cbd2a29045df5fcd04ccd1afe9a0e326"><span class="id" title="abbreviation">τ'</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#411b2d265ad750d798b22217a42a765a"><span class="id" title="notation">ø</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.R'"><span class="id" title="variable">R'</span></a>:<span class="id" title="definition">nat_trans</span> <span class="id" title="var">_</span> (<span class="id" title="definition">functor_composite</span> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.R'"><span class="id" title="variable">R'</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.R'"><span class="id" title="variable">R'</span></a>)<span class="id" title="notation">)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">·</span> <span class="id" title="notation">(</span><span class="id" title="definition">μ</span> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.R'_monad"><span class="id" title="variable">R'_monad</span></a><span class="id" title="notation">)</span>:<span class="id" title="definition">nat_trans</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) <a class="idref" href="Modules.Signatures.quotientrep.html#X"><span class="id" title="variable">X</span></a> <span class="id" title="notation">=</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="notation">(</span><a class="idref" href="Modules.Signatures.quotientrep.html#3122c41ebe889f745cb9bbe1c92165c3"><span class="id" title="abbreviation">σ</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.a"><span class="id" title="variable">a</span></a>:<span class="id" title="notation">[</span><span class="id" title="notation">SET</span><span class="id" title="notation">,</span><span class="id" title="notation">SET</span><span class="id" title="notation">]</span><span class="id" title="notation">⟦</span><span class="id" title="var">_</span><span class="id" title="notation">,</span><span class="id" title="var">_</span><span class="id" title="notation">⟧</span><span class="id" title="notation">)</span> <span class="id" title="notation">·</span> <span class="id" title="notation">(</span><a class="idref" href="Modules.Signatures.quotientrep.html#031d68eb74db4b6e3958b52259cf93a9"><span class="id" title="variable">τ</span></a>:<span class="id" title="definition">nat_trans</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span><span class="id" title="notation">)</span> <span class="id" title="notation">·</span> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.projR"><span class="id" title="variable">projR</span></a> : <span class="id" title="definition">nat_trans</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) <a class="idref" href="Modules.Signatures.quotientrep.html#X"><span class="id" title="variable">X</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;{ <span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_postcomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{ <span class="id" title="var">etrans</span>;[<span class="id" title="tactic">eapply</span> <span class="id" title="definition">pathsinv0</span>; <span class="id" title="tactic">apply</span> <span class="id" title="definition">assoc</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_precomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="definition">nat_trans_ax</span> <a class="idref" href="Modules.Signatures.quotientrep.html#cbd2a29045df5fcd04ccd1afe9a0e326"><span class="id" title="abbreviation">τ'</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">etrans</span>; [<span class="id" title="tactic">apply</span> <span class="id" title="definition">assoc</span>|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_postcomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.quotientrep.html#2f62a0726e454d52757daf42834ac691"><span class="id" title="definition">R'_model_</span></a><a class="idref" href="Modules.Signatures.quotientrep.html#2f62a0726e454d52757daf42834ac691"><span class="id" title="definition">τ</span></a><a class="idref" href="Modules.Signatures.quotientrep.html#2f62a0726e454d52757daf42834ac691"><span class="id" title="definition">_def</span></a>.<br/>
+&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> <span class="id" title="tactic">rewrite</span> &lt;- <span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;{ <span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_precomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.quotientmonad.html#c61d9877351564bc35e5478e78a171eb"><span class="id" title="lemma">R'_μ_def</span></a>.<br/>
+&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">do</span> 2 <span class="id" title="tactic">rewrite</span> <span class="id" title="definition">assoc</span>. <span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_postcomposition</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="definition">LModule_Mor_</span><span class="id" title="definition">σ</span> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#031d68eb74db4b6e3958b52259cf93a9"><span class="id" title="variable">τ</span></a>).<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="15ef93dcfeef06201efe8dfbcae39707"><span class="id" title="lemma">τ'</span></a><a name="15ef93dcfeef06201efe8dfbcae39707"><span class="id" title="lemma">_law_eq2</span></a> <span class="id" title="var">X</span> : (<span class="id" title="notation">(</span><a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.h"><span class="id" title="variable">h</span></a><a class="idref" href="Modules.Signatures.quotientrep.html#fcb2c477e6542952b8308656749b51d9"><span class="id" title="notation">∙∙</span></a><a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.projR_monad"><span class="id" title="variable">projR_monad</span></a> :<span class="id" title="notation">[</span><span class="id" title="notation">SET</span><span class="id" title="notation">,</span><span class="id" title="notation">SET</span><span class="id" title="notation">]</span><span class="id" title="notation">⟦</span><span class="id" title="var">_</span><span class="id" title="notation">,</span><span class="id" title="var">_</span><span class="id" title="notation">⟧</span><span class="id" title="notation">)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">·</span> <span class="id" title="notation">(</span><a class="idref" href="Modules.Signatures.quotientrep.html#3122c41ebe889f745cb9bbe1c92165c3"><span class="id" title="abbreviation">σ</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.b"><span class="id" title="variable">b</span></a><span class="id" title="notation">)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="notation">·</span> <a class="idref" href="Modules.Signatures.quotientrep.html#cbd2a29045df5fcd04ccd1afe9a0e326"><span class="id" title="abbreviation">τ'</span></a>:<span class="id" title="definition">nat_trans</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) <a class="idref" href="Modules.Signatures.quotientrep.html#X"><span class="id" title="variable">X</span></a> <span class="id" title="notation">=</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="notation">(</span><a class="idref" href="Modules.Signatures.quotientrep.html#3122c41ebe889f745cb9bbe1c92165c3"><span class="id" title="abbreviation">σ</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.a"><span class="id" title="variable">a</span></a> : <span class="id" title="notation">[</span><span class="id" title="notation">SET</span><span class="id" title="notation">,</span><span class="id" title="notation">SET</span><span class="id" title="notation">]</span><span class="id" title="notation">⟦</span><span class="id" title="var">_</span><span class="id" title="notation">,</span><span class="id" title="var">_</span><span class="id" title="notation">⟧</span><span class="id" title="notation">)</span> <span class="id" title="notation">·</span> <span class="id" title="notation">(</span><a class="idref" href="Modules.Signatures.quotientrep.html#031d68eb74db4b6e3958b52259cf93a9"><span class="id" title="variable">τ</span></a> : <span class="id" title="definition">nat_trans</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span><span class="id" title="notation">)</span> <span class="id" title="notation">·</span> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.projR"><span class="id" title="variable">projR</span></a> : <span class="id" title="definition">nat_trans</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>) <a class="idref" href="Modules.Signatures.quotientrep.html#X"><span class="id" title="variable">X</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;{ <span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_postcomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> (<span class="id" title="definition">LModule_Mor_</span><span class="id" title="definition">σ</span> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.h"><span class="id" title="variable">h</span></a>).<br/>
+&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">repeat</span> <span class="id" title="tactic">rewrite</span> &lt;- <span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_precomposition</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.quotientrep.html#2f62a0726e454d52757daf42834ac691"><span class="id" title="definition">R'_model_</span></a><a class="idref" href="Modules.Signatures.quotientrep.html#2f62a0726e454d52757daf42834ac691"><span class="id" title="definition">τ</span></a><a class="idref" href="Modules.Signatures.quotientrep.html#2f62a0726e454d52757daf42834ac691"><span class="id" title="definition">_def</span></a>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="4d2205f6d73942124b0fed43da691929"><span class="id" title="lemma">R'_model_</span></a><a name="4d2205f6d73942124b0fed43da691929"><span class="id" title="lemma">τ</span></a><a name="4d2205f6d73942124b0fed43da691929"><span class="id" title="lemma">_module_laws</span></a> <br/>
+&nbsp;&nbsp;: <span class="id" title="definition">LModule_Mor_laws</span> <span class="id" title="var">_</span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">T</span>:=<a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.b"><span class="id" title="variable">b</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">T'</span>:= <span class="id" title="definition">tautological_LModule</span> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.R'_monad"><span class="id" title="variable">R'_monad</span></a>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Modules.Signatures.quotientrep.html#402ccbb12a5c40dc28cea5b10f94dcc0"><span class="id" title="definition">R'_model_</span></a><a class="idref" href="Modules.Signatures.quotientrep.html#402ccbb12a5c40dc28cea5b10f94dcc0"><span class="id" title="definition">τ</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intro</span> <span class="id" title="var">X</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">assert</span> (<span class="id" title="var">epi</span> : <span class="id" title="definition">isEpi</span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((<a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.h"><span class="id" title="variable">h</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#fcb2c477e6542952b8308656749b51d9"><span class="id" title="notation">∙∙</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.projR"><span class="id" title="variable">projR</span></a>) <span class="id" title="var">X</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;).<br/>
+&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.ab_epi"><span class="id" title="variable">ab_epi</span></a> <span class="id" title="keyword">as</span> [<span class="id" title="var">epiab</span>|<span class="id" title="var">epiab</span>];<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#isEpi_horcomp_pw2"><span class="id" title="lemma">isEpi_horcomp_pw2</span></a> | <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#isEpi_horcomp_pw"><span class="id" title="lemma">isEpi_horcomp_pw</span></a> ].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;1,3:<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#epi_nt_SET_pw"><span class="id" title="lemma">epi_nt_SET_pw</span></a>; <span class="id" title="tactic">assumption</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">all</span>:<span class="id" title="tactic">intro</span> <span class="id" title="var">Y</span>; <span class="id" title="tactic">apply</span> <span class="id" title="var">epiab</span>; <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.quotientmonad.html#isEpi_projR_pw"><span class="id" title="lemma">isEpi_projR_pw</span></a>.<br/>
+&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">epi</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">etrans</span>; [ <span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.quotientrep.html#dfdb530c640fb57b876a51ea5efecb5c"><span class="id" title="lemma">τ'</span></a><a class="idref" href="Modules.Signatures.quotientrep.html#dfdb530c640fb57b876a51ea5efecb5c"><span class="id" title="lemma">_law_eq1</span></a> |].<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.quotientrep.html#15ef93dcfeef06201efe8dfbcae39707"><span class="id" title="lemma">τ'</span></a><a class="idref" href="Modules.Signatures.quotientrep.html#15ef93dcfeef06201efe8dfbcae39707"><span class="id" title="lemma">_law_eq2</span></a>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="61aca31367691c3edc4432c38acc84a0"><span class="id" title="definition">R'_model_</span></a><a name="61aca31367691c3edc4432c38acc84a0"><span class="id" title="definition">τ</span></a><a name="61aca31367691c3edc4432c38acc84a0"><span class="id" title="definition">_module</span></a> : <span class="id" title="definition">LModule_Mor</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.b"><span class="id" title="variable">b</span></a> (<span class="id" title="definition">tautological_LModule</span> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.R'_monad"><span class="id" title="variable">R'_monad</span></a>) <br/>
+&nbsp;&nbsp;:= <span class="id" title="var">_</span> <span class="id" title="notation">,,</span> <a class="idref" href="Modules.Signatures.quotientrep.html#4d2205f6d73942124b0fed43da691929"><span class="id" title="lemma">R'_model_</span></a><a class="idref" href="Modules.Signatures.quotientrep.html#4d2205f6d73942124b0fed43da691929"><span class="id" title="lemma">τ</span></a><a class="idref" href="Modules.Signatures.quotientrep.html#4d2205f6d73942124b0fed43da691929"><span class="id" title="lemma">_module_laws</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Let S a monad, m : R -&gt; S a monad morphism compatible with the equivalence relation
+This induces a monad morphism u : R' -&gt; S that makes the following diagram commute
+(Cf quotientmonad)
+
+<div class="paragraph"> </div>
+
+<pre>&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+     m
+  R --&gt; S
+  |     ^
+  |    /
+π |   / u
+  |  /
+  V /
+  R'
+
+</pre>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+
+<div class="paragraph"> </div>
+
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Context</span> {<span class="id" title="var">S</span> : <span class="id" title="definition">Monad</span> <span class="id" title="notation">SET</span>}  <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">m</span> : <span class="id" title="definition">Monad_Mor</span> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#S"><span class="id" title="variable">S</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">compatm</span> : <span class="id" title="notation">∏</span> <span class="id" title="notation">(</span><span class="id" title="var">X</span> : <span class="id" title="notation">SET</span>) <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">x</span> <span class="id" title="var">y</span> : (<a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.R"><span class="id" title="variable">R</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#X"><span class="id" title="variable">X</span></a> : <span class="id" title="definition">hSet</span><span class="id" title="notation">)),</span> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.projR"><span class="id" title="variable">projR</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#X"><span class="id" title="variable">X</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#x"><span class="id" title="variable">x</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.projR"><span class="id" title="variable">projR</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#X"><span class="id" title="variable">X</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#y"><span class="id" title="variable">y</span></a> <span class="id" title="notation">→</span> <a class="idref" href="Modules.Signatures.quotientrep.html#m"><span class="id" title="variable">m</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#X"><span class="id" title="variable">X</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#x"><span class="id" title="variable">x</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Modules.Signatures.quotientrep.html#m"><span class="id" title="variable">m</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#X"><span class="id" title="variable">X</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#y"><span class="id" title="variable">y</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Let</span> <a name="QuotientMonad.u_monad"><span class="id" title="variable">u_monad</span></a> := <a class="idref" href="Modules.Prelims.quotientmonad.html#u_monad"><span class="id" title="definition">quotientmonad.u_monad</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.R_epi"><span class="id" title="variable">R_epi</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#14738aae9de01fcbe7fd11d60fd609c6"><span class="id" title="variable">compat_μ_projR</span></a> <span class="id" title="var">_</span> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.compatm"><span class="id" title="variable">compatm</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Let c be a S-Module
+    F : b -&gt; u^*(c) a module morphism.
+    s: c -&gt; S a S-module morphism
+
+<div class="paragraph"> </div>
+
+We also suppose that the following diagram commute (m should be a model
+morphism)
+
+<div class="paragraph"> </div>
+
+<pre>&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+
+               τ
+        a  ----------&gt; R
+        |              |
+        |              |
+h ;; F  |              | m
+        |              |
+        V              V
+        c -----------&gt; S
+                s
+
+</pre>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+
+<div class="paragraph"> </div>
+
+Then the following diagram commute :
+
+<div class="paragraph"> </div>
+
+<pre>&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+
+               τ'
+        b    --------&gt; R'
+        |              |
+        |              |
+     F  |              | u
+        |              |
+        V              V
+        c -----------&gt; S
+                s
+
+</pre>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+
+<div class="paragraph"> </div>
+
+Let us prove this by post-composition by the h : a -&gt; b
+
+<div class="paragraph"> </div>
+
+h ;; τ' ;; u =  τ ;; π ;; u (definition of τ')
+             =  τ ;; m      (definition of u)
+             =  h ;; F ;; s      (previous commuting diagram for m)
+
+<div class="paragraph"> </div>
+
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Context</span> {<span class="id" title="var">c</span> : <span class="id" title="definition">LModule</span> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.S"><span class="id" title="variable">S</span></a> <span class="id" title="notation">SET</span>} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">s</span> : <span class="id" title="definition">LModule_Mor</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.Signatures.quotientrep.html#c"><span class="id" title="variable">c</span></a> (<a class="idref" href="Modules.Signatures.quotientrep.html#6e339d25b4e8063149b40e48a727392c"><span class="id" title="abbreviation">Θ</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.S"><span class="id" title="variable">S</span></a>)}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id" title="var">F</span> : <span class="id" title="definition">LModule_Mor</span> <span class="id" title="var">_</span> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.b"><span class="id" title="variable">b</span></a> (<span class="id" title="definition">pb_LModule</span> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.u_monad"><span class="id" title="variable">u_monad</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#c"><span class="id" title="variable">c</span></a>)}.<br/>
+
+<br/>
+<span class="id" title="keyword">Variable</span> (<a name="QuotientMonad.compat_m_rep"><span class="id" title="variable">compat_m_rep</span></a> : <span class="id" title="notation">∏</span> <span class="id" title="var">X</span><span class="id" title="notation">,</span> <a class="idref" href="Modules.Signatures.quotientrep.html#031d68eb74db4b6e3958b52259cf93a9"><span class="id" title="variable">τ</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#X"><span class="id" title="variable">X</span></a> <span class="id" title="notation">·</span> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.m"><span class="id" title="variable">m</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#X"><span class="id" title="variable">X</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.h"><span class="id" title="variable">h</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#X"><span class="id" title="variable">X</span></a> <span class="id" title="notation">·</span> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.F"><span class="id" title="variable">F</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#X"><span class="id" title="variable">X</span></a> <span class="id" title="notation">·</span> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.s"><span class="id" title="variable">s</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#X"><span class="id" title="variable">X</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="u_rep_laws"><span class="id" title="lemma">u_rep_laws</span></a> <span class="id" title="var">X</span> : <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.F"><span class="id" title="variable">F</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#X"><span class="id" title="variable">X</span></a> <span class="id" title="notation">·</span> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.s"><span class="id" title="variable">s</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#X"><span class="id" title="variable">X</span></a> <span class="id" title="notation">=</span> <a class="idref" href="Modules.Signatures.quotientrep.html#cbd2a29045df5fcd04ccd1afe9a0e326"><span class="id" title="abbreviation">τ'</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#X"><span class="id" title="variable">X</span></a> <span class="id" title="notation">·</span> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.u_monad"><span class="id" title="variable">u_monad</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#X"><span class="id" title="variable">X</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">assert</span> (<span class="id" title="var">epih_pw</span> : <span class="id" title="keyword">forall</span> <span class="id" title="var">X</span>, <span class="id" title="definition">isEpi</span> (<a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.h"><span class="id" title="variable">h</span></a> <a class="idref" href="Modules.Signatures.quotientrep.html#X"><span class="id" title="variable">X</span></a>)).<br/>
+&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.EpiComplements.html#epi_nt_SET_pw"><span class="id" title="lemma">epi_nt_SET_pw</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.isEpih"><span class="id" title="variable">isEpih</span></a>.<br/>
+&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="var">epih_pw</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;{ <span class="id" title="tactic">rewrite</span> <span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_postcomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.quotientrep.html#2f62a0726e454d52757daf42834ac691"><span class="id" title="definition">R'_model_</span></a><a class="idref" href="Modules.Signatures.quotientrep.html#2f62a0726e454d52757daf42834ac691"><span class="id" title="definition">τ</span></a><a class="idref" href="Modules.Signatures.quotientrep.html#2f62a0726e454d52757daf42834ac691"><span class="id" title="definition">_def</span></a>.<br/>
+&nbsp;&nbsp;} <br/>
+&nbsp;&nbsp;<span class="id" title="var">etrans</span>.<br/>
+&nbsp;&nbsp;{ <span class="id" title="tactic">rewrite</span> &lt;- <span class="id" title="definition">assoc</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <span class="id" title="lemma">cancel_precomposition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">eapply</span> <span class="id" title="definition">pathsinv0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Prelims.quotientmonad.html#u_def"><span class="id" title="lemma">quotientmonad.u_def</span></a>.<br/>
+&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">apply</span> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad.compat_m_rep"><span class="id" title="variable">compat_m_rep</span></a>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Modules.Signatures.quotientrep.html#QuotientMonad"><span class="id" title="section">QuotientMonad</span></a>.<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>
